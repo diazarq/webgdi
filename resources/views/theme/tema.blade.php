@@ -133,7 +133,7 @@
                     <span class="text-muted small">Perubahan akan langsung diterapkan ke tampilan website publik setelah Anda menekan tombol simpan.</span>
                 </div>
                 <div>
-                    <button type="submit" class="btn btn-success px-4 py-3 fw-bold shadow-sm border-0 rounded-3">
+                    <button type="submit" class="btn btn-primary px-4 py-3 fw-bold shadow-sm border-0 rounded-3">
                         <i class="bi bi-save-fill"></i> Simpan Pengaturan Tema
                     </button>
                 </div>
