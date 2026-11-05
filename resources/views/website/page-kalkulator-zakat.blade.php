@@ -73,6 +73,7 @@
         font-weight: 600;
         font-size: 14px;
         z-index: 5;
+        pointer-events: none;
     }
     .calc-input-group .form-control {
         padding: 11px 16px 11px 45px;
@@ -100,8 +101,6 @@
         border-radius: 14px;
         padding: 24px;
         margin-top: 10px;
-        position: sticky;
-        top: 100px;
     }
     .calc-result-title {
         font-size: 13px;
@@ -388,7 +387,7 @@
 </section>
 @endsection
 
-@section('script')
+@push('script')
 <script>
 $(function(){
     var currentType = 'profesi';
@@ -529,5 +528,5 @@ $(function(){
     hitung();
 });
 </script>
-@endsection
+@endpush
 

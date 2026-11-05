@@ -208,6 +208,9 @@
     <script src="{{ asset('website/assets/js/qrowd.js') }}"></script>
 
     @stack('script')
+    @stack('scripts')
+    @yield('script')
+    @yield('scripts')
 </body>
 
 </html>
