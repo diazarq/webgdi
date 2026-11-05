@@ -5,6 +5,7 @@ use Illuminate\Auth\Middleware\Authenticate;
 use App\Http\Controllers\RedactorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\WidgetController;
 use App\Http\Controllers\SocialMediaController;
@@ -99,6 +100,10 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function(){
     Route::get('/user/{id}/edit', [UserController::class, 'form']);
     Route::get('/user/detail', [UserController::class, 'detail']);
     Route::post('/user/add', [UserController::class, 'store']);
+
+    /* KELOLA TEMA (ON/OFF ELEMEN & CHECK/UNCHECK) */
+    Route::get('/theme', [ThemeController::class, 'index'])->name('admin.theme.index');
+    Route::post('/theme/save', [ThemeController::class, 'save'])->name('admin.theme.save');
 
     /* BLOG */
     Route::get('/blog', [BlogController::class, 'index']);

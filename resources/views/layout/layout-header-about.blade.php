@@ -1,3 +1,4 @@
+@if(App\Helper::getThemeSetting('show_topbar', true))
 <div class="main-header-two__top">
     <div class="main-header-two__top-inner">
         <div class="main-header-two__top-left">
@@ -43,6 +44,7 @@
         </div>
     </div>
 </div>
+@endif
 <nav class="main-menu main-menu-two">
     <div class="main-menu-two__wrapper">
         <div class="main-menu-two__wrapper-inner d-flex justify-content-between align-items-center">
@@ -70,12 +72,14 @@
     }
 
     /* === LAZ GDI Custom: Navbar Sticky (selalu menempel di atas saat scroll) === */
+    @if(App\Helper::getThemeSetting('sticky_navbar', true))
     .main-header-two {
         position: sticky;
         top: 0;
         z-index: 999;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
     }
+    @endif
 
     /* Nonaktifkan clone stricky-header bawaan template agar tidak tumpang tindih */
     .stricky-header {

@@ -139,6 +139,32 @@ $(document).ready(function(){
         }
     })
 
+    // Handler checkbox anonim
+    $('#flexCheckDefault').on('change', function(){
+        if ($(this).is(':checked')) {
+            $('[name=name]').prop('required', false);
+            if (!$('[name=name]').val()) {
+                $('[name=name]').val('Hamba Allah');
+            }
+            $('[name=name]').prop('readonly', true).css('background-color', '#f8f9fa');
+            $('#sectionSapaan').slideUp(200);
+            if (!$('[name=sapaan]').val()) {
+                $('[name=sapaan]').val('-');
+            }
+            $('.invalid-feedback-pronoun').hide();
+        } else {
+            $('[name=name]').prop('required', true);
+            if ($('[name=name]').val() === 'Hamba Allah') {
+                $('[name=name]').val('');
+            }
+            $('[name=name]').prop('readonly', false).css('background-color', '');
+            $('#sectionSapaan').slideDown(200);
+            if ($('[name=sapaan]').val() === '-') {
+                $('[name=sapaan]').val('');
+            }
+        }
+    });
+
     $('#formZakat').submit(function(e){
         e.preventDefault();
 
@@ -148,9 +174,10 @@ $(document).ready(function(){
 
         var bank = $('[name=bank_id]').val();
         var pronoun = $('[name=sapaan]').val();
+        var isAnonim = $('#flexCheckDefault').is(':checked');
         var status = true;
         $('.invalid-feedback-pronoun, .invalid-feedback-payment').hide();
-        if(pronoun == '' || pronoun == null){
+        if(!isAnonim && (pronoun == '' || pronoun == null)){
             $('.invalid-feedback-pronoun').show();
             status = false;
         }

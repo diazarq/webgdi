@@ -65,7 +65,7 @@
             </div>
             <div class="form-group">
                 <label>Nama Lengkap</label>
-                <input type="text" class="form-control" required name="name"/>
+                <input type="text" class="form-control" required name="name" id="input_name"/>
                 <div class="form-check mt-1">
                     <input class="form-check-input" type="checkbox" value="1" name="anonim" id="flexCheckDefault">
                     <label class="form-check-label" for="flexCheckDefault">

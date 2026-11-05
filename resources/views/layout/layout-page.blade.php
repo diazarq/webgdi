@@ -73,7 +73,7 @@
         </div><!-- /.stricky-header -->
 
         <!--Page Header Start-->
-        @if(empty($hidePageHeader))
+        @if(empty($hidePageHeader) && App\Helper::getThemeSetting('show_page_header', true))
         <section class="page-header">
             <div class="page-header-bg" style="background-image: url({{ asset('website/assets/images/backgrounds/page-header-bg-3.jpeg') }})">
             </div>

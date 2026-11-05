@@ -14,7 +14,7 @@
 
                 <div class="oc-container oc-bank d-flex justify-content-between align-items-center">
                     <span class="oc-nominal-big">
-                        {{ 'Rp '.number_format($detail->nominal + $detail->digit)}}
+                        {{ 'Rp '.number_format($detail->nominal + $detail->digit, 0, ',', '.') }}
                     </span>
                     @php
                         $nominal = $detail->nominal + $detail->digit;
@@ -108,7 +108,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Nominal Zakat</label>
-                                <p class="oc-text-header">Rp {{ number_format($nominal) }}</p>
+                                <p class="oc-text-header">Rp {{ number_format($nominal, 0, ',', '.') }}</p>
                             </div>
                             <div class="form-group">
                                 <label>Waktu</label>

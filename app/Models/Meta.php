@@ -10,6 +10,6 @@ class Meta extends Model
     use HasFactory;
 
     protected $fillable = [
-        'value', 'status', 'user_verify', 'deleted_at'
+        'var', 'value', 'status', 'user_verify', 'deleted_at'
     ];
 }

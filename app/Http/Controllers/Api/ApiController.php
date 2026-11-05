@@ -35,22 +35,31 @@ class ApiController extends Controller
     }
 
     public function store_payment(Request $request){
-        $digit = mt_rand(000, 999);
+        $digit = mt_rand(100, 999);
         $transcode = $this->generatePaymentCode($request->zakat_type, $digit);
         $email = Str::of($request->email_phone)->is('*@*') == true ? $request->email_phone : null;
-        $phone = $email == null ? $email : null;
+        $phone = $email == null ? $request->email_phone : null;
 
         $date = date('Y-m-d H:i:s');
         $exp_date = date('Y-m-d H:i:s', strtotime($date. '+1 day'));
+
+        // Bersihkan nominal dari titik (.) dan koma (,) agar nilainya utuh (contoh 50.000 -> 50000)
+        $cleanNominal = preg_replace('/[^0-9]/', '', (string)$request->zakat_nominal);
+        $nominal = $cleanNominal ? floatval($cleanNominal) : 0;
+
+        $isAnonim = $request->has('anonim') && ($request->anonim == '1' || $request->anonim == 1);
+        $name = $isAnonim ? ($request->name ? $request->name : 'Hamba Allah') : ($request->name ?: 'Hamba Allah');
+        $pronoun = $isAnonim ? ($request->sapaan ?: '-') : ($request->sapaan ?: '-');
+
         $dataInput = [
             'type' => $request->zakat_type,
             'transcode' => $transcode,
-            'name' => $request->name,
-            'pronoun' => $request->sapaan,
-            'anonim' => $request->anonim,
+            'name' => $name,
+            'pronoun' => $pronoun,
+            'anonim' => $isAnonim ? 1 : 0,
             'notelp' => $phone,
             'email' => $email,
-            'nominal' => str_replace(',','',$request->zakat_nominal),
+            'nominal' => $nominal,
             'payment_method' => $request->payment_method,
             'bank_type' => null,
             'bank_id' => $request->bank_id,

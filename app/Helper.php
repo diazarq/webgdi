@@ -122,23 +122,35 @@ class Helper{
     }
 
     public static function displayContact(){
-        $telp = Meta::where('var', 'INST_TELP')->first()->value;
-        $addr = Meta::where('var', 'INST_ADDR')->first()->value;
-        $email = Meta::where('var', 'INST_EMAIL')->first()->value; 
-        $gooMap = Meta::where('var', 'GOO_MAP')->first()->value; 
+        $telp = Meta::where('var', 'INST_TELP')->first();
+        $addr = Meta::where('var', 'INST_ADDR')->first();
+        $email = Meta::where('var', 'INST_EMAIL')->first(); 
+        $gooMap = Meta::where('var', 'GOO_MAP')->first(); 
         $result = [
-            'inst_telp' => $telp,
-            'inst_addr' => $addr,
-            'inst_email' => $email,
-            'inst_map' => $gooMap
+            'inst_telp' => $telp ? $telp->value : '',
+            'inst_addr' => $addr ? $addr->value : '',
+            'inst_email' => $email ? $email->value : '',
+            'inst_map' => $gooMap ? $gooMap->value : ''
         ];
 
         return $result;
     }
 
     public static function displayBranch(){
-        $branch = Meta::where('var', 'BRANCH')->first()->value;
+        $branch = Meta::where('var', 'BRANCH')->first();
 
-        return json_decode($branch, TRUE);
+        return ($branch && $branch->value) ? json_decode($branch->value, TRUE) : [];
+    }
+
+    /**
+     * Ambil pengaturan fitur elemen tema (on/off via check-uncheck).
+     */
+    public static function getThemeSetting($key, $default = true) {
+        static $themeSettings = null;
+        if ($themeSettings === null) {
+            $meta = Meta::where('var', 'THEME_SETTINGS')->first();
+            $themeSettings = ($meta && $meta->value) ? json_decode($meta->value, true) : [];
+        }
+        return isset($themeSettings[$key]) ? (bool)$themeSettings[$key] : $default;
     }
 }

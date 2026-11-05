@@ -279,6 +279,7 @@
             <div class="sticky-header__content"></div><!-- /.sticky-header__content -->
         </div><!-- /.stricky-header -->
 
+        @if(App\Helper::getThemeSetting('show_slider', true))
         <!--Main Slider Start-->
         <section class="main-slider-two clearfix">
             <div class="swiper-container thm-swiper__slider" data-swiper-options='{"slidesPerView": 1, "loop": true,
@@ -406,6 +407,7 @@
             </div>
         </section>
         <!--Main Slider End-->
+        @endif
 
         <!--About One Start-->
         <section class="about-one">
@@ -483,6 +485,7 @@
         <!--About One End-->
 
         <!--Ready One Start-->
+        @if(App\Helper::getThemeSetting('show_ads', true))
         <section class="ready-one">
             <div class="container">
                 <div class="ready-one__inner">
@@ -507,6 +510,7 @@
                 </div>
             </div>
         </section>
+        @endif
         <!--Ready One End-->
 
         <!--Project TWo Start-->

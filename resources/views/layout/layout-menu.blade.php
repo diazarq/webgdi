@@ -24,9 +24,11 @@
         @endforeach
     @endif
 
+    @if(App\Helper::getThemeSetting('show_navbar_cta', true))
     <li class="button">
         <button type="button" class="thm-btn main-slider-two__btn" style="border: none" onclick="zakat()">Zakat Sekarang</button>
     </li>
+    @endif
 </ul>
 
 <script>
