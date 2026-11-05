@@ -92,6 +92,25 @@
             .page-header {
                 background: linear-gradient(135deg, #06301f 0%, #0a4a2e 55%, #0d5c38 100%);
                 overflow: hidden;
+               
+                padding: 75px 0;
+            }
+
+            .page-header__inner h2 {
+                color: #ffffff;
+                font-size: 38px;
+                line-height: 48px;
+                margin-top: 6px;
+            }
+
+            @media (max-width: 767px) {
+                .page-header {
+                    padding: 45px 0;
+                }
+                .page-header__inner h2 {
+                    font-size: 28px;
+                    line-height: 36px;
+                }
             }
 
             .page-header-bg {
@@ -106,10 +125,6 @@
                     radial-gradient(600px 260px at 10% 0%, rgba(45, 212, 167, 0.25), transparent 60%),
                     radial-gradient(500px 240px at 92% 20%, rgba(255, 138, 61, 0.18), transparent 55%);
                 pointer-events: none;
-            }
-
-            .page-header__inner h2 {
-                color: #ffffff;
             }
 
             .page-header__inner .subtitle {

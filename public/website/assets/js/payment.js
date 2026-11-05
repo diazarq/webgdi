@@ -9,13 +9,18 @@ const moneyMask = (value) => {
     return result
 }
 
-const paymentModal = new bootstrap.Modal(document.getElementById("payment-modal"), {
-    backdrop: 'static'
-})
+let paymentModal = null;
+const modalEl = document.getElementById("payment-modal");
+if (modalEl && modalEl.classList && modalEl.classList.contains('modal')) {
+    paymentModal = new bootstrap.Modal(modalEl, {
+        backdrop: 'static'
+    });
+}
 
 function separatePoint(val) {
+    if (!val) return '';
     // remove sign if negative
-    val = val.replace(/\D/g, '') //val.replace(/\./g,'')
+    val = val.toString().replace(/\D/g, '')
     var sign = 1;
     if (val < 0) {
       sign = -1;
@@ -26,12 +31,11 @@ function separatePoint(val) {
     let len = num.toString().length;
     let result = '';
     let count = 1;
-    //console.log(len)
   
     for (let i = len - 1; i >= 0; i--) {
       result = num.toString()[i] + result;
       if (count % 3 === 0 && count !== 0 && i !== 0) {
-        result = ',' + result;
+        result = '.' + result;
       }
       count++;
     }
@@ -40,12 +44,13 @@ function separatePoint(val) {
     if (val.toString().includes('.')) {
       result = result + '.' + val.toString().split('.')[1];
     }
-    // return result with - sign if negative
     return sign < 0 ? '-' + result : result;
 }
 
 function modalPayment(){
-    paymentModal.show()
+    if (paymentModal) {
+        paymentModal.show()
+    }
 }
 
 $(document).ready(function(){
@@ -60,11 +65,25 @@ $(document).ready(function(){
         if(value == 'fitrah'){
             $('.niat-fitrah').show()
             $('.niat-non-fitrah').hide()
+            $('.form-fitrah').show()
+            $('.form-profesi').hide()
+            $('.form-maal').hide()
+            $('.nishab-fitrah').show()
+            $('.nishab-profesi').hide()
+            $('.nishab-maal').hide()
+            $('.desc-fitrah').show()
+            $('.desc-profesi').hide()
+            $('.desc-maal').hide()
+            $('.nishab-emas-group').hide()
         }else{
+            $('.nishab-emas-group').show()
+            $('.form-fitrah').hide()
+            $('.nishab-fitrah').hide()
+            $('.desc-fitrah').hide()
             $('.form-maal').find('input').val("")
             $('.form-profesi').find('input').val("")
             $('#zakat-alert').empty()
-            $('#zakat-total').html('Rp')
+            $('#zakat-total').html('Rp 0')
             $('#zakat-total').attr('data-value', 0)
             if(value == 'profesi'){
                 $('.nishab-profesi').show()
@@ -84,20 +103,17 @@ $(document).ready(function(){
             $('.niat-fitrah').hide()
             $('.niat-non-fitrah').show()
         }
+
+        if (typeof hitung_zakat === 'function') {
+            hitung_zakat();
+        }
     })
 
-    $('.money').keyup(function(){
+    $(document).on('keyup', '.money', function(){
         var el = $(this);
         var value = separatePoint(el.val());
         el.val(value);
     })
-    /*
-    $('[name=zakat_nominal]').keyup(function(){
-        var el = $(this);
-        var value = el.val().replace(',','').toString();
-        console.log(value)
-        el.val(moneyMask(el.val()));
-    })*/
 
     $('.sapaan').click(function(){
         var el = $(this);
@@ -118,7 +134,9 @@ $(document).ready(function(){
         payment.find('img').attr('width', '60px')
         payment.find('span').html(text)
         $('[name=bank_id]').val(el.data('value'))
-        paymentModal.hide()
+        if (paymentModal) {
+            paymentModal.hide()
+        }
     })
 
     $('#formZakat').submit(function(e){
@@ -144,8 +162,6 @@ $(document).ready(function(){
         if(status == false){
             return false;
         }
-
-        
 
         $.post(url, data, function(result){
             window.location.href = '/app/zakat/iq/'+result.code

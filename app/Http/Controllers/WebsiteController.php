@@ -47,6 +47,9 @@ class WebsiteController extends Controller
     public function index($slug=null){
         $detail = [];
         if($slug){
+            if($slug == 'kalkulator-zakat'){
+                return $this->index_kalkulator_zakat();
+            }
             if($slug != 'donasi'){
                 $detail = Menu::where('slug', $slug)->first();
                 $parentID = $detail ? ($detail->parent_id == 0 ? $detail->id : $detail->parent_id) : null;
@@ -340,6 +343,17 @@ class WebsiteController extends Controller
     public function index_senyum()
     {
         return $this->index_pilar('senyum');
+    }
+
+    public function index_kalkulator_zakat()
+    {
+        $detail = Menu::where('slug', 'kalkulator-zakat')->first();
+        $parentID = $detail ? ($detail->parent_id == 0 ? $detail->id : $detail->parent_id) : 10;
+        return view('website.page-kalkulator-zakat', [
+            'pageTitle' => $detail ? $detail->title : 'Kalkulator Zakat',
+            'detail' => $detail,
+            'active' => ['menu'.$parentID => 'current']
+        ]);
     }
 
     /**

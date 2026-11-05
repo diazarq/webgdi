@@ -27,7 +27,7 @@ class MetaController extends Controller
             'instTelp' => $telp->value,
             'instEmail' => $email->value,
             'gooMap' => $map->value,
-            'branch' => $branch->value
+            'branch' => $branch?->value
         ];
 
         return view('meta.index-meta-setting', [
@@ -60,7 +60,7 @@ class MetaController extends Controller
         Meta::where('var', 'GOO_MAP')->update(['value' => $gooMap]);
 
         /* branch office */
-        $brTotal = count($req->br_name);
+        $brTotal = count($req->br_name?? []);
         if($brTotal > 0){
             $arrayBranch = [];
             foreach($req->br_name as $key=>$val){

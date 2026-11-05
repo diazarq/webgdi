@@ -961,7 +961,7 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="site-footer__bottom-inner">
-                                <p class="site-footer__bottom-text">© Copyright 2022 by <a href="#">Qrowd.com</a></p>
+                                <p class="site-footer__bottom-text">© Copyright 2026 by <a href="#">Qrowd.com</a></p>
                             </div>
                         </div>
                     </div>

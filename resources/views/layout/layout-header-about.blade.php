@@ -69,6 +69,19 @@
         background-color: #00875A;
     }
 
+    /* === LAZ GDI Custom: Navbar Sticky (selalu menempel di atas saat scroll) === */
+    .main-header-two {
+        position: sticky;
+        top: 0;
+        z-index: 999;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Nonaktifkan clone stricky-header bawaan template agar tidak tumpang tindih */
+    .stricky-header {
+        display: none !important;
+    }
+
     /* === LAZ GDI Custom: header lebih ramping agar tidak menutupi konten === */
     .main-header-two__top-inner {
         padding: 5px 40px;

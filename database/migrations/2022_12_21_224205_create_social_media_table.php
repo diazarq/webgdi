@@ -13,18 +13,20 @@ class CreateSocialMediaTable extends Migration
      */
     public function up()
     {
-        Schema::create('social_media', function (Blueprint $table) {
-            $table->id();
-            $table->string('var', 20)->unique();
-            $table->string('title');
-            $table->string('icon')->nullable();
-            $table->string('classname')->nullable();
-            $table->text('url')->nullable();
-            $table->enum('status', ['A', 'NA'])->nullable();
-            $table->string('user_verify')->nullable();
-            $table->timestamps();
-            $table->timestamp('deleted_at')->nullable();
-        });
+        if (!Schema::hasTable('social_media')) {
+            Schema::create('social_media', function (Blueprint $table) {
+                $table->id();
+                $table->string('var', 20)->unique();
+                $table->string('title');
+                $table->string('icon')->nullable();
+                $table->string('classname')->nullable();
+                $table->text('url')->nullable();
+                $table->enum('status', ['A', 'NA'])->nullable();
+                $table->string('user_verify')->nullable();
+                $table->timestamps();
+                $table->timestamp('deleted_at')->nullable();
+            });
+        }
     }
 
     /**

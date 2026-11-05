@@ -51,6 +51,7 @@ Route::get('/budaya', [WebsiteController::class, 'index_budaya']);
 Route::get('/cinta', [WebsiteController::class, 'index_cinta']);
 Route::get('/senyum', [WebsiteController::class, 'index_senyum']);
 Route::get('/wakaf-hibah', [WebsiteController::class, 'index_wakaf_hibah']);
+Route::get('/kalkulator-zakat', [WebsiteController::class, 'index_kalkulator_zakat'])->name('website.kalkulator_zakat');
 
 Route::get('/{slug}', [WebsiteController::class, 'index']);
 Route::get('/program/{slug}', [WebsiteController::class, 'index_program']);

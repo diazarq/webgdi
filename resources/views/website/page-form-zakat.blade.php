@@ -14,7 +14,7 @@
 
                 <div class="oc-container">
                     <nav class="nav nav-pills nav-justified">
-                        <a class="nav-link {{ @$jenis == 'profesi' ? 'active' : '' }} get-zakat-type" data-value="profesi" aria-current="page" href="#profesi">Zakat Profesi</a>
+                        <a class="nav-link {{ @$jenis == 'profesi' || !@$jenis ? 'active' : '' }} get-zakat-type" data-value="profesi" aria-current="page" href="#profesi">Zakat Profesi</a>
                         <a class="nav-link {{ @$jenis == 'maal' ? 'active' : '' }} get-zakat-type" data-value="maal" href="#maal">Zakat Maal</a>
                         <a class="nav-link {{ @$jenis == 'fitrah' ? 'active' : '' }} get-zakat-type" data-value="fitrah" href="#fitrah">Zakat Fitrah</a>
                     </nav>
@@ -25,17 +25,16 @@
                 <label>Nominal Zakat</label>
                 <div class="oc-input-group input-group-lg mb-3">
                     <span class="input-group-text text-placeholder">Rp</span>
-                    <input type="text" class="form-control money" inputmode="numeric" name="zakat_nominal" required placeholder="Nominal zakat" value="{{ @$nominal ? number_format($nominal) : ''}}">
+                    <input type="text" class="form-control money" inputmode="numeric" id="input_zakat_nominal" name="zakat_nominal" required placeholder="Nominal zakat" value="{{ @$nominal ? number_format($nominal, 0, ',', '.') : ''}}">
                 </div>
-
             </div>
 
             <div class="alert alert-warning">
-                <div class="oc-text-header mb-3">Kalkulator Zakat</div>
-                <p>Bingung menentukan nominal zakat Anda? Gunakan kalkulator zakat untuk menentukan berapa nominal yang harus Anda tunaikan.</p>
-                <nav class="nav nav-pills flex-column flex-sm-row">
-                    <a class="flex-sm-fill text-sm-center nav-link text-bg-outline-secondary mr-5" aria-current="page" href="/app/zakat/informasi"><strong>Tentang Zakat</strong></a>
-                    <a class="flex-sm-fill text-sm-center nav-link text-bg-success ml-5" href="/app/zakat/kalkulator"><strong>Hitung Zakat</strong></a>
+                <div class="oc-text-header mb-2"><i class="bi bi-calculator"></i> Kalkulator Zakat</div>
+                <p class="mb-3" style="font-size: 13.5px;">Bingung menentukan nominal zakat Anda? Gunakan kalkulator zakat untuk mengetahui kewajiban dan menghitung nominal yang harus ditunaikan secara akurat.</p>
+                <nav class="nav nav-pills flex-column flex-sm-row gap-2">
+                    <a class="flex-sm-fill text-sm-center nav-link text-bg-outline-secondary" href="/app/zakat/informasi"><strong>Tentang Zakat</strong></a>
+                    <a class="flex-sm-fill text-sm-center nav-link text-bg-success" href="/kalkulator-zakat"><strong><i class="bi bi-calculator me-1"></i> Buka Kalkulator Zakat</strong></a>
                 </nav>
             </div>
         </div>
@@ -87,15 +86,13 @@
                 <label class="oc-text-title">Metode Pembayaran</label>
                 <div class="invalid-feedback-payment">Pilih Metode Pembayaran</div>
                 <div class="oc-radio-box text-left payment-method-box" onclick="modalPayment()">
-                    
                     <div class="d-flex oc-bank justify-content-between">
                         <span id="payment-method">
                             <img src="{{ asset('website/assets/images/custom/card-icon.png') }}" width="30px"/>
                             <span class="oc-bank-item">Pilih Metode Pembayaran</span>
                         </span>
-                        <span><i class="bi-chevron-down"></i> </span>
+                        <span><i class="bi bi-chevron-down"></i> </span>
                     </div>
-                    
                 </div>
             </div>
         </div>
@@ -149,7 +146,7 @@
     </form>
 </div>
 
-{{-- modal --}}
+{{-- modal payment --}}
 <div class="modal" tabindex="-1" id="payment-modal">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -163,7 +160,7 @@
                 $emoney = [];
             @endphp
             <div class="card">
-                <div class="card-header oc-card-header-other"><i class="bi-credit-card"></i> Transfer Bank</div>
+                <div class="card-header oc-card-header-other"><i class="bi bi-credit-card"></i> Transfer Bank</div>
                 @if(@$bank)
                 <ul class="list-group list-group-flush">
                     @foreach($bank as $dt)
@@ -183,18 +180,13 @@
                         @endphp
                     @endif
                     @endforeach
-                    <!--
-                    <li class="list-group-item d-flex align-items-center oc-bank select-payment" data-value="bca">
-                        <img src="https://th.bing.com/th/id/R.d6eae25c9708399938667fea629da0cc?rik=c2f8mTUO64HEGA&riu=http%3a%2f%2flogos-download.com%2fwp-content%2fuploads%2f2017%2f03%2fBCA_logo_Bank_Central_Asia.png&ehk=EOBw9%2bqvYV27uMcsxGBTpYhSWM1E423ML4neZEgJQV0%3d&risl=&pid=ImgRaw&r=0" width="60px"/>
-                        <span class="oc-bank-item">BCA</span>
-                    </li>-->
                 </ul>
                 @else
                     Daftar rekening tidak ditemukan.
                 @endif
                 
                 @if($emoney)
-                <div class="card-header oc-card-header-other"><i class="bi-qr-code-scan"></i> E-Money/E-Wallet</div>
+                <div class="card-header oc-card-header-other"><i class="bi bi-qr-code-scan"></i> E-Money/E-Wallet</div>
                 @foreach($emoney as $dt)
                     <li class="list-group-item d-flex align-items-center oc-bank select-payment" data-value="{{$dt['id'] }}">
                         <img src="{{ url($dt['img']) }}" width="60px"/>
@@ -205,10 +197,9 @@
             </div>
         </div>
         <div class="d-grid">
-            <button type="button" class="btn btn-success btn-lg">Pilih Pembayaran</button>
+            <button type="button" class="btn btn-success btn-lg" data-bs-dismiss="modal">Tutup</button>
         </div>
       </div>
-      
     </div>
   </div>
 </div>
