@@ -28,7 +28,7 @@ class ThemeController extends Controller
 
         $currentSettings = array_merge($defaultSettings, $settings);
 
-        return view('theme.index-theme', [
+        return view('theme.tema', [
             'pageTitle' => 'Pengaturan: Kelola Tema',
             'active'    => ['ThemeActive' => 'active'],
             'settings'  => $currentSettings,

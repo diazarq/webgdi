@@ -195,6 +195,11 @@
         padding: 17px 32px;
     }
 
+    .gdi-hero__btn:hover {
+        background-color: #ff6600;
+        color: white;
+    }
+
     .gdi-hero__btn i {
         font-size: 14px;
         transform: rotate(-45deg);

@@ -215,7 +215,7 @@
         <div class="row g-4 justify-content-center">
             <!-- Form Kalkulator (Kiri) -->
             <div class="col-lg-7">
-                <div class="calc-card">
+                <div class="calc-card" style="box-shadow: 0 2px 15px rgba(51, 51, 51, 0.89);">
                     <div class="calc-card-header">
                         <h4 class="mb-1 text-white fw-bold" style="font-size: 18px;"><i class="fa fa-calculator me-2"></i> Formulir Perhitungan</h4>
                         <small class="text-white-50">Pilih jenis zakat dan isi data finansial Anda</small>
