@@ -6,6 +6,7 @@
     </a>
 </li>
 
+
     <li><a href="#" class="cs-menu-dropdown has-arrow {{ @$WidgetActive }}" aria-expanded="true"><i class="cs-menu-icon bi-puzzle-fill"></i> Widget</a>
         <ul class="cs-menu-dropdown-item {{ @$WidgetActive ? 'mm-collapse mm-show' : ''}}">
             <li><a href="/admin/widget/slider" class="{{ @$WidSliderActive }}">Slider</a></li>
@@ -40,6 +41,7 @@
     <li><a href="/admin/zakat" class="{{ @$PayActive }}"><i class="cs-menu-icon bi-grid"></i> Zakat</a></li>
 
     <li class="text">Pengaturan</li>
+    <li><a href="/admin/menu" class="{{ @$MenuActive }}"><i class="cs-menu-icon bi-menu-app"></i> Menu</a></li>
     <li><a href="/admin/user" class="{{ @$UserActive }}"><i class="cs-menu-icon bi-file-person-fill"></i> Kelola User</a></li>
       <li><a href="/admin/menu" class="{{ @$MenuActive }}"><i class="cs-menu-icon bi-menu-app"></i> Menu</a></li>
     <li><a href="/admin/theme" class="{{ @$ThemeActive }}"><i class="cs-menu-icon bi-palette-fill"></i> Kelola Tema</a></li>

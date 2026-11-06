@@ -70,6 +70,7 @@ class BlogController extends Controller
             'page_type' => $req->page_type,
             'date_publish' => $req->status == 'publish' ? date('Y-m-d H:i:s') : null,
             'status' => $req->status,
+            'jenis' => $req->jenis,
         ];
 
         if($req->file('featured_img')){

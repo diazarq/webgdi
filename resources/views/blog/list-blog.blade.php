@@ -22,6 +22,7 @@
                 <th>Judul Blog</th>
                 <th>Author</th>
                 <th>Kategori</th>
+                <th>Jenis Blog</th>
                 <th>Status</th>
                 <th>Tanggal Publish</th>
                 <th>&nbsp;</th>
@@ -46,7 +47,15 @@
                     },
                     { data: 'title' },
                     { data: 'author' },
-                    { data: 'kategori' },{
+                    { data: 'kategori' },
+                    { 
+                        data: 'jenis',
+                        defaultContent: '-',
+                        render: function(data){
+                            return data ? data : '-';
+                        }
+                    },
+                    {
                         data: 'status',
                         render: function(data, type, row, meta){
                             return (data == 'draft' ? '<span class="badge bg-secondary">Draft</span>' : '<span class="badge bg-primary">Publish</span>');

@@ -83,10 +83,10 @@
                 <div class="mb-3 row">
     <label class="col-sm-2 col-form-label">Jenis *</label>
     <div class="col-sm-3">
-        <select class="form-select" name="kategori" required>   
-            <option value="salam" {{ @$detail->kategori == 'salam' ? 'selected' : '' }}>Salam</option>
-            <option value="kegiatan" {{ @$detail->kategori == 'kegiatan' ? 'selected' : '' }}>Kegiatan</option>
-            <option value="journey" {{ @$detail->kategori == 'journey' ? 'selected' : '' }}>Journey</option>
+        <select class="form-select" name="jenis" required>   
+            <option value="salam" {{ @$detail->jenis == 'salam' ? 'selected' : '' }}>Salam</option>
+            <option value="kegiatan" {{ @$detail->jenis == 'kegiatan' ? 'selected' : '' }}>Kegiatan</option>
+            <option value="journey" {{ @$detail->jenis == 'journey' ? 'selected' : '' }}>Journey</option>
         </select>
     </div>
 </div>

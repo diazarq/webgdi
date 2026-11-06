@@ -71,7 +71,7 @@ class MenuController extends Controller
             $mode = 'Tambah';
         }
         
-        return view('menu.form-menu', [
+        return view('user.menu.form-menu', [
             'pageTitle' => $mode.' Menu',
             'active' => ['MenuActive' => 'active'],
             'mode' => $mode,

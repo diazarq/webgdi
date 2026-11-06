@@ -12,7 +12,7 @@ class Blog extends Model
 
     protected $fillable = [
         'title', 'page_type', 'url', 'slug',
-        'content', 'featured_img', 'kategori', 'status',
+        'content', 'featured_img', 'jenis', 'kategori', 'status',
         'author', 'date_publish', 'hashtag', 'user_verify',
         'deleted_at'
     ];
