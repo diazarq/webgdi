@@ -21,10 +21,30 @@ class AdminDonasiCampaignController extends Controller
     protected function getAllCampaigns()
     {
         if (!File::exists($this->filePath)) {
-            return [];
+            $controller = new DonasiCampaignController();
+            $defaults = $controller->getCampaigns();
+            foreach ($defaults as &$c) {
+                if (!isset($c['status'])) {
+                    $c['status'] = 'active';
+                }
+            }
+            $this->saveAllCampaigns($defaults);
+            return $defaults;
         }
         $json = File::get($this->filePath);
-        return json_decode($json, true) ?: [];
+        $data = json_decode($json, true) ?: [];
+        if (empty($data)) {
+            $controller = new DonasiCampaignController();
+            $defaults = $controller->getCampaigns();
+            foreach ($defaults as &$c) {
+                if (!isset($c['status'])) {
+                    $c['status'] = 'active';
+                }
+            }
+            $this->saveAllCampaigns($defaults);
+            return $defaults;
+        }
+        return $data;
     }
 
     /**

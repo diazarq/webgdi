@@ -39,7 +39,7 @@ class DonasiCampaignController extends Controller
      * Daftar Master Data Campaign Donasi (Kitabisa Style)
      * Menggabungkan data dari penyimpanan JSON (dapat dikelola Admin) & fallback default.
      */
-    protected function getCampaigns()
+    public function getCampaigns()
     {
         $filePath = storage_path('app/donasi_campaigns.json');
         if (File::exists($filePath)) {

@@ -68,6 +68,11 @@ class BlogFrontController extends Controller
         ]);
     }
 
+    public function detail($slug)
+    {
+        return $this->show($slug);
+    }
+
     public function show($slug)
     {
         $blog = Blog::where('slug', $slug)

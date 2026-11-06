@@ -50,7 +50,7 @@ Route::get('/', [WebsiteController::class, 'index']);
 /* ROUTE BLOG FRONT — HARUS SEBELUM /{slug} (catch-all), agar /blog tidak tertelan 404 */
 Route::get('/blog', [BlogFrontController::class, 'index'])->name('website.blog');
 Route::get('/blog/category/{kategori}', [BlogFrontController::class, 'index'])->name('website.blog.category');
-Route::get('/blog/{slug}', [BlogFrontController::class, 'detail'])->name('website.blog.detail');
+Route::get('/blog/{slug}', [BlogFrontController::class, 'show'])->name('website.blog.detail');
 
 Route::get('/budaya', [WebsiteController::class, 'index_budaya']);
 Route::get('/cinta', [WebsiteController::class, 'index_cinta']);
