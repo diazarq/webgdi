@@ -96,12 +96,16 @@
                 padding: 75px 0;
             }
 
-            .page-header__inner h2 {
-                color: #ffffff;
-                font-size: 38px;
-                line-height: 48px;
-                margin-top: 6px;
-            }
+           .page-header__inner {
+    text-align: center; 
+}
+.page-header__inner h2 {
+    color: #ffffff;
+    font-size: 38px;
+    line-height: 48px;
+    margin-top: 6px;
+    text-align: center; 
+}
 
             @media (max-width: 767px) {
                 .page-header {
