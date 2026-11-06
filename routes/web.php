@@ -6,6 +6,7 @@ use App\Http\Controllers\RedactorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\WidgetController;
 use App\Http\Controllers\SocialMediaController;
@@ -85,9 +86,7 @@ Route::get('/', function () {
 */
 
 Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function(){
-    Route::get('/dashboard', function(){
-        return view('sample');
-    });
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     /* PLUGINS: REDACTORX */
     Route::post('/redactor/upload', [RedactorController::class, 'upload']);
@@ -269,6 +268,7 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function(){
 
  /* WIDGET: PROGRAM LAZ */
     Route::prefix('widget')->group(function () {
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
         Route::get('/programlaz', [ProgramLazController::class, 'index'])->name('admin.widget.programlaz.index');
         Route::get('/programlaz/create', [ProgramLazController::class, 'create'])->name('admin.widget.programlaz.create');
         Route::post('/programlaz', [ProgramLazController::class, 'store'])->name('admin.widget.programlaz.store');
