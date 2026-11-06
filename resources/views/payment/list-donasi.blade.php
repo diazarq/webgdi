@@ -17,49 +17,32 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h4 class="fw-bold mb-2 mt-3 text-dark"></i>Monitoring Donasi Masuk</h4>
-            <p class="text-muted small mb-0">Pantau seluruh transaksi donasi online.</p>
+            <p class="text-muted small mb-0">Pantau seluruh donasi yang masuk.</p>
         </div>
     </div>
 
     <!-- 3 KARTU STATISTIK RINGKASAN DONASI -->
-    <div class="row g-3 mb-4">
-        <div class="col-lg-3 col-6">
-            <div class="small-box bg-success text-white ">
-                <div class="inner">
-                    <h4 class="fw-bold text-white mb-0">Rp {{ number_format($totalNominal, 0, ',', '.') }}</h4>
-                    <p>Transaksi Donasi Masuk</p>
+    <div class="row g-2 mb-4">
+        <div class="col-lg-6 col-md-4 col-12">
+            <div class="small-box bg-success text-white h-100 mb-0">
+                <div class="inner p-3">
+                    <h4 class="fw-bold text-white mb-1">Rp {{ number_format($totalNominal, 0, ',', '.') }}</h4>
+                    <p class="mb-0 text-white-50">Total Donasi Terkumpul</p>
                 </div>
                 <div class="icon">
                     <i class="bi bi-cash-coin"></i>
                 </div>
-                <a href="/admin/zakat" class="small-box-footer">
-                    Lihat Transaksi <i class="bi bi-arrow-right-circle ms-1"></i>
-                </a>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white border-start border-4 border-primary">
-                <div class="d-flex align-items-center">
-                    <div class="bg-primary bg-opacity-10 text-primary rounded-circle p-3 me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                        <i class="bi bi-check-circle-fill fs-4"></i>
-                    </div>
-                    <div>
-                        <span class="text-muted small d-block">Donasi Sukses / Lunas</span>
-                        <h4 class="fw-bold text-primary mb-0">{{ $totalSukses }} <small class="text-muted fs-6">Transaksi</small></h4>
-                    </div>
+
+        <div class="col-lg-6 col-md-4 col-12">
+            <div class="small-box bg-primary text-white h-100 mb-0">
+                <div class="inner p-3">
+                    <h4 class="fw-bold text-white mb-1">{{ $totalSukses }}</h4>
+                    <p class="mb-0 text-white-50">Donasi Sukses (Lunas)</p>
                 </div>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="card border-0 shadow-sm rounded-4 p-3 bg-white border-start border-4 border-warning">
-                <div class="d-flex align-items-center">
-                    <div class="bg-warning bg-opacity-10 text-warning rounded-circle p-3 me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-                        <i class="bi bi-hourglass-split fs-4"></i>
-                    </div>
-                    <div>
-                        <span class="text-muted small d-block">Menunggu Pembayaran</span>
-                        <h4 class="fw-bold text-warning mb-0">{{ $totalPending }} <small class="text-muted fs-6">Pending</small></h4>
-                    </div>
+                <div class="icon">
+                    <i class="bi bi-check-circle-fill"></i>
                 </div>
             </div>
         </div>
@@ -67,21 +50,13 @@
 
     <!-- FILTER PENCARIAN -->
     <div class="card border-0 shadow-sm rounded-4 p-4 mb-4 bg-white">
-        <h6 class="fw-bold mb-3 text-dark"><i class="bi bi-funnel me-1"></i>Filter Transaksi</h6>
+        <h6 class="fw-bold mb-3 text-dark"><i class="bi bi-funnel me-1"></i>Filter Transaksi Donasi Masuk</h6>
         <div class="row g-3">
-            <div class="col-md-4">
-                <label class="form-label small text-muted">Rentang Waktu</label>
+            <div class="col-md-5">
+                <label class="form-label small text-muted">Rentang Tanggal</label>
                 <input type="text" name="dates" class="form-control daterange-input" placeholder="Pilih rentang tanggal"/>
             </div>
-            <div class="col-md-3">
-                <label class="form-label small text-muted">Status Pembayaran</label>
-                <select class="form-select" name="status">
-                    <option value="">Semua Status</option>
-                    <option value="complete">Selesai / Lunas</option>
-                    <option value="pending">Menunggu Pembayaran (Pending)</option>
-                </select>
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-5">
                 <label class="form-label small text-muted">Kode Donasi (Order ID)</label>
                 <input type="text" name="transcode" class="form-control" placeholder="Contoh: MID-2611..."/>
             </div>
@@ -95,8 +70,8 @@
 
     <!-- TABEL DATA TRANSAKSI DONASI -->
     <div class="card border-0 shadow-sm rounded-4 p-4 bg-white">
-        <div class="table-responsive">
-            <table id="datatableDonasi" class="table table-hover align-middle" style="width:100%">
+        <div class="thead-dark">
+            <table id="datatableDonasi" class="table table-hover align-middle" style="width:100%">  
                 <thead class="table-light">
                     <tr>
                         <th width="4%">No.</th>
@@ -243,7 +218,6 @@
                 data: function(e){
                     e._token = headerToken;
                     e.dates = $('[name=dates]').val();
-                    e.status = $('[name=status]').val();
                     e.transcode = $('[name=transcode]').val();
                 }
             },
@@ -297,10 +271,7 @@
                 {
                     data: 'status',
                     render: function(data){
-                        if (data === 'complete') {
-                            return '<span class="badge bg-success px-2 py-1"><i class="bi bi-check-circle me-1"></i>Selesai</span>';
-                        }
-                        return '<span class="badge bg-warning text-dark px-2 py-1"><i class="bi bi-clock me-1"></i>Pending</span>';
+                        return '<span class="badge bg-success px-2 py-1"><i class="bi bi-check-circle me-1"></i>Selesai / Lunas</span>';
                     }
                 },
                 { data: 'action', orderable: false, searchable: false, className: 'text-center' }
@@ -312,22 +283,29 @@
             table.draw();
         });
 
-        // Tandai Donasi Selesai / Lunas secara Manual
-        $(document).on('click', '.btn-update-donasi', function(){
+        // Hapus / Drop Transaksi Donasi
+        $(document).on('click', '.btn-delete-donasi', function(){
             var id = $(this).data('id');
 
             swal({
-                title: "Konfirmasi Pelunasan",
-                text: "Apakah Anda yakin ingin menandai donasi ini telah lunas/selesai?",
-                icon: "info",
-                buttons: ["Batal", "Ya, Tandai Selesai"],
-                dangerMode: false,
+                title: "Hapus Transaksi Donasi?",
+                text: "Apakah Anda yakin ingin menghapus data donasi ini secara permanen?",
+                icon: "warning",
+                buttons: ["Batal", "Ya, Hapus"],
+                dangerMode: true,
             })
-            .then((willUpdate) => {
-                if (willUpdate) {
-                    $.get('/admin/donasi-masuk/' + id + '/update', function(res){
-                        table.ajax.reload(false, null);
-                        swal("Berhasil!", "Status transaksi donasi berhasil diselesaikan.", "success");
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        url: '/admin/donasi-masuk/' + id + '/delete',
+                        type: 'GET',
+                        success: function(res){
+                            table.ajax.reload(false, null);
+                            swal("Berhasil!", "Data transaksi donasi berhasil dihapus.", "success");
+                        },
+                        error: function(){
+                            swal("Gagal!", "Gagal menghapus data transaksi donasi.", "error");
+                        }
                     });
                 }
             });

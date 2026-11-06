@@ -7,6 +7,7 @@ use App\Models\Payment;
 use App\Models\Bank;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class PaymentController extends Controller
 {
@@ -80,36 +81,29 @@ class PaymentController extends Controller
      */
     public function index_donasi()
     {
-        // Statistik ringkas transaksi donasi
-        $totalNominal = Payment::where(function($q) {
+        // Hanya menghitung transaksi donasi yang sudah berhasil/lunas masuk
+        $baseQuery = Payment::where(function($q) {
             $q->where('bank_type', 'midtrans')
               ->orWhere('payment_method', 'like', '%Midtrans%')
-              ->orWhere('transcode', 'like', 'MID-%');
-        })->where('status', 'complete')->sum('nominal');
+              ->orWhere('transcode', 'like', 'MID-%')
+              ->orWhere('type', 'like', '%donasi%');
+        })->where('status', 'complete');
 
-        $totalSukses = Payment::where(function($q) {
-            $q->where('bank_type', 'midtrans')
-              ->orWhere('payment_method', 'like', '%Midtrans%')
-              ->orWhere('transcode', 'like', 'MID-%');
-        })->where('status', 'complete')->count();
-
-        $totalPending = Payment::where(function($q) {
-            $q->where('bank_type', 'midtrans')
-              ->orWhere('payment_method', 'like', '%Midtrans%')
-              ->orWhere('transcode', 'like', 'MID-%');
-        })->where('status', 'pending')->count();
+        $totalNominal  = (clone $baseQuery)->sum('nominal');
+        $totalSukses   = (clone $baseQuery)->count();
+        $donasiHariIni = (clone $baseQuery)->whereDate('created_at', Carbon::today())->sum('nominal');
 
         return view('payment.list-donasi', [
-            'pageTitle'    => 'Monitoring Donasi Masuk',
-            'active'       => ['DonasiActive' => 'active'],
-            'totalNominal' => $totalNominal,
-            'totalSukses'  => $totalSukses,
-            'totalPending' => $totalPending,
+            'pageTitle'     => 'Monitoring Donasi Masuk',
+            'active'        => ['DonasiActive' => 'active'],
+            'totalNominal'  => $totalNominal,
+            'totalSukses'   => $totalSukses,
+            'donasiHariIni' => $donasiHariIni,
         ]);
     }
 
     /**
-     * DataTables Server-Side untuk Donasi Masuk
+     * DataTables Server-Side untuk Donasi Masuk (Hanya transaksi yang sudah lunas/berhasil)
      */
     public function table_donasi(Request $request)
     {
@@ -118,16 +112,14 @@ class PaymentController extends Controller
               ->orWhere('payment_method', 'like', '%Midtrans%')
               ->orWhere('transcode', 'like', 'MID-%')
               ->orWhere('type', 'like', '%donasi%');
-        })->orderBy('created_at', 'desc');
+        })
+        ->where('status', 'complete') // Hanya donasi yang sudah masuk / berhasil
+        ->orderBy('created_at', 'desc');
 
         if ($request->dates) {
             $dates = $this->_rangeReFormat($request->dates);
             $query->whereRaw('DATE(created_at) >= "' . $dates['date_start'] . '"');
             $query->whereRaw('DATE(created_at) <= "' . $dates['date_end'] . '"');
-        }
-
-        if ($request->status) {
-            $query->where('status', $request->status);
         }
 
         if ($request->transcode) {
@@ -138,15 +130,14 @@ class PaymentController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function(Payment $table) {
                 $invoiceUrl = route('midtrans.invoice', ['transcode' => $table->transcode]);
-                $button = '<div class="btn-group btn-group-sm" role="group">
-                    <a href="' . $invoiceUrl . '" target="_blank" class="btn btn-outline-info" title="Lihat Bukti Invoice"><i class="bi bi-receipt"></i></a>';
-                
-                if ($table->status != 'complete') {
-                    $button .= '<button type="button" class="btn btn-outline-success btn-update-donasi" data-id="' . $table->id . '" title="Tandai Sudah Lunas/Selesai"><i class="bi bi-check-circle"></i></button>';
-                }
-
-                $button .= '</div>';
-                return $button;
+                return '<div class="btn-group btn-group-sm" role="group">
+                    <a href="' . $invoiceUrl . '" target="_blank" class="btn btn-outline-primary" title="Lihat Bukti Invoice">
+                        <i class="bi bi-receipt me-1"></i>
+                    </a>
+                    <button type="button" class="btn btn-outline-danger btn-delete-donasi" data-id="' . $table->id . '" title="Hapus Donasi">
+                        <i class="bi bi-trash"></i>
+                    </button>
+                </div>';
             })
             ->make();
     }
@@ -158,5 +149,34 @@ class PaymentController extends Controller
         ]);
 
         return response()->json(['status' => 'success', 'message' => 'Status donasi berhasil diubah menjadi selesai.']);
+    }
+
+    /**
+     * Hapus / Drop Data Transaksi Donasi
+     */
+    public function delete_donasi($id)
+    {
+        $payment = Payment::find($id);
+        if ($payment) {
+            $payment->delete();
+
+            if (request()->ajax() || request()->wantsJson()) {
+                return response()->json([
+                    'status'  => 'success',
+                    'message' => 'Data transaksi donasi berhasil dihapus.'
+                ]);
+            }
+
+            return redirect()->back()->with('success', 'Data transaksi donasi berhasil dihapus.');
+        }
+
+        if (request()->ajax() || request()->wantsJson()) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Data donasi tidak ditemukan.'
+            ], 404);
+        }
+
+        return redirect()->back()->with('error', 'Data donasi tidak ditemukan.');
     }
 }

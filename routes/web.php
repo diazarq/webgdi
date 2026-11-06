@@ -229,6 +229,7 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function(){
     Route::get('/donasi-masuk', [PaymentController::class, 'index_donasi'])->name('admin.donasi.index');
     Route::post('/donasi-masuk/table', [PaymentController::class, 'table_donasi'])->name('admin.donasi.table');
     Route::get('/donasi-masuk/{id}/update', [PaymentController::class, 'update_status_donasi'])->name('admin.donasi.update');
+    Route::get('/donasi-masuk/{id}/delete', [PaymentController::class, 'delete_donasi'])->name('admin.donasi.delete');
     
     /* KELOLA PILIHAN DONASI / CAMPAIGN (ADMIN) */
     Route::get('/campaign-donasi', [AdminDonasiCampaignController::class, 'index'])->name('admin.campaign.index');
