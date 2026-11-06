@@ -109,25 +109,32 @@ class MidtransController extends Controller
             ]
         ];
 
-        // Panggil API Midtrans menggunakan HTTP Client bawaan Laravel
-        $auth = base64_encode($this->getServerKey() . ':');
-        $response = Http::withHeaders([
-            'Content-Type'  => 'application/json',
-            'Accept'        => 'application/json',
-            'Authorization' => 'Basic ' . $auth,
-        ])->post($this->getSnapUrl(), $params);
+        try {
+            // Panggil API Midtrans menggunakan HTTP Client bawaan Laravel (withoutVerifying untuk bypass masalah SSL cURL Windows)
+            $auth = base64_encode($this->getServerKey() . ':');
+            $response = Http::withoutVerifying()->withHeaders([
+                'Content-Type'  => 'application/json',
+                'Accept'        => 'application/json',
+                'Authorization' => 'Basic ' . $auth,
+            ])->post($this->getSnapUrl(), $params);
 
-        if ($response->successful()) {
-            $data = $response->json();
-            return response()->json([
-                'status'     => 'success',
-                'snap_token' => $data['token'] ?? null,
-                'order_id'   => $orderId,
-            ]);
-        } else {
+            if ($response->successful()) {
+                $data = $response->json();
+                return response()->json([
+                    'status'     => 'success',
+                    'snap_token' => $data['token'] ?? null,
+                    'order_id'   => $orderId,
+                ]);
+            } else {
+                return response()->json([
+                    'status'  => 'error',
+                    'message' => $response->body(),
+                ], 500);
+            }
+        } catch (\Throwable $e) {
             return response()->json([
                 'status'  => 'error',
-                'message' => $response->body(),
+                'message' => $e->getMessage(),
             ], 500);
         }
     }

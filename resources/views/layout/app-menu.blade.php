@@ -36,9 +36,11 @@
             <li><a href="/admin/program/rekapitulasi" class="{{ @$ProgRecapActive }}">Rekapitulasi</a></li>
         </ul>
     </li>
+    <li><a href="{{ route('admin.campaign.index') }}" class="{{ @$CampaignDonasiActive }}"><i class="cs-menu-icon bi-megaphone-fill"></i> Donasi</a></li>
 
     <li class="text">Transaksi</li>
     <li><a href="/admin/zakat" class="{{ @$PayActive }}"><i class="cs-menu-icon bi-grid"></i> Zakat</a></li>
+    <li><a href="/admin/donasi-masuk" class="{{ @$DonasiActive }}"><i class="cs-menu-icon bi-heart-fill"></i> Donasi Masuk</a></li>
 
     <li class="text">Pengaturan</li>
     <li><a href="/admin/user" class="{{ @$UserActive }}"><i class="cs-menu-icon bi-file-person-fill"></i> Kelola User</a></li>

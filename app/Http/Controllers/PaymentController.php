@@ -74,4 +74,89 @@ class PaymentController extends Controller
             'status' => 'complete'
         ]);
     }
+
+    /**
+     * Halaman Monitoring Donasi Masuk (Kitabisa & Midtrans) di Admin
+     */
+    public function index_donasi()
+    {
+        // Statistik ringkas transaksi donasi
+        $totalNominal = Payment::where(function($q) {
+            $q->where('bank_type', 'midtrans')
+              ->orWhere('payment_method', 'like', '%Midtrans%')
+              ->orWhere('transcode', 'like', 'MID-%');
+        })->where('status', 'complete')->sum('nominal');
+
+        $totalSukses = Payment::where(function($q) {
+            $q->where('bank_type', 'midtrans')
+              ->orWhere('payment_method', 'like', '%Midtrans%')
+              ->orWhere('transcode', 'like', 'MID-%');
+        })->where('status', 'complete')->count();
+
+        $totalPending = Payment::where(function($q) {
+            $q->where('bank_type', 'midtrans')
+              ->orWhere('payment_method', 'like', '%Midtrans%')
+              ->orWhere('transcode', 'like', 'MID-%');
+        })->where('status', 'pending')->count();
+
+        return view('payment.list-donasi', [
+            'pageTitle'    => 'Monitoring Donasi Masuk',
+            'active'       => ['DonasiActive' => 'active'],
+            'totalNominal' => $totalNominal,
+            'totalSukses'  => $totalSukses,
+            'totalPending' => $totalPending,
+        ]);
+    }
+
+    /**
+     * DataTables Server-Side untuk Donasi Masuk
+     */
+    public function table_donasi(Request $request)
+    {
+        $query = Payment::query()->where(function($q) {
+            $q->where('bank_type', 'midtrans')
+              ->orWhere('payment_method', 'like', '%Midtrans%')
+              ->orWhere('transcode', 'like', 'MID-%')
+              ->orWhere('type', 'like', '%donasi%');
+        })->orderBy('created_at', 'desc');
+
+        if ($request->dates) {
+            $dates = $this->_rangeReFormat($request->dates);
+            $query->whereRaw('DATE(created_at) >= "' . $dates['date_start'] . '"');
+            $query->whereRaw('DATE(created_at) <= "' . $dates['date_end'] . '"');
+        }
+
+        if ($request->status) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->transcode) {
+            $query->where('transcode', 'like', '%' . $request->transcode . '%');
+        }
+
+        return DataTables::eloquent($query)
+            ->addIndexColumn()
+            ->addColumn('action', function(Payment $table) {
+                $invoiceUrl = route('midtrans.invoice', ['transcode' => $table->transcode]);
+                $button = '<div class="btn-group btn-group-sm" role="group">
+                    <a href="' . $invoiceUrl . '" target="_blank" class="btn btn-outline-info" title="Lihat Bukti Invoice"><i class="bi bi-receipt"></i></a>';
+                
+                if ($table->status != 'complete') {
+                    $button .= '<button type="button" class="btn btn-outline-success btn-update-donasi" data-id="' . $table->id . '" title="Tandai Sudah Lunas/Selesai"><i class="bi bi-check-circle"></i></button>';
+                }
+
+                $button .= '</div>';
+                return $button;
+            })
+            ->make();
+    }
+
+    public function update_status_donasi($id)
+    {
+        Payment::where('id', $id)->update([
+            'status' => 'complete'
+        ]);
+
+        return response()->json(['status' => 'success', 'message' => 'Status donasi berhasil diubah menjadi selesai.']);
+    }
 }

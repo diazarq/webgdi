@@ -12,7 +12,7 @@
         <li><span>/</span></li>
         <li>Simulasi Donasi</li>
     </ul>
-    <h2>Simulasi Donasi Online (Midtrans Sandbox)</h2>
+    <h2>Simulasi Donasi Online</h2>
 </div>
 @endsection
 
@@ -22,29 +22,10 @@
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10">
 
-                <!-- Alert Sandbox Info -->
-                <div class="alert alert-success border-0 shadow-sm rounded-4 mb-4 p-3 d-flex align-items-center bg-white" role="alert">
-                    <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px; min-width: 48px;">
-                        <i class="bi bi-heart-fill fs-4"></i>
-                    </div>
-                    <div>
-                        <div class="d-flex align-items-center gap-2">
-                            <h6 class="alert-heading mb-0 fw-bold text-dark">Simulasi Donasi - Midtrans Sandbox</h6>
-                            <span class="badge bg-success px-2 py-1 rounded-pill small">Mode Uji Coba</span>
-                        </div>
-                        <small class="text-muted d-block mt-1">Uji coba alur pembayaran donasi otomatis dengan <strong>Midtrans Snap</strong> (QRIS Dinamis & Virtual Account). Untuk simulasi bayar, gunakan <a href="https://simulator.sandbox.midtrans.com/v2/qris/index" target="_blank" class="fw-bold text-success text-decoration-none">simulator.sandbox.midtrans.com <i class="bi bi-box-arrow-up-right"></i></a>.</small>
-                    </div>
-                </div>
-
                 <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
-                    <div class="card-header text-white p-4" style="background: linear-gradient(135deg, #06301f 0%, #0d5c38 100%);">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div>
-                                <h4 class="mb-1 text-white fw-bold">Formulir Donasi Kebaikan</h4>
-                                <p class="mb-0 text-white-50 small">Pilih program donasi dan tunaikan dengan QRIS atau Virtual Account</p>
-                            </div>
-                            <span class="badge bg-primary px-3 py-2 rounded-pill fw-bold" style="letter-spacing: 0.5px;">MIDTRANS SNAP</span>
-                        </div>
+                    <div class="card-header text-white p-5 text-center" style="background: linear-gradient(135deg, #06301f 0%, #0d5c38 100%);">
+                        <h4 class="mb-1 text-white fw-bold">Ayo Berdonasi!</h4>
+                        <p class="mb-0 text-white-50 small">"Kebaikan kecilmu hari ini adalah alasan seseorang bisa bertahan esok hari."</p>
                     </div>
 
                     <div class="card-body p-4 p-md-5 bg-white">
@@ -127,7 +108,7 @@
 
                             <!-- Tombol Bayar -->
                             <button type="button" id="payButton" class="btn btn-success btn-lg w-100 py-3 fw-bold rounded-pill shadow-sm">
-                                <i class="bi bi-heart-fill me-2"></i> Donasi Sekarang via Midtrans Snap <i class="bi bi-arrow-right ms-2"></i>
+                                Donasi Sekarang<i class="bi bi-arrow-right ms-2"></i>
                             </button>
                         </form>
                     </div>
@@ -159,7 +140,7 @@ document.getElementById('payButton').addEventListener('click', function (e) {
     var btn = this;
     var originalText = btn.innerHTML;
     btn.disabled = true;
-    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Menghubungkan ke Midtrans...';
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Tunggu Sebentar...';
 
     var form = document.getElementById('donationForm');
     var formData = new FormData(form);

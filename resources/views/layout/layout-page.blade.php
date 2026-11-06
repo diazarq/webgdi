@@ -46,6 +46,8 @@
     <link rel="stylesheet" href="{{ asset('website/assets/css/qrowd-responsive.css') }}" />
 
     @yield('style')
+    @stack('style')
+    @stack('styles')
 </head>
 
 <body class="custom-cursor">
@@ -92,8 +94,7 @@
             .page-header {
                 background: linear-gradient(135deg, #06301f 0%, #0a4a2e 55%, #0d5c38 100%);
                 overflow: hidden;
-               
-                padding: 75px 0;
+                padding: 135px 0 65px;
             }
 
            .page-header__inner {
@@ -109,7 +110,7 @@
 
             @media (max-width: 767px) {
                 .page-header {
-                    padding: 45px 0;
+                    padding: 100px 0 45px;
                 }
                 .page-header__inner h2 {
                     font-size: 28px;

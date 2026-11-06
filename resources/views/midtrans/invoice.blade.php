@@ -26,21 +26,21 @@
                     <!-- Header Kartu -->
                     <div class="p-4 text-center text-white" style="background: linear-gradient(135deg, #06301f 0%, #0d5c38 100%);">
                         @if($payment->status == 'complete')
-                            <div class="display-5 text-success mb-2">
-                                <span class="bg-white rounded-circle d-inline-flex p-3 shadow-sm">
-                                    <i class="bi bi-check-lg text-success"></i>
+                            <div class="mb-3">
+                                <span class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 76px; height: 76px;">
+                                    <i class="bi bi-check-lg text-success" style="font-size: 38px; line-height: 1;"></i>
                                 </span>
                             </div>
                             <h4 class="fw-bold mb-1 text-white">Alhamdulillah, Donasi Berhasil!</h4>
                             <p class="mb-0 text-white-50 small">Terima kasih atas kepedulian dan donasi yang Anda tunaikan</p>
                         @else
-                            <div class="display-5 text-warning mb-2">
-                                <span class="bg-white rounded-circle d-inline-flex p-3 shadow-sm">
-                                    <i class="bi bi-clock-history text-warning"></i>
+                            <div class="mb-3">
+                                <span class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 76px; height: 76px;">
+                                    <i class="bi bi-clock-fill text-warning" style="font-size: 34px; line-height: 1;"></i>
                                 </span>
                             </div>
                             <h4 class="fw-bold mb-1 text-white">Menunggu Pembayaran</h4>
-                            <p class="mb-0 text-white-50 small">Silakan selesaikan pembayaran donasi sesuai petunjuk</p>
+                            <p class="mb-0 text-white-50 small">Silahkan selesaikan pembayaran donasi sesuai petunjuk</p>
                         @endif
                     </div>
 

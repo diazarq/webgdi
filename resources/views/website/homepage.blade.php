@@ -375,13 +375,16 @@
 
                             <div class="gdi-hero__desc">{{ $desc }}</div>
 
-                            @if($btn && count($btn))
-                            <div class="gdi-hero__cta">
+                            <div class="gdi-hero__cta d-flex gap-3 flex-wrap align-items-center">
+                                <a href="{{ route('donasi.index') }}" class="thm-btn gdi-hero__btn gdi-hero__btn--donasi" style="background: linear-gradient(135deg, #FF6B35 0%, #ff8c42 100%) !important; border-color: #FF6B35 !important; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);">
+                                    Donasi Sekarang! <i class="fas fa-heart ms-1"></i>
+                                </a>
+                                @if($btn && count($btn))
                                 <a href="{{ $btn[0]->url }}" class="thm-btn gdi-hero__btn">
                                     {{ $btn[0]->text }} <i class="fas fa-arrow-right gdi-hero__btn-icon"></i>
                                 </a>
+                                @endif
                             </div>
-                            @endif
                         </div>
                     </div>
                 </div>
@@ -473,13 +476,16 @@
                             <div class="gdi-hero__desc">{{ $fd['desc'] }}</div>
                             @endif
 
-                            @if(trim($fd['text']) !== '')
-                            <div class="gdi-hero__cta">
+                            <div class="gdi-hero__cta d-flex gap-3 flex-wrap align-items-center">
+                                <a href="{{ route('donasi.index') }}" class="thm-btn gdi-hero__btn gdi-hero__btn--donasi" style="background: linear-gradient(135deg, #FF6B35 0%, #ff8c42 100%) !important; border-color: #FF6B35 !important; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);">
+                                    Donasi Sekarang! <i class="fas fa-heart ms-1"></i>
+                                </a>
+                                @if(trim($fd['text']) !== '')
                                 <a href="{{ url($fd['url']) }}" class="thm-btn gdi-hero__btn">
                                     {{ $fd['text'] }} <i class="fas fa-arrow-right gdi-hero__btn-icon"></i>
                                 </a>
+                                @endif
                             </div>
-                            @endif
                         </div>
                     </div>
                 </div>

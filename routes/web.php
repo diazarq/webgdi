@@ -29,6 +29,8 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Kernel;
 use App\Http\Controllers\Widget\ProgramLazController;
 use App\Http\Controllers\Website\BlogFrontController;
+use App\Http\Controllers\DonasiCampaignController;
+use App\Http\Controllers\AdminDonasiCampaignController;
 
 
 /*
@@ -62,6 +64,12 @@ Route::post('/simulasi-midtrans/token', [MidtransController::class, 'createSnapT
 Route::get('/simulasi-midtrans/finish', [MidtransController::class, 'finish'])->name('midtrans.finish');
 Route::get('/simulasi-midtrans/invoice/{transcode}', [MidtransController::class, 'invoice'])->name('midtrans.invoice');
 Route::post('/midtrans/notification', [MidtransController::class, 'notification'])->name('midtrans.notification');
+
+/* SISTEM DONASI CAMPAIGN & BENCANA ALAM (KITABISA STYLE + MIDTRANS SNAP) */
+Route::get('/donasi', [DonasiCampaignController::class, 'index'])->name('donasi.index');
+Route::post('/donasi/snap-token', [DonasiCampaignController::class, 'createSnapToken'])->name('donasi.snap-token');
+Route::get('/donasi-selesai', [DonasiCampaignController::class, 'finish'])->name('donasi.finish');
+Route::get('/donasi/{slug}', [DonasiCampaignController::class, 'detail'])->name('donasi.detail');
 
 Route::get('/{slug}', [WebsiteController::class, 'index']);
 Route::get('/program/{slug}', [WebsiteController::class, 'index_program']);
@@ -216,6 +224,19 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function(){
     Route::get('/zakat', [PaymentController::class, 'index']);
     Route::post('/zakat/table', [PaymentController::class, 'table']);
     Route::get('/zakat/{id}/update', [PaymentController::class, 'update_status']);
+
+    /* MONITORING DONASI MASUK (MIDTRANS / KITABISA) */
+    Route::get('/donasi-masuk', [PaymentController::class, 'index_donasi'])->name('admin.donasi.index');
+    Route::post('/donasi-masuk/table', [PaymentController::class, 'table_donasi'])->name('admin.donasi.table');
+    Route::get('/donasi-masuk/{id}/update', [PaymentController::class, 'update_status_donasi'])->name('admin.donasi.update');
+    
+    /* KELOLA PILIHAN DONASI / CAMPAIGN (ADMIN) */
+    Route::get('/campaign-donasi', [AdminDonasiCampaignController::class, 'index'])->name('admin.campaign.index');
+    Route::get('/campaign-donasi/add', [AdminDonasiCampaignController::class, 'form'])->name('admin.campaign.add');
+    Route::get('/campaign-donasi/{id}/edit', [AdminDonasiCampaignController::class, 'form'])->name('admin.campaign.edit');
+    Route::post('/campaign-donasi/store', [AdminDonasiCampaignController::class, 'store'])->name('admin.campaign.store');
+    Route::get('/campaign-donasi/{id}/takedown', [AdminDonasiCampaignController::class, 'toggleTakedown'])->name('admin.campaign.takedown');
+    Route::get('/campaign-donasi/{id}/delete', [AdminDonasiCampaignController::class, 'delete'])->name('admin.campaign.delete');
     /* ---- */
 
     /* BAGIAN PA ANDRI */
