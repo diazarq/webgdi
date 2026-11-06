@@ -147,6 +147,7 @@
 
         <!--General Page Start-->
         @yield('pageGeneral')
+        @yield('content')
         <!--General Page End-->
 
         @yield('pageProgram')
@@ -217,4 +218,4 @@
     @yield('scripts')
 </body>
 
-</html>
+</html> 

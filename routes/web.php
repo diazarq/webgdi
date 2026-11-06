@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MidtransController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\WidgetController;
 use App\Http\Controllers\SocialMediaController;
@@ -54,6 +55,13 @@ Route::get('/cinta', [WebsiteController::class, 'index_cinta']);
 Route::get('/senyum', [WebsiteController::class, 'index_senyum']);
 Route::get('/wakaf-hibah', [WebsiteController::class, 'index_wakaf_hibah']);
 Route::get('/kalkulator-zakat', [WebsiteController::class, 'index_kalkulator_zakat'])->name('website.kalkulator_zakat');
+
+/* SIMULASI MIDTRANS PAYMENT GATEWAY (SANDBOX / SNAP) - HARUS SEBELUM /{slug} */
+Route::get('/simulasi-midtrans', [MidtransController::class, 'index'])->name('midtrans.index');
+Route::post('/simulasi-midtrans/token', [MidtransController::class, 'createSnapToken'])->name('midtrans.token');
+Route::get('/simulasi-midtrans/finish', [MidtransController::class, 'finish'])->name('midtrans.finish');
+Route::get('/simulasi-midtrans/invoice/{transcode}', [MidtransController::class, 'invoice'])->name('midtrans.invoice');
+Route::post('/midtrans/notification', [MidtransController::class, 'notification'])->name('midtrans.notification');
 
 Route::get('/{slug}', [WebsiteController::class, 'index']);
 Route::get('/program/{slug}', [WebsiteController::class, 'index_program']);
@@ -280,6 +288,7 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function(){
 
 
 });
+
 
 
 
