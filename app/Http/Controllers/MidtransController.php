@@ -42,7 +42,7 @@ class MidtransController extends Controller
     public function index()
     {
         return view('midtrans.index', [
-            'pageTitle' => 'Simulasi Zakat - Midtrans Payment Gateway',
+            'pageTitle' => 'Simulasi Donasi Online - Midtrans Payment Gateway',
             'clientKey' => $this->getClientKey(),
         ]);
     }
@@ -66,7 +66,7 @@ class MidtransController extends Controller
         $name    = $request->name;
         $email   = $request->email ?: 'donatur@gmail.com';
         $notelp  = $request->notelp ?: '081234567890';
-        $program = $request->type ?: 'zakat_penghasilan';
+        $program = $request->type ?: 'donasi_pendidikan_dhuafa';
 
         // Simpan transaksi di database lokal dengan status pending
         Payment::create([
