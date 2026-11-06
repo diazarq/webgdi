@@ -1,12 +1,6 @@
 @extends('layout.app')
 @section('title', 'Dashboard Lembaga Zakat - CMS Admin')
 
-@section('breadcrumb')
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="#"><i class="bi bi-house"></i> Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-    </ol>
-@endsection
 
 @section('content')
 <div class="container-fluid px-0 dashboard-wrapper">
@@ -14,12 +8,11 @@
     <!-- ============================================================== -->
     <!-- SECTION 1: HEADER JUDUL DASHBOARD & BREADCRUMB               -->
     <!-- ============================================================== -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-5">
         <div>
             <h4 class="mb-0 fw-bold text-dark">Dashboard Lembaga Zakat</h4>
             <small class="text-muted">Ikhtisar Pengelolaan Zakat, Infaq & Sedekah Yayasan Graha Dhuafa Indonesia</small>
         </div>
-        <span class="text-muted small">Home / Dashboard</span>
     </div>
 
     <!-- ============================================================== -->

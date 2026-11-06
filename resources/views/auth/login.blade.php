@@ -110,7 +110,7 @@
             </div>
         </form>
         <div class="text-center">
-          <p class="mt-5 mb-3 text-muted">&copy; YGDI 2022</p>
+          <p class="mt-5 mb-3 text-muted">&copy; YGDI 2026</p>
         </div>
     </main>
 

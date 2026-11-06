@@ -23,7 +23,7 @@ class AuthController extends Controller
             $upd = User::find($user->id);
             $upd->last_login = date('Y-m-d H:i:s');
             $upd->save();
-            return redirect()->intended('admin/menu'); //temp
+            return redirect()->intended('admin/dashboard'); //temp
         }
 
         return back()->withErrors([
