@@ -60,6 +60,23 @@
         background: linear-gradient(90deg, #00C89D 0%, #0d5c38 100%);
         border-radius: 10px;
     }
+
+    .btn-donasi-cta {
+        background: transparent;
+        border: 1.5px solid #00885a;
+        color: #00885a !important;
+        font-size: 1.15rem;
+        transition: all 0.4s ease;
+    }
+
+    .btn-donasi-cta:hover {
+        background-color: #00885a;
+        border: 1.6px solid #00885a;
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0, 200, 157, 0.35) !important;
+        color: white !important;
+    }
+    
     .story-content {
         line-height: 1.8;
         font-size: 1rem;
@@ -88,6 +105,22 @@
         border: 1px solid #edf2f7;
         margin-bottom: 12px;
     }
+
+    .btn-bagikan {
+        background-color: #0d6efd;
+        border: 1.5px solid #0d6efd;
+        color: white !important;
+        font-size: 1.15rem;
+        transition: all 0.4s ease;
+    }
+
+    .btn-bagikan:hover {
+        background: transparent;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 200, 157, 0.35) !important;
+        color: #0d6efd !important;
+    }
+
 </style>
 @endpush
 
@@ -100,7 +133,7 @@
         <li><span>/</span></li>
         <li>{{ $campaign['category_label'] }}</li>
     </ul>
-    <h2>Detail Musibah & Penggalangan Dana</h2>
+    <h2>Detail Penggalangan Dana</h2>
 </div>
 @endsection
 
@@ -138,7 +171,7 @@
                             <i class="bi bi-patch-check-fill text-primary ms-1" title="Penggalang Dana Terverifikasi"></i>
                         </div>
                         <span>&bull;</span>
-                        <div><i class="bi bi-geo-alt-fill text-danger me-1"></i>{{ $campaign['location'] }}</div>
+                        <div><iconify-icon icon="zondicons:location" class="me-1 text-success"></iconify-icon></i>{{ $campaign['location'] }}</div>
                     </div>
                 </div>
 
@@ -240,7 +273,7 @@
                     </h5>
 
                     <!-- Info Dana & Progress Bar -->
-                    <div class="p-3 bg-light rounded-4 mb-3 border">
+                    <div class="p-3 bg-light rounded-4 mb-3 border shadow">
                         <div class="d-flex justify-content-between align-items-baseline mb-1">
                             <span class="text-muted small">Dana Terkumpul</span>
                             <span class="fw-bold fs-6 {{ $isFull ? 'text-success' : 'text-primary' }}">{{ $percent }}%</span>
@@ -291,17 +324,16 @@
                             </a>
                         </div>
 
-                    <!-- KONDISI AKTIF: TOMBOL DONASI SEKARANG (REDIRECT KE HALAMAN FORM) -->
+                    <!-- KONDISI AKTIF: TOMBOL DONASI SEKARANG  -->
                     @else
                         <div class="d-grid gap-2 my-2">
                             <a href="{{ route('donasi.form', ['slug' => $campaign['slug']]) }}" 
-                               class="btn btn-success btn-lg py-3 fw-bold rounded-pill shadow-sm d-flex align-items-center justify-content-center text-white"
-                               style="background: linear-gradient(135deg, #00C89D 0%, #0d5c38 100%); border: none; font-size: 1.15rem;">
+                               class="btn btn-donasi-cta btn-lg py-3 fw-bold rounded-pill shadow-sm d-flex align-items-center justify-content-center text-white">
                                 <span>Donasi Sekarang</span>
                             </a>
 
                             <button type="button" 
-                                    class="btn btn-outline-secondary rounded-pill py-2 fw-semibold mt-1" 
+                                    class="btn btn-bagikan btn-primary rounded-pill py-2 fw-semibold mt-1" 
                                     onclick="shareCampaign()">
                                 <i class="bi bi-share me-1"></i> Bagikan Program Ini
                             </button>

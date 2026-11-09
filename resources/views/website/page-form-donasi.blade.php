@@ -9,13 +9,14 @@
         border: 1.5px solid #d1d5db;
         background: #ffffff;
         border-radius: 12px;
-        padding: 14px 10px;
+        padding: 10px 18px;
         text-align: center;
         font-weight: 700;
-        font-size: 1rem;
+        font-size: 0.95rem;
         cursor: pointer;
         transition: all 0.2s ease;
         color: #1f2937;
+        min-width: 95px;
     }
     .nominal-chip:hover {
         border-color: #00C89D;
@@ -98,7 +99,7 @@
         <li><span>/</span></li>
         <li>Formulir Donasi</li>
     </ul>
-    <h2>Formulir Donasi Kebaikan</h2>
+    <h2>Formulir Donasi</h2>
 </div>
 @endsection
 
@@ -136,35 +137,23 @@
                         <input type="hidden" name="campaign_title" value="{{ $campaign['title'] }}">
 
                         <!-- 1. Pilihan Nominal Cepat -->
-                        <div class="mb-4">
+                        <div class="mb-3">
                             <label class="form-label fw-bold text-dark small mb-2">Pilih Nominal Donasi Cepat (Rp)</label>
-                            <div class="row g-3">
-                                <div class="col-6 col-sm-4 col-md-2">
-                                    <div class="nominal-chip" data-nominal="10000">10.000</div>
-                                </div>
-                                <div class="col-6 col-sm-4 col-md-2">
-                                    <div class="nominal-chip active" data-nominal="25000">25.000</div>
-                                </div>
-                                <div class="col-6 col-sm-4 col-md-2">
-                                    <div class="nominal-chip" data-nominal="50000">50.000</div>
-                                </div>
-                                <div class="col-6 col-sm-4 col-md-2">
-                                    <div class="nominal-chip" data-nominal="100000">100.000</div>
-                                </div>
-                                <div class="col-6 col-sm-4 col-md-2">
-                                    <div class="nominal-chip" data-nominal="250000">250.000</div>
-                                </div>
-                                <div class="col-6 col-sm-4 col-md-2">
-                                    <div class="nominal-chip" data-nominal="500000">500.000</div>
-                                </div>
+                            <div class="d-flex flex-wrap gap-2">
+                                <div class="nominal-chip" data-nominal="10000">10.000</div>
+                                <div class="nominal-chip active" data-nominal="25000">25.000</div>
+                                <div class="nominal-chip" data-nominal="50000">50.000</div>
+                                <div class="nominal-chip" data-nominal="100000">100.000</div>
+                                <div class="nominal-chip" data-nominal="250000">250.000</div>
+                                <div class="nominal-chip" data-nominal="500000">500.000</div>
                             </div>
                         </div>
 
                         <!-- 2. Nominal Manual Lainnya -->
-                        <div class="mb-4">
-                            <label class="form-label fw-bold text-dark small">Nominal Donasi Lainnya (Rp)</label>
-                            <div class="input-group input-group-lg">
-                                <span class="input-group-text bg-light fw-bold text-muted px-4">Rp</span>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-dark small mb-1">Nominal Donasi Lainnya (Rp)</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-light fw-bold text-muted px-3">Rp</span>
                                 <input type="number" 
                                        id="inputNominal" 
                                        name="nominal" 
@@ -177,7 +166,7 @@
                             <small class="text-muted" style="font-size: 0.8rem;">Minimal nominal donasi adalah Rp 10.000</small>
                         </div>
 
-                        <hr class="my-4 text-muted">
+                        <hr class="my-3 text-muted">
 
                         <!-- 3. Data Lengkap Donatur -->
                         <h5 class="fw-bold text-dark mb-3">
@@ -224,7 +213,7 @@
                         </div>
 
                         <!-- 4. Pilihan Anonim (Hamba Allah) -->
-                        <div class="form-check form-switch my-4 p-3 bg-light rounded-3 border">
+                        <div class="form-check form-switch my-3 p-3 bg-light rounded-3 border">
                             <input class="form-check-input ms-0 me-3" type="checkbox" name="anonim" id="anonimCheck" value="Y" style="width: 2.3em; height: 1.25em;">
                             <label class="form-check-label fw-semibold text-dark" for="anonimCheck">
                                 Sembunyikan nama saya dari daftar publik (Donasi sebagai Hamba Allah)
@@ -232,7 +221,7 @@
                         </div>
 
                         <!-- 5. Doa / Pesan Kebaikan -->
-                        <div class="mb-4">
+                        <div class="mb-3">
                             <label class="form-label fw-bold text-dark small">Doa & Pesan Kebaikan (Opsional)</label>
                             <textarea name="doa" class="form-control" rows="3" placeholder="Tuliskan doa atau pesan dukungan Anda untuk saudara-saudara kita..."></textarea>
                         </div>
@@ -322,9 +311,8 @@
                         <div class="d-grid gap-2 mt-4">
                             <button type="button" 
                                     id="btnSubmitDonasi" 
-                                    class="btn btn-success btn-lg py-3 fw-bold rounded-pill shadow-sm d-flex align-items-center justify-content-center"
-                                    style="background: linear-gradient(135deg, #00C89D 0%, #0d5c38 100%); border: none; font-size: 1.15rem;">
-                                <iconify-icon icon="keyline-icons:hand-coins-duotone" class="me-2" style="font-size: 1.45rem; vertical-align: middle;"></iconify-icon> Lanjutkan Pembayaran
+                                    class="btn btn-pembayaran btn-lg py-3 fw-bold rounded-pill shadow-sm d-flex align-items-center justify-content-center">
+                                <iconify-icon icon="keyline-icons:hand-coins-duotone" class="me-2" style="font-size: 1.`45rem; vertical-align: middle;"></iconify-icon> Lanjutkan Pembayaran
                             </button>
                         </div>
 
