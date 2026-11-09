@@ -5,7 +5,23 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 <style>
     .btn-donasi-card {
-        
+        border: 1.5px solid #0d5c38;
+        color: #0d5c38;
+        background-color: transparent;
+        transition: all 0.25s ease;
+    }
+
+    .btn-donasi-card:hover {
+        background-color: #00885a !important;
+        border-color: #00885a !important;
+        color: #ffffff !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(13, 92, 56, 0.25);
+    }
+
+    .btn-donasi-card:hover i {
+        transform: translateX(4px);
+        transition: transform 0.4s ease;
     }
 
     .donasi-card {
@@ -135,7 +151,7 @@
 <section class="py-5" style="background-color: #f7fafc;">
     <div class="container">
 
-        <!-- Kategori Filter Tabs (Kitabisa style) -->
+        <!-- Kategori Filter Tabs -->
         <div class="mb-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="fw-bold mb-0 text-dark">Kategori Donasi</h5>
@@ -236,10 +252,9 @@
                                     </a>
                                 @else
                                     <a href="{{ route('donasi.detail', $item['slug']) }}" 
-                                       class="btn btn-outline-success w-100 rounded-pill py-2 fw-bold d-flex justify-content-center align-items-center"
-                                       style="border-color: #0d5c38; color: #0d5c38;">
-                                        <span>Donasi Sekarang</span>
-                                        <i class="bi bi-arrow-right-short fs-5 ms-1"></i>
+                                    class="btn btn-donasi-card w-100 rounded-pill py-2 fw-bold d-flex justify-content-center align-items-center">
+                                    <span>Donasi Sekarang</span>
+                                    <i class="bi bi-arrow-right-short fs-4 ms-1"></i>
                                     </a>
                                 @endif
                             </div>

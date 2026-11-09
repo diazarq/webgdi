@@ -37,7 +37,7 @@
             </div>
         @endif
 
-        <!-- Tabel DataTables Persis Gambar -->
+        <!-- Tabel  -->
         <div class="table-responsive">
             <table id="campaignTable" class="table table-bordered table-hover align-middle mb-0" style="width: 100%;">
                 <thead class="table-light">

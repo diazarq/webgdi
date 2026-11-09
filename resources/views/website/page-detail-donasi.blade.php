@@ -4,7 +4,6 @@
 @push('styles')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 <style>
-    /* Kitabisa Detail Styling */
     .campaign-banner {
         width: 100%;
         border-radius: 20px;
@@ -63,9 +62,15 @@
     }
     .story-content {
         line-height: 1.8;
-        font-size: 1.02rem;
+        font-size: 1rem;
         color: #4a5568;
     }
+
+    .story-content .lead {
+        font-size: 1rem;
+        font-weight: 400;
+    }
+    
     .story-content p {
         margin-bottom: 1.25rem;
     }
@@ -165,28 +170,29 @@
 
                     <div class="d-flex justify-content-between align-items-center text-muted small">
                         <div>Target: <strong class="text-dark">Rp {{ number_format($campaign['target'], 0, ',', '.') }}</strong></div>
-                        <div><i class="bi bi-people-fill me-1 text-primary"></i><strong class="text-dark">{{ $campaign['donatur_count'] }}</strong> Donasi</div>
+                        <div><i class="bi bi-people-fill me-1 text-primary"></i><strong class="text-dark">{{ $campaign['donatur_count'] }}</strong> Donatur</div>
                         <div><i class="bi bi-clock-fill me-1 text-warning"></i><strong class="text-dark">{{ $campaign['days_left'] }}</strong> Hari Lagi</div>
                     </div>
                 </div>
 
                 <!-- Cerita Lengkap Musibah & Peristiwa -->
-                <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4 bg-white">
-                    <h4 class="fw-bold text-dark mb-4 pb-2 border-bottom">
-                        <i class="bi bi-journal-text text-success me-2"></i>Kisah & Kronologi Peristiwa
-                    </h4>
+                <div class="card border-0 shadow-sm rounded-5 p-4 p-md-5 mb-4 bg-white">
+                    <h5 class="fw-bold text-dark mb-4 pb-2 border- bottom">
+                        <i class="bi bi-postcard-heart-fill me-2 text-success"></i>
+                        Cerita Penggalangan Dana
+                    </h5>
                     <div class="story-content">
                         {!! $campaign['story'] !!}
                     </div>
                 </div>
 
-                <!-- Doa & Dukungan Orang Baik (Kitabisa Feature) -->
+                <!-- Doa & Dukungan Orang Baik -->
                 <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
                     <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
                         <h4 class="fw-bold text-dark mb-0">
-                            <i class="bi bi-chat-heart text-danger me-2"></i>Doa & Dukungan Donatur
+                            <i class="bi bi-chat-quote-fill text-success me-2"></i>Doa & Dukungan Donatur
                         </h4>
-                        <span class="badge bg-light text-muted border px-3 py-2 rounded-pill">Doa Terbaru</span>
+                       
                     </div>
 
                     <div class="doa-card">
@@ -200,7 +206,7 @@
 
                     <div class="doa-card">
                         <div class="d-flex justify-content-between mb-1">
-                            <strong class="text-dark">Keluarga Budi Santoso</strong>
+                            <strong class="text-dark">Keluarga Tatang</strong>
                             <small class="text-muted">1 jam yang lalu</small>
                         </div>
                         <small class="text-success fw-bold d-block mb-2">Berdonasi Rp 250.000</small>

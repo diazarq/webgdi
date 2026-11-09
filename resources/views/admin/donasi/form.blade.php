@@ -93,7 +93,7 @@
 
                     <!-- Deskripsi Singkat -->
                     <div class="mb-3">
-                        <label class="form-label fw-bold text-dark">Deskripsi Singkat (Ringkasan Kartu) <span class="text-danger">*</span></label>
+                        <label class="form-label fw-bold text-dark">Deskripsi Donasi <span class="text-danger">*</span></label>
                         <textarea name="short_desc" 
                                   class="form-control rounded-3" 
                                   rows="2" 
