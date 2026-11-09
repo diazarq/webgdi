@@ -79,7 +79,18 @@
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="text-muted ps-0 py-2">Metode Pembayaran</td>
-                                        <td class="text-end fw-semibold pe-0 py-2">Midtrans ({{ $payment->payment_method }})</td>
+                                        <td class="text-end fw-semibold pe-0 py-2">
+                                            @php
+                                                $method = $payment->payment_method ?: 'VA BCA';
+                                                if (stripos($method, 'snap') !== false || strtolower($method) === 'midtrans') {
+                                                    $method = 'VA BCA';
+                                                }
+                                            @endphp
+                                            <span class="badge bg-light text-dark border px-2 py-1 d-inline-flex align-items-center">
+                                                <img src="{{ asset('images/midtrans-logo.png') }}" alt="Midtrans" style="height: 14px; width: auto; object-fit: contain;" class="me-1">
+                                                {{ $method }}
+                                            </span>
+                                        </td>
                                     </tr>
                                     <tr class="border-bottom">
                                         <td class="text-muted ps-0 py-2">Waktu Donasi</td>

@@ -230,25 +230,6 @@
             <div class="col-lg-5">
                 <div class="card campaign-card-sticky p-4 p-md-4 border-0 shadow-sm rounded-4 bg-white" id="actionDonasiCard">
 
-                    <!-- Status Tag Atas -->
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="badge {{ $campaign['category_badge'] }} px-3 py-2 rounded-pill fw-bold text-uppercase" style="font-size: 0.72rem;">
-                            {{ $campaign['category_label'] }}
-                        </span>
-                        @if($isFull)
-                            <span class="badge bg-success px-3 py-2 rounded-pill fw-bold">
-                                <i class="bi bi-check-circle-fill me-1"></i> Target Terpenuhi
-                            </span>
-                        @elseif($isTakedown)
-                            <span class="badge bg-secondary px-3 py-2 rounded-pill fw-bold">
-                                <i class="bi bi-lock-fill me-1"></i> Ditutup
-                            </span>
-                        @else
-                            <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill fw-bold">
-                                <i class="bi bi-broadcast me-1"></i> Penggalangan Aktif
-                            </span>
-                        @endif
-                    </div>
 
                     <!-- Judul Singkat Card -->
                     <h5 class="fw-bold text-dark mb-3" style="line-height: 1.4;">
@@ -335,7 +316,7 @@
                                 <span>Donasi 100% amanah & transparan</span>
                             </div>
                             <div class="d-flex align-items-center">
-                                <i class="bi bi-credit-card-2-front-fill text-info fs-5 me-2"></i>
+                                <img src="{{ asset('images/midtrans-logo.png') }}" alt="Midtrans" style="height: 20px; width: auto; object-fit: contain;" class="me-2">
                                 <span>Didukung oleh <strong>Midtrans Payment Gateway</strong></span>
                             </div>
                         </div>

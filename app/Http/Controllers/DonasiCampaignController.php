@@ -359,6 +359,8 @@ class DonasiCampaignController extends Controller
             }
         }
 
+        $paymentMethod = $request->payment_method ?: 'VA BCA';
+
         // Simpan transaksi di database lokal status pending
         Payment::create([
             'type'           => substr($campaign, 0, 95),
@@ -369,7 +371,7 @@ class DonasiCampaignController extends Controller
             'notelp'         => $notelp,
             'email'          => $email,
             'nominal'        => $nominal,
-            'payment_method' => 'Midtrans Snap',
+            'payment_method' => $paymentMethod,
             'bank_type'      => 'midtrans',
             'bank_id'        => $campaignId ? (int) $campaignId : 1,
             'digit'          => '0',
@@ -400,6 +402,21 @@ class DonasiCampaignController extends Controller
                 'finish' => route('donasi.finish'),
             ]
         ];
+
+        // Filter otomatis channel Midtrans sesuai metode pilihan donatur
+        if (stripos($paymentMethod, 'BCA') !== false) {
+            $params['enabled_payments'] = ['bca_va'];
+        } elseif (stripos($paymentMethod, 'Mandiri') !== false) {
+            $params['enabled_payments'] = ['echannel', 'mandiri_va'];
+        } elseif (stripos($paymentMethod, 'BNI') !== false) {
+            $params['enabled_payments'] = ['bni_va'];
+        } elseif (stripos($paymentMethod, 'BRI') !== false) {
+            $params['enabled_payments'] = ['bri_va'];
+        } elseif (stripos($paymentMethod, 'QRIS') !== false) {
+            $params['enabled_payments'] = ['qris', 'gopay', 'shopeepay'];
+        } elseif (stripos($paymentMethod, 'GoPay') !== false) {
+            $params['enabled_payments'] = ['gopay', 'qris'];
+        }
 
         try {
             // Panggil API Midtrans menggunakan HTTP Client (withoutVerifying untuk lingkungan local/Windows)

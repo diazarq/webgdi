@@ -265,7 +265,17 @@
                 { 
                     data: 'payment_method',
                     render: function(data){
-                        return '<span class="badge bg-light text-dark border">' + (data || 'Midtrans Snap') + '</span>';
+                        var val = data || 'VA BCA';
+                        if (val.toLowerCase().includes('midtrans snap') || val.toLowerCase() === 'midtrans') {
+                            val = 'VA BCA';
+                        }
+                        var badgeClass = 'bg-primary text-white';
+                        if (val.includes('QRIS')) badgeClass = 'bg-success text-white';
+                        else if (val.includes('GoPay') || val.includes('Shopee')) badgeClass = 'bg-info text-dark';
+                        else if (val.includes('Mandiri')) badgeClass = 'bg-warning text-dark';
+                        else if (val.includes('BCA')) badgeClass = 'bg-primary text-white';
+                        else if (val.includes('BNI') || val.includes('BRI')) badgeClass = 'bg-secondary text-white';
+                        return '<span class="badge ' + badgeClass + ' px-2 py-1">' + val + '</span>';
                     }
                 },
                 {

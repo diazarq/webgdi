@@ -64,6 +64,20 @@
         border-color: #0d5c38;
         box-shadow: 0 0 0 0.25rem rgba(13, 92, 56, 0.15);
     }
+    .payment-method-card {
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background: #ffffff;
+    }
+    .payment-method-card:hover {
+        border-color: #00C89D !important;
+        background: #f0fdf9;
+    }
+    .payment-method-card:has(input:checked) {
+        border-color: #0d5c38 !important;
+        background: #f0fdf9;
+        box-shadow: 0 0 0 1px #0d5c38;
+    }
 </style>
 @endpush
 
@@ -217,18 +231,100 @@
                             <textarea name="doa" class="form-control" rows="3" placeholder="Tuliskan doa atau pesan dukungan Anda untuk saudara-saudara kita..."></textarea>
                         </div>
 
-                        <!-- 6. Tombol Submit Bayar -->
+                        <!-- 6. Pilihan Metode Pembayaran -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold text-dark small mb-2">
+                                <i class="bi bi-wallet2 text-success me-1"></i>Pilih Metode Pembayaran <span class="text-danger">*</span>
+                            </label>
+                            
+                            <div class="row g-2">
+                                <!-- QRIS -->
+                                <div class="col-md-6">
+                                    <label class="payment-method-card d-flex align-items-center p-3 border rounded-3 cursor-pointer w-100 mb-0">
+                                        <input type="radio" name="payment_method" value="QRIS" class="form-check-input me-3" checked>
+                                        <div class="flex-grow-1">
+                                            <div class="fw-bold text-dark small">QRIS (Semua Pembayaran)</div>
+                                            <small class="text-muted" style="font-size: 0.75rem;">GoPay, OVO, Dana, ShopeePay, BCA, dll.</small>
+                                        </div>
+                                        <i class="bi bi-qr-code fs-4 text-success ms-2"></i>
+                                    </label>
+                                </div>
+
+                                <!-- VA BCA -->
+                                <div class="col-md-6">
+                                    <label class="payment-method-card d-flex align-items-center p-3 border rounded-3 cursor-pointer w-100 mb-0">
+                                        <input type="radio" name="payment_method" value="VA BCA" class="form-check-input me-3">
+                                        <div class="flex-grow-1">
+                                            <div class="fw-bold text-dark small">Virtual Account BCA</div>
+                                            <small class="text-muted" style="font-size: 0.75rem;">Transfer via m-BCA, KlikBCA, ATM</small>
+                                        </div>
+                                        <i class="bi bi-bank fs-4 text-primary ms-2"></i>
+                                    </label>
+                                </div>
+
+                                <!-- VA Mandiri -->
+                                <div class="col-md-6">
+                                    <label class="payment-method-card d-flex align-items-center p-3 border rounded-3 cursor-pointer w-100 mb-0">
+                                        <input type="radio" name="payment_method" value="VA Mandiri" class="form-check-input me-3">
+                                        <div class="flex-grow-1">
+                                            <div class="fw-bold text-dark small">Virtual Account Mandiri</div>
+                                            <small class="text-muted" style="font-size: 0.75rem;">Transfer via Livin' by Mandiri, ATM</small>
+                                        </div>
+                                        <i class="bi bi-bank fs-4 text-warning ms-2"></i>
+                                    </label>
+                                </div>
+
+                                <!-- VA BNI -->
+                                <div class="col-md-6">
+                                    <label class="payment-method-card d-flex align-items-center p-3 border rounded-3 cursor-pointer w-100 mb-0">
+                                        <input type="radio" name="payment_method" value="VA BNI" class="form-check-input me-3">
+                                        <div class="flex-grow-1">
+                                            <div class="fw-bold text-dark small">Virtual Account BNI</div>
+                                            <small class="text-muted" style="font-size: 0.75rem;">Transfer via BNI Mobile, ATM</small>
+                                        </div>
+                                        <i class="bi bi-bank fs-4 text-danger ms-2"></i>
+                                    </label>
+                                </div>
+
+                                <!-- VA BRI -->
+                                <div class="col-md-6">
+                                    <label class="payment-method-card d-flex align-items-center p-3 border rounded-3 cursor-pointer w-100 mb-0">
+                                        <input type="radio" name="payment_method" value="VA BRI" class="form-check-input me-3">
+                                        <div class="flex-grow-1">
+                                            <div class="fw-bold text-dark small">Virtual Account BRI (BRIVA)</div>
+                                            <small class="text-muted" style="font-size: 0.75rem;">Transfer via BRImo, ATM</small>
+                                        </div>
+                                        <i class="bi bi-bank fs-4 text-info ms-2"></i>
+                                    </label>
+                                </div>
+
+                                <!-- GoPay -->
+                                <div class="col-md-6">
+                                    <label class="payment-method-card d-flex align-items-center p-3 border rounded-3 cursor-pointer w-100 mb-0">
+                                        <input type="radio" name="payment_method" value="GoPay" class="form-check-input me-3">
+                                        <div class="flex-grow-1">
+                                            <div class="fw-bold text-dark small">GoPay / E-Wallet</div>
+                                            <small class="text-muted" style="font-size: 0.75rem;">Langsung ke aplikasi Gojek / GoPay</small>
+                                        </div>
+                                        <i class="bi bi-phone-fill fs-4 text-success ms-2"></i>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 7. Tombol Submit Bayar -->
                         <div class="d-grid gap-2 mt-4">
                             <button type="button" 
                                     id="btnSubmitDonasi" 
                                     class="btn btn-success btn-lg py-3 fw-bold rounded-pill shadow-sm"
                                     style="background: linear-gradient(135deg, #00C89D 0%, #0d5c38 100%); border: none; font-size: 1.15rem;">
-                                <i class="bi bi-credit-card-2-front-fill me-2"></i> Lanjutkan Pembayaran (Midtrans)
+                                <i class="bi bi-credit-card-2-front-fill me-2"></i> Lanjutkan Pembayaran
                             </button>
                         </div>
 
-                        <div class="text-center mt-3 text-muted small">
-                            <i class="bi bi-shield-lock-fill text-success me-1"></i> Pembayaran aman terenkripsi Midtrans &bull; QRIS, Virtual Account, & Retail Outlet
+                        <div class="text-center mt-3 text-muted small d-flex align-items-center justify-content-center">
+                            <img src="{{ asset('images/midtrans-logo.png') }}" alt="Midtrans" style="height: 18px; width: auto; object-fit: contain;" class="me-2">
+                            <span>Pembayaran aman terenkripsi <strong>Midtrans</strong> &bull; QRIS, Virtual Account, & E-Wallet</span>
                         </div>
                     </form>
                 </div>
@@ -293,8 +389,8 @@
                                 <span>Penyaluran 100% amanah & transparan</span>
                             </div>
                             <div class="d-flex align-items-center">
-                                <i class="bi bi-shield-check text-primary me-2"></i>
-                                <span>Didukung oleh Midtrans Payment Gateway</span>
+                                <img src="{{ asset('images/midtrans-logo.png') }}" alt="Midtrans" style="height: 20px; width: auto; object-fit: contain;" class="me-2">
+                                <span>Didukung oleh <strong>Midtrans Payment Gateway</strong></span>
                             </div>
                         </div>
 

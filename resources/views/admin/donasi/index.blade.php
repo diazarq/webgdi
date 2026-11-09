@@ -44,7 +44,7 @@
                     <tr class="text-secondary small">
                         <th style="width: 50px;" class="text-center">No.</th>
                         <th style="width: 70px;" class="text-center">Cover</th>
-                        <th>Judul Program & Kategori</th>
+                        <th>Judul Program</th>
                         <th style="width: 240px;">Target & Terkumpul</th>
                         <th style="width: 100px;">Sisa Hari</th>
                         <th style="width: 90px;" class="text-center">Status</th>
@@ -58,16 +58,6 @@
                             $collected = $item['collected'] ?? 0;
                             $percent = $target > 0 ? min(100, round(($collected / $target) * 100)) : 0;
                             $isTakedown = ($item['status'] ?? 'active') === 'takedown';
-                            
-                            // Badge color styling
-                            $catBadge = 'bg-danger text-white';
-                            if (stripos($item['category_label'] ?? '', 'medis') !== false) {
-                                $catBadge = 'bg-primary text-white';
-                            } elseif (stripos($item['category_label'] ?? '', 'yatim') !== false) {
-                                $catBadge = 'bg-success text-white';
-                            } elseif (stripos($item['category_label'] ?? '', 'wakaf') !== false) {
-                                $catBadge = 'bg-info text-dark';
-                            }
                         @endphp
                         <tr>
                             <td class="text-center text-muted fw-semibold">{{ $index + 1 }}</td>
@@ -87,13 +77,8 @@
                                 </div>
                             </td>
 
-                            <!-- Judul & Kategori -->
+                            <!-- Judul Program -->
                             <td>
-                                <div class="mb-1">
-                                    <span class="badge {{ $catBadge }} rounded-1 px-2 py-1" style="font-size: 11px; font-weight: 500;">
-                                        {{ $item['category_label'] ?? 'Bencana Alam' }}
-                                    </span>
-                                </div>
                                 <a href="{{ route('donasi.detail', $item['slug']) }}" target="_blank" class="fw-semibold text-dark text-decoration-none d-block">
                                     {{ $item['title'] }}
                                 </a>

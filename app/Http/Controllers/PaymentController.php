@@ -128,6 +128,13 @@ class PaymentController extends Controller
 
         return DataTables::eloquent($query)
             ->addIndexColumn()
+            ->editColumn('payment_method', function(Payment $table) {
+                $m = $table->payment_method;
+                if (empty($m) || stripos($m, 'snap') !== false || strtolower($m) === 'midtrans') {
+                    return 'VA BCA';
+                }
+                return $m;
+            })
             ->addColumn('action', function(Payment $table) {
                 $invoiceUrl = route('midtrans.invoice', ['transcode' => $table->transcode]);
                 return '<div class="btn-group btn-group-sm" role="group">
