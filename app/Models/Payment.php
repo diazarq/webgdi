@@ -24,6 +24,7 @@ class Payment extends Model
         'bank_id',
         'digit',
         'status',
+        'snap_token',
         'exp_at',
         'deleted_at'
     ];

@@ -362,7 +362,7 @@ class DonasiCampaignController extends Controller
         $paymentMethod = $request->payment_method ?: 'VA BCA';
 
         // Simpan transaksi di database lokal status pending
-        Payment::create([
+        $payment = Payment::create([
             'type'           => substr($campaign, 0, 95),
             'transcode'      => $orderId,
             'name'           => $name,
@@ -429,11 +429,20 @@ class DonasiCampaignController extends Controller
 
             if ($response->successful()) {
                 $data = $response->json();
+                $snapToken = $data['token'] ?? null;
+
+                // Simpan snap_token ke database agar bisa dibuka kembali jika donatur menutup popup
+                if ($snapToken) {
+                    $payment->snap_token = $snapToken;
+                    $payment->save();
+                }
+
                 return response()->json([
-                    'status'     => 'success',
-                    'snap_token' => $data['token'] ?? null,
-                    'order_id'   => $orderId,
-                    'message'    => 'Snap token Midtrans berhasil dibuat.',
+                    'status'      => 'success',
+                    'snap_token'  => $snapToken,
+                    'order_id'    => $orderId,
+                    'invoice_url' => route('donasi.invoice', ['transcode' => $orderId]),
+                    'message'     => 'Snap token Midtrans berhasil dibuat.',
                 ]);
             } else {
                 return response()->json([
@@ -460,11 +469,14 @@ class DonasiCampaignController extends Controller
         if ($orderId) {
             $payment = Payment::where('transcode', $orderId)->first();
             if ($payment) {
-                if ($transactionStatus == 'settlement' || $transactionStatus == 'capture' || $request->status_code == '200') {
+                if (in_array($transactionStatus, ['settlement', 'capture']) || $request->status_code == '200') {
                     $payment->status = 'complete';
                     $payment->save();
+                } elseif (in_array($transactionStatus, ['deny', 'cancel', 'expire'])) {
+                    $payment->status = 'failed';
+                    $payment->save();
                 }
-                return redirect()->route('midtrans.invoice', ['transcode' => $orderId]);
+                return redirect()->route('donasi.invoice', ['transcode' => $orderId]);
             }
         }
 
@@ -511,10 +523,92 @@ class DonasiCampaignController extends Controller
     {
         $payment = Payment::where('transcode', $transcode)->firstOrFail();
 
+        // Cari data campaign donasi terkait
+        $campaigns = collect($this->getCampaigns());
+        $campaign = null;
+
+        if (!empty($payment->bank_id)) {
+            $campaign = $campaigns->firstWhere('id', (int) $payment->bank_id);
+        }
+        if (!$campaign && !empty($payment->type)) {
+            $campaign = $campaigns->firstWhere('title', $payment->type);
+        }
+        if (!$campaign && !empty($payment->type)) {
+            $campaign = $campaigns->firstWhere('slug', $payment->type);
+        }
+        if (!$campaign && !empty($payment->type)) {
+            $campaign = $campaigns->first(function($c) use ($payment) {
+                return stripos($c['title'], substr($payment->type, 0, 30)) !== false ||
+                       stripos($payment->type, substr($c['title'], 0, 30)) !== false;
+            });
+        }
+
+        $campaignSlug = $campaign ? ($campaign['slug'] ?? null) : null;
+
         return view('midtrans.invoice', [
-            'payment'   => $payment,
-            'pageTitle' => 'Bukti Pembayaran Donasi - Graha Dhuafa Indonesia'
+            'payment'      => $payment,
+            'campaign'     => $campaign,
+            'campaignSlug' => $campaignSlug,
+            'pageTitle'    => 'Bukti Pembayaran Donasi - Graha Dhuafa Indonesia'
         ]);
+    }
+
+    /**
+     * 7. Cek Status Pembayaran Realtime ke Server Midtrans
+     */
+    public function checkStatus($transcode)
+    {
+        $payment = Payment::where('transcode', $transcode)->firstOrFail();
+
+        try {
+            $auth = base64_encode($this->getServerKey() . ':');
+            $baseUrl = $this->isProduction() ? 'https://api.midtrans.com' : 'https://api.sandbox.midtrans.com';
+            $response = Http::withoutVerifying()->withHeaders([
+                'Accept'        => 'application/json',
+                'Authorization' => 'Basic ' . $auth,
+            ])->get($baseUrl . '/v2/' . $transcode . '/status');
+
+            if ($response->successful()) {
+                $data = $response->json();
+                $transactionStatus = $data['transaction_status'] ?? null;
+                $paymentType = $data['payment_type'] ?? null;
+
+                if (in_array($transactionStatus, ['capture', 'settlement'])) {
+                    $payment->status = 'complete';
+                    if ($paymentType) {
+                        $payment->payment_method = 'Midtrans (' . strtoupper($paymentType) . ')';
+                    }
+                    $payment->save();
+                    return redirect()->route('donasi.invoice', ['transcode' => $transcode])
+                        ->with('status_msg', [
+                            'type' => 'success',
+                            'text' => 'Alhamdulillah! Pembayaran donasi Anda telah terverifikasi LUNAS.'
+                        ]);
+                } elseif (in_array($transactionStatus, ['cancel', 'deny', 'expire'])) {
+                    $payment->status = 'failed';
+                    $payment->save();
+                    return redirect()->route('donasi.invoice', ['transcode' => $transcode])
+                        ->with('status_msg', [
+                            'type' => 'error',
+                            'text' => 'Transaksi donasi telah dibatalkan atau melewati batas waktu pembayaran.'
+                        ]);
+                } else {
+                    return redirect()->route('donasi.invoice', ['transcode' => $transcode])
+                        ->with('status_msg', [
+                            'type' => 'info',
+                            'text' => 'Status transaksi saat ini masih Menunggu Pembayaran. Silakan selesaikan pembayaran donasi Anda.'
+                        ]);
+                }
+            }
+        } catch (\Throwable $e) {
+            // Silently redirect if connection issue
+        }
+
+        return redirect()->route('donasi.invoice', ['transcode' => $transcode])
+            ->with('status_msg', [
+                'type' => 'info',
+                'text' => 'Status transaksi belum berubah. Jika Anda sudah transfer, mohon tunggu 1-2 menit lalu cek kembali.'
+            ]);
     }
 }
 

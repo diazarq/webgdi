@@ -69,6 +69,7 @@ Route::post('/midtrans/notification', [MidtransController::class, 'notification'
 Route::get('/donasi', [DonasiCampaignController::class, 'index'])->name('donasi.index');
 Route::post('/donasi/snap-token', [DonasiCampaignController::class, 'createSnapToken'])->name('donasi.snap-token');
 Route::get('/donasi-selesai', [DonasiCampaignController::class, 'finish'])->name('donasi.finish');
+Route::get('/donasi/check-status/{transcode}', [DonasiCampaignController::class, 'checkStatus'])->name('donasi.check-status');
 Route::get('/donasi/invoice/{transcode}', [DonasiCampaignController::class, 'invoice'])->name('donasi.invoice');
 Route::get('/donasi/{slug}/form', [DonasiCampaignController::class, 'form'])->name('donasi.form');
 Route::get('/donasi/{slug}', [DonasiCampaignController::class, 'detail'])->name('donasi.detail');

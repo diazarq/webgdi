@@ -69,7 +69,7 @@ class MidtransController extends Controller
         $program = $request->type ?: 'donasi_pendidikan_dhuafa';
 
         // Simpan transaksi di database lokal dengan status pending
-        Payment::create([
+        $payment = Payment::create([
             'transcode'      => $orderId,
             'name'           => $name,
             'pronoun'        => $request->pronoun ?: 'Bpk/Ibu',
@@ -120,9 +120,14 @@ class MidtransController extends Controller
 
             if ($response->successful()) {
                 $data = $response->json();
+                $snapToken = $data['token'] ?? null;
+                if ($snapToken && $payment) {
+                    $payment->snap_token = $snapToken;
+                    $payment->save();
+                }
                 return response()->json([
                     'status'     => 'success',
-                    'snap_token' => $data['token'] ?? null,
+                    'snap_token' => $snapToken,
                     'order_id'   => $orderId,
                 ]);
             } else {
