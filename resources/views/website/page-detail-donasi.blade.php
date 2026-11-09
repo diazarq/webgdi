@@ -13,8 +13,6 @@
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     }
     .campaign-card-sticky {
-        position: sticky;
-        top: 100px;
         border-radius: 20px;
         border: 1px solid #e2e8f0;
         background: #ffffff;
@@ -256,6 +254,7 @@
 
                     <form id="campaignDonationForm">
                         @csrf
+                        <input type="hidden" name="campaign_id" value="{{ $campaign['id'] }}">
                         <input type="hidden" name="campaign_slug" value="{{ $campaign['slug'] }}">
                         <input type="hidden" name="campaign_title" value="{{ $campaign['title'] }}">
 
@@ -296,9 +295,20 @@
                         </div>
 
                         <!-- 3. Data Donatur -->
-                        <div class="mb-3">
-                            <label class="form-label fw-bold text-dark small">Nama Lengkap Donatur <span class="text-danger">*</span></label>
-                            <input type="text" name="name" class="form-control rounded-3 py-2" placeholder="Nama Anda" value="Ahmad Fauzi" required>
+                        <div class="mb-3" id="groupDonaturName">
+                            <label class="form-label fw-bold text-dark small">
+                                Nama Lengkap Donatur <span class="text-danger" id="nameRequiredStar">*</span>
+                            </label>
+                            <input type="text" 
+                                   name="name" 
+                                   id="inputDonaturName" 
+                                   class="form-control rounded-3 py-2" 
+                                   placeholder="Nama Anda" 
+                                   value="Ahmad Fauzi" 
+                                   required>
+                            <small id="anonimHelperText" class="text-muted d-none mt-1 d-block" style="font-size: 0.78rem;">
+                                <i class="bi bi-shield-check text-success me-1"></i>Nama Anda disembunyikan sebagai <strong>Hamba Allah</strong>.
+                            </small>
                         </div>
 
                         <div class="mb-3">
@@ -312,9 +322,9 @@
                         </div>
 
                         <!-- 4. Pilihan Anonim (Hamba Allah) -->
-                        <div class="form-check form-switch mb-3">
-                            <input class="form-check-input" type="checkbox" name="anonim" id="anonimCheck" value="Y">
-                            <label class="form-check-label small fw-semibold text-secondary" for="anonimCheck">
+                        <div class="form-check form-switch mb-3 p-2 bg-light rounded-3 border">
+                            <input class="form-check-input ms-0 me-2" type="checkbox" name="anonim" id="anonimCheck" value="Y">
+                            <label class="form-check-label small fw-semibold text-dark" for="anonimCheck">
                                 Sembunyikan nama saya (Hamba Allah)
                             </label>
                         </div>
@@ -373,6 +383,37 @@ document.getElementById('inputNominal').addEventListener('input', function() {
     });
 });
 
+// Interaksi Toggle Anonim (Hamba Allah)
+var anonimCheck = document.getElementById('anonimCheck');
+var inputDonaturName = document.getElementById('inputDonaturName');
+var nameRequiredStar = document.getElementById('nameRequiredStar');
+var anonimHelperText = document.getElementById('anonimHelperText');
+var previousName = inputDonaturName ? inputDonaturName.value : '';
+
+if (anonimCheck && inputDonaturName) {
+    anonimCheck.addEventListener('change', function() {
+        if (this.checked) {
+            if (inputDonaturName.value && inputDonaturName.value !== 'Hamba Allah') {
+                previousName = inputDonaturName.value;
+            }
+            inputDonaturName.value = 'Hamba Allah';
+            inputDonaturName.readOnly = true;
+            inputDonaturName.classList.add('bg-light', 'text-muted');
+            inputDonaturName.removeAttribute('required');
+            if (nameRequiredStar) nameRequiredStar.classList.add('d-none');
+            if (anonimHelperText) anonimHelperText.classList.remove('d-none');
+        } else {
+            inputDonaturName.readOnly = false;
+            inputDonaturName.classList.remove('bg-light', 'text-muted');
+            inputDonaturName.value = (previousName && previousName !== 'Hamba Allah') ? previousName : '';
+            inputDonaturName.setAttribute('required', 'required');
+            if (nameRequiredStar) nameRequiredStar.classList.remove('d-none');
+            if (anonimHelperText) anonimHelperText.classList.add('d-none');
+            inputDonaturName.focus();
+        }
+    });
+}
+
 // Submit Form Donasi via Midtrans Snap
 document.getElementById('btnBayarMidtrans').addEventListener('click', function(e) {
     e.preventDefault();
@@ -385,6 +426,13 @@ document.getElementById('btnBayarMidtrans').addEventListener('click', function(e
     var nominal = parseInt(document.getElementById('inputNominal').value) || 0;
     if (nominal < 10000) {
         alert('Mohon masukkan nominal donasi minimal Rp 10.000');
+        return;
+    }
+
+    // Jika tidak anonim dan nama kosong, beri peringatan
+    if (anonimCheck && !anonimCheck.checked && (!inputDonaturName.value || !inputDonaturName.value.trim())) {
+        alert('Mohon isi nama lengkap Anda atau centang Sembunyikan nama (Hamba Allah).');
+        inputDonaturName.focus();
         return;
     }
 

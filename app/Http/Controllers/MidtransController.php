@@ -202,15 +202,38 @@ class MidtransController extends Controller
     }
 
     /**
-     * 5. Halaman Invoice / Bukti Setor Zakat Resmi
+     * 5. Halaman Invoice / Bukti Setor Donasi Resmi
      */
     public function invoice($transcode)
     {
         $payment = Payment::where('transcode', $transcode)->firstOrFail();
 
+        $campaignSlug = null;
+        $campaignTitle = null;
+        try {
+            $campaignController = new DonasiCampaignController();
+            $campaigns = $campaignController->getCampaigns();
+            foreach ($campaigns as $c) {
+                if (
+                    (!empty($payment->bank_id) && $payment->bank_id == $c['id']) ||
+                    (!empty($payment->type) && (
+                        str_contains(strtolower($c['title']), strtolower(substr($payment->type, 0, 30))) || 
+                        str_contains(strtolower($payment->type), strtolower(substr($c['title'], 0, 30))) || 
+                        str_contains(strtolower($payment->type), strtolower($c['slug']))
+                    ))
+                ) {
+                    $campaignSlug = $c['slug'];
+                    $campaignTitle = $c['title'];
+                    break;
+                }
+            }
+        } catch (\Throwable $e) {}
+
         return view('midtrans.invoice', [
-            'payment'   => $payment,
-            'pageTitle' => 'Bukti Pembayaran ZIS - Graha Dhuafa Indonesia'
+            'payment'       => $payment,
+            'campaignSlug'  => $campaignSlug,
+            'campaignTitle' => $campaignTitle,
+            'pageTitle'     => 'Bukti Pembayaran Donasi - Graha Dhuafa Indonesia'
         ]);
     }
 }

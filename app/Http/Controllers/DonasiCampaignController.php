@@ -37,19 +37,74 @@ class DonasiCampaignController extends Controller
 
     /**
      * Daftar Master Data Campaign Donasi (Kitabisa Style)
-     * Menggabungkan data dari penyimpanan JSON (dapat dikelola Admin) & fallback default.
+     * Menggabungkan data dari penyimpanan JSON (dapat dikelola Admin) & sinkronisasi real-time donasi masuk.
      */
     public function getCampaigns()
     {
         $filePath = storage_path('app/donasi_campaigns.json');
+        $data = null;
         if (File::exists($filePath)) {
             $json = File::get($filePath);
             $data = json_decode($json, true);
-            if (is_array($data) && count($data) > 0) {
-                return $data;
-            }
         }
 
+        if (!is_array($data) || count($data) === 0) {
+            $data = $this->getDefaultCampaigns();
+            File::ensureDirectoryExists(dirname($filePath));
+            File::put($filePath, json_encode(array_values($data), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        }
+
+        // Sinkronisasi data real-time dari donasi yang sudah berstatus 'complete' di database
+        try {
+            $completedPayments = Payment::where('status', 'complete')->get(['id', 'type', 'nominal', 'bank_id', 'created_at']);
+
+            foreach ($data as &$c) {
+                if (!isset($c['status'])) {
+                    $c['status'] = 'active';
+                }
+                if (!isset($c['base_collected'])) {
+                    $c['base_collected'] = (int) ($c['collected'] ?? 0);
+                }
+                if (!isset($c['base_donatur_count'])) {
+                    $c['base_donatur_count'] = (int) ($c['donatur_count'] ?? 0);
+                }
+
+                $matchingPayments = $completedPayments->filter(function($p) use ($c) {
+                    if (!empty($p->bank_id) && $p->bank_id == $c['id']) {
+                        return true;
+                    }
+                    if (!empty($p->type)) {
+                        $pType = strtolower($p->type);
+                        $cTitle = strtolower(substr($c['title'] ?? '', 0, 30));
+                        $cSlug = strtolower($c['slug'] ?? '');
+                        if ($cTitle && str_contains($pType, $cTitle)) {
+                            return true;
+                        }
+                        if ($cSlug && str_contains($pType, $cSlug)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                });
+
+                $sumNominal = $matchingPayments->sum('nominal');
+                $countDonatur = $matchingPayments->count();
+
+                $c['collected'] = (int) $c['base_collected'] + (int) $sumNominal;
+                $c['donatur_count'] = (int) $c['base_donatur_count'] + (int) $countDonatur;
+            }
+        } catch (\Throwable $e) {
+            // Failover aman jika ada kendala pembacaan database
+        }
+
+        return $data;
+    }
+
+    /**
+     * Master Data Awal (Default) Campaign
+     */
+    public function getDefaultCampaigns()
+    {
         return [
             [
                 'id'            => 1,
@@ -62,7 +117,9 @@ class DonasiCampaignController extends Controller
                 'image_banner'  => 'images/blog/sedekah-ramadhan.jpg',
                 'target'        => 150000000,
                 'collected'     => 48500000,
+                'base_collected'=> 48500000,
                 'donatur_count' => 312,
+                'base_donatur_count' => 312,
                 'days_left'     => 14,
                 'location'      => 'Wilayah Terdampak Bencana Alam',
                 'organizer'     => 'Yayasan Graha Dhuafa Indonesia',
@@ -94,7 +151,9 @@ class DonasiCampaignController extends Controller
                 'image_banner'  => 'images/blog/panas.jpg',
                 'target'        => 80000000,
                 'collected'     => 32700000,
+                'base_collected'=> 32700000,
                 'donatur_count' => 198,
+                'base_donatur_count' => 198,
                 'days_left'     => 21,
                 'location'      => 'Rumah Sakit Umum Daerah',
                 'organizer'     => 'Yayasan Graha Dhuafa Indonesia',
@@ -119,7 +178,9 @@ class DonasiCampaignController extends Controller
                 'image_banner'  => 'images/blog/2e10e7a278d7e5b7b0bf939a2399f97a.jpg',
                 'target'        => 50000000,
                 'collected'     => 38250000,
+                'base_collected'=> 38250000,
                 'donatur_count' => 450,
+                'base_donatur_count' => 450,
                 'days_left'     => 9,
                 'location'      => 'Pesantren Yatim & Dhuafa',
                 'organizer'     => 'Yayasan Graha Dhuafa Indonesia',
@@ -139,7 +200,9 @@ class DonasiCampaignController extends Controller
                 'image_banner'  => 'images/blog/8a0b575bfeb8b0ea7a2cf1fc2eecec38.jpg',
                 'target'        => 65000000,
                 'collected'     => 29400000,
+                'base_collected'=> 29400000,
                 'donatur_count' => 165,
+                'base_donatur_count' => 165,
                 'days_left'     => 18,
                 'location'      => 'Dusun Terpencil Wilayah Pelosok',
                 'organizer'     => 'Yayasan Graha Dhuafa Indonesia',
@@ -158,7 +221,9 @@ class DonasiCampaignController extends Controller
                 'image_banner'  => 'images/blog/download (4).jpeg',
                 'target'        => 40000000,
                 'collected'     => 17800000,
+                'base_collected'=> 17800000,
                 'donatur_count' => 110,
+                'base_donatur_count' => 110,
                 'days_left'     => 30,
                 'location'      => 'Sekolah Binaan Pelosok',
                 'organizer'     => 'Yayasan Graha Dhuafa Indonesia',
@@ -216,9 +281,13 @@ class DonasiCampaignController extends Controller
      */
     public function createSnapToken(Request $request)
     {
+        // Pastikan nilai anonim berupa integer (1 atau 0) sesuai tipe boolean MySQL
+        $isAnonim  = $request->has('anonim') && in_array($request->anonim, ['Y', '1', 1, true, 'on'], true);
+        $anonim    = $isAnonim ? 1 : 0;
+
         $request->validate([
             'nominal' => 'required|numeric|min:10000',
-            'name'    => 'required|string|max:100',
+            'name'    => $isAnonim ? 'nullable|string|max:100' : 'required|string|max:100',
             'notelp'  => 'required|string|max:20',
         ]);
 
@@ -237,15 +306,21 @@ class DonasiCampaignController extends Controller
         }
 
         $orderId   = 'MID-' . date('ymd') . rand(1000, 9999);
-        $name      = $request->name;
+        $name      = $isAnonim ? 'Hamba Allah' : (trim($request->name) ?: 'Hamba Allah');
         $email     = $request->email ?: 'donatur@gdi.org';
         $notelp    = $request->notelp;
-        
-        // Pastikan nilai anonim berupa integer (1 atau 0) sesuai tipe boolean MySQL
-        $isAnonim  = $request->has('anonim') && in_array($request->anonim, ['Y', '1', 1, true, 'on'], true);
-        $anonim    = $isAnonim ? 1 : 0;
         $doa       = $request->doa ?? '';
         $campaign  = $request->campaign_title ?? 'Donasi Bencana & Kebaikan';
+
+        // Cari ID campaign untuk relasi donasi masuk
+        $campaignId = $request->campaign_id;
+        if (!$campaignId && $request->has('campaign_slug')) {
+            $campaigns = collect($this->getCampaigns());
+            $found = $campaigns->firstWhere('slug', $request->campaign_slug);
+            if ($found) {
+                $campaignId = $found['id'];
+            }
+        }
 
         // Simpan transaksi di database lokal
         Payment::create([
@@ -259,6 +334,7 @@ class DonasiCampaignController extends Controller
             'nominal'        => $nominal,
             'payment_method' => 'Midtrans Snap',
             'bank_type'      => 'midtrans',
+            'bank_id'        => $campaignId ? (int) $campaignId : null,
             'digit'          => '0',
             'status'         => 'pending',
             'exp_at'         => date('Y-m-d H:i:s', strtotime('+24 hours')),
@@ -329,7 +405,7 @@ class DonasiCampaignController extends Controller
         $payment = Payment::where('transcode', $orderId)->first();
 
         if ($payment) {
-            if ($transactionStatus == 'settlement' || $transactionStatus == 'capture') {
+            if ($transactionStatus == 'settlement' || $transactionStatus == 'capture' || $request->status_code == '200') {
                 $payment->status = 'complete';
                 $payment->save();
             }

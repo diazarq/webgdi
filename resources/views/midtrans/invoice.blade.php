@@ -105,8 +105,19 @@
                             <button onclick="window.print()" class="btn btn-outline-success w-100 py-2 fw-semibold">
                                 <i class="bi bi-printer me-1"></i> Cetak Bukti Donasi (PDF)
                             </button>
-                            <a href="{{ route('midtrans.index') }}" class="btn btn-success w-100 py-2 fw-semibold">
-                                <i class="bi bi-arrow-repeat me-1"></i> Donasi Lagi
+                            @if(!empty($campaignSlug))
+                                <a href="{{ route('donasi.detail', $campaignSlug) }}" class="btn btn-success w-100 py-2 fw-semibold">
+                                    <i class="bi bi-arrow-repeat me-1"></i> Donasi Lagi
+                                </a>
+                            @else
+                                <a href="{{ route('donasi.index') }}" class="btn btn-success w-100 py-2 fw-semibold">
+                                    <i class="bi bi-arrow-repeat me-1"></i> Donasi Lagi
+                                </a>
+                            @endif
+                        </div>
+                        <div class="text-center mt-3 no-print">
+                            <a href="{{ route('donasi.index') }}" class="text-decoration-none fw-semibold small" style="color: #0d5c38;">
+                                <i class="bi bi-grid-fill me-1"></i> Lihat Program Donasi & Bencana Lainnya
                             </a>
                         </div>
                     </div>

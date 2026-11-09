@@ -16,35 +16,12 @@ class AdminDonasiCampaignController extends Controller
     }
 
     /**
-     * Ambil data seluruh campaign dari penyimpanan JSON
+     * Ambil data seluruh campaign dari penyimpanan JSON dengan sinkronisasi real-time
      */
     protected function getAllCampaigns()
     {
-        if (!File::exists($this->filePath)) {
-            $controller = new DonasiCampaignController();
-            $defaults = $controller->getCampaigns();
-            foreach ($defaults as &$c) {
-                if (!isset($c['status'])) {
-                    $c['status'] = 'active';
-                }
-            }
-            $this->saveAllCampaigns($defaults);
-            return $defaults;
-        }
-        $json = File::get($this->filePath);
-        $data = json_decode($json, true) ?: [];
-        if (empty($data)) {
-            $controller = new DonasiCampaignController();
-            $defaults = $controller->getCampaigns();
-            foreach ($defaults as &$c) {
-                if (!isset($c['status'])) {
-                    $c['status'] = 'active';
-                }
-            }
-            $this->saveAllCampaigns($defaults);
-            return $defaults;
-        }
-        return $data;
+        $controller = new DonasiCampaignController();
+        return $controller->getCampaigns();
     }
 
     /**
@@ -157,6 +134,7 @@ class AdminDonasiCampaignController extends Controller
                     $item['category_label'] = $catInfo['label'];
                     $item['category_badge'] = $catInfo['badge'];
                     $item['target']         = (float) $request->target;
+                    $item['base_collected'] = (float) ($request->collected ?? ($item['base_collected'] ?? $item['collected']));
                     $item['collected']      = (float) ($request->collected ?? $item['collected']);
                     $item['days_left']      = (int) $request->days_left;
                     $item['location']       = $request->location ?: 'Indonesia';
