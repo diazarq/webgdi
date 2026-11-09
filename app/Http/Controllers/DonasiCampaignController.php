@@ -273,11 +273,41 @@ class DonasiCampaignController extends Controller
             'campaign'       => $campaign,
             'otherCampaigns' => $otherCampaigns,
             'clientKey'      => $this->getClientKey(),
+            'isProduction'   => $this->isProduction(),
         ]);
     }
 
     /**
-     * 3. Request Pembuatan Snap Token Midtrans dari Form Donasi
+     * 2b. Halaman Khusus Formulir Donasi (Redirect ke Page Baru)
+     */
+    public function form($slug)
+    {
+        $campaigns = collect($this->getCampaigns());
+        $campaign = $campaigns->firstWhere('slug', $slug);
+
+        if (!$campaign) {
+            abort(404, 'Program donasi tidak ditemukan');
+        }
+
+        // Cek jika status takedown atau target donasi sudah penuh 100%
+        $isFull = ($campaign['collected'] >= $campaign['target']);
+        $isTakedown = (($campaign['status'] ?? 'active') === 'takedown');
+
+        if ($isFull || $isTakedown) {
+            return redirect()->route('donasi.detail', ['slug' => $slug])
+                ->with('warning', 'Penggalangan dana untuk program ini telah ditutup karena target telah terpenuhi.');
+        }
+
+        return view('website.page-form-donasi', [
+            'pageTitle'    => 'Formulir Donasi - ' . $campaign['title'],
+            'campaign'     => $campaign,
+            'clientKey'    => $this->getClientKey(),
+            'isProduction' => $this->isProduction(),
+        ]);
+    }
+
+    /**
+     * 3. Request Pembuatan Snap Token ke Midtrans (AJAX)
      */
     public function createSnapToken(Request $request)
     {
@@ -293,23 +323,30 @@ class DonasiCampaignController extends Controller
 
         $nominal   = (int) $request->nominal;
 
-        // Cek jika campaign berstatus takedown / ditutup
+        // Cek jika campaign berstatus takedown atau target donasi sudah penuh (100%)
         if ($request->has('campaign_slug')) {
             $campaigns = collect($this->getCampaigns());
             $found = $campaigns->firstWhere('slug', $request->campaign_slug);
-            if ($found && ($found['status'] ?? 'active') === 'takedown') {
-                return response()->json([
-                    'status'  => 'error',
-                    'message' => 'Penggalangan dana untuk program ini telah ditutup oleh admin karena target donasi telah tercapai.',
-                ], 400);
+            if ($found) {
+                if (($found['status'] ?? 'active') === 'takedown') {
+                    return response()->json([
+                        'status'  => 'error',
+                        'message' => 'Penggalangan dana untuk program ini telah ditutup oleh admin.',
+                    ], 400);
+                }
+                if ($found['target'] > 0 && $found['collected'] >= $found['target']) {
+                    return response()->json([
+                        'status'  => 'error',
+                        'message' => 'Alhamdulillah, target donasi untuk program ini telah terpenuhi 100%. Donasi telah ditutup.',
+                    ], 400);
+                }
             }
         }
 
-        $orderId   = 'MID-' . date('ymd') . rand(1000, 9999);
+        $orderId   = 'MID-' . date('ymd') . rand(10000, 99999);
         $name      = $isAnonim ? 'Hamba Allah' : (trim($request->name) ?: 'Hamba Allah');
         $email     = $request->email ?: 'donatur@gdi.org';
         $notelp    = $request->notelp;
-        $doa       = $request->doa ?? '';
         $campaign  = $request->campaign_title ?? 'Donasi Bencana & Kebaikan';
 
         // Cari ID campaign untuk relasi donasi masuk
@@ -322,11 +359,11 @@ class DonasiCampaignController extends Controller
             }
         }
 
-        // Simpan transaksi di database lokal
+        // Simpan transaksi di database lokal status pending
         Payment::create([
             'type'           => substr($campaign, 0, 95),
             'transcode'      => $orderId,
-            'name'           => $anonim ? 'Hamba Allah' : $name,
+            'name'           => $name,
             'pronoun'        => $request->pronoun ?? 'Bapak/Ibu',
             'anonim'         => $anonim,
             'notelp'         => $notelp,
@@ -334,7 +371,7 @@ class DonasiCampaignController extends Controller
             'nominal'        => $nominal,
             'payment_method' => 'Midtrans Snap',
             'bank_type'      => 'midtrans',
-            'bank_id'        => $campaignId ? (int) $campaignId : null,
+            'bank_id'        => $campaignId ? (int) $campaignId : 1,
             'digit'          => '0',
             'status'         => 'pending',
             'exp_at'         => date('Y-m-d H:i:s', strtotime('+24 hours')),
@@ -353,7 +390,7 @@ class DonasiCampaignController extends Controller
             ],
             'item_details' => [
                 [
-                    'id'       => substr($request->campaign_slug ?? 'donasi-gdi', 0, 45),
+                    'id'       => (string) ($campaignId ?: 'donasi-gdi'),
                     'price'    => $nominal,
                     'quantity' => 1,
                     'name'     => substr($campaign, 0, 45),
@@ -365,7 +402,7 @@ class DonasiCampaignController extends Controller
         ];
 
         try {
-            // Panggil API Midtrans (withoutVerifying untuk bypass masalah SSL cURL Windows)
+            // Panggil API Midtrans menggunakan HTTP Client (withoutVerifying untuk lingkungan local/Windows)
             $auth = base64_encode($this->getServerKey() . ':');
             $response = Http::withoutVerifying()->withHeaders([
                 'Content-Type'  => 'application/json',
@@ -379,40 +416,88 @@ class DonasiCampaignController extends Controller
                     'status'     => 'success',
                     'snap_token' => $data['token'] ?? null,
                     'order_id'   => $orderId,
+                    'message'    => 'Snap token Midtrans berhasil dibuat.',
                 ]);
             } else {
                 return response()->json([
                     'status'  => 'error',
-                    'message' => $response->body(),
+                    'message' => 'Gagal menghubungi server Midtrans: ' . $response->body(),
                 ], 500);
             }
         } catch (\Throwable $e) {
             return response()->json([
                 'status'  => 'error',
-                'message' => $e->getMessage(),
+                'message' => 'Exception Midtrans: ' . $e->getMessage(),
             ], 500);
         }
     }
 
     /**
-     * 4. Redirect Callback Selesai dari Midtrans Snap
+     * 4. Redirect Callback Selesai dari Midtrans
      */
     public function finish(Request $request)
     {
-        $orderId = $request->order_id;
-        $transactionStatus = $request->transaction_status;
+        $orderId = $request->order_id ?? $request->orderId;
+        $transactionStatus = $request->transaction_status ?? $request->status;
 
-        $payment = Payment::where('transcode', $orderId)->first();
-
-        if ($payment) {
-            if ($transactionStatus == 'settlement' || $transactionStatus == 'capture' || $request->status_code == '200') {
-                $payment->status = 'complete';
-                $payment->save();
+        if ($orderId) {
+            $payment = Payment::where('transcode', $orderId)->first();
+            if ($payment) {
+                if ($transactionStatus == 'settlement' || $transactionStatus == 'capture' || $request->status_code == '200') {
+                    $payment->status = 'complete';
+                    $payment->save();
+                }
+                return redirect()->route('midtrans.invoice', ['transcode' => $orderId]);
             }
-            return redirect()->route('midtrans.invoice', ['transcode' => $orderId]);
         }
 
-        return redirect()->route('donasi.index')->with('info', 'Transaksi telah diproses.');
+        return redirect()->route('donasi.index')->with('info', 'Transaksi donasi Anda telah diproses.');
+    }
+
+    /**
+     * 5. Webhook Notifikasi Otomatis dari Server Midtrans
+     */
+    public function notification(Request $request)
+    {
+        $payload = $request->all();
+        $orderId = $payload['order_id'] ?? null;
+        $statusCode = $payload['status_code'] ?? null;
+        $grossAmount = $payload['gross_amount'] ?? null;
+        $signatureKey = $payload['signature_key'] ?? null;
+        $transactionStatus = $payload['transaction_status'] ?? null;
+        $paymentType = $payload['payment_type'] ?? null;
+
+        $expectedSignature = hash('sha512', $orderId . $statusCode . $grossAmount . $this->getServerKey());
+
+        if ($signatureKey === $expectedSignature) {
+            $payment = Payment::where('transcode', $orderId)->first();
+            if ($payment) {
+                if (in_array($transactionStatus, ['capture', 'settlement'])) {
+                    $payment->status = 'complete';
+                    $payment->payment_method = 'Midtrans (' . ($paymentType ?? 'Online') . ')';
+                    $payment->save();
+                } elseif (in_array($transactionStatus, ['cancel', 'deny', 'expire'])) {
+                    $payment->status = 'failed';
+                    $payment->save();
+                }
+            }
+            return response()->json(['status' => 'success'], 200);
+        }
+
+        return response()->json(['status' => 'invalid signature'], 400);
+    }
+
+    /**
+     * 6. Halaman Kuitansi / Bukti Donasi
+     */
+    public function invoice($transcode)
+    {
+        $payment = Payment::where('transcode', $transcode)->firstOrFail();
+
+        return view('midtrans.invoice', [
+            'payment'   => $payment,
+            'pageTitle' => 'Bukti Pembayaran Donasi - Graha Dhuafa Indonesia'
+        ]);
     }
 }
 

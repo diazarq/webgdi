@@ -220,266 +220,150 @@
             </div>
 
             <!-- ========================================== -->
-            <!-- KOLOM KANAN: FORMULIR DONASI (MIDTRANS SNAP)-->
+            <!-- KOLOM KANAN: KARTU RINGKASAN & ACTION DONASI-->
             <!-- ========================================== -->
+            @php
+                $isFull = ($campaign['collected'] >= $campaign['target']) || ($percent >= 100);
+                $isTakedown = (($campaign['status'] ?? 'active') === 'takedown');
+                $isClosed = $isFull || $isTakedown;
+            @endphp
             <div class="col-lg-5">
-                @if(($campaign['status'] ?? 'active') === 'takedown')
-                    <div class="card campaign-card-sticky p-4 text-center border-0 shadow-sm rounded-4 bg-white" id="formDonasiCard">
-                        <div class="mb-3">
-                            <span class="badge bg-secondary px-3 py-2 rounded-pill fw-bold text-uppercase fs-6">
-                                <i class="bi bi-check-circle-fill me-1"></i> Penggalangan Ditutup
-                            </span>
-                        </div>
-                        <div class="p-4 my-2 rounded-4 bg-light border">
-                            <i class="bi bi-shield-lock-fill text-warning fs-1 d-block mb-3"></i>
-                            <h5 class="fw-bold text-dark mb-2">Donasi Telah Selesai / Ditutup</h5>
-                            <p class="small text-muted mb-0" style="line-height: 1.6;">
-                                Penggalangan dana untuk program ini telah di-takedown oleh Admin karena target donasi telah terpenuhi atau masa penggalangan telah selesai. Seluruh donasi sedang dalam proses penyaluran ke lapangan.
-                            </p>
-                        </div>
-                        <a href="{{ route('donasi.index') }}" class="btn btn-success rounded-pill fw-bold py-2 mt-3 shadow-sm">
-                            <i class="bi bi-heart me-1"></i> Donasi Program Kebaikan Lainnya
-                        </a>
-                    </div>
-                @else
-                <div class="card campaign-card-sticky p-4 p-md-4" id="formDonasiCard">
+                <div class="card campaign-card-sticky p-4 p-md-4 border-0 shadow-sm rounded-4 bg-white" id="actionDonasiCard">
 
-                    <div class="text-center mb-3">
-                        <span class="badge bg-success bg-opacity-10 text-success px-3 py-1 rounded-pill fw-bold small mb-2">
-                            Pembayaran Aman & Otomatis
+                    <!-- Status Tag Atas -->
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="badge {{ $campaign['category_badge'] }} px-3 py-2 rounded-pill fw-bold text-uppercase" style="font-size: 0.72rem;">
+                            {{ $campaign['category_label'] }}
                         </span>
-                        <h4 class="fw-bold text-dark mb-1">Tunaikan Donasi Anda</h4>
-                        <p class="text-muted small mb-0">Didukung oleh <strong>Midtrans Payment Gateway</strong></p>
+                        @if($isFull)
+                            <span class="badge bg-success px-3 py-2 rounded-pill fw-bold">
+                                <i class="bi bi-check-circle-fill me-1"></i> Target Terpenuhi
+                            </span>
+                        @elseif($isTakedown)
+                            <span class="badge bg-secondary px-3 py-2 rounded-pill fw-bold">
+                                <i class="bi bi-lock-fill me-1"></i> Ditutup
+                            </span>
+                        @else
+                            <span class="badge bg-success bg-opacity-10 text-success px-3 py-2 rounded-pill fw-bold">
+                                <i class="bi bi-broadcast me-1"></i> Penggalangan Aktif
+                            </span>
+                        @endif
                     </div>
 
-                    <form id="campaignDonationForm">
-                        @csrf
-                        <input type="hidden" name="campaign_id" value="{{ $campaign['id'] }}">
-                        <input type="hidden" name="campaign_slug" value="{{ $campaign['slug'] }}">
-                        <input type="hidden" name="campaign_title" value="{{ $campaign['title'] }}">
+                    <!-- Judul Singkat Card -->
+                    <h5 class="fw-bold text-dark mb-3" style="line-height: 1.4;">
+                        {{ $campaign['title'] }}
+                    </h5>
 
-                        <!-- 1. Pilihan Nominal Cepat -->
-                        <label class="form-label fw-bold text-dark small mb-2">Pilih Nominal Cepat (Rp)</label>
-                        <div class="row g-2 mb-3">
-                            <div class="col-4">
-                                <div class="nominal-chip" data-nominal="10000">10.000</div>
+                    <!-- Info Dana & Progress Bar -->
+                    <div class="p-3 bg-light rounded-4 mb-3 border">
+                        <div class="d-flex justify-content-between align-items-baseline mb-1">
+                            <span class="text-muted small">Dana Terkumpul</span>
+                            <span class="fw-bold fs-6 {{ $isFull ? 'text-success' : 'text-primary' }}">{{ $percent }}%</span>
+                        </div>
+                        <h3 class="fw-bold text-success mb-2" style="color: #0d5c38 !important;">
+                            Rp {{ number_format($campaign['collected'], 0, ',', '.') }}
+                        </h3>
+
+                        <!-- Progress Bar -->
+                        <div class="progress progress-kitabisa my-2" style="height: 9px; border-radius: 10px;">
+                            <div class="progress-bar progress-bar-kitabisa {{ $isFull ? 'bg-success' : '' }}" 
+                                 role="progressbar" 
+                                 style="width: {{ $percent }}%;" 
+                                 aria-valuenow="{{ $percent }}" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100"></div>
+                        </div>
+
+                        <div class="d-flex justify-content-between text-muted small mt-2">
+                            <div>Target: <strong class="text-dark">Rp {{ number_format($campaign['target'], 0, ',', '.') }}</strong></div>
+                            <div><i class="bi bi-people-fill me-1 text-primary"></i><strong class="text-dark">{{ $campaign['donatur_count'] }}</strong> Donatur</div>
+                        </div>
+                    </div>
+
+                    <!-- KONDISI JIKA PROGRESS SUDAH FULL (100%) -->
+                    @if($isFull)
+                        <div class="alert alert-success border-0 rounded-4 p-4 text-center my-2 shadow-sm bg-success bg-opacity-10">
+                            <i class="bi bi-patch-check-fill text-success fs-1 d-block mb-2"></i>
+                            <h5 class="fw-bold text-white mb-2">Alhamdulillah, Target Tercapai 100%!</h5>
+                            <p class="small text-white mb-3" style="line-height: 1.6;">
+                                Dana donasi sebesar <strong>Rp {{ number_format($campaign['target'], 0, ',', '.') }}</strong> telah terpenuhi berkat kepedulian para Orang Baik. Penggalangan dana ini resmi ditutup dan amanah sedang disalurkan ke lapangan.
+                            </p>
+                            <a href="{{ route('donasi.index') }}" class="btn btn-success rounded-pill fw-bold py-2 px-4 w-100 shadow-sm">
+                                <i class="bi bi-heart me-1"></i> Donasi Program Kebaikan Lain
+                            </a>
+                        </div>
+
+                    <!-- KONDISI JIKA DI-TAKEDOWN OLEH ADMIN -->
+                    @elseif($isTakedown)
+                        <div class="alert alert-secondary border-0 rounded-4 p-4 text-center my-2 shadow-sm">
+                            <i class="bi bi-shield-lock-fill text-secondary fs-1 d-block mb-2"></i>
+                            <h5 class="fw-bold text-dark mb-2">Penggalangan Dana Ditutup</h5>
+                            <p class="small text-muted mb-3" style="line-height: 1.6;">
+                                Penggalangan dana untuk program ini telah di-takedown oleh Admin. Terima kasih atas dukungan yang telah diberikan.
+                            </p>
+                            <a href="{{ route('donasi.index') }}" class="btn btn-outline-success rounded-pill fw-bold py-2 px-4 w-100">
+                                <i class="bi bi-arrow-left me-1"></i> Lihat Program Lainnya
+                            </a>
+                        </div>
+
+                    <!-- KONDISI AKTIF: TOMBOL DONASI SEKARANG (REDIRECT KE HALAMAN FORM) -->
+                    @else
+                        <div class="d-grid gap-2 my-2">
+                            <a href="{{ route('donasi.form', ['slug' => $campaign['slug']]) }}" 
+                               class="btn btn-success btn-lg py-3 fw-bold rounded-pill shadow-sm d-flex align-items-center justify-content-center text-white"
+                               style="background: linear-gradient(135deg, #00C89D 0%, #0d5c38 100%); border: none; font-size: 1.15rem;">
+                                <i class="bi bi-heart-fill me-2 fs-5"></i>
+                                <span>Donasi Sekarang!</span>
+                            </a>
+
+                            <button type="button" 
+                                    class="btn btn-outline-secondary rounded-pill py-2 fw-semibold mt-1" 
+                                    onclick="shareCampaign()">
+                                <i class="bi bi-share me-1"></i> Bagikan Program Ini
+                            </button>
+                        </div>
+
+                        <!-- Info Keamanan & Layanan -->
+                        <div class="mt-4 pt-3 border-top text-muted small">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-patch-check-fill text-primary fs-5 me-2"></i>
+                                <span>Penggalang Resmi: <strong>{{ $campaign['organizer'] }}</strong></span>
                             </div>
-                            <div class="col-4">
-                                <div class="nominal-chip active" data-nominal="25000">25.000</div>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="bi bi-shield-check text-success fs-5 me-2"></i>
+                                <span>Donasi 100% amanah & transparan</span>
                             </div>
-                            <div class="col-4">
-                                <div class="nominal-chip" data-nominal="50000">50.000</div>
-                            </div>
-                            <div class="col-4">
-                                <div class="nominal-chip" data-nominal="100000">100.000</div>
-                            </div>
-                            <div class="col-4">
-                                <div class="nominal-chip" data-nominal="250000">250.000</div>
-                            </div>
-                            <div class="col-4">
-                                <div class="nominal-chip" data-nominal="500000">500.000</div>
+                            <div class="d-flex align-items-center">
+                                <i class="bi bi-credit-card-2-front-fill text-info fs-5 me-2"></i>
+                                <span>Didukung oleh <strong>Midtrans Payment Gateway</strong></span>
                             </div>
                         </div>
-
-                        <!-- 2. Nominal Manual -->
-                        <div class="mb-3">
-                            <label class="form-label fw-bold text-dark small">Nominal Donasi Lainnya (Rp)</label>
-                            <input type="number" 
-                                   id="inputNominal" 
-                                   name="nominal" 
-                                   class="form-control custom-nominal-input" 
-                                   value="25000" 
-                                   min="10000" 
-                                   required>
-                            <small class="text-muted" style="font-size: 0.78rem;">Minimal donasi Rp 10.000</small>
-                        </div>
-
-                        <!-- 3. Data Donatur -->
-                        <div class="mb-3" id="groupDonaturName">
-                            <label class="form-label fw-bold text-dark small">
-                                Nama Lengkap Donatur <span class="text-danger" id="nameRequiredStar">*</span>
-                            </label>
-                            <input type="text" 
-                                   name="name" 
-                                   id="inputDonaturName" 
-                                   class="form-control rounded-3 py-2" 
-                                   placeholder="Nama Anda" 
-                                   value="Ahmad Fauzi" 
-                                   required>
-                            <small id="anonimHelperText" class="text-muted d-none mt-1 d-block" style="font-size: 0.78rem;">
-                                <i class="bi bi-shield-check text-success me-1"></i>Nama Anda disembunyikan sebagai <strong>Hamba Allah</strong>.
-                            </small>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-bold text-dark small">Nomor WhatsApp / HP <span class="text-danger">*</span></label>
-                            <input type="text" name="notelp" class="form-control rounded-3 py-2" placeholder="08xxxxxxxxxx" value="081234567890" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label fw-bold text-dark small">Email (Kirim Bukti Donasi)</label>
-                            <input type="email" name="email" class="form-control rounded-3 py-2" placeholder="email@gmail.com" value="donatur@gmail.com">
-                        </div>
-
-                        <!-- 4. Pilihan Anonim (Hamba Allah) -->
-                        <div class="form-check form-switch mb-3 p-2 bg-light rounded-3 border">
-                            <input class="form-check-input ms-0 me-2" type="checkbox" name="anonim" id="anonimCheck" value="Y">
-                            <label class="form-check-label small fw-semibold text-dark" for="anonimCheck">
-                                Sembunyikan nama saya (Hamba Allah)
-                            </label>
-                        </div>
-
-                        <!-- 5. Doa / Pesan Kebaikan -->
-                        <div class="mb-4">
-                            <label class="form-label fw-bold text-dark small">Doa / Dukungan untuk Korban (Opsional)</label>
-                            <textarea name="doa" class="form-control rounded-3" rows="2" placeholder="Tuliskan doa kebaikan Anda di sini..."></textarea>
-                        </div>
-
-                        <!-- Tombol Submit Bayar -->
-                        <button type="button" 
-                                id="btnBayarMidtrans" 
-                                class="btn btn-success btn-lg w-100 py-3 fw-bold rounded-pill shadow-sm"
-                                style="background: linear-gradient(135deg, #00C89D 0%, #0d5c38 100%); border: none;">
-                            <i class="bi bi-heart-fill me-2"></i> Lanjut Pembayaran Donasi
-                        </button>
-
-                        <div class="text-center mt-3">
-                            <small class="text-muted" style="font-size: 0.75rem;">
-                                <i class="bi bi-shield-check text-success me-1"></i> Mendukung QRIS, BCA, Mandiri, BRI, BNI, GoPay & ShopeePay
-                            </small>
-                        </div>
-                    </form>
+                    @endif
 
                 </div>
-                @endif
             </div>
 
         </div>
     </div>
 </section>
 
-<!-- Script Midtrans Snap Sandbox -->
-<script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ $clientKey }}"></script>
-
 @push('scripts')
 <script>
-// Interaksi Pilihan Chip Nominal
-document.querySelectorAll('.nominal-chip').forEach(function(chip) {
-    chip.addEventListener('click', function() {
-        document.querySelectorAll('.nominal-chip').forEach(c => c.classList.remove('active'));
-        this.classList.add('active');
-        document.getElementById('inputNominal').value = this.getAttribute('data-nominal');
-    });
-});
-
-document.getElementById('inputNominal').addEventListener('input', function() {
-    var val = this.value;
-    document.querySelectorAll('.nominal-chip').forEach(function(chip) {
-        if (chip.getAttribute('data-nominal') === val) {
-            chip.classList.add('active');
-        } else {
-            chip.classList.remove('active');
-        }
-    });
-});
-
-// Interaksi Toggle Anonim (Hamba Allah)
-var anonimCheck = document.getElementById('anonimCheck');
-var inputDonaturName = document.getElementById('inputDonaturName');
-var nameRequiredStar = document.getElementById('nameRequiredStar');
-var anonimHelperText = document.getElementById('anonimHelperText');
-var previousName = inputDonaturName ? inputDonaturName.value : '';
-
-if (anonimCheck && inputDonaturName) {
-    anonimCheck.addEventListener('change', function() {
-        if (this.checked) {
-            if (inputDonaturName.value && inputDonaturName.value !== 'Hamba Allah') {
-                previousName = inputDonaturName.value;
-            }
-            inputDonaturName.value = 'Hamba Allah';
-            inputDonaturName.readOnly = true;
-            inputDonaturName.classList.add('bg-light', 'text-muted');
-            inputDonaturName.removeAttribute('required');
-            if (nameRequiredStar) nameRequiredStar.classList.add('d-none');
-            if (anonimHelperText) anonimHelperText.classList.remove('d-none');
-        } else {
-            inputDonaturName.readOnly = false;
-            inputDonaturName.classList.remove('bg-light', 'text-muted');
-            inputDonaturName.value = (previousName && previousName !== 'Hamba Allah') ? previousName : '';
-            inputDonaturName.setAttribute('required', 'required');
-            if (nameRequiredStar) nameRequiredStar.classList.remove('d-none');
-            if (anonimHelperText) anonimHelperText.classList.add('d-none');
-            inputDonaturName.focus();
-        }
-    });
+// Fungsi Bagikan Link Program
+function shareCampaign() {
+    if (navigator.share) {
+        navigator.share({
+            title: "{{ $campaign['title'] }}",
+            text: "Mari bersama kita bantu saudara kita melalui program donasi ini: {{ $campaign['title'] }}",
+            url: window.location.href
+        }).catch(err => console.log('Share dibatalkan'));
+    } else {
+        navigator.clipboard.writeText(window.location.href).then(() => {
+            alert('Tautan program donasi berhasil disalin ke clipboard!');
+        });
+    }
 }
-
-// Submit Form Donasi via Midtrans Snap
-document.getElementById('btnBayarMidtrans').addEventListener('click', function(e) {
-    e.preventDefault();
-
-    var btn = this;
-    var originalText = btn.innerHTML;
-    var form = document.getElementById('campaignDonationForm');
-
-    // Validasi Form sederhana
-    var nominal = parseInt(document.getElementById('inputNominal').value) || 0;
-    if (nominal < 10000) {
-        alert('Mohon masukkan nominal donasi minimal Rp 10.000');
-        return;
-    }
-
-    // Jika tidak anonim dan nama kosong, beri peringatan
-    if (anonimCheck && !anonimCheck.checked && (!inputDonaturName.value || !inputDonaturName.value.trim())) {
-        alert('Mohon isi nama lengkap Anda atau centang Sembunyikan nama (Hamba Allah).');
-        inputDonaturName.focus();
-        return;
-    }
-
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Menghubungkan ke Midtrans...';
-
-    var formData = new FormData(form);
-
-    fetch("{{ route('donasi.snap-token') }}", {
-        method: "POST",
-        body: formData,
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        btn.disabled = false;
-        btn.innerHTML = originalText;
-
-        if (data.status === 'success' && data.snap_token) {
-            // Tampilkan popup pembayaran Midtrans Snap
-            window.snap.pay(data.snap_token, {
-                onSuccess: function(result) {
-                    window.location.href = "{{ route('donasi.finish') }}?order_id=" + data.order_id + "&transaction_status=settlement&status_code=200";
-                },
-                onPending: function(result) {
-                    window.location.href = "{{ route('donasi.finish') }}?order_id=" + data.order_id + "&transaction_status=pending";
-                },
-                onError: function(result) {
-                    alert('Pembayaran donasi gagal atau terjadi kesalahan.');
-                },
-                onClose: function() {
-                    alert('Anda menutup jendela pembayaran sebelum menyelesaikannya.');
-                }
-            });
-        } else {
-            alert('Gagal membuat transaksi Midtrans: ' + (data.message || 'Terjadi kesalahan sistem'));
-        }
-    })
-    .catch(error => {
-        btn.disabled = false;
-        btn.innerHTML = originalText;
-        console.error('Error:', error);
-        alert('Terjadi kesalahan koneksi ke server.');
-    });
-});
 </script>
 @endpush
 @endsection

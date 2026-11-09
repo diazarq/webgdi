@@ -4,7 +4,10 @@
 @push('styles')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 <style>
-    /* Kitabisa Style Palette */
+    .btn-donasi-card {
+        
+    }
+
     .donasi-card {
         transition: transform 0.25s ease, box-shadow 0.25s ease;
         border-radius: 16px;
@@ -121,9 +124,9 @@
         <li><span>/</span></li>
         <li>Katalog Donasi</li>
     </ul>
-    <h2>Pilih Kebaikan & Musibah Bencana</h2>
+    <h2>Satu Bantuan, Sejuta Harapan.</h2>
     <p class="text-white-50 mt-2 mb-0" style="max-width: 650px; margin: 0 auto; font-size: 0.95rem;">
-        Uluran tangan Anda menjadi harapan hidup bagi saudara-saudara kita yang tertimpa musibah dan kesulitan.
+        Sedikit uluran tanganmu adalah napas baru bagi mereka. Salurkan kepedulian sekarang!
     </p>
 </div>
 @endsection
@@ -135,16 +138,16 @@
         <!-- Kategori Filter Tabs (Kitabisa style) -->
         <div class="mb-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="fw-bold mb-0 text-dark">Kategori Program</h5>
+                <h5 class="fw-bold mb-0 text-dark">Kategori Donasi</h5>
             </div>
             <div class="filter-scroll-wrapper">
                 <a href="{{ route('donasi.index', ['kategori' => 'semua']) }}" 
                    class="category-filter-btn {{ $currentCategory == 'semua' ? 'active' : '' }}">
-                    <i class="bi bi-grid-fill"></i> Semua Kebaikan
+                    <i class="bi bi-grid-fill"></i> Semua Donasi
                 </a>
                 <a href="{{ route('donasi.index', ['kategori' => 'bencana-alam']) }}" 
                    class="category-filter-btn {{ $currentCategory == 'bencana-alam' ? 'active' : '' }}">
-                    <i class="bi bi-exclamation-triangle-fill text-danger"></i> Bencana Alam
+                    <i class="bi bi-globe-americas"></i> Bencana Alam
                 </a>
                 <a href="{{ route('donasi.index', ['kategori' => 'medis']) }}" 
                    class="category-filter-btn {{ $currentCategory == 'medis' ? 'active' : '' }}">
