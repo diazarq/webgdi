@@ -1,27 +1,26 @@
 <style>
-    /* Perkecil tinggi area hijau footer (override padding default template) */
+    
     .site-footer__top {
         padding: 40px 0 32px;
     }
 
-    /* Perkecil tinggi bar copyright yang gelap */
+    
     .site-footer__bottom {
         padding: 18px 0 20px;
     }
 
-    /* Perkecil teks copyright */
+    
     .site-footer__bottom-text {
         font-size: 14px;
         line-height: 22px;
     }
 
-    /* Copyright rata kiri (pojok kiri) */
+    
     .site-footer__bottom-inner {
         text-align: left !important;
     }
 
-    /* Rapikan kolom footer: normalisasi padding kolom & sebar rata selebar container
-       agar teks tidak terdorong/numpuk di tengah */
+
     .site-footer__top .row {
         display: flex;
         flex-wrap: wrap;
@@ -35,7 +34,7 @@
         padding-right: 15px;
     }
 
-    /* Hilangkan margin-right bawaan template yang membuat jarak antar kolom tidak merata */
+   
     .site-footer__top .footer-widget__about,
     .site-footer__top .footer-widget__Explore,
     .site-footer__top .footer-widget__Fundraising,
@@ -43,7 +42,7 @@
         margin-right: 0;
     }
 
-    /* Kontak: ikon sejajar dengan baris pertama teks (alamat panjang tetap rapi) */
+   
     .site-footer__top .footer-widget__Contact-list li {
         align-items: flex-start;
     }
@@ -52,13 +51,13 @@
         margin-top: 7px;
     }
 
-    /* Jarak antar item daftar lebih longgar agar mudah dibaca */
+
     .site-footer__top .footer-widget__Explore-list li+li,
     .site-footer__top .footer-widget__Contact-list li+li {
         margin-top: 12px;
     }
 
-    /* Jarak judul kolom ke isi lebih ringkas */
+
     .site-footer__top .footer-widget__title-box {
         margin-bottom: 22px;
     }

@@ -78,6 +78,12 @@
         background: #f0fdf9;
         box-shadow: 0 0 0 1px #0d5c38;
     }
+    .payment-logo {
+        height: 24px;
+        max-width: 75px;
+        object-fit: contain;
+        flex-shrink: 0;
+    }
 </style>
 @endpush
 
@@ -116,7 +122,7 @@
                 <div class="form-section-card">
                     <div class="border-bottom pb-3 mb-4">
                         <h4 class="fw-bold text-dark mb-1">
-                            <i class="bi bi-heart-fill text-success me-2"></i>Tunaikan Donasi Anda
+                        Tunaikan Donasi Anda
                         </h4>
                         <p class="text-muted small mb-0">
                             Silakan isi nominal dan data donatur Anda. Donasi Anda akan disalurkan penuh amanah langsung ke lapangan.
@@ -175,7 +181,7 @@
 
                         <!-- 3. Data Lengkap Donatur -->
                         <h5 class="fw-bold text-dark mb-3">
-                            <i class="bi bi-person-lines-fill text-primary me-2"></i>Data Donatur
+                          Data Donatur
                         </h5>
 
                         <div class="row g-3">
@@ -246,7 +252,7 @@
                                             <div class="fw-bold text-dark small">QRIS (Semua Pembayaran)</div>
                                             <small class="text-muted" style="font-size: 0.75rem;">GoPay, OVO, Dana, ShopeePay, BCA, dll.</small>
                                         </div>
-                                        <i class="bi bi-qr-code fs-4 text-success ms-2"></i>
+                                        <img src="{{ asset('images/payment/qris.png') }}" alt="QRIS" class="payment-logo ms-2">
                                     </label>
                                 </div>
 
@@ -258,7 +264,7 @@
                                             <div class="fw-bold text-dark small">Virtual Account BCA</div>
                                             <small class="text-muted" style="font-size: 0.75rem;">Transfer via m-BCA, KlikBCA, ATM</small>
                                         </div>
-                                        <i class="bi bi-bank fs-4 text-primary ms-2"></i>
+                                        <img src="{{ asset('images/payment/bca.png') }}" alt="BCA" class="payment-logo ms-2">
                                     </label>
                                 </div>
 
@@ -270,7 +276,7 @@
                                             <div class="fw-bold text-dark small">Virtual Account Mandiri</div>
                                             <small class="text-muted" style="font-size: 0.75rem;">Transfer via Livin' by Mandiri, ATM</small>
                                         </div>
-                                        <i class="bi bi-bank fs-4 text-warning ms-2"></i>
+                                        <img src="{{ asset('images/payment/mandiri.svg') }}" alt="Mandiri" class="payment-logo ms-2">
                                     </label>
                                 </div>
 
@@ -282,7 +288,7 @@
                                             <div class="fw-bold text-dark small">Virtual Account BNI</div>
                                             <small class="text-muted" style="font-size: 0.75rem;">Transfer via BNI Mobile, ATM</small>
                                         </div>
-                                        <i class="bi bi-bank fs-4 text-danger ms-2"></i>
+                                        <img src="{{ asset('images/payment/bni.png') }}" alt="BNI" class="payment-logo ms-2">
                                     </label>
                                 </div>
 
@@ -294,7 +300,7 @@
                                             <div class="fw-bold text-dark small">Virtual Account BRI (BRIVA)</div>
                                             <small class="text-muted" style="font-size: 0.75rem;">Transfer via BRImo, ATM</small>
                                         </div>
-                                        <i class="bi bi-bank fs-4 text-info ms-2"></i>
+                                        <img src="{{ asset('images/payment/bri.png') }}" alt="BRI" class="payment-logo ms-2">
                                     </label>
                                 </div>
 
@@ -306,7 +312,7 @@
                                             <div class="fw-bold text-dark small">GoPay / E-Wallet</div>
                                             <small class="text-muted" style="font-size: 0.75rem;">Langsung ke aplikasi Gojek / GoPay</small>
                                         </div>
-                                        <i class="bi bi-phone-fill fs-4 text-success ms-2"></i>
+                                        <img src="{{ asset('images/payment/gopay.svg') }}" alt="GoPay" class="payment-logo ms-2">
                                     </label>
                                 </div>
                             </div>
@@ -316,9 +322,9 @@
                         <div class="d-grid gap-2 mt-4">
                             <button type="button" 
                                     id="btnSubmitDonasi" 
-                                    class="btn btn-success btn-lg py-3 fw-bold rounded-pill shadow-sm"
+                                    class="btn btn-success btn-lg py-3 fw-bold rounded-pill shadow-sm d-flex align-items-center justify-content-center"
                                     style="background: linear-gradient(135deg, #00C89D 0%, #0d5c38 100%); border: none; font-size: 1.15rem;">
-                                <i class="bi bi-credit-card-2-front-fill me-2"></i> Lanjutkan Pembayaran
+                                <iconify-icon icon="keyline-icons:hand-coins-duotone" class="me-2" style="font-size: 1.45rem; vertical-align: middle;"></iconify-icon> Lanjutkan Pembayaran
                             </button>
                         </div>
 
@@ -404,6 +410,8 @@
 @endsection
 
 @push('scripts')
+<!-- Iconify JS CDN -->
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 <!-- Midtrans Snap JS SDK -->
 <script src="{{ ($isProduction ?? false) ? 'https://app.midtrans.com/snap/snap.js' : 'https://app.sandbox.midtrans.com/snap/snap.js' }}" data-client-key="{{ $clientKey }}"></script>
 

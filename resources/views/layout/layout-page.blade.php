@@ -212,6 +212,7 @@
 
     <!-- template js -->
     <script src="{{ asset('website/assets/js/qrowd.js') }}"></script>
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 
     @stack('script')
     @stack('scripts')

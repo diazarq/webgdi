@@ -33,7 +33,7 @@
        ============================================================ */
     .gdi-hero {
         position: relative;
-        padding-top: 100px; /* ruang navbar transparan di atas hero */
+        padding-top: 0; /* Menempel langsung di bawah navbar hijau */
         background: #071a12;
     }
 
@@ -286,7 +286,7 @@
 
     @media (max-width: 767px) {
         .gdi-hero {
-            padding-top: 84px;
+            padding-top: 0;
         }
 
         .gdi-hero__slide .container {

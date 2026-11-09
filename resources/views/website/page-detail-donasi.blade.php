@@ -154,9 +154,6 @@
                                 Rp {{ number_format($campaign['collected'], 0, ',', '.') }}
                             </h3>
                         </div>
-                        <span class="badge bg-success bg-opacity-10 text-success fs-6 px-3 py-1 rounded-pill fw-bold">
-                            {{ $percent }}%
-                        </span>
                     </div>
 
                     <div class="progress progress-kitabisa my-3">
@@ -300,8 +297,7 @@
                             <a href="{{ route('donasi.form', ['slug' => $campaign['slug']]) }}" 
                                class="btn btn-success btn-lg py-3 fw-bold rounded-pill shadow-sm d-flex align-items-center justify-content-center text-white"
                                style="background: linear-gradient(135deg, #00C89D 0%, #0d5c38 100%); border: none; font-size: 1.15rem;">
-                                <i class="bi bi-heart-fill me-2 fs-5"></i>
-                                <span>Donasi Sekarang!</span>
+                                <span>Donasi Sekarang</span>
                             </a>
 
                             <button type="button" 
@@ -313,9 +309,6 @@
 
                         <!-- Info Keamanan & Layanan -->
                         <div class="mt-4 pt-3 border-top text-muted small">
-                            <div class="d-flex align-items-center mb-2">
-                                <i class="bi bi-patch-check-fill text-primary fs-5 me-2"></i>
-                                <span>Penggalang Resmi: <strong>{{ $campaign['organizer'] }}</strong></span>
                             </div>
                             <div class="d-flex align-items-center mb-2">
                                 <i class="bi bi-shield-check text-success fs-5 me-2"></i>

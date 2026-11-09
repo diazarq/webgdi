@@ -1,7 +1,5 @@
 <style>
-    /* ===== Footer ringkas — KHUSUS halaman Wakaf & Hibah =====
-       Gaya "event card": latar krem, logo + judul program di tengah,
-       baris info lokasi/kontak, ikon sosial media bulat, hashtag, copyright. */
+ 
     .site-footer {
         background-color: #faf8f1 !important;
         border-top: 2px solid #d8cdae; /* garis pembatas antara konten halaman & footer */
