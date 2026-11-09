@@ -78,14 +78,24 @@
         border: 1px solid #e2e8f0;
         transition: all 0.2s ease;
         text-decoration: none;
-        display: inline-block;
+        display: inline-flex;
+        align-items: center;
         white-space: nowrap;
+    }
+    .category-filter-btn i {
+        margin-right: 6px;
+        font-size: 1rem;
+        line-height: 1;
+        transition: color 0.2s ease;
     }
     .category-filter-btn:hover, .category-filter-btn.active {
         background: #0d5c38;
         color: #ffffff !important;
         border-color: #0d5c38;
         box-shadow: 0 4px 12px rgba(13, 92, 56, 0.25);
+    }
+    .category-filter-btn:hover i, .category-filter-btn.active i {
+        color: #ffffff !important;
     }
     .filter-scroll-wrapper {
         display: flex;
@@ -130,27 +140,27 @@
             <div class="filter-scroll-wrapper">
                 <a href="{{ route('donasi.index', ['kategori' => 'semua']) }}" 
                    class="category-filter-btn {{ $currentCategory == 'semua' ? 'active' : '' }}">
-                    Semua Kebaikan
+                    <i class="bi bi-grid-fill"></i> Semua Kebaikan
                 </a>
                 <a href="{{ route('donasi.index', ['kategori' => 'bencana-alam']) }}" 
                    class="category-filter-btn {{ $currentCategory == 'bencana-alam' ? 'active' : '' }}">
-                    🚨 Bencana Alam
+                    <i class="bi bi-exclamation-triangle-fill text-danger"></i> Bencana Alam
                 </a>
                 <a href="{{ route('donasi.index', ['kategori' => 'medis']) }}" 
                    class="category-filter-btn {{ $currentCategory == 'medis' ? 'active' : '' }}">
-                    🩺 Bantuan Medis
+                    <i class="bi bi-heart-pulse-fill text-danger"></i> Bantuan Medis
                 </a>
                 <a href="{{ route('donasi.index', ['kategori' => 'yatim-dhuafa']) }}" 
                    class="category-filter-btn {{ $currentCategory == 'yatim-dhuafa' ? 'active' : '' }}">
-                    🧒 Yatim & Dhuafa
+                    <i class="bi bi-people-fill text-primary"></i> Yatim & Dhuafa
                 </a>
                 <a href="{{ route('donasi.index', ['kategori' => 'infrastruktur']) }}" 
                    class="category-filter-btn {{ $currentCategory == 'infrastruktur' ? 'active' : '' }}">
-                    💧 Wakaf & Air Bersih
+                    <i class="bi bi-droplet-fill text-info"></i> Wakaf & Air Bersih
                 </a>
                 <a href="{{ route('donasi.index', ['kategori' => 'pendidikan']) }}" 
                    class="category-filter-btn {{ $currentCategory == 'pendidikan' ? 'active' : '' }}">
-                    📚 Pendidikan
+                    <i class="bi bi-mortarboard-fill text-warning"></i> Pendidikan
                 </a>
             </div>
         </div>

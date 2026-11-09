@@ -71,12 +71,12 @@
                             <label class="form-label fw-bold text-dark">Kategori Donasi <span class="text-danger">*</span></label>
                             <select name="category" class="form-select rounded-3" required>
                                 <option value="">-- Pilih Kategori --</option>
-                                <option value="bencana-alam" {{ old('category', @$campaign['category']) == 'bencana-alam' ? 'selected' : '' }}>🚨 Bencana Alam (Gempa, Banjir, Longsor)</option>
-                                <option value="medis" {{ old('category', @$campaign['category']) == 'medis' ? 'selected' : '' }}>🩺 Bantuan Medis & Kesehatan</option>
-                                <option value="yatim-dhuafa" {{ old('category', @$campaign['category']) == 'yatim-dhuafa' ? 'selected' : '' }}>🧒 Yatim & Dhuafa</option>
-                                <option value="infrastruktur" {{ old('category', @$campaign['category']) == 'infrastruktur' ? 'selected' : '' }}>💧 Wakaf & Air Bersih</option>
-                                <option value="pendidikan" {{ old('category', @$campaign['category']) == 'pendidikan' ? 'selected' : '' }}>📚 Pendidikan & Beasiswa</option>
-                                <option value="kemanusiaan" {{ old('category', @$campaign['category']) == 'kemanusiaan' ? 'selected' : '' }}>🤝 Kemanusiaan Umum</option>
+                                <option value="bencana-alam" {{ old('category', @$campaign['category']) == 'bencana-alam' ? 'selected' : '' }}>Bencana Alam (Gempa, Banjir, Longsor)</option>
+                                <option value="medis" {{ old('category', @$campaign['category']) == 'medis' ? 'selected' : '' }}>Bantuan Medis & Kesehatan</option>
+                                <option value="yatim-dhuafa" {{ old('category', @$campaign['category']) == 'yatim-dhuafa' ? 'selected' : '' }}>Yatim & Dhuafa</option>
+                                <option value="infrastruktur" {{ old('category', @$campaign['category']) == 'infrastruktur' ? 'selected' : '' }}>Wakaf & Air Bersih</option>
+                                <option value="pendidikan" {{ old('category', @$campaign['category']) == 'pendidikan' ? 'selected' : '' }}>Pendidikan & Beasiswa</option>
+                                <option value="kemanusiaan" {{ old('category', @$campaign['category']) == 'kemanusiaan' ? 'selected' : '' }}>Kemanusiaan Umum</option>
                             </select>
                         </div>
 
