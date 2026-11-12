@@ -362,7 +362,7 @@ class DonasiCampaignController extends Controller
         $paymentMethod = $request->payment_method ?: 'VA BCA';
 
         // Simpan transaksi di database lokal status pending
-        $payment = Payment::create([
+        $paymentData = [
             'type'           => substr($campaign, 0, 95),
             'transcode'      => $orderId,
             'name'           => $name,
@@ -377,7 +377,20 @@ class DonasiCampaignController extends Controller
             'digit'          => '0',
             'status'         => 'pending',
             'exp_at'         => date('Y-m-d H:i:s', strtotime('+24 hours')),
-        ]);
+        ];
+
+        try {
+            $payment = Payment::create($paymentData);
+        } catch (\Throwable $e) {
+            // Auto heal jika ada kendala tipe kolom nominal pada MySQL
+            if (str_contains($e->getMessage(), '22003') || str_contains($e->getMessage(), 'nominal')) {
+                try {
+                    \Illuminate\Support\Facades\DB::statement("ALTER TABLE payments MODIFY nominal DECIMAL(20, 2) NULL");
+                } catch (\Throwable $ex) {}
+            }
+            // Coba simpan kembali
+            $payment = Payment::create($paymentData);
+        }
 
         // Payload transaksi untuk Midtrans Snap
         $params = [
@@ -403,15 +416,35 @@ class DonasiCampaignController extends Controller
             ]
         ];
 
-        // Filter otomatis channel Midtrans sesuai metode pilihan donatur
+        // Filter otomatis channel Midtrans sesuai metode pilihan donatur (sesuai simulator Midtrans)
         if (stripos($paymentMethod, 'BCA') !== false) {
             $params['enabled_payments'] = ['bca_va'];
-        } elseif (stripos($paymentMethod, 'Mandiri') !== false) {
-            $params['enabled_payments'] = ['echannel', 'mandiri_va'];
-        } elseif (stripos($paymentMethod, 'BNI') !== false) {
-            $params['enabled_payments'] = ['bni_va'];
         } elseif (stripos($paymentMethod, 'BRI') !== false) {
             $params['enabled_payments'] = ['bri_va'];
+        } elseif (stripos($paymentMethod, 'BNI') !== false) {
+            $params['enabled_payments'] = ['bni_va'];
+        } elseif (stripos($paymentMethod, 'Permata') !== false) {
+            $params['enabled_payments'] = ['permata_va'];
+        } elseif (stripos($paymentMethod, 'CIMB') !== false) {
+            $params['enabled_payments'] = ['cimb_va'];
+        } elseif (stripos($paymentMethod, 'Mandiri') !== false) {
+            $params['enabled_payments'] = ['echannel', 'mandiri_va'];
+        } elseif (stripos($paymentMethod, 'Danamon') !== false) {
+            $params['enabled_payments'] = ['danamon_va', 'other_va'];
+        } elseif (stripos($paymentMethod, 'BSI') !== false) {
+            $params['enabled_payments'] = ['other_va'];
+        } elseif (stripos($paymentMethod, 'SeaBank') !== false) {
+            $params['enabled_payments'] = ['other_va'];
+        } elseif (stripos($paymentMethod, 'Saqu') !== false) {
+            $params['enabled_payments'] = ['other_va'];
+        } elseif (stripos($paymentMethod, 'ShopeePay') !== false) {
+            $params['enabled_payments'] = ['shopeepay', 'qris'];
+        } elseif (stripos($paymentMethod, 'Dana') !== false) {
+            $params['enabled_payments'] = ['qris'];
+        } elseif (stripos($paymentMethod, 'OVO') !== false) {
+            $params['enabled_payments'] = ['qris'];
+        } elseif (stripos($paymentMethod, 'LinkAja') !== false) {
+            $params['enabled_payments'] = ['qris'];
         } elseif (stripos($paymentMethod, 'QRIS') !== false) {
             $params['enabled_payments'] = ['qris', 'gopay', 'shopeepay'];
         } elseif (stripos($paymentMethod, 'GoPay') !== false) {
@@ -433,8 +466,12 @@ class DonasiCampaignController extends Controller
 
                 // Simpan snap_token ke database agar bisa dibuka kembali jika donatur menutup popup
                 if ($snapToken) {
-                    $payment->snap_token = $snapToken;
-                    $payment->save();
+                    try {
+                        $payment->snap_token = $snapToken;
+                        $payment->save();
+                    } catch (\Throwable $e) {
+                        \Illuminate\Support\Facades\Log::warning('Gagal menyimpan snap_token ke database: ' . $e->getMessage());
+                    }
                 }
 
                 return response()->json([

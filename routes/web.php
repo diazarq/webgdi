@@ -231,6 +231,7 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function(){
     /* MONITORING DONASI MASUK (MIDTRANS / KITABISA) */
     Route::get('/donasi-masuk', [PaymentController::class, 'index_donasi'])->name('admin.donasi.index');
     Route::post('/donasi-masuk/table', [PaymentController::class, 'table_donasi'])->name('admin.donasi.table');
+    Route::get('/donasi-masuk/export', [PaymentController::class, 'export_donasi'])->name('admin.donasi.export');
     Route::get('/donasi-masuk/{id}/update', [PaymentController::class, 'update_status_donasi'])->name('admin.donasi.update');
     Route::get('/donasi-masuk/{id}/delete', [PaymentController::class, 'delete_donasi'])->name('admin.donasi.delete');
     

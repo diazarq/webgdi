@@ -122,8 +122,12 @@ class MidtransController extends Controller
                 $data = $response->json();
                 $snapToken = $data['token'] ?? null;
                 if ($snapToken && $payment) {
-                    $payment->snap_token = $snapToken;
-                    $payment->save();
+                    try {
+                        $payment->snap_token = $snapToken;
+                        $payment->save();
+                    } catch (\Throwable $e) {
+                        \Illuminate\Support\Facades\Log::warning('Gagal menyimpan snap_token ke database: ' . $e->getMessage());
+                    }
                 }
                 return response()->json([
                     'status'     => 'success',

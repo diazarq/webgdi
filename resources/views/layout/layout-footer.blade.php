@@ -1,15 +1,7 @@
+
+
+    
 <style>
-    
-    .site-footer__top {
-        padding: 40px 0 32px;
-    }
-
-    
-    .site-footer__bottom {
-        padding: 18px 0 20px;
-    }
-
-    
     .site-footer__bottom-text {
         font-size: 14px;
         line-height: 22px;

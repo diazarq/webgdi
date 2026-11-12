@@ -8,6 +8,8 @@ use App\Models\Bank;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\DonasiMasukExport;
 
 class PaymentController extends Controller
 {
@@ -147,6 +149,18 @@ class PaymentController extends Controller
                 </div>';
             })
             ->make();
+    }
+
+    /**
+     * Export Rekapitulasi Donasi Masuk ke File Excel/Spreadsheet (.xlsx)
+     */
+    public function export_donasi(Request $request)
+    {
+        $dates     = $request->dates ?? null;
+        $transcode = $request->transcode ?? null;
+        $fileName  = 'Rekap_Donasi_Masuk_' . date('Ymd_His') . '.xlsx';
+
+        return Excel::download(new DonasiMasukExport($dates, $transcode), $fileName);
     }
 
     public function update_status_donasi($id)
