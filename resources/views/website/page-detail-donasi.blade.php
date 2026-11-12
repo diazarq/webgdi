@@ -4,6 +4,19 @@
 @push('styles')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 <style>
+    .btn-donasi-lagi {
+        color: #00885a;
+        background-color: #f6fafd;
+        transition: ease-in-out 0.3s;
+    }
+
+    .btn-donasi-lagi:hover {
+        transform: translateY(-2px);
+        background: transparent;
+        border: 1.5px solid #f6fafd;
+        color: #f6fafd;
+    }
+
     .campaign-banner {
         width: 100%;
         border-radius: 20px;
@@ -300,14 +313,14 @@
 
                     <!-- KONDISI JIKA PROGRESS SUDAH FULL (100%) -->
                     @if($isFull)
-                        <div class="alert alert-success border-0 rounded-4 p-4 text-center my-2 shadow-sm bg-success bg-opacity-10">
-                            <i class="bi bi-patch-check-fill text-success fs-1 d-block mb-2"></i>
+                        <div class="alert alert-white border-0 rounded-4 p-4 text-center my-2 shadow-sm bg-success">
+                            <iconify-icon icon="icon-park-solid:success" class="fs-1 mb-2 text-white"></iconify-icon>
                             <h5 class="fw-bold text-white mb-2">Alhamdulillah, Target Tercapai 100%!</h5>
                             <p class="small text-white mb-3" style="line-height: 1.6;">
                                 Dana donasi sebesar <strong>Rp {{ number_format($campaign['target'], 0, ',', '.') }}</strong> telah terpenuhi berkat kepedulian para Orang Baik. Penggalangan dana ini resmi ditutup dan amanah sedang disalurkan ke lapangan.
                             </p>
-                            <a href="{{ route('donasi.index') }}" class="btn btn-success rounded-pill fw-bold py-2 px-4 w-100 shadow-sm">
-                                <i class="bi bi-heart me-1"></i> Donasi Program Kebaikan Lain
+                            <a href="{{ route('donasi.index') }}" class="btn btn-donasi-lagi rounded-pill fw-bold py-3 px-4 w-100 shadow-sm">
+                                <iconify-icon icon="keyline-icons:hand-coins-duotone" class="me-1 fs-5"></iconify-icon> Donasi Program Kebaikan Lain
                             </a>
                         </div>
 

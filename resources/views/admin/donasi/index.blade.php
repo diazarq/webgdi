@@ -20,7 +20,7 @@
     <div class="card border-0 shadow-sm rounded-3 bg-white p-4">
         
         <!-- Header Judul -->
-        <h5 class="fw-bold text-dark mb-3">Kelola Pilihan Donasi (Campaign)</h5>
+        <h5 class="fw-bold text-dark mb-3">Kelola Donasi (Campaign)</h5>
 
         <!-- Tombol Tambah Donasi Baru (Biru sesuai gambar) -->
         <div class="mb-4">
@@ -46,6 +46,7 @@
                         <th style="width: 70px;" class="text-center">Cover</th>
                         <th>Judul Program</th>
                         <th style="width: 240px;">Target & Terkumpul</th>
+                        <th style="width: 90px;" class="text-center">Persentase</th>
                         <th style="width: 100px;">Sisa Hari</th>
                         <th style="width: 90px;" class="text-center">Status</th>
                         <th style="width: 120px;" class="text-center">Aksi</th>
@@ -58,6 +59,7 @@
                             $collected = $item['collected'] ?? 0;
                             $percent = $target > 0 ? min(100, round(($collected / $target) * 100)) : 0;
                             $isTakedown = ($item['status'] ?? 'active') === 'takedown';
+                            $daysLeft = (int) ($item['days_left'] ?? 0);
                         @endphp
                         <tr>
                             <td class="text-center text-muted fw-semibold">{{ $index + 1 }}</td>
@@ -94,9 +96,28 @@
                                 </div>
                             </td>
 
+                            <!-- Persentase -->
+                            <td class="text-center">
+                                <span class="badge {{ $percent >= 100 ? 'bg-success' : ($percent >= 50 ? 'bg-primary' : 'bg-light text-dark border') }} fw-bold px-2 py-1 rounded-2">
+                                    {{ $percent }}%
+                                </span>
+                            </td>
+
                             <!-- Sisa Hari -->
-                            <td class="text-muted fw-semibold">
-                                {{ $item['days_left'] ?? 0 }} Hari
+                            <td class="text-center">
+                                @if($daysLeft <= 0)
+                                    <span class="badge bg-danger text-white px-2 py-1 rounded-2 fw-bold">
+                                        <i class="bi bi-x-circle me-1"></i> Berakhir
+                                    </span>
+                                @elseif($daysLeft <= 5)
+                                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger px-2 py-2 rounded-2 fw-bold" title="Waktu segera berakhir!">
+                                        <i class="bi bi-hourglass-split me-1"></i> {{ $daysLeft }} Hari
+                                    </span>
+                                @else
+                                    <span class="text-muted fw-semibold">
+                                        {{ $daysLeft }} Hari
+                                    </span>
+                                @endif
                             </td>
 
                             <!-- Status -->
@@ -153,7 +174,7 @@ $(document).ready(function() {
         pageLength: 10,
         ordering: true,
         columnDefs: [
-            { orderable: false, targets: [1, 6] } // Non-aktifkan sort pada Cover & Aksi
+            { orderable: false, targets: [1, 7] }
         ],
         language: {
             search: "Search:",

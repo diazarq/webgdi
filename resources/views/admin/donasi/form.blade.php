@@ -20,7 +20,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h4 class="fw-bold mb-1 text-dark">
-                <i class="bi bi-pencil-square text-success me-2"></i>{{ $mode }} Pilihan Donasi (Campaign)
+                <i class="bi bi-pencil-square text-success me-2"></i>{{ $mode }} Donasi (Campaign)
             </h4>
             <p class="text-muted small mb-0">Isi detail informasi musibah, bencana, atau program kebaikan.</p>
         </div>
@@ -55,7 +55,7 @@
 
                     <!-- Judul Program -->
                     <div class="mb-3">
-                        <label class="form-label fw-bold text-dark">Judul Program / Peristiwa Musibah <span class="text-danger">*</span></label>
+                        <label class="form-label fw-bold text-dark">Judul Donasi <span class="text-danger">*</span></label>
                         <input type="text" 
                                name="title" 
                                class="form-control form-control-lg fs-6 rounded-3" 
@@ -137,20 +137,18 @@
                         <small class="text-muted">Nominal target yang ingin dikumpulkan.</small>
                     </div>
 
-                    <!-- Dana Terkumpul Awal -->
-                    <div class="mb-3">
-                        <label class="form-label fw-bold text-dark">Dana Terkumpul Awal (Rp)</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-light fw-bold">Rp</span>
-                            <input type="number" 
-                                   name="collected" 
-                                   class="form-control rounded-end-3" 
-                                   placeholder="0"
-                                   value="{{ old('collected', @$campaign['collected'] ?: 0) }}" 
-                                   min="0">
+                    @if($mode == 'Ubah')
+                        <!-- Info Dana Terkumpul (Read-Only dari Transaksi Masuk) -->
+                        <div class="mb-3 p-3 bg-light rounded-3 border">
+                            <small class="text-muted d-block mb-1">Dana Terkumpul Saat Ini</small>
+                            <h5 class="fw-bold text-success mb-1">
+                                Rp {{ number_format(@$campaign['collected'] ?: 0, 0, ',', '.') }}
+                            </h5>
+                            <small class="text-muted" style="font-size: 0.78rem;">
+                                <i class="bi bi-info-circle me-1"></i>Otomatis terakumulasi dari donasi donatur.
+                            </small>
                         </div>
-                        <small class="text-muted">Jumlah donasi yang telah terkumpul saat ini.</small>
-                    </div>
+                    @endif
 
                     <!-- Sisa Hari -->
                     <div class="mb-3">
@@ -211,8 +209,8 @@
 
                 <!-- TOMBOL SIMPAN -->
                 <div class="d-grid gap-2">
-                    <button type="submit" class="btn btn-success btn-lg py-3 rounded-pill fw-bold shadow-sm">
-                        <i class="bi bi-check2-circle me-1"></i> Simpan Pilihan Donasi
+                    <button type="submit" class="btn btn-primary btn-lg py-3 fw-bold shadow-sm">
+                        <i class="bi bi-check2-circle me-1"></i> Simpan
                     </button>
                     <a href="{{ route('admin.campaign.index') }}" class="btn btn-light rounded-pill py-2">
                         Batal

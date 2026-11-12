@@ -159,27 +159,27 @@
             <div class="filter-scroll-wrapper">
                 <a href="{{ route('donasi.index', ['kategori' => 'semua']) }}" 
                    class="category-filter-btn {{ $currentCategory == 'semua' ? 'active' : '' }}">
-                    <i class="bi bi-grid-fill"></i> Semua Donasi
+                    <iconify-icon icon="material-symbols:tile-medium-rounded" class="me-1 fs-5"></iconify-icon> Semua Donasi
                 </a>
                 <a href="{{ route('donasi.index', ['kategori' => 'bencana-alam']) }}" 
                    class="category-filter-btn {{ $currentCategory == 'bencana-alam' ? 'active' : '' }}">
-                    <i class="bi bi-globe-americas"></i> Bencana Alam
+                    <i class="bi bi-globe-americas fs-6"></i> Bencana Alam
                 </a>
                 <a href="{{ route('donasi.index', ['kategori' => 'medis']) }}" 
                    class="category-filter-btn {{ $currentCategory == 'medis' ? 'active' : '' }}">
-                    <i class="bi bi-heart-pulse-fill text-danger"></i> Bantuan Medis
+                    <i class="bi bi-heart-pulse-fill fs-6"></i> Bantuan Medis
                 </a>
                 <a href="{{ route('donasi.index', ['kategori' => 'yatim-dhuafa']) }}" 
                    class="category-filter-btn {{ $currentCategory == 'yatim-dhuafa' ? 'active' : '' }}">
-                    <i class="bi bi-people-fill text-primary"></i> Yatim & Dhuafa
+                    <i class="bi bi-people-fill fs-6"></i> Yatim & Dhuafa
                 </a>
                 <a href="{{ route('donasi.index', ['kategori' => 'infrastruktur']) }}" 
                    class="category-filter-btn {{ $currentCategory == 'infrastruktur' ? 'active' : '' }}">
-                    <i class="bi bi-droplet-fill text-info"></i> Wakaf & Air Bersih
+                    <iconify-icon icon="material-symbols:water-drops-rounded" class="me-1 fs-5"></iconify-icon> Wakaf & Air Bersih
                 </a>
                 <a href="{{ route('donasi.index', ['kategori' => 'pendidikan']) }}" 
                    class="category-filter-btn {{ $currentCategory == 'pendidikan' ? 'active' : '' }}">
-                    <i class="bi bi-mortarboard-fill text-warning"></i> Pendidikan
+                    <i class="bi bi-mortarboard-fill fs-6"></i> Pendidikan
                 </a>
             </div>
         </div>

@@ -70,20 +70,21 @@ class DonasiCampaignController extends Controller
                 }
 
                 $matchingPayments = $completedPayments->filter(function($p) use ($c) {
-                    if (!empty($p->bank_id) && $p->bank_id == $c['id']) {
-                        return true;
+                    $pType = trim($p->type ?? '');
+                    $cTitle = trim($c['title'] ?? '');
+                    $cSlug = trim($c['slug'] ?? '');
+
+                    // 1. Jika bank_id cocok DAN judul/slug cocok (mencegah ID bank lama mencocokkan program baru)
+                    if (!empty($p->bank_id) && (int)$p->bank_id === (int)$c['id']) {
+                        if ($cTitle && strcasecmp($pType, $cTitle) === 0) return true;
+                        if ($cSlug && strcasecmp($pType, $cSlug) === 0) return true;
+                        if ($cTitle && str_starts_with(strtolower($pType), strtolower($cTitle))) return true;
                     }
-                    if (!empty($p->type)) {
-                        $pType = strtolower($p->type);
-                        $cTitle = strtolower(substr($c['title'] ?? '', 0, 30));
-                        $cSlug = strtolower($c['slug'] ?? '');
-                        if ($cTitle && str_contains($pType, $cTitle)) {
-                            return true;
-                        }
-                        if ($cSlug && str_contains($pType, $cSlug)) {
-                            return true;
-                        }
-                    }
+
+                    // 2. Jika exact match judul atau slug (fallback transaksi lama)
+                    if ($cTitle && strcasecmp($pType, $cTitle) === 0) return true;
+                    if ($cSlug && strcasecmp($pType, $cSlug) === 0) return true;
+
                     return false;
                 });
 

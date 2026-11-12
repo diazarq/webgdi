@@ -134,8 +134,6 @@ class AdminDonasiCampaignController extends Controller
                     $item['category_label'] = $catInfo['label'];
                     $item['category_badge'] = $catInfo['badge'];
                     $item['target']         = (float) $request->target;
-                    $item['base_collected'] = (float) ($request->collected ?? ($item['base_collected'] ?? $item['collected']));
-                    $item['collected']      = (float) ($request->collected ?? $item['collected']);
                     $item['days_left']      = (int) $request->days_left;
                     $item['location']       = $request->location ?: 'Indonesia';
                     $item['short_desc']     = $request->short_desc;
@@ -147,28 +145,30 @@ class AdminDonasiCampaignController extends Controller
             }
             $pesan = 'Program donasi berhasil diperbarui!';
         } else {
-            // Tambah Baru
+            // Tambah Baru: Dana terkumpul & donatur selalu mulai dari 0 (dihitung otomatis dari donasi masuk)
             $maxId = count($campaigns) > 0 ? max(array_column($campaigns, 'id')) : 0;
             $newId = $maxId + 1;
             $slug = Str::slug($request->title) . '-' . Str::random(4);
 
             $newCampaign = [
-                'id'            => $newId,
-                'slug'          => $slug,
-                'title'         => $request->title,
-                'category'      => $request->category,
-                'category_label'=> $catInfo['label'],
-                'category_badge'=> $catInfo['badge'],
-                'image'         => $imagePath,
-                'target'        => (float) $request->target,
-                'collected'     => (float) ($request->collected ?: 0),
-                'donatur_count' => (int) ($request->donatur_count ?: 0),
-                'days_left'     => (int) $request->days_left,
-                'location'      => $request->location ?: 'Indonesia',
-                'organizer'     => 'Yayasan Graha Dhuafa Indonesia',
-                'short_desc'    => $request->short_desc,
-                'story'         => $request->story,
-                'status'        => 'active',
+                'id'                 => $newId,
+                'slug'               => $slug,
+                'title'              => $request->title,
+                'category'           => $request->category,
+                'category_label'     => $catInfo['label'],
+                'category_badge'     => $catInfo['badge'],
+                'image'              => $imagePath,
+                'target'             => (float) $request->target,
+                'base_collected'     => 0,
+                'collected'          => 0,
+                'base_donatur_count' => 0,
+                'donatur_count'      => 0,
+                'days_left'          => (int) $request->days_left,
+                'location'           => $request->location ?: 'Indonesia',
+                'organizer'          => 'Yayasan Graha Dhuafa Indonesia',
+                'short_desc'         => $request->short_desc,
+                'story'              => $request->story,
+                'status'             => $request->status ?? 'active',
             ];
 
             $campaigns[] = $newCampaign;

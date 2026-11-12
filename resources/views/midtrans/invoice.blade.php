@@ -105,11 +105,20 @@
                     <!-- ========================================== -->
                     @if($isComplete)
                         <!-- 1. STATUS LUNAS / BERHASIL (HIJAU) -->
+<<<<<<< Updated upstream
                         <div class="kuitansi-status-banner py-3 px-4 text-center text-white" style="background: linear-gradient(135deg, #06301f 0%, #0d5c38 100%);">
                             <div class="mb-2">
                                 <span class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 58px; height: 58px;">
                                     <!-- Ikon Centang SVG Native: Selalu tampil tajam di print/PDF -->
                                     <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#00885a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+=======
+                        <div class="p-4 text-center text-white invoice-card-header" style="background: linear-gradient(135deg, #06301f 0%, #0d5c38 100%);">
+                            <div class="mb-3">
+                                <span class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center success-badge-pulse" style="width: 76px; height: 76px;">
+                                    <iconify-icon id="successIcon" icon="line-md:circle-to-confirm-circle-transition" class="d-print-none" style="font-size: 52px; color: #198754;"></iconify-icon>
+                                    <!-- Icon Cetak Khusus Print / PDF (Anti Hilang) -->
+                                    <svg class="d-none d-print-inline-block" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#198754" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+>>>>>>> Stashed changes
                                         <polyline points="20 6 9 17 4 12"></polyline>
                                     </svg>
                                 </span>
@@ -397,6 +406,7 @@
 
 <style>
 @media print {
+<<<<<<< Updated upstream
     @page {
         size: A4 portrait;
         margin: 8mm 10mm;
@@ -453,12 +463,31 @@
         padding: 0 !important;
         margin: 0 !important;
         background-color: #ffffff !important;
+=======
+    /* 1. Paksa Browser Mencetak Warna & Background (Tidak Pudar/Putih) */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    body {
+        background-color: #ffffff !important;
+    }
+
+    .no-print, header, footer, .page-header, .thm-breadcrumb, .alert {
+        display: none !important;
+    }
+
+    .py-5 {
+        padding: 0 !important;
+>>>>>>> Stashed changes
     }
 
     .container {
         width: 100% !important;
         max-width: 100% !important;
         padding: 0 !important;
+<<<<<<< Updated upstream
         margin: 0 auto !important;
     }
 
@@ -547,6 +576,33 @@
         margin-top: 10px !important;
         padding-top: 8px !important;
         margin-bottom: 0 !important;
+=======
+    }
+
+    .print-area {
+        box-shadow: none !important;
+        border: 1px solid #d1d5db !important;
+        border-radius: 12px !important;
+        max-width: 580px !important;
+        margin: 0 auto !important;
+        overflow: hidden !important;
+    }
+
+    /* Pastikan Header Kuitansi Tetap Berwarna Hijau Saat Dicetak */
+    .invoice-card-header {
+        background: #0d5c38 !important;
+        background-color: #0d5c38 !important;
+        color: #ffffff !important;
+    }
+
+    .invoice-card-header h4,
+    .invoice-card-header p {
+        color: #ffffff !important;
+    }
+
+    .d-print-inline-block {
+        display: inline-block !important;
+>>>>>>> Stashed changes
     }
 }
 </style>

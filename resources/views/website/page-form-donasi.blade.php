@@ -249,9 +249,6 @@
 
         <div class="row g-4">
 
-            <!-- ========================================== -->
-            <!-- KOLOM KIRI: FORMULIR UTAMA DONASI (LEBAR)   -->
-            <!-- ========================================== -->
             <div class="col-lg-8">
                 <div class="form-section-card">
                     <div class="border-bottom pb-3 mb-4">
