@@ -136,21 +136,22 @@
 
     /* Modal Bagikan Lewat (Style Rumah Zakat) */
     .btn-share-salin {
-        background-color: #f26522 !important;
-        border-color: #f26522 !important;
-        color: #ffffff !important;
+        background-color: #00885a ;
+        border: 1.5px solid #00885a;
+        color: #ffffff ;
         font-weight: 600;
         transition: all 0.25s ease;
     }
     .btn-share-salin:hover {
-        background-color: #d9531e !important;
-        border-color: #d9531e !important;
-        color: #ffffff !important;
-        transform: translateY(-1px);
+        background: transparent;
+        border: 1.5px solid #f26522;
+        color: #f26522;
+        transform: translateY(-2px);
     }
     .btn-share-salin.btn-copied {
-        background-color: #00885a !important;
-        border-color: #00885a !important;
+        background-color: #f26522 !important;
+        border-color: #f26522 !important;
+        color: white !important;
     }
     .share-social-item {
         display: flex;
@@ -164,7 +165,7 @@
         transform: translateY(-4px);
     }
     .share-social-item:hover .share-icon-box {
-        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15) !important;
+        box-shadow: 2px 2px 2px #00885a !important;
     }
     .share-icon-box {
         width: 58px;
@@ -178,6 +179,10 @@
     .share-icon-box i {
         font-size: 1.85rem;
         color: #ffffff;
+    }
+    .share-icon-box iconify-icon {
+        font-size: 2.15rem;
+        display: inline-flex;
     }
     .share-social-label {
         font-size: 0.8rem;
@@ -371,7 +376,7 @@
                                 Dana donasi sebesar <strong>Rp {{ number_format($campaign['target'], 0, ',', '.') }}</strong> telah terpenuhi berkat kepedulian para Orang Baik. Penggalangan dana ini resmi ditutup dan amanah sedang disalurkan ke lapangan.
                             </p>
                             <a href="{{ route('donasi.index') }}" class="btn btn-donasi-lagi rounded-pill fw-bold py-3 px-4 w-100 shadow-sm">
-                                <iconify-icon icon="keyline-icons:hand-coins-duotone" class="me-1 fs-5"></iconify-icon> Donasi Program Kebaikan Lain
+                                <iconify-icon icon="keyline-icons:hand-coins-duotone" class="me-1 fs-5"></iconify-icon> Lihat Penggalangan Donasi
                             </a>
                         </div>
 
@@ -425,13 +430,13 @@
     </div>
 </section>
 
-<!-- Modal Bagikan Lewat (Style Rumah Zakat) -->
+<!-- Modal Bagikan Lewat -->
 <div class="modal fade" id="modalShareDonasi" tabindex="-1" aria-labelledby="modalShareDonasiLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" style="max-width: 460px;">
         <div class="modal-content rounded-4 border-0 shadow-lg overflow-hidden">
             <div class="modal-header border-bottom py-3 px-4 bg-white d-flex align-items-center justify-content-between">
                 <h5 class="modal-title fw-bold text-dark fs-5 mb-0" id="modalShareDonasiLabel">
-                    Bagikan Lewat:
+                    Bagikan Program Donasi Ini:
                 </h5>
                 <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -439,7 +444,7 @@
                 
                 <!-- 1. Social Media -->
                 <div class="mb-4">
-                    <label class="form-label fw-bold text-dark small mb-3">Social Media</label>
+                    <label class="form-label fw-bold text-dark small mb-2">Media Sosial</label>
                     <div class="d-flex align-items-center justify-content-between text-center px-1">
                         <!-- WhatsApp -->
                         <a href="https://api.whatsapp.com/send?text={{ rawurlencode('Mari bersama kita bantu saudara kita melalui program donasi ini: ' . $campaign['title'] . "\n\n" . url('/donasi/' . $campaign['slug'])) }}" 
@@ -455,8 +460,8 @@
                         <a href="javascript:void(0)" 
                            onclick="shareToInstagram()" 
                            class="share-social-item">
-                            <div class="share-icon-box shadow-sm" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);">
-                                <i class="bi bi-instagram"></i>
+                            <div class="share-icon-box shadow-sm ">
+                                <iconify-icon icon="thesvg-color:instagram" style="font-size: 3.4rem; display: inline-flex;"></iconify-icon>
                             </div>
                             <span class="share-social-label">Instagram</span>
                         </a>
@@ -488,7 +493,7 @@
                     <label class="form-label fw-bold text-dark small mb-2">Link</label>
                     <div class="input-group">
                         <span class="input-group-text bg-light border-end-0 text-muted px-3">
-                            <i class="bi bi-link-45deg fs-5"></i>
+                            <iconify-icon icon="mdi:link" class="fs-5"></iconify-icon>
                         </span>
                         <input type="text" id="shareCampaignLinkInput" class="form-control bg-light border-start-0 text-secondary" value="{{ url('/donasi/' . $campaign['slug']) }}" readonly style="font-size: 0.88rem;">
                         <button class="btn btn-share-salin px-4" type="button" onclick="copyShareText('shareCampaignLinkInput', this)">
@@ -502,7 +507,7 @@
                     <label class="form-label fw-bold text-dark small mb-2">Embed</label>
                     <div class="input-group">
                         <span class="input-group-text bg-light border-end-0 text-muted px-3">
-                            <i class="bi bi-code-slash fs-5"></i>
+                            <iconify-icon icon="icomoon-free:embed" class="fs-5"></iconify-icon>
                         </span>
                         <input type="text" id="shareCampaignEmbedInput" class="form-control bg-light border-start-0 text-secondary font-monospace" value='<iframe src="{{ url('/donasi/' . $campaign['slug']) }}" width="100%" height="500" frameborder="0"></iframe>' readonly style="font-size: 0.82rem;">
                         <button class="btn btn-share-salin px-4" type="button" onclick="copyShareText('shareCampaignEmbedInput', this)">

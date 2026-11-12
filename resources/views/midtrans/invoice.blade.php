@@ -6,11 +6,24 @@
     $isFailed = in_array($status, ['failed', 'expire', 'deny', 'cancel']);
 @endphp
 
-@section('title', ($isComplete ? 'Bukti Donasi Berhasil' : ($isPending ? 'Instruksi Pembayaran Donasi' : 'Status Donasi')) . ' - Graha Dhuafa Indonesia')
+@section('title', ($isComplete ? 'Bukti Donasi Berhasil' : ($isPending ? 'Menunggu Pembayaran...' : 'Status Donasi')) . ' - Graha Dhuafa Indonesia')
 
 @push('styles')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 <style>
+    .btn-cancel {
+        transition: ease-in-out 0.4s;
+        background-color: #dc3546;
+        color: white;
+    }
+
+    .btn-cancel:hover {
+        transform: translateY(-2px);
+        background: transparent;
+        color: #dc3546;
+        border: 1.5px solid #dc2626;
+    }
+
     .btn-pembayaran {
         background-color: #00885a !important;
         color: white !important;
@@ -76,27 +89,21 @@
                     </div>
                 @endif
 
-                <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white print-area">
+                <div class="card border-0 shadow rounded-4 overflow-hidden bg-white print-area">
                     
                     <!-- ========================================== -->
                     <!-- KOP SURAT RESMI YAYASAN GRAHA DHUAFA       -->
                     <!-- ========================================== -->
-                    <div class="kuitansi-kop-header p-3 p-md-4 border-bottom bg-white d-flex align-items-center justify-content-between">
+                    <div class="kuitansi-kop-header p-3 p-md-4 border-bottom bg-white d-flex align-items-center justify-content-center">
                         <div class="d-flex align-items-center">
                             <img src="{{ asset('website/assets/images/custom/logo_gdi.png') }}" alt="Graha Dhuafa Indonesia" style="height: 50px; width: auto; object-fit: contain;" class="me-3">
-                            <div>
+                            <div class="text-center">
                                 <h5 class="fw-bold text-dark mb-0" style="letter-spacing: -0.2px; font-size: 1.05rem;">YAYASAN GRAHA DHUAFA INDONESIA</h5>
                                 <small class="text-muted d-block" style="font-size: 0.74rem; line-height: 1.35;">
-                                    Lembaga Filantropi & Pengelolaan Program Donasi Ummat<br>
-                                    SK Kemenkumham RI No. AHU-0010959.AH.01.04.Tahun 2021 &bull; info@grahadhuafa.org
+                                    Lembaga Amil Zakat & Filantropi Sosial Kemanusiaan
                                 </small>
+                                
                             </div>
-                        </div>
-                        <div class="text-end">
-                            <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-1 fs-6 fw-bold">
-                                KUITANSI RESMI
-                            </span>
-                            <small class="text-muted d-block mt-1" style="font-size: 0.7rem;">Dokumen Sah Digital</small>
                         </div>
                     </div>
                     
@@ -105,11 +112,12 @@
                     <!-- ========================================== -->
                     @if($isComplete)
                         <!-- 1. STATUS LUNAS / BERHASIL (HIJAU) -->
-                        <div class="kuitansi-status-banner py-3 px-4 text-center text-white" style="background: linear-gradient(135deg, #06301f 0%, #0d5c38 100%);">
-                            <div class="mb-2">
-                                <span class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 58px; height: 58px;">
-                                    <!-- Ikon Centang SVG Native: Selalu tampil tajam di print/PDF -->
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#00885a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <div class="p-4 text-center text-white invoice-card-header kuitansi-status-banner" style="background: linear-gradient(135deg, #06301f 0%, #0d5c38 100%);">
+                            <div class="mb-3">
+                                <span class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center success-badge-pulse shadow-sm" style="width: 72px; height: 72px;">
+                                    <iconify-icon id="successIcon" icon="line-md:circle-to-confirm-circle-transition" class="d-print-none" style="font-size: 48px; color: #00885a;"></iconify-icon>
+                                    <!-- Icon Cetak Khusus Print / PDF (Anti Hilang) -->
+                                    <svg class="d-none d-print-inline-block" width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="#00885a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                                         <polyline points="20 6 9 17 4 12"></polyline>
                                     </svg>
                                 </span>
@@ -163,7 +171,7 @@
                                     <div>
                                         <div class="fw-bold text-dark mb-1">Transaksi Belum Selesai</div>
                                         <small class="text-muted d-block" style="line-height: 1.4;">
-                                            Jika Anda tadi menutup jendela pembayaran, Anda dapat mengklik tombol <strong>Lanjutkan Pembayaran</strong> di bawah untuk membuka kembali instruksi nomor VA / QRIS, atau klik <strong>Cek Status Pembayaran</strong> jika Anda sudah mentransfer.
+                                            Jika Anda tadi menutup jendela pembayaran, Anda dapat mengklik tombol <strong>Lanjutkan Pembayaran</strong> di bawah untuk melanjutkan pembayaran atau klik <strong>Cek Status Pembayaran</strong> jika Anda sudah mentransfer.
                                         </small>
                                     </div>
                                 </div>
@@ -173,7 +181,7 @@
                                 <div class="d-flex align-items-start">
                                     <i class="bi bi-x-octagon-fill text-danger fs-5 me-2 mt-1"></i>
                                     <div>
-                                        <div class="fw-bold text-dark mb-1">Donasi Belum Terpotong</div>
+                                        <div class="fw-bold text-dark mb-1">Donasi Gagal!</div>
                                         <small class="text-muted d-block" style="line-height: 1.4;">
                                             Pembayaran donasi ini tidak berhasil diselesaikan. Jangan khawatir, saldo Anda tidak terpotong. Anda dapat mengulangi donasi dengan menekan tombol di bawah.
                                         </small>
@@ -189,16 +197,16 @@
                                 <span class="fw-bold font-monospace text-dark" style="font-size: 0.95rem;">{{ $payment->transcode }}</span>
                             </div>
                             @if($isComplete)
-                                <span class="badge bg-success px-3 py-1 rounded-pill fw-bold" style="font-size: 0.85rem;">
+                                <span class="badge bg-success px-3 py-1 rounded-pill fw-bold d-inline-flex align-items-center" style="font-size: 0.85rem;">
                                     <i class="bi bi-check-circle-fill me-1"></i> LUNAS
                                 </span>
                             @elseif($isPending)
-                                <span class="badge bg-warning text-dark px-3 py-1 rounded-pill fw-bold" style="font-size: 0.85rem;">
-                                    <i class="bi bi-hourglass-split me-1"></i> PENDING
+                                <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold d-inline-flex align-items-center" style="font-size: 0.85rem;">
+                                    <iconify-icon icon="icon-park-solid:time" class="me-1" style="font-size: 1rem; line-height: 1;"></iconify-icon> PENDING
                                 </span>
                             @else
-                                <span class="badge bg-danger px-3 py-1 rounded-pill fw-bold" style="font-size: 0.85rem;">
-                                    <i class="bi bi-x-circle-fill me-1"></i> GAGAL / EXPIRED
+                                <span class="badge bg-danger px-3 py-2 rounded-pill fw-bold d-inline-flex align-items-center" style="font-size: 0.85rem;">
+                                    <iconify-icon icon="at-icons:danger" class="align-middle lh-1 me-1"></iconify-icon> GAGAL / EXPIRED
                                 </span>
                             @endif
                         </div>
@@ -273,11 +281,11 @@
                                 <div class="row align-items-center g-2">
                                     <div class="col-7">
                                         <div class="d-flex align-items-start">
-                                            <i class="bi bi-shield-check text-success fs-4 me-2 mt-0"></i>
+                                            <iconify-icon icon="material-symbols:shield-locked" class="fs-4 me-2 mt-0 text-success"></iconify-icon>
                                             <div>
-                                                <small class="fw-bold text-dark d-block" style="font-size: 0.8rem;">Penyaluran Sah & Amanah</small>
+                                                <small class="fw-bold text-dark d-block" style="font-size: 0.8rem;">Transaksi Tercatat & Terverifikasi.</small>
                                                 <small class="text-muted d-block" style="font-size: 0.7rem; line-height: 1.3;">
-                                                    Donasi ini telah diverifikasi otomatis oleh payment gateway dan tercatat resmi di database Yayasan Graha Dhuafa Indonesia untuk disalurkan sesuai amanah.
+                                                    Dana Anda telah diterima dan tercatat resmi di sistem Yayasan Graha Dhuafa Indonesia untuk disalurkan secara amanah dan tepat sasaran.
                                                 </small>
                                             </div>
                                         </div>
@@ -297,24 +305,19 @@
 
                             @if($isComplete)
                                 <!-- KONDISI 1: SUKSES / LUNAS -->
-                                <div class="d-flex flex-column flex-sm-row gap-2">
-                                    <button onclick="window.print()" class="btn btn-outline-success w-100 py-2 fw-semibold">
+                                <div class="d-flex flex-column flex-sm-row gap-2 mt-4">
+                                    <button onclick="window.print()" class="btn btn-outline-success w-100 py-2 fw-semibold rounded-pill">
                                         <i class="bi bi-printer me-1"></i> Cetak Bukti Donasi (PDF)
                                     </button>
                                     @if(!empty($campaignSlug))
-                                        <a href="{{ route('donasi.detail', $campaignSlug) }}" class="btn btn-success w-100 py-2 fw-semibold">
-                                            <i class="bi bi-arrow-repeat me-1"></i> Donasi Lagi
+                                        <a href="{{ route('donasi.detail', $campaignSlug) }}" class="btn btn-pembayaran w-100 py-2 fw-semibold rounded-pill">
+                                            <iconify-icon icon="keyline-icons:hand-coins-duotone" class="me-1"></iconify-icon> Donasi Lagi
                                         </a>
                                     @else
-                                        <a href="{{ route('donasi.index') }}" class="btn btn-success w-100 py-2 fw-semibold">
+                                        <a href="{{ route('donasi.index') }}" class="btn btn-pembayaran w-100 py-2 fw-semibold rounded-pill">
                                             <i class="bi bi-arrow-repeat me-1"></i> Donasi Lagi
                                         </a>
                                     @endif
-                                </div>
-                                <div class="mt-2">
-                                    <button type="button" class="btn btn-outline-primary w-100 py-2 fw-semibold" data-bs-toggle="modal" data-bs-target="#modalShareDonasi">
-                                        <i class="bi bi-share me-1"></i> Bagikan Program Donasi Ini
-                                    </button>
                                 </div>
 
                             @elseif($isPending)
@@ -338,10 +341,10 @@
 
                                     <!-- Tombol Batalkan Pembayaran -->
                                     <button type="button" 
-                                            class="btn btn-link text-danger text-decoration-none small text-center"
+                                            class="btn btn-cancel fw-semibold rounded-pill d-flex align-items-center justify-content-center py-3"
                                             data-bs-toggle="modal" 
                                             data-bs-target="#modalBatalPembayaran">
-                                        <i class="bi bi-x-circle me-1"></i> Batalkan Pembayaran Ini
+                                        <iconify-icon icon="maki:cross" class="align-middle lh-1 me-2"></iconify-icon> Batalkan Pembayaran
                                     </button>
                                 </div>
 
@@ -349,11 +352,10 @@
                                 <!-- KONDISI 3: GAGAL / KADALUWARSA -->
                                 <div class="d-grid gap-2">
                                     <a href="{{ !empty($campaignSlug) ? route('donasi.form', $campaignSlug) : route('donasi.index') }}" 
-                                       class="btn btn-success btn-lg py-3 fw-bold rounded-pill shadow-sm d-flex align-items-center justify-content-center"
-                                       style="background: #00885a; border: none;">
+                                       class="btn btn-pembayaran btn-lg py-3 fw-bold rounded-pill shadow-sm d-flex align-items-center justify-content-center">
                                         <i class="bi bi-arrow-repeat me-2 fs-5"></i> Ulangi Donasi Sekarang
                                     </a>
-                                    <a href="{{ route('donasi.index') }}" class="btn btn-outline-secondary py-2 fw-semibold rounded-pill text-center">
+                                    <a href="{{ route('donasi.index') }}" class="btn btn-outline-secondary py-3 fw-semibold rounded-pill text-center">
                                         <i class="bi bi-grid-fill me-1"></i> Pilih Program Donasi Lainnya
                                     </a>
                                 </div>
@@ -553,6 +555,11 @@
         margin: 8mm 10mm;
     }
 
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
     /* 1. Sembunyikan elemen web, navigasi, breadcrumb, footer, kursor tema, dan tombol */
     .no-print, 
     header, 
@@ -563,6 +570,7 @@
     .thm-breadcrumb, 
     .page-header, 
     .alert-dismissible,
+    .alert,
     .btn,
     nav,
     .scroll-to-target,
@@ -600,7 +608,7 @@
         background: #ffffff !important;
     }
 
-    section.py-5 {
+    section.py-5, .py-5 {
         padding: 0 !important;
         margin: 0 !important;
         background-color: #ffffff !important;
@@ -650,12 +658,20 @@
         height: 44px !important;
     }
 
-    .kuitansi-status-banner {
+    .invoice-card-header, .kuitansi-status-banner {
         padding: 12px 18px !important;
-        background: #00885a !important;
-        background: linear-gradient(135deg, #06301f 0%, #0d5c38 100%) !important;
+        background: #0d5c38 !important;
+        background-color: #0d5c38 !important;
+        color: #ffffff !important;
         -webkit-print-color-adjust: exact !important;
         print-color-adjust: exact !important;
+    }
+
+    .invoice-card-header h4,
+    .invoice-card-header p,
+    .kuitansi-status-banner h4,
+    .kuitansi-status-banner p {
+        color: #ffffff !important;
     }
 
     .kuitansi-status-banner .rounded-circle {
@@ -666,11 +682,6 @@
     .kuitansi-status-banner svg {
         width: 28px !important;
         height: 28px !important;
-    }
-
-    .kuitansi-status-banner h4 {
-        font-size: 1.15rem !important;
-        margin-bottom: 2px !important;
     }
 
     .kuitansi-body-content {
@@ -698,6 +709,10 @@
         margin-top: 10px !important;
         padding-top: 8px !important;
         margin-bottom: 0 !important;
+    }
+
+    .d-print-inline-block {
+        display: inline-block !important;
     }
 }
 </style>
@@ -765,6 +780,20 @@ function shareToInstagramInvoice(link) {
 <!-- Midtrans Snap JS untuk memunculkan kembali popup pembayaran jika donatur ingin melanjutkan -->
 <script src="{{ (config('services.midtrans.is_production') ?? false) ? 'https://app.midtrans.com/snap/snap.js' : 'https://app.sandbox.midtrans.com/snap/snap.js' }}" data-client-key="{{ config('services.midtrans.client_key') ?? env('MIDTRANS_CLIENT_KEY') }}"></script>
 <script>
+    function restorePageScroll() {
+        document.body.classList.remove('modal-open');
+        document.body.style.removeProperty('overflow');
+        document.body.style.removeProperty('padding-right');
+        document.documentElement.style.removeProperty('overflow');
+        document.querySelectorAll('.modal-backdrop').forEach(function(el) {
+            el.remove();
+        });
+        var snapContainer = document.getElementById('snap-midtrans');
+        if (snapContainer) {
+            snapContainer.style.display = 'none';
+        }
+    }
+
     function triggerSnapPayment() {
         if (!window.snap) return;
 
@@ -773,18 +802,15 @@ function shareToInstagramInvoice(link) {
                 window.location.href = "{{ route('donasi.finish') }}?order_id={{ $payment->transcode }}&transaction_status=settlement&status_code=200";
             },
             onPending: function(result) {
-                window.location.reload();
+                // Di halaman invoice pending, jangan refresh halaman saat popup ditutup
+                restorePageScroll();
             },
             onError: function(result) {
                 window.location.href = "{{ route('donasi.finish') }}?order_id={{ $payment->transcode }}&transaction_status=deny";
             },
             onClose: function() {
-                // Munculkan popup konfirmasi apakah ingin membatalkan pembayaran
-                var modalEl = document.getElementById('modalBatalPembayaran');
-                if (modalEl && window.bootstrap) {
-                    var modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
-                    modalInstance.show();
-                }
+                // Saat ditutup oleh donatur, cukup pulihkan scroll halaman
+                restorePageScroll();
             }
         });
     }
@@ -797,7 +823,7 @@ function shareToInstagramInvoice(link) {
         });
     }
 
-    // Tombol "Tidak" pada Modal (Tidak Batal -> Lanjutkan Pembayaran)
+    // Tombol "Tidak" pada Modal (Tidak Batal -> Tetap di Halaman Ini, Jangan Buka Snap Lagi)
     var btnTidak = document.getElementById('btnKonfirmasiBatalTidak');
     if (btnTidak) {
         btnTidak.addEventListener('click', function() {
@@ -806,10 +832,14 @@ function shareToInstagramInvoice(link) {
                 var modalInstance = bootstrap.Modal.getInstance(modalEl);
                 if (modalInstance) modalInstance.hide();
             }
+            restorePageScroll();
+        });
+    }
 
-            setTimeout(function() {
-                triggerSnapPayment();
-            }, 250);
+    var modalBatalEl = document.getElementById('modalBatalPembayaran');
+    if (modalBatalEl) {
+        modalBatalEl.addEventListener('hidden.bs.modal', function() {
+            restorePageScroll();
         });
     }
 </script>

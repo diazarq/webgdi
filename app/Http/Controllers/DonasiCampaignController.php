@@ -507,13 +507,18 @@ class DonasiCampaignController extends Controller
         if ($orderId) {
             $payment = Payment::where('transcode', $orderId)->first();
             if ($payment) {
-                if (in_array($transactionStatus, ['settlement', 'capture']) || $request->status_code == '200') {
-                    $payment->status = 'complete';
-                    $payment->save();
-                } elseif (in_array($transactionStatus, ['deny', 'cancel', 'expire'])) {
-                    $payment->status = 'failed';
-                    $payment->save();
+                try {
+                    if (in_array($transactionStatus, ['settlement', 'capture']) || $request->status_code == '200') {
+                        $payment->status = 'complete';
+                        $payment->save();
+                    } elseif (in_array($transactionStatus, ['deny', 'cancel', 'expire']) || in_array($request->status_code, ['202', '407', '408'])) {
+                        $payment->status = 'failed';
+                        $payment->save();
+                    }
+                } catch (\Throwable $e) {
+                    \Log::error('Gagal update status transaksi finish: ' . $e->getMessage());
                 }
+
                 return redirect()->route('donasi.invoice', ['transcode' => $orderId]);
             }
         }

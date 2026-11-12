@@ -192,10 +192,11 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
+        flex-shrink: 0;
     }
     .payment-logo {
-        max-width: 100%;
-        max-height: 100%;
+        max-width: 64px;
+        max-height: 26px;
         object-fit: contain;
     }
 
@@ -365,38 +366,35 @@
                             <!-- Hidden Input untuk kirim nilai metode pembayaran ke server -->
                             <input type="hidden" name="payment_method" id="selectedPaymentMethodInput" value="">
 
-                            <!-- Trigger Box (Persis contoh Rumah Zakat) -->
+                            <!-- Trigger Box -->
                             <div id="btnTriggerPaymentModal" 
-                                 class="payment-trigger-box d-flex align-items-center justify-content-between cursor-pointer bg-white" 
+                                 class="payment-trigger-box border rounded-3 p-3 d-flex align-items-center justify-content-between cursor-pointer bg-white" 
                                  data-bs-toggle="modal" 
                                  data-bs-target="#modalPaymentMethod">
                                 <div class="d-flex align-items-center flex-grow-1 overflow-hidden me-2">
-                                    <div id="placeholderPaymentIcon" class="me-2 text-muted">
-                                        <i class="bi bi-credit-card-2-front fs-5"></i>
+                                    <div id="placeholderPaymentIcon" class="d-inline-flex align-items-center justify-content-center flex-shrink-0 me-2 text-muted">
+                                        <iconify-icon icon="ion:card" class="fs-4 align-middle lh-1"></iconify-icon>
                                     </div>
-                                    <div id="selectedPaymentLogoContainer" class="payment-logo-box me-2 d-none">
+                                    <div id="selectedPaymentLogoContainer" class="payment-logo-box justify-content-center flex-shrink-0 me-2 d-none">
                                         <img src="" alt="" id="selectedPaymentLogoImg" class="payment-logo">
                                     </div>
                                     <div class="overflow-hidden">
-                                        <div class="fw-semibold text-secondary text-truncate" id="selectedPaymentLabel" style="font-size: 0.95rem;">
+                                        <div class="fw-semibold text-secondary text-truncate" id="selectedPaymentLabel">
                                             Klik dan pilih metode pembayaran
                                         </div>
-                                        <small class="text-muted d-none" id="selectedPaymentSublabel" style="font-size: 0.75rem;"></small>
+                                        <small class="text-muted d-none" id="selectedPaymentSublabel"></small>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center flex-shrink-0 text-muted">
-                                    <span class="badge bg-success-subtle text-success border border-success-subtle me-2 d-none" id="badgeSelectedReady" style="font-size: 0.72rem;">
-                                        <i class="bi bi-check2-circle me-1"></i>Terpilih
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle me-2 d-none" id="badgeSelectedReady">
+                                        <iconify-icon icon="material-symbols:check-circle" class="align-middle lh-1 me-1"></iconify-icon>Terpilih
                                     </span>
                                     <i class="bi bi-chevron-right fs-6"></i>
                                 </div>
                             </div>
 
-                            <div class="mt-2" style="font-size: 0.8rem;">
-                                <span class="text-danger fw-bold">Penting:</span> <span class="text-muted">Setiap payment memiliki minimal transaksi yang berbeda</span>
-                            </div>
-                            <small id="paymentValidationMsg" class="text-danger d-none mt-1 fw-medium" style="font-size: 0.8rem;">
-                                <i class="bi bi-exclamation-circle me-1"></i>Mohon Pilih Metode Pembayaran
+                            <small id="paymentValidationMsg" class="text-danger d-none mt-1 fw-medium d-block">
+                                <i class="bi bi-exclamation-circle me-1"></i>Mohon Pilih Metode Pembayaran Anda
                             </small>
                         </div>
 
@@ -492,12 +490,9 @@
 
 <!-- Modal Popup: Metode Pembayaran (Style Rumah Zakat) -->
 <div class="modal fade" id="modalPaymentMethod" tabindex="-1" aria-labelledby="modalPaymentMethodLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-width: 540px;">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" style="max-width: 760px;">
         <div class="modal-content rounded-4 border-0 shadow-lg overflow-hidden">
             <div class="modal-header border-bottom py-3 px-4 bg-white sticky-top d-flex align-items-center">
-                <button type="button" class="btn btn-link text-dark p-0 me-3 text-decoration-none shadow-none" data-bs-dismiss="modal" aria-label="Close">
-                    <i class="bi bi-arrow-left fs-4"></i>
-                </button>
                 <h5 class="modal-title fw-bold text-dark fs-5 mb-0" id="modalPaymentMethodLabel">
                     Metode Pembayaran
                 </h5>
@@ -512,23 +507,18 @@
                         <div class="payment-group-header p-3 d-flex align-items-center justify-content-between cursor-pointer" data-target="group-qris">
                             <div class="flex-grow-1 pe-2">
                                 <div class="d-flex align-items-center gap-2 flex-wrap">
-                                    <span class="fw-bold text-dark fs-6">QRIS & E-Wallet</span>
+                                    <span class="fw-bold text-dark fs-6">QRIS</span>
                                     <span class="badge bg-success-subtle text-success border border-success-subtle selected-indicator d-none" id="badge-qris" style="font-size: 0.7rem;">
                                         <i class="bi bi-check2-circle me-1"></i><span class="selected-text">QRIS</span>
                                     </span>
                                 </div>
                                 <div class="text-muted small mt-1" style="font-size: 0.78rem;">
-                                    (Minimal Transaksi 10.000) &bull; <span class="text-success fw-medium">*Dicek Otomatis</span>
-                                </div>
-                                <div class="small mt-1" style="font-size: 0.74rem;">
-                                    <span class="text-danger fw-semibold">QRIS</span> <span class="text-secondary">(GoPay, ShopeePay, Dana, OVO, LinkAja, dll)</span>
+                                    (Minimal Transaksi 10.000) 
                                 </div>
                             </div>
                             <div class="d-flex align-items-center ms-2 flex-shrink-0">
                                 <div class="d-none d-sm-flex align-items-center gap-1 me-2">
-                                    <img src="{{ asset('images/payment/qris.png') }}" alt="QRIS" style="height: 15px; max-width: 30px; object-fit: contain;">
-                                    <img src="{{ asset('images/payment/Gopay.svg') }}" alt="GoPay" style="height: 14px; max-width: 30px; object-fit: contain;">
-                                    <img src="{{ asset('images/payment/dana.svg') }}" alt="DANA" style="height: 14px; max-width: 30px; object-fit: contain;">
+                                    <img src="{{ asset('images/payment/QRIS.svg') }}" alt="QRIS" style="height: 34px; max-width: 35px; object-fit: contaiain;">
                                 </div>
                                 <i class="bi bi-chevron-down group-chevron text-muted fs-5"></i>
                             </div>
@@ -541,84 +531,16 @@
                                     <label class="payment-method-card d-flex align-items-center p-3 w-100 mb-0">
                                         <input type="radio" name="modal_payment_radio" value="QRIS" class="form-check-input me-3 my-0 flex-shrink-0">
                                         <div class="flex-grow-1 pe-2">
-                                            <div class="fw-bold text-dark small method-title" style="line-height: 1.3;">QRIS (Semua Pembayaran)</div>
+                                            <div class="fw-bold text-dark small method-title" style="line-height: 1.3;">QRIS</div>
                                             <small class="text-muted d-block" style="font-size: 0.74rem; line-height: 1.3;">Scan barcode via GoPay, ShopeePay, Dana, OVO, LinkAja, BCA, dll.</small>
                                         </div>
                                         <div class="payment-logo-box ms-auto flex-shrink-0">
-                                            <img src="{{ asset('images/payment/qris.png') }}" alt="QRIS" class="payment-logo">
+                                            <img src="{{ asset('images/payment/QRIS.svg') }}" alt="QRIS" class="payment-logo">
                                         </div>
                                     </label>
                                 </div>
 
-                                <!-- 2. GoPay -->
-                                <div class="col-12 col-md-6">
-                                    <label class="payment-method-card h-100 d-flex align-items-center p-3 w-100 mb-0">
-                                        <input type="radio" name="modal_payment_radio" value="QRIS GoPay" class="form-check-input me-3 my-0 flex-shrink-0">
-                                        <div class="flex-grow-1 pe-2">
-                                            <div class="fw-bold text-dark small method-title" style="line-height: 1.3;">GoPay</div>
-                                            <small class="text-muted d-block" style="font-size: 0.74rem; line-height: 1.3;">Scan via aplikasi Gojek & GoPay</small>
-                                        </div>
-                                        <div class="payment-logo-box ms-auto flex-shrink-0">
-                                            <img src="{{ asset('images/payment/Gopay.svg') }}" alt="GoPay" class="payment-logo">
-                                        </div>
-                                    </label>
-                                </div>
-
-                                <!-- 3. ShopeePay -->
-                                <div class="col-12 col-md-6">
-                                    <label class="payment-method-card h-100 d-flex align-items-center p-3 w-100 mb-0">
-                                        <input type="radio" name="modal_payment_radio" value="QRIS ShopeePay" class="form-check-input me-3 my-0 flex-shrink-0">
-                                        <div class="flex-grow-1 pe-2">
-                                            <div class="fw-bold text-dark small method-title" style="line-height: 1.3;">ShopeePay</div>
-                                            <small class="text-muted d-block" style="font-size: 0.74rem; line-height: 1.3;">Scan via aplikasi ShopeePay & Shopee</small>
-                                        </div>
-                                        <div class="payment-logo-box ms-auto flex-shrink-0">
-                                            <img src="{{ asset('images/payment/shopeepay.svg') }}" alt="ShopeePay" class="payment-logo">
-                                        </div>
-                                    </label>
-                                </div>
-
-                                <!-- 4. Dana -->
-                                <div class="col-12 col-md-6">
-                                    <label class="payment-method-card h-100 d-flex align-items-center p-3 w-100 mb-0">
-                                        <input type="radio" name="modal_payment_radio" value="QRIS Dana" class="form-check-input me-3 my-0 flex-shrink-0">
-                                        <div class="flex-grow-1 pe-2">
-                                            <div class="fw-bold text-dark small method-title" style="line-height: 1.3;">Dana</div>
-                                            <small class="text-muted d-block" style="font-size: 0.74rem; line-height: 1.3;">Scan via dompet digital DANA</small>
-                                        </div>
-                                        <div class="payment-logo-box ms-auto flex-shrink-0">
-                                            <img src="{{ asset('images/payment/dana.svg') }}" alt="Dana" class="payment-logo">
-                                        </div>
-                                    </label>
-                                </div>
-
-                                <!-- 5. OVO -->
-                                <div class="col-12 col-md-6">
-                                    <label class="payment-method-card h-100 d-flex align-items-center p-3 w-100 mb-0">
-                                        <input type="radio" name="modal_payment_radio" value="QRIS OVO" class="form-check-input me-3 my-0 flex-shrink-0">
-                                        <div class="flex-grow-1 pe-2">
-                                            <div class="fw-bold text-dark small method-title" style="line-height: 1.3;">OVO</div>
-                                            <small class="text-muted d-block" style="font-size: 0.74rem; line-height: 1.3;">Scan via aplikasi OVO & Grab</small>
-                                        </div>
-                                        <div class="payment-logo-box ms-auto flex-shrink-0">
-                                            <img src="{{ asset('images/payment/ovo.svg') }}" alt="OVO" class="payment-logo">
-                                        </div>
-                                    </label>
-                                </div>
-
-                                <!-- 6. LinkAja -->
-                                <div class="col-12 col-md-6">
-                                    <label class="payment-method-card h-100 d-flex align-items-center p-3 w-100 mb-0">
-                                        <input type="radio" name="modal_payment_radio" value="QRIS LinkAja" class="form-check-input me-3 my-0 flex-shrink-0">
-                                        <div class="flex-grow-1 pe-2">
-                                            <div class="fw-bold text-dark small method-title" style="line-height: 1.3;">LinkAja</div>
-                                            <small class="text-muted d-block" style="font-size: 0.74rem; line-height: 1.3;">Scan via aplikasi LinkAja</small>
-                                        </div>
-                                        <div class="payment-logo-box ms-auto flex-shrink-0">
-                                            <img src="{{ asset('images/payment/linkaja.svg') }}" alt="LinkAja" class="payment-logo">
-                                        </div>
-                                    </label>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -634,10 +556,7 @@
                                     </span>
                                 </div>
                                 <div class="text-muted small mt-1" style="font-size: 0.78rem;">
-                                    (Minimal Transaksi 10.000) &bull; <span class="text-success fw-medium">*Dicek Otomatis</span>
-                                </div>
-                                <div class="small mt-1" style="font-size: 0.74rem;">
-                                    <span class="text-danger fw-semibold">BCA, BRI, BNI, Permata, CIMB, Mandiri, Danamon, BSI, SeaBank, Saqu</span>
+                                    (Minimal Transaksi 10.000)
                                 </div>
                             </div>
                             <div class="d-flex align-items-center ms-2 flex-shrink-0">
@@ -796,7 +715,7 @@
                         </div>
                     </div>
 
-                    <!-- 3. KELOMPOK EWALLET (GoPay) -->
+                    <!-- 3. KELOMPOK EWALLET -->
                     <div class="payment-group-card overflow-hidden shadow-sm" id="card-group-ewallet">
                         <div class="payment-group-header p-3 d-flex align-items-center justify-content-between cursor-pointer" data-target="group-ewallet">
                             <div class="flex-grow-1 pe-2">
@@ -807,15 +726,14 @@
                                     </span>
                                 </div>
                                 <div class="text-muted small mt-1" style="font-size: 0.78rem;">
-                                    (Minimal Transaksi 10.000) &bull; <span class="text-success fw-medium">*Dicek Otomatis</span>
-                                </div>
-                                <div class="small mt-1" style="font-size: 0.74rem;">
-                                    <span class="text-danger fw-semibold">GoPay</span> <span class="text-secondary">(OVO, DANA, ShopeePay via QRIS)</span>
+                                    (Minimal Transaksi 10.000)
                                 </div>
                             </div>
                             <div class="d-flex align-items-center ms-2 flex-shrink-0">
-                                <div class="payment-logo-box me-2 d-none d-sm-flex">
-                                    <img src="{{ asset('images/payment/Gopay.svg') }}" alt="GoPay" class="payment-logo">
+                                <div class="d-none d-sm-flex align-items-center gap-2 me-2">
+                                    <img src="{{ asset('images/payment/Gopay.svg') }}" alt="GoPay" style="height: 15px; max-width: 32px; object-fit: contain;">
+                                    <img src="{{ asset('images/payment/ovo.svg') }}" alt="OVO" style="height: 15px; max-width: 32px; object-fit: contain;">
+                                    <img src="{{ asset('images/payment/shopeepay.svg') }}" alt="ShopeePay" style="height: 15px; max-width: 32px; object-fit: contain;">
                                 </div>
                                 <i class="bi bi-chevron-down group-chevron text-muted fs-5"></i>
                             </div>
@@ -823,13 +741,13 @@
                         
                         <div class="payment-group-content border-top p-3 bg-light-subtle" id="group-ewallet">
                             <div class="row g-2">
-                                <!-- GoPay -->
-                                <div class="col-12">
-                                    <label class="payment-method-card d-flex align-items-center p-3 w-100 mb-0">
-                                        <input type="radio" name="modal_payment_radio" value="GoPay" class="form-check-input me-3 my-0 flex-shrink-0">
+                                <!-- 2. GoPay -->
+                                <div class="col-12 col-md-6">
+                                    <label class="payment-method-card h-100 d-flex align-items-center p-3 w-100 mb-0">
+                                        <input type="radio" name="modal_payment_radio" value="QRIS GoPay" class="form-check-input me-3 my-0 flex-shrink-0">
                                         <div class="flex-grow-1 pe-2">
                                             <div class="fw-bold text-dark small method-title" style="line-height: 1.3;">GoPay</div>
-                                            <small class="text-muted d-block" style="font-size: 0.74rem; line-height: 1.3;">Aplikasi Gojek & GoPay App</small>
+                                            <small class="text-muted d-block" style="font-size: 0.74rem; line-height: 1.3;">Scan via aplikasi Gojek & GoPay</small>
                                         </div>
                                         <div class="payment-logo-box ms-auto flex-shrink-0">
                                             <img src="{{ asset('images/payment/Gopay.svg') }}" alt="GoPay" class="payment-logo">
@@ -837,10 +755,60 @@
                                     </label>
                                 </div>
 
-                                <div class="col-12 mt-2">
-                                    <small class="text-muted d-block" style="font-size: 0.72rem;">
-                                        <i class="bi bi-info-circle me-1 text-primary"></i>Untuk e-wallet lain (OVO, DANA, ShopeePay, LinkAja), silakan gunakan menu <strong>QRIS</strong> di atas.
-                                    </small>
+                                <!-- 3. ShopeePay -->
+                                <div class="col-12 col-md-6">
+                                    <label class="payment-method-card h-100 d-flex align-items-center p-3 w-100 mb-0">
+                                        <input type="radio" name="modal_payment_radio" value="QRIS ShopeePay" class="form-check-input me-3 my-0 flex-shrink-0">
+                                        <div class="flex-grow-1 pe-2">
+                                            <div class="fw-bold text-dark small method-title" style="line-height: 1.3;">ShopeePay</div>
+                                            <small class="text-muted d-block" style="font-size: 0.74rem; line-height: 1.3;">Scan via aplikasi ShopeePay & Shopee</small>
+                                        </div>
+                                        <div class="payment-logo-box ms-auto flex-shrink-0">
+                                            <img src="{{ asset('images/payment/shopeepay.svg') }}" alt="ShopeePay" class="payment-logo">
+                                        </div>
+                                    </label>
+                                </div>
+
+                                <!-- 4. Dana -->
+                                <div class="col-12 col-md-6">
+                                    <label class="payment-method-card h-100 d-flex align-items-center p-3 w-100 mb-0">
+                                        <input type="radio" name="modal_payment_radio" value="QRIS Dana" class="form-check-input me-3 my-0 flex-shrink-0">
+                                        <div class="flex-grow-1 pe-2">
+                                            <div class="fw-bold text-dark small method-title" style="line-height: 1.3;">Dana</div>
+                                            <small class="text-muted d-block" style="font-size: 0.74rem; line-height: 1.3;">Scan via dompet digital DANA</small>
+                                        </div>
+                                        <div class="payment-logo-box ms-auto flex-shrink-0">
+                                            <img src="{{ asset('images/payment/dana.svg') }}" alt="Dana" class="payment-logo">
+                                        </div>
+                                    </label>
+                                </div>
+
+                                <!-- 5. OVO -->
+                                <div class="col-12 col-md-6">
+                                    <label class="payment-method-card h-100 d-flex align-items-center p-3 w-100 mb-0">
+                                        <input type="radio" name="modal_payment_radio" value="QRIS OVO" class="form-check-input me-3 my-0 flex-shrink-0">
+                                        <div class="flex-grow-1 pe-2">
+                                            <div class="fw-bold text-dark small method-title" style="line-height: 1.3;">OVO</div>
+                                            <small class="text-muted d-block" style="font-size: 0.74rem; line-height: 1.3;">Scan via aplikasi OVO & Grab</small>
+                                        </div>
+                                        <div class="payment-logo-box ms-auto flex-shrink-0">
+                                            <img src="{{ asset('images/payment/ovo.svg') }}" alt="OVO" class="payment-logo">
+                                        </div>
+                                    </label>
+                                </div>
+
+                                <!-- 6. LinkAja -->
+                                <div class="col-12 col-md-6">
+                                    <label class="payment-method-card h-100 d-flex align-items-center p-3 w-100 mb-0">
+                                        <input type="radio" name="modal_payment_radio" value="QRIS LinkAja" class="form-check-input me-3 my-0 flex-shrink-0">
+                                        <div class="flex-grow-1 pe-2">
+                                            <div class="fw-bold text-dark small method-title" style="line-height: 1.3;">LinkAja</div>
+                                            <small class="text-muted d-block" style="font-size: 0.74rem; line-height: 1.3;">Scan via aplikasi LinkAja</small>
+                                        </div>
+                                        <div class="payment-logo-box ms-auto flex-shrink-0">
+                                            <img src="{{ asset('images/payment/linkaja.svg') }}" alt="LinkAja" class="payment-logo">
+                                        </div>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -1157,13 +1125,49 @@ function openSnapPayment(snapToken, orderId) {
             window.location.href = "{{ route('donasi.finish') }}?order_id=" + orderId + "&transaction_status=deny";
         },
         onClose: function() {
-            // Ketika donatur menutup popup sebelum selesai, munculkan modal konfirmasi pembatalan
+            // Ketika donatur menutup popup sebelum selesai, bersihkan style overflow dari Snap
+            restorePageScroll();
+
+            // Munculkan modal konfirmasi pembatalan
             var modalBatalEl = document.getElementById('modalBatalPembayaran');
             if (modalBatalEl && window.bootstrap) {
                 var modalBatal = bootstrap.Modal.getOrCreateInstance(modalBatalEl);
                 modalBatal.show();
             }
         }
+    });
+}
+
+// Fungsi Helper: Mengembalikan scroll halaman jika tertahan oleh Midtrans Snap / Bootstrap Modal
+function restorePageScroll() {
+    document.body.classList.remove('modal-open');
+    document.body.style.removeProperty('overflow');
+    document.body.style.removeProperty('padding-right');
+    document.documentElement.style.removeProperty('overflow');
+    
+    // Hapus sisa-sisa backdrop gelap yang tertinggal
+    document.querySelectorAll('.modal-backdrop').forEach(function(el) {
+        el.remove();
+    });
+
+    // Bersihkan iframe snap jika masih ada
+    var snapContainer = document.getElementById('snap-midtrans');
+    if (snapContainer) {
+        snapContainer.style.display = 'none';
+    }
+}
+
+// Pasang listener saat modal ditutup agar scroll halaman selalu normal kembali
+var modalBatalEl = document.getElementById('modalBatalPembayaran');
+if (modalBatalEl) {
+    modalBatalEl.addEventListener('hidden.bs.modal', function() {
+        restorePageScroll();
+    });
+}
+var modalPaymentEl = document.getElementById('modalPaymentMethod');
+if (modalPaymentEl) {
+    modalPaymentEl.addEventListener('hidden.bs.modal', function() {
+        restorePageScroll();
     });
 }
 
@@ -1176,6 +1180,10 @@ if (btnBatalYa) {
             var modalBatal = bootstrap.Modal.getInstance(modalBatalEl);
             if (modalBatal) modalBatal.hide();
         }
+
+        // Pulihkan scroll halaman secara instan dan setelah animasi modal selesai
+        restorePageScroll();
+        setTimeout(restorePageScroll, 350);
 
         var btn = document.getElementById('btnSubmitDonasi');
         if (btn) {

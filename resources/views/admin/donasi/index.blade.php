@@ -110,8 +110,8 @@
                                         <i class="bi bi-x-circle me-1"></i> Berakhir
                                     </span>
                                 @elseif($daysLeft <= 5)
-                                    <span class="badge bg-danger bg-opacity-10 text-danger border border-danger px-2 py-2 rounded-2 fw-bold" title="Waktu segera berakhir!">
-                                        <i class="bi bi-hourglass-split me-1"></i> {{ $daysLeft }} Hari
+                                    <span class="badge bg-warning bg-opacity-10 text-warning border border-warning px-2 py-2 rounded-2 fw-bold" title="Waktu segera berakhir!">
+                                        <iconify-icon icon="ic:outline-access-time-filled"></iconify-icon> {{ $daysLeft }} Hari
                                     </span>
                                 @else
                                     <span class="text-muted fw-semibold">

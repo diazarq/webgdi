@@ -79,6 +79,9 @@
       <script src="{{ asset('admin/assets/plugins/imperavi/redactorx/imageposition.min.js?build230') }}"></script>
       <script src="{{ asset('admin/assets/js/main.js') }}"></script>
       
+      <!-- Iconify Web Component Global -->
+      <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+
       @stack('scripts')
 
     </body>
