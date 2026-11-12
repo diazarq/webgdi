@@ -105,20 +105,11 @@
                     <!-- ========================================== -->
                     @if($isComplete)
                         <!-- 1. STATUS LUNAS / BERHASIL (HIJAU) -->
-<<<<<<< Updated upstream
                         <div class="kuitansi-status-banner py-3 px-4 text-center text-white" style="background: linear-gradient(135deg, #06301f 0%, #0d5c38 100%);">
                             <div class="mb-2">
                                 <span class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center shadow-sm" style="width: 58px; height: 58px;">
                                     <!-- Ikon Centang SVG Native: Selalu tampil tajam di print/PDF -->
                                     <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#00885a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-=======
-                        <div class="p-4 text-center text-white invoice-card-header" style="background: linear-gradient(135deg, #06301f 0%, #0d5c38 100%);">
-                            <div class="mb-3">
-                                <span class="bg-white rounded-circle d-inline-flex align-items-center justify-content-center success-badge-pulse" style="width: 76px; height: 76px;">
-                                    <iconify-icon id="successIcon" icon="line-md:circle-to-confirm-circle-transition" class="d-print-none" style="font-size: 52px; color: #198754;"></iconify-icon>
-                                    <!-- Icon Cetak Khusus Print / PDF (Anti Hilang) -->
-                                    <svg class="d-none d-print-inline-block" width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#198754" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
->>>>>>> Stashed changes
                                         <polyline points="20 6 9 17 4 12"></polyline>
                                     </svg>
                                 </span>
@@ -320,6 +311,11 @@
                                         </a>
                                     @endif
                                 </div>
+                                <div class="mt-2">
+                                    <button type="button" class="btn btn-outline-primary w-100 py-2 fw-semibold" data-bs-toggle="modal" data-bs-target="#modalShareDonasi">
+                                        <i class="bi bi-share me-1"></i> Bagikan Program Donasi Ini
+                                    </button>
+                                </div>
 
                             @elseif($isPending)
                                 <!-- KONDISI 2: PENDING (TOMBOL INTERAKTIF NYATA) -->
@@ -404,9 +400,154 @@
     </div>
 </div>
 
+@php
+    $shareUrl = !empty($campaignSlug) ? url('/donasi/' . $campaignSlug) : url('/donasi');
+    $shareTitle = !empty($campaign) ? (is_array($campaign) ? ($campaign['title'] ?? '') : ($campaign->title ?? '')) : ($payment->type ?? 'Program Donasi');
+@endphp
+<!-- Modal Bagikan Lewat (Style Rumah Zakat) -->
+<div class="modal fade" id="modalShareDonasi" tabindex="-1" aria-labelledby="modalShareDonasiLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 460px;">
+        <div class="modal-content rounded-4 border-0 shadow-lg overflow-hidden">
+            <div class="modal-header border-bottom py-3 px-4 bg-white d-flex align-items-center justify-content-between">
+                <h5 class="modal-title fw-bold text-dark fs-5 mb-0" id="modalShareDonasiLabel">
+                    Bagikan Lewat:
+                </h5>
+                <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4 bg-white text-start">
+                
+                <!-- 1. Social Media -->
+                <div class="mb-4">
+                    <label class="form-label fw-bold text-dark small mb-3">Social Media</label>
+                    <div class="d-flex align-items-center justify-content-between text-center px-1">
+                        <!-- WhatsApp -->
+                        <a href="https://api.whatsapp.com/send?text={{ rawurlencode('Mari bersama kita bantu saudara kita melalui program donasi ini: ' . $shareTitle . "\n\n" . $shareUrl) }}" 
+                           target="_blank" 
+                           class="share-social-item">
+                            <div class="share-icon-box shadow-sm" style="background-color: #25D366;">
+                                <i class="bi bi-whatsapp"></i>
+                            </div>
+                            <span class="share-social-label">WhatsApp</span>
+                        </a>
+
+                        <!-- Instagram -->
+                        <a href="javascript:void(0)" 
+                           onclick="shareToInstagramInvoice('{{ $shareUrl }}')" 
+                           class="share-social-item">
+                            <div class="share-icon-box shadow-sm" style="background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);">
+                                <i class="bi bi-instagram"></i>
+                            </div>
+                            <span class="share-social-label">Instagram</span>
+                        </a>
+
+                        <!-- Facebook -->
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ rawurlencode($shareUrl) }}" 
+                           target="_blank" 
+                           class="share-social-item">
+                            <div class="share-icon-box shadow-sm" style="background-color: #1877F2;">
+                                <i class="bi bi-facebook"></i>
+                            </div>
+                            <span class="share-social-label">Facebook</span>
+                        </a>
+
+                        <!-- Twitter / X -->
+                        <a href="https://twitter.com/intent/tweet?text={{ rawurlencode('Mari bersama kita bantu: ' . $shareTitle) }}&url={{ rawurlencode($shareUrl) }}" 
+                           target="_blank" 
+                           class="share-social-item">
+                            <div class="share-icon-box shadow-sm" style="background-color: #000000;">
+                                <i class="bi bi-twitter-x"></i>
+                            </div>
+                            <span class="share-social-label">Twitter</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- 2. Link -->
+                <div class="mb-3">
+                    <label class="form-label fw-bold text-dark small mb-2">Link</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0 text-muted px-3">
+                            <i class="bi bi-link-45deg fs-5"></i>
+                        </span>
+                        <input type="text" id="shareInvoiceLinkInput" class="form-control bg-light border-start-0 text-secondary" value="{{ $shareUrl }}" readonly style="font-size: 0.88rem;">
+                        <button class="btn btn-share-salin px-4" type="button" onclick="copyShareTextInvoice('shareInvoiceLinkInput', this)">
+                            Salin
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. Embed -->
+                <div>
+                    <label class="form-label fw-bold text-dark small mb-2">Embed</label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-light border-end-0 text-muted px-3">
+                            <i class="bi bi-code-slash fs-5"></i>
+                        </span>
+                        <input type="text" id="shareInvoiceEmbedInput" class="form-control bg-light border-start-0 text-secondary font-monospace" value='<iframe src="{{ $shareUrl }}" width="100%" height="500" frameborder="0"></iframe>' readonly style="font-size: 0.82rem;">
+                        <button class="btn btn-share-salin px-4" type="button" onclick="copyShareTextInvoice('shareInvoiceEmbedInput', this)">
+                            Salin
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
+/* Style Bagikan Lewat */
+.btn-share-salin {
+    background-color: #f26522 !important;
+    border-color: #f26522 !important;
+    color: #ffffff !important;
+    font-weight: 600;
+    transition: all 0.25s ease;
+}
+.btn-share-salin:hover {
+    background-color: #d9531e !important;
+    border-color: #d9531e !important;
+    color: #ffffff !important;
+    transform: translateY(-1px);
+}
+.btn-share-salin.btn-copied {
+    background-color: #00885a !important;
+    border-color: #00885a !important;
+}
+.share-social-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none !important;
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+.share-social-item:hover {
+    transform: translateY(-4px);
+}
+.share-social-item:hover .share-icon-box {
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15) !important;
+}
+.share-icon-box {
+    width: 58px;
+    height: 58px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+.share-icon-box i {
+    font-size: 1.85rem;
+    color: #ffffff;
+}
+.share-social-label {
+    font-size: 0.8rem;
+    color: #4b5563;
+    font-weight: 600;
+    margin-top: 6px;
+}
 @media print {
-<<<<<<< Updated upstream
     @page {
         size: A4 portrait;
         margin: 8mm 10mm;
@@ -463,31 +604,12 @@
         padding: 0 !important;
         margin: 0 !important;
         background-color: #ffffff !important;
-=======
-    /* 1. Paksa Browser Mencetak Warna & Background (Tidak Pudar/Putih) */
-    * {
-        -webkit-print-color-adjust: exact !important;
-        print-color-adjust: exact !important;
-    }
-
-    body {
-        background-color: #ffffff !important;
-    }
-
-    .no-print, header, footer, .page-header, .thm-breadcrumb, .alert {
-        display: none !important;
-    }
-
-    .py-5 {
-        padding: 0 !important;
->>>>>>> Stashed changes
     }
 
     .container {
         width: 100% !important;
         max-width: 100% !important;
         padding: 0 !important;
-<<<<<<< Updated upstream
         margin: 0 auto !important;
     }
 
@@ -576,33 +698,6 @@
         margin-top: 10px !important;
         padding-top: 8px !important;
         margin-bottom: 0 !important;
-=======
-    }
-
-    .print-area {
-        box-shadow: none !important;
-        border: 1px solid #d1d5db !important;
-        border-radius: 12px !important;
-        max-width: 580px !important;
-        margin: 0 auto !important;
-        overflow: hidden !important;
-    }
-
-    /* Pastikan Header Kuitansi Tetap Berwarna Hijau Saat Dicetak */
-    .invoice-card-header {
-        background: #0d5c38 !important;
-        background-color: #0d5c38 !important;
-        color: #ffffff !important;
-    }
-
-    .invoice-card-header h4,
-    .invoice-card-header p {
-        color: #ffffff !important;
-    }
-
-    .d-print-inline-block {
-        display: inline-block !important;
->>>>>>> Stashed changes
     }
 }
 </style>
@@ -610,6 +705,61 @@
 
 @push('scripts')
 <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+
+<script>
+// Fungsi Salin Link atau Embed Code pada Invoice
+function copyShareTextInvoice(inputId, btn) {
+    var input = document.getElementById(inputId);
+    if (!input) return;
+
+    input.select();
+    input.setSelectionRange(0, 99999);
+    
+    var textToCopy = input.value;
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(textToCopy).then(function() {
+            showCopySuccessInvoice(btn);
+        }).catch(function() {
+            fallbackCopyInvoice(input, btn);
+        });
+    } else {
+        fallbackCopyInvoice(input, btn);
+    }
+}
+
+function showCopySuccessInvoice(btn) {
+    var originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="bi bi-check2 me-1"></i> Tersalin!';
+    btn.classList.add('btn-copied');
+
+    setTimeout(function() {
+        btn.innerHTML = originalText;
+        btn.classList.remove('btn-copied');
+    }, 2000);
+}
+
+function fallbackCopyInvoice(input, btn) {
+    input.focus();
+    input.select();
+    try {
+        document.execCommand('copy');
+        showCopySuccessInvoice(btn);
+    } catch (err) {
+        alert('Gagal menyalin otomatis, silakan salin secara manual.');
+    }
+}
+
+function shareToInstagramInvoice(link) {
+    if (navigator.clipboard) {
+        navigator.clipboard.writeText(link).then(function() {
+            alert("Tautan program donasi telah disalin!\n\nSilakan buka aplikasi Instagram Anda dan tempelkan tautan ini pada Bio, Story, atau Direct Message.");
+            window.open('https://www.instagram.com/', '_blank');
+        });
+    } else {
+        window.open('https://www.instagram.com/', '_blank');
+    }
+}
+</script>
 
 @if($isPending && !empty($payment->snap_token))
 <!-- Midtrans Snap JS untuk memunculkan kembali popup pembayaran jika donatur ingin melanjutkan -->

@@ -22,16 +22,6 @@
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10">
 
-<<<<<<< Updated upstream
-=======
-                <!-- Alert Sandbox Info -->
-                <div class="alert alert-success border-0 shadow-sm rounded-4 mb-4 p-3 d-flex align-items-center bg-white" role="alert">
-                    <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 48px; height: 48px; min-width: 48px;">
-                        <i class="bi bi-heart-fill fs-4"></i>
-                    </div>
-                    <div>
-
->>>>>>> Stashed changes
                 <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
                     <div class="card-header text-white p-5 text-center" style="background: linear-gradient(135deg, #06301f 0%, #0d5c38 100%);">
                         <h4 class="mb-1 text-white fw-bold">Ayo Berdonasi!</h4>
