@@ -373,6 +373,10 @@
     <div class="row align-items-center">
         <div class="col-lg-8">
             <div class="mb-3">
+                <span class="tag-portal-pill">
+                    <span class="tag-dot-glow"></span>
+                    {{ $user->isVolunteer() ? 'PORTAL SAHABAT BAIK' : ($user->isAffiliate() ? 'PORTAL MITRA AMIL ZAKAT' : 'PORTAL ADMINISTRATOR') }}
+                </span>
             </div>
             <h2 class="fw-bold mb-2 text-white">Selamat Datang, {{ $user->name }}!</h2>
             <p class="text-white opacity-90 mb-4" style="font-size: 0.95rem; line-height: 1.6; max-width: 620px;">
@@ -397,6 +401,64 @@
         </div>
     </div>
 </section>
+
+@if($user->isAffiliate())
+<!-- CARD KHUSUS PROGRAM AFILIASI MITRA -->
+<section class="card border-0 shadow-sm mb-4" style="border-radius: 22px; background: #ffffff; border: 1.5px solid #fed7aa !important; overflow: hidden;">
+    <div class="p-4" style="background: linear-gradient(135deg, #fffbeb 0%, #ffffff 100%); border-bottom: 1px solid #fed7aa;">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <div class="d-flex align-items-center gap-3">
+                <div style="width: 44px; height: 44px; border-radius: 12px; background: #fef3c7; color: #d97706; display: flex; align-items: center; justify-content: center; font-size: 1.4rem;">
+                    <i class="bi bi-link-45deg"></i>
+                </div>
+                <div>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge bg-warning text-dark fw-bold px-2 py-1 rounded-pill" style="font-size: 0.7rem;">PROGRAM AFILIASI MITRA</span>
+                    </div>
+                    <h5 class="fw-bold text-dark mb-0 mt-1">Tautan & Kode Donasi Afiliasi: {{ $user->instansi ?? $user->name }}</h5>
+                    <small class="text-muted">Sebarkan tautan referral donasi ini untuk jamaah, komunitas, atau donatur Anda.</small>
+                </div>
+            </div>
+            <div>
+                <div class="p-2 px-3 bg-white rounded-4 border border-warning-subtle d-inline-flex align-items-center gap-2 shadow-sm">
+                    <span class="text-muted small fw-semibold">Kode Referral:</span>
+                    <strong class="text-primary fs-5">{{ strtoupper($user->username) }}</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-4">
+        <div class="row g-3 align-items-center">
+            <div class="col-lg-8">
+                <label class="form-label small fw-bold text-secondary mb-1">Tautan Donasi Resmi GDI Anda:</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-globe text-warning"></i></span>
+                    <input type="text" class="form-control bg-light border-start-0 border-end-0 fw-semibold text-dark" id="inputAffiliateLink" value="{{ url('/donasi?ref=' . $user->username) }}" readonly>
+                    <button class="btn btn-warning fw-bold px-4 rounded-end-3" type="button" onclick="copyAffiliateLink()">
+                        <i class="bi bi-clipboard me-1" id="copyIcon"></i> <span id="copyText">Salin Link</span>
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-4 d-flex align-items-end">
+                @php
+                    $waText = urlencode("Bismillah, mari salurkan sedekah dan kepedulian terbaik Anda bersama " . ($user->instansi ?? $user->name) . " melalui Yayasan Graha Dhuafa Indonesia. Tautan resmi: " . url('/donasi?ref=' . $user->username));
+                @endphp
+                <a href="https://api.whatsapp.com/send?text={{ $waText }}" target="_blank" class="btn btn-success fw-bold w-100 py-2 rounded-3 shadow-sm d-flex align-items-center justify-content-center gap-2">
+                    <i class="bi bi-whatsapp fs-5"></i> Bagikan ke WhatsApp
+                </a>
+            </div>
+        </div>
+
+        <div class="mt-3 p-3 bg-light rounded-3 small text-muted d-flex align-items-center gap-2">
+            <i class="bi bi-info-circle-fill text-warning fs-5 flex-shrink-0"></i>
+            <div>
+                Setiap donatur yang berdonasi melalui tautan ini akan otomatis terdata di bawah naungan kemitraan <strong>{{ $user->instansi ?? $user->name }}</strong>.
+            </div>
+        </div>
+    </div>
+</section>
+@endif
 
 <!-- 2. STATS 4 COUNTERS -->
 <section class="row g-3 mb-4">
@@ -578,3 +640,29 @@
     </div>
 </section>
 @endsection
+
+@push('scripts')
+<script>
+    function copyAffiliateLink() {
+        var copyInput = document.getElementById("inputAffiliateLink");
+        if (!copyInput) return;
+
+        copyInput.select();
+        copyInput.setSelectionRange(0, 99999);
+        navigator.clipboard.writeText(copyInput.value).then(function() {
+            var btnText = document.getElementById("copyText");
+            var btnIcon = document.getElementById("copyIcon");
+            if (btnText && btnIcon) {
+                btnText.innerText = "✓ Tersalin!";
+                btnIcon.classList.remove("bi-clipboard");
+                btnIcon.classList.add("bi-check2");
+                setTimeout(function() {
+                    btnText.innerText = "Salin Link";
+                    btnIcon.classList.remove("bi-check2");
+                    btnIcon.classList.add("bi-clipboard");
+                }, 2000);
+            }
+        });
+    }
+</script>
+@endpush
