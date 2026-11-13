@@ -36,12 +36,12 @@ class User extends Authenticatable
 
     public function isVolunteer()
     {
-        return $this->role_type === 'volunteer';
+        return $this->role_type === 'volunteer' || $this->level == 2;
     }
 
     public function isAffiliate()
     {
-        return $this->role_type === 'affiliate';
+        return $this->role_type === 'affiliate' || $this->level == 3;
     }
 
     public function isAdmin()
