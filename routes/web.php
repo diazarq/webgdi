@@ -94,6 +94,10 @@ Route::get('/z/logout', [PortalAuthController::class, 'logout'])->name('portal.l
 
 Route::group(['prefix' => 'portal', 'middleware' => ['auth']], function() {
     Route::get('/dashboard', [PortalDashboardController::class, 'index'])->name('portal.dashboard');
+    Route::get('/program/{slug}', [PortalDashboardController::class, 'programDetail'])->name('portal.volunteer.program.detail');
+    Route::get('/program/{slug}/daftar', [PortalDashboardController::class, 'programForm'])->name('portal.volunteer.program.form');
+    Route::post('/program/{slug}/daftar', [PortalDashboardController::class, 'registerProgramBySlug'])->name('portal.volunteer.program.register');
+    Route::get('/program-registrasi/{id}/join-group', [PortalDashboardController::class, 'joinCoordinationGroup'])->name('portal.volunteer.program.join-group');
     Route::get('/berita', [PortalDashboardController::class, 'beritaIndex'])->name('portal.berita.index');
     Route::get('/berita/create', [PortalDashboardController::class, 'beritaCreate'])->name('portal.berita.create');
     Route::post('/berita/store', [PortalDashboardController::class, 'beritaStore'])->name('portal.berita.store');

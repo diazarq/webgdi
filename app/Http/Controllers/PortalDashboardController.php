@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Blog;
 use App\Models\User;
+use App\Models\VolunteerProgram;
+use App\Models\VolunteerRegistration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -32,31 +34,169 @@ class PortalDashboardController extends Controller
     }
 
     /**
-     * Dashboard Utama Portal
+     * Dashboard Utama Portal (Daftar Program Relawan & Riwayat Aktivitas)
      */
-    public function index()
+    public function index(Request $request)
     {
         $user = Auth::user();
+        $selectedCategory = $request->query('category', 'all');
+        $activeTab = $request->query('tab', session('active_tab', 'programs'));
 
-        $totalBerita = Blog::where('user_id', $user->id)->count();
-        $totalPublish = Blog::where('user_id', $user->id)->where('status', 'publish')->count();
-        $totalDraft = Blog::where('user_id', $user->id)->where('status', 'draft')->count();
-        $totalBin = Blog::onlyTrashed()->where('user_id', $user->id)->count();
+        // Ambil daftar program aksi yang tersedia
+        $programsQuery = VolunteerProgram::whereIn('status', ['open', 'active']);
+        if ($selectedCategory && $selectedCategory !== 'all') {
+            $programsQuery->where('category', $selectedCategory);
+        }
+        $programs = $programsQuery->withCount('registrations')->orderBy('created_at', 'desc')->get();
 
-        $recentBlogs = Blog::where('user_id', $user->id)
+        // Ambil riwayat aktivitas relawan (program yang pernah/sedang diikuti user)
+        $myRegistrations = VolunteerRegistration::where('user_id', $user->id)
+            ->with('program')
             ->orderBy('created_at', 'desc')
-            ->take(5)
             ->get();
 
+        $registeredProgramIds = $myRegistrations->pluck('volunteer_program_id')->toArray();
+
         return view('portal.dashboard', [
-            'pageTitle' => 'Dashboard Sahabat Baik & Mitra',
+            'pageTitle' => 'Dashboard Relawan Sahabat Baik',
             'user' => $user,
-            'totalBerita' => $totalBerita,
-            'totalPublish' => $totalPublish,
-            'totalDraft' => $totalDraft,
-            'totalBin' => $totalBin,
-            'recentBlogs' => $recentBlogs,
+            'programs' => $programs,
+            'myRegistrations' => $myRegistrations,
+            'registeredProgramIds' => $registeredProgramIds,
+            'selectedCategory' => $selectedCategory,
+            'activeTab' => $activeTab,
+            'totalJoined' => $myRegistrations->count(),
+            'totalAvailable' => VolunteerProgram::whereIn('status', ['open', 'active'])->count(),
         ]);
+    }
+
+    /**
+     * Halaman Detail Program Aksi Relawan (Persis Flow Donasi: /donasi/{slug})
+     */
+    public function programDetail($slug)
+    {
+        $user = Auth::user();
+        $program = VolunteerProgram::where('slug', $slug)->withCount('registrations')->firstOrFail();
+
+        $myRegistration = VolunteerRegistration::where('user_id', $user->id)
+            ->where('volunteer_program_id', $program->id)
+            ->first();
+
+        $percent = min(100, round(($program->registrations_count / max(1, $program->quota)) * 100));
+
+        return view('portal.program-detail', [
+            'pageTitle' => $program->title . ' - Detail Program Relawan GDI',
+            'user' => $user,
+            'program' => $program,
+            'myRegistration' => $myRegistration,
+            'isRegistered' => (bool)$myRegistration,
+            'percent' => $percent,
+        ]);
+    }
+
+    /**
+     * Halaman Formulir Pendaftaran Relawan (Persis Flow Donasi: /donasi/{slug}/form)
+     */
+    public function programForm($slug)
+    {
+        $user = Auth::user();
+        $program = VolunteerProgram::where('slug', $slug)->withCount('registrations')->firstOrFail();
+
+        $myRegistration = VolunteerRegistration::where('user_id', $user->id)
+            ->where('volunteer_program_id', $program->id)
+            ->first();
+
+        if ($myRegistration) {
+            return redirect()->route('portal.dashboard', ['tab' => 'riwayat'])
+                ->with('info', 'Anda sudah terdaftar di program aksi "' . $program->title . '".');
+        }
+
+        $percent = min(100, round(($program->registrations_count / max(1, $program->quota)) * 100));
+
+        return view('portal.program-form', [
+            'pageTitle' => 'Formulir Pendaftaran Relawan - ' . $program->title,
+            'user' => $user,
+            'program' => $program,
+            'percent' => $percent,
+        ]);
+    }
+
+    /**
+     * Proses Simpan Pendaftaran Relawan via Form (Persis Flow Donasi)
+     */
+    public function registerProgramBySlug(Request $request, $slug)
+    {
+        $user = Auth::user();
+        $program = VolunteerProgram::where('slug', $slug)->firstOrFail();
+
+        // Cek apakah relawan sudah pernah mendaftar di program ini
+        $existing = VolunteerRegistration::where('user_id', $user->id)
+            ->where('volunteer_program_id', $program->id)
+            ->first();
+
+        if ($existing) {
+            return redirect()->route('portal.dashboard', ['tab' => 'riwayat'])
+                ->with('warning', 'Anda sudah pernah terdaftar pada program aksi "' . $program->title . '".');
+        }
+
+        $request->validate([
+            'skills' => ['required', 'string', 'max:100'],
+            'notes' => ['nullable', 'string', 'max:500'],
+            'phone' => ['required', 'string', 'max:30'],
+            'domisili' => ['required', 'string', 'max:150'],
+        ], [
+            'skills.required' => 'Pilih salah satu peran / bidang keahlian yang Anda kontribusikan.',
+            'phone.required' => 'Nomor WhatsApp aktif wajib diisi.',
+            'domisili.required' => 'Kota domisili wajib diisi.',
+        ]);
+
+        $registration = VolunteerRegistration::create([
+            'user_id' => $user->id,
+            'volunteer_program_id' => $program->id,
+            'name' => $user->name,
+            'phone' => $request->phone,
+            'domisili' => $request->domisili,
+            'skills' => $request->skills,
+            'notes' => $request->notes,
+            'status' => 'terdaftar',
+        ]);
+
+        return redirect()->route('portal.dashboard', ['tab' => 'riwayat'])->with('pendaftaran_sukses', [
+            'registration_id' => $registration->id,
+            'program_title' => $program->title,
+            'coordinator_name' => $program->coordinator_name,
+            'message' => 'Alhamdulillah, pendaftaran Anda pada aksi "' . $program->title . '" berhasil! Silakan langsung bergabung ke Grup WhatsApp Koordinasi di bawah ini.',
+        ]);
+    }
+
+    /**
+     * Teruskan data & arahkan ke WhatsApp grup koordinasi koordinator
+     */
+    public function joinCoordinationGroup($id)
+    {
+        $user = Auth::user();
+        $registration = VolunteerRegistration::where('user_id', $user->id)
+            ->where('id', $id)
+            ->with('program')
+            ->firstOrFail();
+
+        $registration->update([
+            'status' => 'bergabung_grup',
+            'joined_group_at' => now(),
+        ]);
+
+        $program = $registration->program;
+
+        // Jika ada link grup WhatsApp resmi, utamakan link grup
+        if ($program && !empty($program->whatsapp_group_link)) {
+            return redirect()->away($program->whatsapp_group_link);
+        }
+
+        // Fallback: kirim pesan pembuka langsung ke WhatsApp koordinator lapangan
+        $phone = $program->coordinator_phone ?? '6282119998877';
+        $message = "Halo {$program->coordinator_name}, saya {$registration->name} ({$registration->phone}) dari domisili {$registration->domisili}.\n\nSaya telah mendaftar sebagai relawan pada program: *{$program->title}* (Bidang: {$registration->skills}).\nMohon izin bergabung ke dalam grup koordinasi relawan. Terima kasih!";
+
+        return redirect()->away("https://wa.me/{$phone}?text=" . urlencode($message));
     }
 
     /**

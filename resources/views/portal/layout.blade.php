@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Portal Sahabat Baik & Mitra') | Graha Dhuafa Indonesia</title>
 
-    <!-- Google Font: Plus Jakarta Sans / Inter -->
+    <!-- Google Font: Manrope & Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Bootstrap 5, Icons -->
     <link href="{{ asset('admin/assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
@@ -29,9 +29,75 @@
 
         body {
             background-color: var(--gdi-bg-page);
-            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+            font-family: 'Manrope', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
             color: var(--gdi-text-main);
             min-height: 100vh;
+            font-size: 0.84rem;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Headings: proporsional, rapi dan tidak terlalu besar */
+        h1, .h1 { font-size: 1.45rem !important; font-weight: 700; letter-spacing: -0.015em; }
+        h2, .h2 { font-size: 1.25rem !important; font-weight: 700; letter-spacing: -0.015em; }
+        h3, .h3 { font-size: 1.10rem !important; font-weight: 600; letter-spacing: -0.01em; }
+        h4, .h4 { font-size: 1.00rem !important; font-weight: 600; }
+        h5, .h5 { font-size: 0.90rem !important; font-weight: 600; }
+        h6, .h6 { font-size: 0.82rem !important; font-weight: 600; }
+
+        /* Form elements */
+        .form-label {
+            font-size: 0.80rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #334155;
+        }
+        .form-control, .form-select {
+            font-size: 0.84rem;
+            padding: 7px 12px;
+            border-radius: 8px;
+            color: #1e293b;
+        }
+        .form-control-lg {
+            font-size: 0.88rem !important;
+            padding: 9px 14px !important;
+        }
+        .form-text, .text-muted.small, .small {
+            font-size: 0.76rem !important;
+        }
+
+        /* Buttons */
+        .btn {
+            font-size: 0.80rem;
+            font-weight: 600;
+            padding: 6px 14px;
+        }
+        .btn-sm {
+            font-size: 0.74rem;
+            padding: 4px 10px;
+        }
+        .btn-lg {
+            font-size: 0.86rem;
+            padding: 8px 18px;
+        }
+
+        /* Badges */
+        .badge {
+            font-size: 0.70rem;
+            font-weight: 600;
+            padding: 4px 9px;
+            letter-spacing: 0.2px;
+        }
+
+        /* Clean Table */
+        .table th {
+            font-size: 0.70rem !important;
+            letter-spacing: 0.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .table td {
+            font-size: 0.80rem !important;
         }
 
         /* TOP NAVBAR */
@@ -60,8 +126,8 @@
         .btn-top-web {
             border: 1px solid #e2e8f0;
             border-radius: 30px;
-            padding: 7px 18px;
-            font-size: 0.85rem;
+            padding: 6px 14px;
+            font-size: 0.78rem;
             font-weight: 600;
             color: #475569;
             background: #ffffff;
@@ -77,8 +143,8 @@
             border-color: #cbd5e1;
         }
         .btn-top-bell {
-            width: 38px;
-            height: 38px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             border: 1px solid #e2e8f0;
             display: flex;
@@ -104,8 +170,8 @@
             transition: all 0.2s;
         }
         .top-avatar {
-            width: 38px;
-            height: 38px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             background: #0f7638;
             color: #ffffff;
@@ -113,7 +179,7 @@
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 1rem;
+            font-size: 0.88rem;
         }
 
         /* SIDEBAR CARDS */
@@ -127,36 +193,36 @@
             margin-bottom: 16px;
         }
         .sidebar-profile-header {
-            height: 80px;
+            height: 70px;
             background: linear-gradient(135deg, #117a37 0%, #15803d 100%);
             position: relative;
         }
         .sidebar-profile-avatar-wrap {
-            margin-top: -46px;
+            margin-top: -38px;
             position: relative;
             z-index: 2;
         }
         .sidebar-avatar-circle {
-            width: 86px;
-            height: 86px;
+            width: 72px;
+            height: 72px;
             border-radius: 50%;
             background: #0f7638;
             color: #ffffff;
-            border: 4px solid #ffffff;
+            border: 3px solid #ffffff;
             box-shadow: 0 4px 14px rgba(0,0,0,0.08);
             margin: 0 auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2.2rem;
+            font-size: 1.6rem;
             font-weight: 800;
         }
         .badge-role-pill {
             background: #e8f5ec;
             color: #0f7638;
-            font-size: 0.78rem;
+            font-size: 0.72rem;
             font-weight: 700;
-            padding: 6px 14px;
+            padding: 4px 12px;
             border-radius: 30px;
             display: inline-flex;
             align-items: center;
@@ -166,16 +232,16 @@
             background: #f0fdf4;
             color: #16a34a;
             border: 1px solid #bbf7d0;
-            font-size: 0.8rem;
+            font-size: 0.74rem;
             font-weight: 600;
-            padding: 7px 16px;
+            padding: 5px 12px;
             border-radius: 30px;
             display: inline-flex;
             align-items: center;
             gap: 6px;
             width: 90%;
             justify-content: center;
-            margin: 14px auto 18px;
+            margin: 12px auto 16px;
         }
 
         /* NAVIGATION MENU CARD */
@@ -184,20 +250,20 @@
             border-radius: var(--gdi-card-radius);
             box-shadow: 0 2px 12px rgba(0,0,0,0.03);
             border: 1px solid #e8edea;
-            padding: 14px;
+            padding: 10px;
             margin-bottom: 16px;
         }
         .portal-nav-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 18px;
-            border-radius: 14px;
+            gap: 10px;
+            padding: 9px 14px;
+            border-radius: 10px;
             color: #334155;
             text-decoration: none;
             font-weight: 600;
-            font-size: 0.92rem;
-            margin-bottom: 4px;
+            font-size: 0.82rem;
+            margin-bottom: 3px;
             transition: all 0.2s ease;
         }
         .portal-nav-item:hover {
@@ -273,21 +339,16 @@
             <a href="{{ route('portal.dashboard') }}" class="d-flex align-items-center gap-2 text-decoration-none">
                 <img src="{{ asset('website/assets/images/custom/logo_gdi.png') }}" alt="Graha Dhuafa Indonesia" style="height: 44px; width: auto; object-fit: contain;">
                 <div>
-                    <span class="fw-bold text-dark d-block lh-1" style="font-size: 0.92rem; letter-spacing: 0.3px;">GRAHA DHUAFA INDONESIA</span>
-                    <small class="text-success fw-bold text-uppercase" style="font-size: 0.68rem; letter-spacing: 0.5px;">Portal Relawan & Mitra</small>
+                    <span class="fw-bold text-dark d-block lh-1" style="font-size: 0.92rem;">GRAHA DHUAFA INDONESIA</span>
+                    <small class="text-success fw-bold text-uppercase" style="font-size: 0.68rem; letter-spacing: 0.5px;">PORTAL RELAWAN</small>
                 </div>
             </a>
         </div>
 
         <!-- RIGHT ACTIONS -->
         <div class="d-flex align-items-center gap-3">
-            <a href="/" target="_blank" class="btn-top-web">
-                <i class="bi bi-globe"></i> Website Publik
-            </a>
 
-            <a href="#" class="btn-top-bell" title="Notifikasi">
-                <i class="bi bi-bell"></i>
-            </a>
+           
 
             <!-- USER DROPDOWN -->
             <div class="dropdown">
@@ -296,7 +357,7 @@
                         {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
                     </div>
                     <div class="text-start d-none d-sm-block">
-                        <div class="fw-bold text-dark lh-1" style="font-size: 0.88rem;">{{ Auth::user()->name }}</div>
+                        <div class="fw-bold text-dark" style="font-size: 0.88rem;">{{ Auth::user()->name }}</div>
                         <span class="text-success fw-semibold" style="font-size: 0.72rem;">
                             {{ Auth::user()->isVolunteer() ? 'Sahabat Baik' : (Auth::user()->isAffiliate() ? 'Mitra GDI' : 'Administrator') }}
                         </span>
@@ -322,48 +383,16 @@
     <div class="row g-4">
         <!-- LEFT SIDEBAR -->
         <div class="col-lg-3 col-md-4">
-            <!-- 1. PROFILE CARD -->
-            <div class="sidebar-profile-card">
-                <div class="sidebar-profile-header"></div>
-                <div class="sidebar-profile-avatar-wrap">
-                    <div class="sidebar-avatar-circle">
-                        {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
-                    </div>
-                </div>
-
-                <div class="px-3 pt-2 pb-1">
-                    <h5 class="fw-bold text-dark mb-2">{{ Auth::user()->name }}</h5>
-                    <div>
-                        @if(Auth::user()->isVolunteer())
-                            <span class="badge-role-pill">
-                                <i class="bi bi-heart-fill text-success" style="font-size: 0.7rem;"></i> Relawan Sahabat Baik
-                            </span>
-                        @elseif(Auth::user()->isAffiliate())
-                            <span class="badge-role-pill" style="background: #fffbeb; color: #d97706;">
-                                <i class="bi bi-briefcase-fill" style="font-size: 0.7rem;"></i> Mitra / Amil Zakat
-                            </span>
-                        @else
-                            <span class="badge-role-pill" style="background: #fee2e2; color: #dc2626;">
-                                <i class="bi bi-shield-lock-fill" style="font-size: 0.7rem;"></i> Administrator
-                            </span>
-                        @endif
-                    </div>
-
-                    <div class="text-muted small mt-2">
-                        <i class="bi bi-geo-alt"></i> {{ Auth::user()->domisili ?? 'Bandung' }}
-                    </div>
-
-                    <div class="badge-verified-pill">
-                        <i class="bi bi-check-circle"></i> Akun Terverifikasi
-                    </div>
-                </div>
-            </div>
+            
 
             <!-- 2. NAVIGATION MENU CARD -->
             <div class="sidebar-nav-card">
                 <nav class="nav flex-column">
-                    <a href="{{ route('portal.dashboard') }}" class="portal-nav-item {{ request()->routeIs('portal.dashboard') ? 'active' : '' }}">
-                        <i class="bi bi-grid-fill fs-5"></i> Dashboard
+                    <a href="{{ route('portal.dashboard', ['tab' => 'programs']) }}" class="portal-nav-item {{ request()->routeIs('portal.dashboard') && request('tab') !== 'riwayat' ? 'active' : '' }}">
+                        <i class="bi bi-compass-fill fs-5"></i> Program Relawan
+                    </a>
+                    <a href="{{ route('portal.dashboard', ['tab' => 'riwayat']) }}" class="portal-nav-item {{ request()->routeIs('portal.dashboard') && request('tab') === 'riwayat' ? 'active' : '' }}">
+                        <i class="bi bi-clock-history fs-5"></i> Riwayat Aktivitasmu
                     </a>
                     <a href="{{ route('portal.berita.create') }}" class="portal-nav-item {{ request()->routeIs('portal.berita.create') ? 'active' : '' }}">
                         <i class="bi bi-pencil-square fs-5"></i> Tulis Berita Kegiatan

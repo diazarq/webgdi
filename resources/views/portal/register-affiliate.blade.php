@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ $pageTitle ?? 'Daftar Mitra / Amil Zakat | Graha Dhuafa Indonesia' }}</title>
 
+    <!-- Fonts: Manrope (Sesuai dengan font website utama GDI) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
     <link href="{{ asset('admin/assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="icon" href="{{ asset('admin/assets/img/logo_gdi.png') }}">
@@ -15,59 +20,70 @@
             --gdi-orange-dark: #d96f12;
             --gdi-green: #117a37;
         }
+        body, input, button, select, textarea {
+            font-family: 'Manrope', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+        }
         body {
             background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #f0fdf4 100%);
             min-height: 100vh;
-            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-            padding: 30px 15px;
+            padding: 24px 15px;
+            font-size: 0.84rem;
+            line-height: 1.5;
         }
         .register-container {
-            max-width: 720px;
+            max-width: 680px;
             margin: 0 auto;
         }
         .card-register {
             border: none;
-            border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(245, 130, 32, 0.15);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(245, 130, 32, 0.12);
             overflow: hidden;
             background: #ffffff;
         }
         .header-banner {
             background: linear-gradient(135deg, var(--gdi-orange) 0%, var(--gdi-orange-dark) 100%);
             color: #ffffff;
-            padding: 30px;
+            padding: 22px 20px;
             position: relative;
         }
+        .header-banner h3 {
+            font-size: 1.20rem !important;
+            font-weight: 700;
+        }
+        .header-banner p {
+            font-size: 0.80rem !important;
+        }
         .header-banner img {
-            max-height: 50px;
+            max-height: 44px;
             background: #ffffff;
-            padding: 5px 12px;
-            border-radius: 10px;
-            margin-bottom: 12px;
+            padding: 4px 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
         }
         .btn-register-submit {
             background: linear-gradient(135deg, var(--gdi-orange) 0%, var(--gdi-orange-dark) 100%);
             color: #ffffff;
             border: none;
             font-weight: 600;
-            padding: 13px 25px;
-            border-radius: 12px;
-            font-size: 1.05rem;
+            padding: 10px 22px;
+            border-radius: 10px;
+            font-size: 0.86rem;
             transition: all 0.25s ease;
         }
         .btn-register-submit:hover {
             background: linear-gradient(135deg, var(--gdi-orange-dark) 0%, #b35508 100%);
             color: #ffffff;
-            box-shadow: 0 6px 18px rgba(245, 130, 32, 0.35);
-            transform: translateY(-2px);
+            box-shadow: 0 4px 14px rgba(245, 130, 32, 0.3);
+            transform: translateY(-1px);
         }
         .form-section-title {
-            font-size: 0.95rem;
+            font-size: 0.80rem;
             font-weight: 700;
             color: var(--gdi-orange-dark);
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -76,6 +92,17 @@
             content: '';
             flex: 1;
             border-bottom: 1px dashed #fed7aa;
+        }
+        .form-label {
+            font-size: 0.80rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 4px;
+        }
+        .form-control, .form-select {
+            font-size: 0.84rem;
+            padding: 7px 12px;
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -96,12 +123,6 @@
         </div>
 
         <div class="card-body p-4 p-md-5">
-            <div class="alert alert-warning d-flex align-items-center mb-4">
-                <i class="bi bi-shield-check fs-4 me-3 flex-shrink-0 text-warning"></i>
-                <div class="small">
-                    <strong>Penting:</strong> Akun mitra / affiliate akan diverifikasi terlebih dahulu oleh pengurus GDI. Setelah di-ACC, Anda dapat login di <code>/z/login</code> untuk mempublikasikan berita kemitraan dan mengakses informasi amil zakat.
-                </div>
-            </div>
 
             @if($errors->any())
                 <div class="alert alert-danger alert-dismissible fade show">
@@ -154,7 +175,7 @@
 
                 <!-- SEKSI 2: AKUN LOGIN -->
                 <div class="form-section-title">
-                    <i class="bi bi-shield-lock-fill"></i> 2. Akun Akses Portal (/z/login)
+                    <i class="bi bi-shield-lock-fill"></i> 2. Akun Akses Portal
                 </div>
                 <div class="row g-3 mb-4">
                     <div class="col-12">
@@ -184,7 +205,7 @@
             <div class="text-center mt-4 pt-3 border-top">
                 <span class="text-muted small">Sudah memiliki akun mitra terverifikasi?</span>
                 <a href="{{ route('portal.login') }}" class="fw-bold text-warning-emphasis text-decoration-none ms-1">
-                    Masuk di /z/login <i class="bi bi-arrow-right"></i>
+                    Masuk
                 </a>
             </div>
         </div>
