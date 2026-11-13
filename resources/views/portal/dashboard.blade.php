@@ -373,10 +373,6 @@
     <div class="row align-items-center">
         <div class="col-lg-8">
             <div class="mb-3">
-                <span class="tag-portal-pill">
-                    <span class="tag-dot-glow"></span>
-                    {{ $user->isVolunteer() ? 'PORTAL SAHABAT BAIK' : ($user->isAffiliate() ? 'PORTAL MITRA AMIL ZAKAT' : 'PORTAL ADMINISTRATOR') }}
-                </span>
             </div>
             <h2 class="fw-bold mb-2 text-white">Selamat Datang, {{ $user->name }}!</h2>
             <p class="text-white opacity-90 mb-4" style="font-size: 0.95rem; line-height: 1.6; max-width: 620px;">

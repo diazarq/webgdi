@@ -139,8 +139,7 @@
     <div class="portal-header">
         <img src="{{ asset('admin/assets/img/logo_gdi.png') }}" alt="Graha Dhuafa Indonesia">
         <h4 class="fw-bold mb-1">PORTAL RELAWAN & MITRA</h4>
-        <span class="badge-portal">Sahabat Baik & Amil Zakat GDI</span>
-    </div>
+      </div>
 
     <div class="portal-body">
         <!-- NOTIFIKASI REGISTRASI SUKSES -->
@@ -208,8 +207,7 @@
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" name="remember" id="remember">
                     <label class="form-check-label small text-muted" for="remember">Ingat Saya</label>
-                </div>
-                <span class="small text-muted">Akses Khusus: <code>/z/login</code></span>
+    </div>
             </div>
 
             <button type="submit" class="btn btn-gdi-login w-100">
