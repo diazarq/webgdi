@@ -17,9 +17,21 @@ class AuthController extends Controller
         
         
         if(Auth::attempt($creds)){
+            $user = Auth::user();
+
+            // Cegah relawan atau mitra masuk ke admin panel CMS (/q/login)
+            if ($user->role_type === 'volunteer' || $user->role_type === 'affiliate') {
+                Auth::logout();
+                $req->session()->invalidate();
+                $req->session()->regenerateToken();
+
+                return back()->withErrors([
+                    'error' => 'Akun Relawan & Mitra tidak memiliki izin akses ke Admin Panel. Silakan login melalui /z/login',
+                ]);
+            }
+
             $req->session()->regenerate();
 
-            $user = Auth::user();
             $upd = User::find($user->id);
             $upd->last_login = date('Y-m-d H:i:s');
             $upd->save();

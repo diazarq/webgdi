@@ -240,6 +240,10 @@ class DonasiCampaignController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->filled('ref')) {
+            session(['affiliate_ref' => $request->query('ref')]);
+        }
+
         $category = $request->query('kategori');
         $campaigns = collect($this->getCampaigns());
 
@@ -257,8 +261,12 @@ class DonasiCampaignController extends Controller
     /**
      * 2. Halaman Detail Campaign / Musibah & Form Donasi Midtrans
      */
-    public function detail($slug)
+    public function detail($slug, Request $request)
     {
+        if ($request->filled('ref')) {
+            session(['affiliate_ref' => $request->query('ref')]);
+        }
+
         $campaigns = collect($this->getCampaigns());
         $campaign = $campaigns->firstWhere('slug', $slug);
 

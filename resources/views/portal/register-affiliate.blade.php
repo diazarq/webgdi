@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ $pageTitle ?? 'Daftar Mitra / Amil Zakat | Graha Dhuafa Indonesia' }}</title>
+
+    <link href="{{ asset('admin/assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="icon" href="{{ asset('admin/assets/img/logo_gdi.png') }}">
+
+    <style>
+        :root {
+            --gdi-orange: #f58220;
+            --gdi-orange-dark: #d96f12;
+            --gdi-green: #117a37;
+        }
+        body {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 50%, #f0fdf4 100%);
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            padding: 30px 15px;
+        }
+        .register-container {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .card-register {
+            border: none;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(245, 130, 32, 0.15);
+            overflow: hidden;
+            background: #ffffff;
+        }
+        .header-banner {
+            background: linear-gradient(135deg, var(--gdi-orange) 0%, var(--gdi-orange-dark) 100%);
+            color: #ffffff;
+            padding: 30px;
+            position: relative;
+        }
+        .header-banner img {
+            max-height: 50px;
+            background: #ffffff;
+            padding: 5px 12px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+        }
+        .btn-register-submit {
+            background: linear-gradient(135deg, var(--gdi-orange) 0%, var(--gdi-orange-dark) 100%);
+            color: #ffffff;
+            border: none;
+            font-weight: 600;
+            padding: 13px 25px;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            transition: all 0.25s ease;
+        }
+        .btn-register-submit:hover {
+            background: linear-gradient(135deg, var(--gdi-orange-dark) 0%, #b35508 100%);
+            color: #ffffff;
+            box-shadow: 0 6px 18px rgba(245, 130, 32, 0.35);
+            transform: translateY(-2px);
+        }
+        .form-section-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--gdi-orange-dark);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .form-section-title::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px dashed #fed7aa;
+        }
+    </style>
+</head>
+<body>
+
+<div class="register-container">
+    <div class="text-center mb-3">
+        <a href="/" class="text-decoration-none text-secondary small">
+            <i class="bi bi-arrow-left me-1"></i> Kembali ke Beranda GDI
+        </a>
+    </div>
+
+    <div class="card card-register">
+        <div class="header-banner text-center">
+            <img src="{{ asset('admin/assets/img/logo_gdi.png') }}" alt="GDI">
+            <h3 class="fw-bold mb-1">Pendaftaran Mitra & Amil Zakat</h3>
+            <p class="mb-0 opacity-90 small">Kolaborasi kebaikan dalam penghimpunan zakat, infak, sedekah, dan pemberdayaan umat.</p>
+        </div>
+
+        <div class="card-body p-4 p-md-5">
+            <div class="alert alert-warning d-flex align-items-center mb-4">
+                <i class="bi bi-shield-check fs-4 me-3 flex-shrink-0 text-warning"></i>
+                <div class="small">
+                    <strong>Penting:</strong> Akun mitra / affiliate akan diverifikasi terlebih dahulu oleh pengurus GDI. Setelah di-ACC, Anda dapat login di <code>/z/login</code> untuk mempublikasikan berita kemitraan dan mengakses informasi amil zakat.
+                </div>
+            </div>
+
+            @if($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show">
+                    <strong><i class="bi bi-exclamation-triangle-fill me-1"></i> Periksa kembali data formulir:</strong>
+                    <ul class="mb-0 mt-1 small">
+                        @foreach($errors->all() as $err)
+                            <li>{{ $err }}</li>
+                        @endforeach
+                    </ul>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
+
+            <form action="{{ route('portal.affiliate.register.post') }}" method="POST">
+                @csrf
+
+                <!-- SEKSI 1: PROFIL MITRA / INSTANSI -->
+                <div class="form-section-title">
+                    <i class="bi bi-building"></i> 1. Lembaga / Instansi Kemitraan
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold">Nama Lengkap Penanggung Jawab (PIC) *</label>
+                        <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Nama PIC Kemitraan" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold">Nama Lembaga / Komunitas / Instansi *</label>
+                        <input type="text" class="form-control" name="instansi" value="{{ old('instansi') }}" placeholder="Contoh: DKM Masjid Al-Ikhlas / Komunitas Berbagi" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold">Nomor WhatsApp Aktif *</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="bi bi-whatsapp text-success"></i></span>
+                            <input type="text" class="form-control" name="phone" value="{{ old('phone') }}" placeholder="08xxxxxxxxxx" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold">Alamat Email Resmi *</label>
+                        <input type="email" class="form-control" name="email" value="{{ old('email') }}" placeholder="mitra@lembaga.com" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold">Kota / Wilayah Operasional *</label>
+                        <input type="text" class="form-control" name="domisili" value="{{ old('domisili') }}" placeholder="Contoh: Bandung & Sekitarnya" required>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label small fw-semibold">Rencana Program Kerjasama / Profil Kemitraan *</label>
+                        <textarea class="form-control" name="organisasi" rows="3" placeholder="Jelaskan bidang kerjasama kemitraan yang diharapkan (misal: Unit Pengumpul Zakat / DKM / CSR / Komunitas Relawan Berbagi)." required>{{ old('organisasi') }}</textarea>
+                    </div>
+                </div>
+
+                <!-- SEKSI 2: AKUN LOGIN -->
+                <div class="form-section-title">
+                    <i class="bi bi-shield-lock-fill"></i> 2. Akun Akses Portal (/z/login)
+                </div>
+                <div class="row g-3 mb-4">
+                    <div class="col-12">
+                        <label class="form-label small fw-semibold">Username Login *</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light">@</span>
+                            <input type="text" class="form-control" name="username" value="{{ old('username') }}" placeholder="username_mitra" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold">Password *</label>
+                        <input type="password" class="form-control" name="password" placeholder="Minimal 6 karakter" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold">Konfirmasi Password *</label>
+                        <input type="password" class="form-control" name="password_confirmation" placeholder="Ulangi password" required>
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-register-submit">
+                        <i class="bi bi-send-check me-2"></i> Ajukan Pendaftaran Kemitraan
+                    </button>
+                </div>
+            </form>
+
+            <div class="text-center mt-4 pt-3 border-top">
+                <span class="text-muted small">Sudah memiliki akun mitra terverifikasi?</span>
+                <a href="{{ route('portal.login') }}" class="fw-bold text-warning-emphasis text-decoration-none ms-1">
+                    Masuk di /z/login <i class="bi bi-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="{{ asset('admin/assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+</body>
+</html>
+

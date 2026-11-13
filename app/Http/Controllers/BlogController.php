@@ -18,15 +18,45 @@ class BlogController extends Controller
         ]);
     }
 
-    public function table(){
-        return DataTables::eloquent(Blog::query()->orderBy('created_at', 'desc'))
+    public function table(Request $request){
+        $query = Blog::query();
+
+        if ($request->has('filter_status')) {
+            if ($request->filter_status === 'draft') {
+                $query->where('status', 'draft');
+            } elseif ($request->filter_status === 'publish') {
+                $query->where('status', 'publish');
+            } elseif ($request->filter_status === 'mitra_volunteer') {
+                $query->whereNotNull('user_id');
+            }
+        }
+
+        return DataTables::eloquent($query->orderBy('created_at', 'desc'))
             ->addIndexColumn()
             ->addColumn('action', function(Blog $table){
-                $button = '<a href="/admin/blog/'.$table->id.'/edit" class="btn btn-sm btn-primary"><i class="bi-pencil-square"></i></a> 
-                    <button type="button" class="btn btn-sm btn-danger btn-del" data-id="'.$table->id.'"><i class="bi-trash"></i></button>';
+                $button = '<div class="btn-group btn-group-sm" role="group">';
+                
+                if($table->status === 'draft'){
+                    $button .= '<a href="/admin/blog/'.$table->id.'/publish" class="btn btn-sm btn-success" title="ACC / Publikasikan"><i class="bi-check2-circle"></i> ACC</a>';
+                }
+                
+                $button .= '<a href="/admin/blog/'.$table->id.'/edit" class="btn btn-sm btn-primary" title="Edit"><i class="bi-pencil-square"></i></a> 
+                    <button type="button" class="btn btn-sm btn-danger btn-del" data-id="'.$table->id.'" title="Hapus / Masukkan ke Bin"><i class="bi-trash"></i></button>';
+                
+                $button .= '</div>';
                 return $button;
             })
             ->make();
+    }
+
+    public function publish($id){
+        $blog = Blog::findOrFail($id);
+        $blog->status = 'publish';
+        $blog->date_publish = now();
+        $blog->user_verify = auth()->user() ? auth()->user()->name : 'Admin GDI';
+        $blog->save();
+
+        return redirect('/admin/blog')->with('success', 'Berita berhasil di-ACC dan dipublikasikan!');
     }
 
     public function delete($id){
