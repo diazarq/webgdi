@@ -19,8 +19,35 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'username', 'email', 'password', 'status', 'level'
+        'name', 'username', 'email', 'phone', 'password', 'status', 'level',
+        'role_type', 'volunteer_type', 'organisasi', 'instansi', 'domisili',
+        'status_approval', 'rejection_note', 'approved_at', 'last_login'
     ];
+
+    public function blogs()
+    {
+        return $this->hasMany(Blog::class, 'user_id');
+    }
+
+    public function isApproved()
+    {
+        return $this->status_approval === 'approved';
+    }
+
+    public function isVolunteer()
+    {
+        return $this->role_type === 'volunteer';
+    }
+
+    public function isAffiliate()
+    {
+        return $this->role_type === 'affiliate';
+    }
+
+    public function isAdmin()
+    {
+        return $this->role_type === 'admin' || $this->level == 1;
+    }
 
     /**
      * The attributes that should be hidden for arrays.

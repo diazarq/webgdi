@@ -43,6 +43,7 @@
     <li><a href="/admin/donasi-masuk" class="{{ @$DonasiActive }}"><i class="cs-menu-icon bi-heart-fill"></i> Donasi Masuk</a></li>
 
     <li class="text">Pengaturan</li>
+    <li><a href="{{ route('admin.members.index') }}" class="{{ @$MemberActive }}"><i class="cs-menu-icon bi-people-fill"></i> Relawan & Mitra</a></li>
     <li><a href="/admin/user" class="{{ @$UserActive }}"><i class="cs-menu-icon bi-file-person-fill"></i> Kelola User</a></li>
       <li><a href="/admin/menu" class="{{ @$MenuActive }}"><i class="cs-menu-icon bi-menu-app"></i> Menu</a></li>
     <li><a href="/admin/theme" class="{{ @$ThemeActive }}"><i class="cs-menu-icon bi-palette-fill"></i> Kelola Tema</a></li>

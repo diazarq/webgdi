@@ -31,6 +31,9 @@ use App\Http\Controllers\Widget\ProgramLazController;
 use App\Http\Controllers\Website\BlogFrontController;
 use App\Http\Controllers\DonasiCampaignController;
 use App\Http\Controllers\AdminDonasiCampaignController;
+use App\Http\Controllers\PortalAuthController;
+use App\Http\Controllers\PortalDashboardController;
+use App\Http\Controllers\AdminMemberController;
 
 
 /*
@@ -73,6 +76,32 @@ Route::get('/donasi/check-status/{transcode}', [DonasiCampaignController::class,
 Route::get('/donasi/invoice/{transcode}', [DonasiCampaignController::class, 'invoice'])->name('donasi.invoice');
 Route::get('/donasi/{slug}/form', [DonasiCampaignController::class, 'form'])->name('donasi.form');
 Route::get('/donasi/{slug}', [DonasiCampaignController::class, 'detail'])->name('donasi.detail');
+
+/* =========================================================================
+   PORTAL SAHABAT BAIK (VOLUNTEER) & MITRA / AMIL ZAKAT (AFFILIATE)
+========================================================================= */
+Route::get('/volunteer/daftar', [PortalAuthController::class, 'showRegisterVolunteer'])->name('portal.volunteer.register');
+Route::get('/sahabat-baik/daftar', [PortalAuthController::class, 'showRegisterVolunteer']);
+Route::post('/volunteer/daftar', [PortalAuthController::class, 'storeRegisterVolunteer'])->name('portal.volunteer.register.post');
+
+Route::get('/mitra/daftar', [PortalAuthController::class, 'showRegisterAffiliate'])->name('portal.affiliate.register');
+Route::get('/affiliate/daftar', [PortalAuthController::class, 'showRegisterAffiliate']);
+Route::post('/mitra/daftar', [PortalAuthController::class, 'storeRegisterAffiliate'])->name('portal.affiliate.register.post');
+
+Route::get('/z/login', [PortalAuthController::class, 'showLogin'])->name('portal.login');
+Route::post('/z/login', [PortalAuthController::class, 'authenticate'])->name('portal.login.post');
+Route::get('/z/logout', [PortalAuthController::class, 'logout'])->name('portal.logout');
+
+Route::group(['prefix' => 'portal', 'middleware' => ['auth']], function() {
+    Route::get('/dashboard', [PortalDashboardController::class, 'index'])->name('portal.dashboard');
+    Route::get('/berita', [PortalDashboardController::class, 'beritaIndex'])->name('portal.berita.index');
+    Route::get('/berita/create', [PortalDashboardController::class, 'beritaCreate'])->name('portal.berita.create');
+    Route::post('/berita/store', [PortalDashboardController::class, 'beritaStore'])->name('portal.berita.store');
+    Route::get('/berita/{id}/edit', [PortalDashboardController::class, 'beritaEdit'])->name('portal.berita.edit');
+    Route::post('/berita/{id}/update', [PortalDashboardController::class, 'beritaUpdate'])->name('portal.berita.update');
+    Route::get('/profile', [PortalDashboardController::class, 'profile'])->name('portal.profile');
+    Route::post('/profile', [PortalDashboardController::class, 'updateProfile'])->name('portal.profile.update');
+});
 
 Route::get('/{slug}', [WebsiteController::class, 'index']);
 Route::get('/program/{slug}', [WebsiteController::class, 'index_program']);
@@ -126,10 +155,17 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function(){
     /* BLOG */
     Route::get('/blog', [BlogController::class, 'index']);
     Route::get('/blog/table', [BlogController::class, 'table']);
+    Route::get('/blog/{id}/publish', [BlogController::class, 'publish'])->name('admin.blog.publish');
     Route::get('/blog/{id}/delete', [BlogController::class, 'delete']);
     Route::get('/blog/add', [BlogController::class, 'form']);
     Route::get('/blog/{id}/edit', [BlogController::class, 'form']);
     Route::post('/blog/add', [BlogController::class, 'store']);
+
+    /* KELOLA RELAWAN & MITRA (ACC & REJECT) */
+    Route::get('/members', [AdminMemberController::class, 'index'])->name('admin.members.index');
+    Route::get('/members/{id}/approve', [AdminMemberController::class, 'approve'])->name('admin.members.approve');
+    Route::post('/members/{id}/reject', [AdminMemberController::class, 'reject'])->name('admin.members.reject');
+    Route::get('/members/{id}/delete', [AdminMemberController::class, 'delete'])->name('admin.members.delete');
 
     /* GALERI */
     Route::get('/gallery', [GalleryController::class, 'index']);

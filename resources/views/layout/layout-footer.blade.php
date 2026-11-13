@@ -106,6 +106,8 @@
                         <li><a href="{{ url('budaya') }}">Budaya</a></li>
                         <li><a href="{{ url('cinta') }}">Cinta</a></li>
                         <li><a href="{{ url('senyum') }}">Senyum</a></li>
+                        <li><a href="{{ url('volunteer/daftar') }}" style="color: #86efac;"><i class="fa fa-heart me-1"></i> Jadi Relawan</a></li>
+                        <li><a href="{{ url('mitra/daftar') }}" style="color: #fde047;"><i class="fa fa-handshake me-1"></i> Jadi Mitra/Amil</a></li>
                     </ul>
                 </div>
             </div>
@@ -171,8 +173,13 @@
     <div class="container">
         <div class="row">
             <div class="col-xl-12">
-                <div class="site-footer__bottom-inner">
-                    <p class="site-footer__bottom-text">© copyright 2026 by <a href="#">Yayasan Graha Dhuafa Indonesia</a></p>
+                <div class="site-footer__bottom-inner d-flex flex-wrap justify-content-between align-items-center">
+                    <p class="site-footer__bottom-text mb-0">© copyright 2026 by <a href="#">Yayasan Graha Dhuafa Indonesia</a></p>
+                    <div class="site-footer__bottom-links" style="font-size: 13px;">
+                        <a href="{{ url('volunteer/daftar') }}" style="color: #94a3b8; margin-right: 15px;">Sahabat Baik</a>
+                        <a href="{{ url('mitra/daftar') }}" style="color: #94a3b8; margin-right: 15px;">Mitra Amil Zakat</a>
+                        <a href="{{ url('z/login') }}" style="color: #facc15;"><i class="fa fa-sign-in-alt me-1"></i> Portal Relawan (/z/login)</a>
+                    </div>
                 </div>
             </div>
         </div>
