@@ -235,32 +235,34 @@
         /* PRIMARY BUTTON */
         .btn-signin-primary {
             width: 100%;
-            background: #0f172a;
+            background: #00885a;
             color: #ffffff;
-            border: none;
+            border: 1px solid transparent;
             border-radius: 12px;
             padding: 13px 20px;
             font-size: 0.88rem;
             font-weight: 700;
             letter-spacing: 0.2px;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.18);
+            gap: 12px;
+            box-shadow: 0 4px 14px rgba(0, 136, 90, 0.18);
+            transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .btn-signin-primary:hover {
-            background: #1e293b;
-            color: #ffffff;
-            transform: translateY(-1.5px);
-            box-shadow: 0 8px 20px rgba(15, 23, 42, 0.25);
+            background: transparent;
+            border-color: #00885a;
+            transform: translateY(-2px);
+            color: #00885a;
+            box-shadow: 0 4px 16px rgba(0, 136, 90, 0.15);
         }
 
         .btn-signin-primary:active {
-            transform: translateY(0);
+            opacity: 0.9;
         }
 
         /* SIGN UP FOOTER */
@@ -283,57 +285,40 @@
             text-decoration: underline;
         }
 
-        /* SOCIAL / SHORTCUT ICONS */
-        .social-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 14px;
+        /* MITRA REGISTER LINK AT BOTTOM */
+        .mitra-register-box {
             margin-top: 10px;
             padding-top: 14px;
             border-top: 1px solid #f1f5f9;
         }
 
-        .social-circle-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            display: flex;
+        .mitra-register-link {
+            display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: #ffffff;
-            border: 1.5px solid #e2e8f0;
+            gap: 8px;
+            width: 100%;
+            padding: 11px 16px;
+            border-radius: 12px;
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
             color: #475569;
-            font-size: 1.15rem;
+            font-size: 0.82rem;
+            font-weight: 600;
             text-decoration: none;
             transition: all 0.2s ease;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
         }
 
-        .social-circle-btn:hover {
-            background: #f8fafc;
-            border-color: #cbd5e1;
-            color: #0f172a;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+        .mitra-register-link:hover {
+            background: #fffbeb;
+            border-color: #f59e0b;
+            border-style: solid;
+            color: #b45309;
         }
 
-        .social-circle-btn.google:hover {
-            color: #ea4335;
-            border-color: #fca5a5;
-            background: #fff5f5;
-        }
-
-        .social-circle-btn.whatsapp:hover {
-            color: #25d366;
-            border-color: #86efac;
-            background: #f0fdf4;
-        }
-
-        .social-circle-btn.web:hover {
-            color: var(--gdi-primary);
-            border-color: #86efac;
-            background: #f0fdf4;
+        .mitra-register-link i.icon-briefcase {
+            font-size: 0.95rem;
+            color: #f59e0b;
         }
 
         /* RIGHT COLUMN: HERO BANNER */
@@ -589,7 +574,7 @@
 
                 <!-- Title & Subtitle -->
                 <div class="auth-title-area">
-                    <h2 class="auth-title">Sign in</h2>
+                    <h2 class="auth-title">Login</h2>
                     <p class="auth-subtitle">Silakan masukkan akun Anda untuk masuk ke portal relawan.</p>
                 </div>
 
@@ -638,7 +623,7 @@
 
                     <!-- Email / Username Input -->
                     <div class="form-group-custom">
-                        <label for="login" class="form-label-custom">Email Address</label>
+                        <label for="login" class="form-label-custom">Alamat Email</label>
                         <div class="input-box-custom">
                             <span class="input-icon">
                                 <i class="bi bi-envelope"></i>
@@ -686,34 +671,25 @@
 
                     <!-- Submit Button -->
                     <button type="submit" class="btn-signin-primary">
-                        <span>Sign in</span>
+                        <span>Masuk</span>
                         <i class="bi bi-arrow-right"></i>
                     </button>
                 </form>
 
                 <!-- Sign Up Text -->
                 <div class="auth-signup-text">
-                    Don't have an account? 
-                    <a href="{{ route('portal.volunteer.register') }}">Sign up Relawan</a>
-                    <span class="mx-1 text-muted">•</span>
-                    <a href="{{ route('portal.affiliate.register') }}" class="text-secondary fw-semibold">Daftar Mitra</a>
+                    Belum memiliki akun? 
+                    <a href="{{ route('portal.volunteer.register') }}">Daftar sebagai Relawan</a>
                 </div>
             </div>
 
-            <!-- Social / Quick Shortcuts at Bottom -->
+            <!-- Mitra Register Section at Bottom -->
             <div>
-                <div class="social-row">
-                    <!-- Website Utama -->
-                    <a href="{{ url('/') }}" class="social-circle-btn web" title="Website Utama Graha Dhuafa Indonesia">
-                        <i class="bi bi-globe2"></i>
-                    </a>
-                    <!-- WhatsApp Admin -->
-                    <a href="https://wa.me/6281234567890?text=Halo%20Admin%20GDI,%20saya%20ingin%20bertanya%20seputar%20Relawan%20Sahabat%20Baik" target="_blank" class="social-circle-btn whatsapp" title="Hubungi Admin WhatsApp">
-                        <i class="bi bi-whatsapp"></i>
-                    </a>
-                    <!-- Google / Portal Bantuan -->
-                    <a href="{{ route('portal.volunteer.register') }}" class="social-circle-btn google" title="Gabung Sebagai Relawan Baru">
-                        <i class="bi bi-heart-pulse-fill"></i>
+                <div class="mitra-register-box">
+                    <a href="{{ route('portal.affiliate.register') }}" class="mitra-register-link">
+                        <i class="bi bi-briefcase-fill icon-briefcase"></i>
+                        <span>Ingin bermitra? <strong>Daftar Mitra / Amil Zakat</strong></span>
+                        <i class="bi bi-chevron-right ms-auto text-muted" style="font-size: 0.75rem;"></i>
                     </a>
                 </div>
             </div>
