@@ -89,6 +89,7 @@ Route::get('/affiliate/daftar', [PortalAuthController::class, 'showRegisterAffil
 Route::post('/mitra/daftar', [PortalAuthController::class, 'storeRegisterAffiliate'])->name('portal.affiliate.register.post');
 
 Route::get('/z/login', [PortalAuthController::class, 'showLogin'])->name('portal.login');
+Route::get('/volunteer/login', [PortalAuthController::class, 'showLogin'])->name('portal.volunteer.login');
 Route::post('/z/login', [PortalAuthController::class, 'authenticate'])->name('portal.login.post');
 Route::get('/z/logout', [PortalAuthController::class, 'logout'])->name('portal.logout');
 
