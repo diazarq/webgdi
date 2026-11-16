@@ -25,6 +25,7 @@ class Payment extends Model
         'digit',
         'status',
         'snap_token',
+        'affiliate_ref',
         'exp_at',
         'deleted_at'
     ];

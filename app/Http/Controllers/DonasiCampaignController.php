@@ -385,6 +385,7 @@ class DonasiCampaignController extends Controller
             'bank_id'        => $campaignId ? (int) $campaignId : 1,
             'digit'          => '0',
             'status'         => 'pending',
+            'affiliate_ref'  => session('affiliate_ref') ?: ($request->ref ?? null),
             'exp_at'         => date('Y-m-d H:i:s', strtotime('+24 hours')),
         ];
 

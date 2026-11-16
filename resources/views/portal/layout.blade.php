@@ -388,21 +388,36 @@
             <!-- 2. NAVIGATION MENU CARD -->
             <div class="sidebar-nav-card">
                 <nav class="nav flex-column">
-                    <a href="{{ route('portal.dashboard', ['tab' => 'programs']) }}" class="portal-nav-item {{ request()->routeIs('portal.dashboard') && request('tab') !== 'riwayat' ? 'active' : '' }}">
-                        <i class="bi bi-compass-fill fs-5"></i> Program Relawan
-                    </a>
-                    <a href="{{ route('portal.dashboard', ['tab' => 'riwayat']) }}" class="portal-nav-item {{ request()->routeIs('portal.dashboard') && request('tab') === 'riwayat' ? 'active' : '' }}">
-                        <i class="bi bi-clock-history fs-5"></i> Riwayat Aktivitasmu
-                    </a>
-                    <a href="{{ route('portal.berita.create') }}" class="portal-nav-item {{ request()->routeIs('portal.berita.create') ? 'active' : '' }}">
-                        <i class="bi bi-pencil-square fs-5"></i> Tulis Berita Kegiatan
-                    </a>
-                    <a href="{{ route('portal.berita.index') }}" class="portal-nav-item {{ request()->routeIs('portal.berita.index*') && !request()->routeIs('portal.berita.create') ? 'active' : '' }}">
-                        <i class="bi bi-journal-text fs-5"></i> Daftar Berita Saya
-                    </a>
-                    <a href="{{ route('portal.profile') }}" class="portal-nav-item {{ request()->routeIs('portal.profile') ? 'active' : '' }}">
-                        <i class="bi bi-person-gear fs-5"></i> Profil & Pengaturan
-                    </a>
+                    @if(Auth::user()->isAffiliate())
+                        <a href="{{ route('portal.dashboard') }}" class="portal-nav-item {{ request()->routeIs('portal.dashboard') ? 'active' : '' }}">
+                            <i class="bi bi-grid-1x2-fill fs-5"></i> Dashboard Afiliasi
+                        </a>
+                        <a href="{{ route('portal.berita.create') }}" class="portal-nav-item {{ request()->routeIs('portal.berita.create') ? 'active' : '' }}">
+                            <i class="bi bi-pencil-square fs-5"></i> Tulis Berita / Laporan
+                        </a>
+                        <a href="{{ route('portal.berita.index') }}" class="portal-nav-item {{ request()->routeIs('portal.berita.index*') && !request()->routeIs('portal.berita.create') ? 'active' : '' }}">
+                            <i class="bi bi-journal-text fs-5"></i> Berita Lembaga Saya
+                        </a>
+                        <a href="{{ route('portal.profile') }}" class="portal-nav-item {{ request()->routeIs('portal.profile') ? 'active' : '' }}">
+                            <i class="bi bi-building-gear fs-5"></i> Profil & Kemitraan
+                        </a>
+                    @else
+                        <a href="{{ route('portal.dashboard', ['tab' => 'programs']) }}" class="portal-nav-item {{ request()->routeIs('portal.dashboard') && request('tab') !== 'riwayat' ? 'active' : '' }}">
+                            <i class="bi bi-compass-fill fs-5"></i> Program Relawan
+                        </a>
+                        <a href="{{ route('portal.dashboard', ['tab' => 'riwayat']) }}" class="portal-nav-item {{ request()->routeIs('portal.dashboard') && request('tab') === 'riwayat' ? 'active' : '' }}">
+                            <i class="bi bi-clock-history fs-5"></i> Riwayat Aktivitasmu
+                        </a>
+                        <a href="{{ route('portal.berita.create') }}" class="portal-nav-item {{ request()->routeIs('portal.berita.create') ? 'active' : '' }}">
+                            <i class="bi bi-pencil-square fs-5"></i> Tulis Berita Kegiatan
+                        </a>
+                        <a href="{{ route('portal.berita.index') }}" class="portal-nav-item {{ request()->routeIs('portal.berita.index*') && !request()->routeIs('portal.berita.create') ? 'active' : '' }}">
+                            <i class="bi bi-journal-text fs-5"></i> Daftar Berita Saya
+                        </a>
+                        <a href="{{ route('portal.profile') }}" class="portal-nav-item {{ request()->routeIs('portal.profile') ? 'active' : '' }}">
+                            <i class="bi bi-person-gear fs-5"></i> Profil & Pengaturan
+                        </a>
+                    @endif
                     <a href="{{ route('portal.logout') }}" class="portal-nav-item logout">
                         <i class="bi bi-box-arrow-right fs-5"></i> Logout
                     </a>
@@ -415,7 +430,11 @@
                     <i class="bi bi-shield-check"></i>
                 </div>
                 <p class="tip-text">
-                    Semua berita kiriman relawan otomatis masuk <strong>Draft</strong> untuk dikurasi Admin GDI sebelum tayang.
+                    @if(Auth::user()->isAffiliate())
+                        Tautan referral donasi Anda mencatat setiap donasi donatur secara otomatis dan transparan.
+                    @else
+                        Semua berita kiriman relawan otomatis masuk <strong>Draft</strong> untuk dikurasi Admin GDI sebelum tayang.
+                    @endif
                 </p>
             </div>
         </div>

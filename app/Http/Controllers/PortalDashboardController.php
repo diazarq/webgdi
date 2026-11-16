@@ -6,6 +6,7 @@ use App\Models\Blog;
 use App\Models\User;
 use App\Models\VolunteerProgram;
 use App\Models\VolunteerRegistration;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -57,8 +58,36 @@ class PortalDashboardController extends Controller
 
         $registeredProgramIds = $myRegistrations->pluck('volunteer_program_id')->toArray();
 
+        // Data khusus Mitra / Affiliate (Donasi Masuk via Referral)
+        $affiliateStats = null;
+        $affiliateDonations = collect();
+
+        if ($user->isAffiliate()) {
+            $ref = $user->username;
+            $completePayments = Payment::where('affiliate_ref', $ref)->where('status', 'complete');
+            $allPaymentsQuery = Payment::where('affiliate_ref', $ref)->orderBy('created_at', 'desc');
+
+            $totalCollected = (clone $completePayments)->sum('nominal');
+            $totalDonors = (clone $completePayments)->count();
+            $thisMonthCollected = (clone $completePayments)
+                ->whereMonth('created_at', date('m'))
+                ->whereYear('created_at', date('Y'))
+                ->sum('nominal');
+            $estimatedUjrah = round($totalCollected * 0.10); // 10% hak amil / ujrah kemitraan
+
+            $affiliateStats = [
+                'total_collected'     => $totalCollected,
+                'total_donors'        => $totalDonors,
+                'this_month_collected'=> $thisMonthCollected,
+                'estimated_ujrah'     => $estimatedUjrah,
+                'total_transactions'  => Payment::where('affiliate_ref', $ref)->count(),
+            ];
+
+            $affiliateDonations = $allPaymentsQuery->take(25)->get();
+        }
+
         return view('portal.dashboard', [
-            'pageTitle' => 'Dashboard Relawan Sahabat Baik',
+            'pageTitle' => $user->isAffiliate() ? 'Dashboard Kemitraan & Afiliasi Donasi' : 'Dashboard Relawan Sahabat Baik',
             'user' => $user,
             'programs' => $programs,
             'myRegistrations' => $myRegistrations,
@@ -67,6 +96,8 @@ class PortalDashboardController extends Controller
             'activeTab' => $activeTab,
             'totalJoined' => $myRegistrations->count(),
             'totalAvailable' => VolunteerProgram::whereIn('status', ['open', 'active'])->count(),
+            'affiliateStats' => $affiliateStats,
+            'affiliateDonations' => $affiliateDonations,
         ]);
     }
 
