@@ -37,16 +37,6 @@
 @endpush
 
 @section('content')
-<!-- BREADCRUMB -->
-<div class="mb-3">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb small mb-1">
-            <li class="breadcrumb-item"><a href="{{ route('portal.dashboard') }}" class="text-decoration-none text-muted">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('portal.dashboard', ['tab' => 'programs']) }}" class="text-decoration-none text-muted">Program Relawan</a></li>
-            <li class="breadcrumb-item active text-dark fw-semibold" aria-current="page">{{ Str::limit($program->title, 35) }}</li>
-        </ol>
-    </nav>
-</div>
 
 <div class="row g-4">
     <!-- ========================================== -->
@@ -112,26 +102,7 @@
     <!-- ========================================== -->
     <div class="col-lg-5">
         <div class="program-card-sticky">
-            <h6 class="fw-bold text-dark mb-3">Status Kesiapan Aksi Relawan</h6>
-
-            <!-- Kuota Progress Bar -->
-            <div class="mb-3">
-                <div class="d-flex justify-content-between align-items-center mb-1">
-                    <span class="text-muted small">Kuota Relawan Terkumpul</span>
-                    <strong class="text-dark small">{{ $program->registrations_count }} / {{ $program->quota }} Relawan</strong>
-                </div>
-                <div class="progress" style="height: 9px; border-radius: 10px; background-color: #edf2f7;">
-                    <div class="progress-bar progress-bar-gdi" 
-                         role="progressbar" 
-                         style="width: {{ $percent }}%;" 
-                         aria-valuenow="{{ $percent }}" 
-                         aria-valuemin="0" 
-                         aria-valuemax="100"></div>
-                </div>
-                <div class="text-muted small mt-1 text-end" style="font-size: 0.72rem;">
-                    {{ $percent }}% dari target personil terpenuhi
-                </div>
-            </div>
+            <h6 class="fw-bold text-dark mb-3">Detail Aksi</h6>
 
             <!-- Detail Pelaksanaan -->
             <div class="bg-light p-3 rounded-3 mb-4 small" style="border: 1px solid #edf2f7;">
@@ -181,11 +152,7 @@
             <div class="mt-4 pt-3 border-top text-muted small">
                 <div class="d-flex align-items-center mb-2">
                     <i class="bi bi-shield-check text-success fs-5 me-2"></i>
-                    <span>Aksi Resmi Yayasan Graha Dhuafa Indonesia</span>
-                </div>
-                <div class="d-flex align-items-center">
-                    <i class="bi bi-chat-dots-fill text-primary fs-5 me-2"></i>
-                    <span>Terhubung langsung ke WhatsApp Koordinator</span>
+                    <span>Dibuat oleh Yayasan Graha Dhuafa Indonesia</span>
                 </div>
             </div>
         </div>

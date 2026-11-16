@@ -4,7 +4,7 @@
 @section('content')
 <div class="mb-4">
     <h4 class="fw-bold mb-1"><i class="bi bi-person-gear text-success me-2"></i>Profil & Pengaturan Akun</h4>
-    <p class="text-muted small mb-0">Perbarui data diri, kontak WhatsApp, dan kata sandi akun Anda.</p>
+    <p class="text-muted small mb-0">Perbarui data diri atau ubah kata sandi akun Anda.</p>
 </div>
 
 @if($errors->any())

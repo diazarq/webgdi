@@ -262,6 +262,7 @@
                         ID Ref: {{ strtoupper($user->username) }}
                     </span>
                 </div>
+<<<<<<< Updated upstream
                 <h2 class="fw-bold mb-2 text-white">Selamat Datang, {{ $user->name }}!</h2>
                 <p class="text-white opacity-90 mb-0" style="max-width: 650px;">
                     Portal kemitraan resmi <strong>{{ $user->instansi ?? $user->name }}</strong> bersama Yayasan Graha Dhuafa Indonesia. Pantau perolehan donasi dari jamaah dan komunitas Anda secara transparan, akuntabel, dan real-time.
@@ -270,6 +271,21 @@
             <div class="col-lg-4 text-center d-none d-lg-block">
                 <div style="font-size: 4rem; color: rgba(255, 255, 255, 0.25);">
                     <i class="bi bi-handshake-fill"></i>
+=======
+
+                <div>
+
+                    <!--  (Mengarahkan ke Halaman Detail & Daftar) -->
+                    @if($isRegistered)
+                        <a href="{{ route('portal.volunteer.program.join-group', $myReg->id) }}" target="_blank" class="btn btn-success w-100 rounded-pill py-2 fw-semibold d-flex justify-content-center align-items-center shadow-sm" style="font-size: 0.80rem;">
+                            <i class="bi bi-whatsapp me-1"></i> Gabung Grup WhatsApp
+                        </a>
+                    @else
+                        <a href="{{ route('portal.volunteer.program.detail', $p->slug) }}" class="btn btn-donasi-card w-100 rounded-pill py-2 fw-semibold d-flex justify-content-center align-items-center" style="font-size: 0.80rem;">
+                            Lihat Program <i class="bi bi-arrow-right ms-1"></i>
+                        </a>
+                    @endif
+>>>>>>> Stashed changes
                 </div>
             </div>
         </div>

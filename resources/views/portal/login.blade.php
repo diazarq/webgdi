@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,12 +9,16 @@
     <!-- Google Fonts: Manrope -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <!-- Bootstrap 5 & Icons -->
     <link href="{{ asset('admin/assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="icon" href="{{ asset('admin/assets/img/logo_gdi.png') }}">
+
+    <!-- Iconify Web Component -->
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 
     <style>
         :root {
@@ -34,7 +39,7 @@
         body {
             font-family: var(--font-family) !important;
             background-color: #f6f7f9;
-            background-image: 
+            background-image:
                 radial-gradient(at 10% 10%, rgba(17, 122, 55, 0.05) 0px, transparent 50%),
                 radial-gradient(at 90% 90%, rgba(245, 130, 32, 0.04) 0px, transparent 50%);
             min-height: 100vh;
@@ -143,7 +148,7 @@
             border: 1.5px solid #e2e8f0;
             border-radius: 12px;
             transition: all 0.2s ease;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
         }
 
         .input-box-custom:focus-within {
@@ -152,12 +157,24 @@
         }
 
         .input-box-custom .input-icon {
+            width: 40px;
             padding-left: 14px;
             color: #94a3b8;
-            font-size: 1.05rem;
-            display: flex;
+            display: inline-flex;
             align-items: center;
+            justify-content: center;
             pointer-events: none;
+            flex-shrink: 0;
+        }
+
+        .input-box-custom .input-icon iconify-icon,
+        .input-box-custom .input-icon i {
+            font-size: 1.12rem;
+            width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .input-box-custom .form-control-custom {
@@ -216,7 +233,7 @@
             width: 17px;
             height: 17px;
             border-radius: 5px;
-            accent-color: #0f172a;
+            accent-color: #00885a;
             cursor: pointer;
         }
 
@@ -340,10 +357,8 @@
         .auth-banner-overlay {
             position: absolute;
             inset: 0;
-            background: 
-                /* Efek vignette halus melingkar di pinggir foto */
+            background:
                 radial-gradient(ellipse at 50% 50%, transparent 45%, rgba(0, 0, 0, 0.35) 80%, rgba(0, 0, 0, 0.65) 100%),
-                /* Gradasi halus ke bawah agar teks tetap terbaca jelas */
                 linear-gradient(180deg, rgba(0, 0, 0, 0.05) 0%, rgba(0, 0, 0, 0.25) 50%, rgba(0, 0, 0, 0.78) 100%);
             z-index: 1;
             pointer-events: none;
@@ -503,16 +518,25 @@
             color: #ffffff;
             object-fit: cover;
             background-color: #334155;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
         }
 
         .avatar-stack-item:first-child {
             margin-left: 0;
         }
 
-        .avatar-stack-item.av-1 { background: linear-gradient(135deg, #10b981, #047857); }
-        .avatar-stack-item.av-2 { background: linear-gradient(135deg, #f59e0b, #b45309); }
-        .avatar-stack-item.av-3 { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .avatar-stack-item.av-1 {
+            background: linear-gradient(135deg, #10b981, #047857);
+        }
+
+        .avatar-stack-item.av-2 {
+            background: linear-gradient(135deg, #f59e0b, #b45309);
+        }
+
+        .avatar-stack-item.av-3 {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+
         .avatar-stack-item.av-count {
             background: #0f172a;
             border-color: #334155;
@@ -536,209 +560,209 @@
                 padding: 16px;
                 border-radius: 26px;
             }
+
             .auth-container {
                 flex-direction: column-reverse;
                 min-height: auto;
             }
+
             .auth-form-col {
                 padding: 24px 10px 10px 10px;
             }
+
             .auth-banner-col {
                 min-height: 400px;
                 padding: 28px 24px 24px 24px;
             }
+
             .banner-watermark-symbol {
                 display: none;
             }
         }
     </style>
 </head>
+
 <body>
 
-<div class="auth-wrapper shadow">
-    <div class="auth-container ">
-        
-        <!-- ==========================================
+    <div class="auth-wrapper shadow">
+        <div class="auth-container ">
+
+            <!-- ==========================================
              LEFT COLUMN: LOGIN FORM
              ========================================== -->
-        <div class="auth-form-col">
-            <div>
-                <!-- Brand Header -->
-                <a href="{{ url('/') }}" class="brand-header">
-                    <img src="{{ asset('admin/assets/img/logo_gdi.png') }}" alt="Logo GDI" class="brand-logo-img">
-                    <h1 class="brand-name">
-                        Graha Dhuafa Indonesia
-                        <span>Portal Sahabat Baik & Relawan</span>
-                    </h1>
-                </a>
+            <div class="auth-form-col">
+                <div>
+                    <!-- Brand Header -->
+                    <a href="{{ url('/') }}" class="brand-header">
+                        <img src="{{ asset('admin/assets/img/logo_gdi.png') }}" alt="Logo GDI" class="brand-logo-img">
+                        <h1 class="brand-name">
+                            Graha Dhuafa Indonesia
+                            <span>Portal Sahabat Baik & Relawan</span>
+                        </h1>
+                    </a>
 
-                <!-- Title & Subtitle -->
-                <div class="auth-title-area">
-                    <h2 class="auth-title">Login</h2>
-                    <p class="auth-subtitle">Silakan masukkan akun Anda untuk masuk ke portal relawan.</p>
+                    <!-- Title & Subtitle -->
+                    <div class="auth-title-area">
+                        <h2 class="auth-title">Login</h2>
+                        <p class="auth-subtitle">Silahkan lengkapi form dibawah ini untuk masuk.</p>
+                    </div>
+
+                    <!-- ALERTS: Pendaftaran Sukses -->
+                    @if(session('registered_success'))
+                        <div class="alert alert-success alert-custom alert-dismissible fade show" role="alert">
+                            <div class="d-flex align-items-start gap-2">
+                                <i class="bi bi-check-circle-fill text-success fs-5"></i>
+                                <div>
+                                    <strong>Pendaftaran Diterima!</strong>
+                                    <div class="mt-1">{{ session('registered_success.message') }}</div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    <!-- ALERTS: Pending Verifikasi -->
+                    @if(session('pending_notice'))
+                        <div class="alert alert-warning alert-custom alert-dismissible fade show" role="alert">
+                            <div class="d-flex align-items-start gap-2">
+                                <i class="bi bi-hourglass-split text-warning fs-5"></i>
+                                <div>
+                                    <strong>{{ session('pending_notice.title') }}</strong>
+                                    <div class="mt-1">{!! session('pending_notice.message') !!}</div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    <!-- ALERTS: Error Validasi -->
+                    @if($errors->any())
+                        <div class="alert alert-danger alert-custom alert-dismissible fade show" role="alert">
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="bi bi-exclamation-circle-fill fs-5"></i>
+                                <div>{{ $errors->first() }}</div>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    @endif
+
+                    <!-- FORM LOGIN -->
+                    <form action="{{ route('portal.login.post') }}" method="POST">
+                        @csrf
+
+                        <!-- Email / Username Input -->
+                        <div class="form-group-custom">
+                            <label for="login" class="form-label-custom">Alamat Email</label>
+                            <div class="input-box-custom">
+                                <span class="input-icon">
+                                    <iconify-icon icon="fa:envelope"></iconify-icon>
+                                </span>
+                                <input type="text" class="form-control-custom" id="login" name="login"
+                                    value="{{ old('login') }}" placeholder="johndoe@gmail.com atau username" required
+                                    autofocus>
+                            </div>
+                        </div>
+
+                        <!-- Password Input -->
+                        <div class="form-group-custom">
+                            <label for="password" class="form-label-custom">Password</label>
+                            <div class="input-box-custom">
+                                <span class="input-icon">
+                                    <iconify-icon icon="uis:lock" class="fs-5"></iconify-icon>
+                                </span>
+                                <input type="password" class="form-control-custom" id="password" name="password"
+                                    placeholder="••••••••" required>
+                                <button type="button" class="btn-toggle-eye" onclick="togglePasswordVisibility()"
+                                    aria-label="Lihat Password">
+                                    <i class="bi bi-eye" id="togglePasswordIcon"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Options: Remember Me & Forgot Password -->
+                        <div class="auth-options">
+                            <label class="custom-checkbox">
+                                <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                <span>Ingat Saya</span>
+                            </label>
+                            <a href="https://wa.me/6281234567890?text=Halo%20Admin%20GDI,%20saya%20lupa%20password%20akun%20portal%20relawan"
+                                target="_blank" class="forgot-link">
+                                Forgot Password?
+                            </a>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn-signin-primary">
+                            <span>Masuk</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </form>
+
+                    <!-- Sign Up Text -->
+                    <div class="auth-signup-text">
+                        Belum memiliki akun?
+                        <a href="{{ route('portal.volunteer.register') }}">Daftar Sekarang!</a>
+                    </div>
                 </div>
 
-                <!-- ALERTS: Pendaftaran Sukses -->
-                @if(session('registered_success'))
-                    <div class="alert alert-success alert-custom alert-dismissible fade show" role="alert">
-                        <div class="d-flex align-items-start gap-2">
-                            <i class="bi bi-check-circle-fill text-success fs-5"></i>
-                            <div>
-                                <strong>Pendaftaran Diterima!</strong>
-                                <div class="mt-1">{{ session('registered_success.message') }}</div>
-                            </div>
-                        </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
-
-                <!-- ALERTS: Pending Verifikasi -->
-                @if(session('pending_notice'))
-                    <div class="alert alert-warning alert-custom alert-dismissible fade show" role="alert">
-                        <div class="d-flex align-items-start gap-2">
-                            <i class="bi bi-hourglass-split text-warning fs-5"></i>
-                            <div>
-                                <strong>{{ session('pending_notice.title') }}</strong>
-                                <div class="mt-1">{!! session('pending_notice.message') !!}</div>
-                            </div>
-                        </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
-
-                <!-- ALERTS: Error Validasi -->
-                @if($errors->any())
-                    <div class="alert alert-danger alert-custom alert-dismissible fade show" role="alert">
-                        <div class="d-flex align-items-center gap-2">
-                            <i class="bi bi-exclamation-circle-fill fs-5"></i>
-                            <div>{{ $errors->first() }}</div>
-                        </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
-
-                <!-- FORM LOGIN -->
-                <form action="{{ route('portal.login.post') }}" method="POST">
-                    @csrf
-
-                    <!-- Email / Username Input -->
-                    <div class="form-group-custom">
-                        <label for="login" class="form-label-custom">Alamat Email</label>
-                        <div class="input-box-custom">
-                            <span class="input-icon">
-                                <i class="bi bi-envelope"></i>
-                            </span>
-                            <input type="text" 
-                                   class="form-control-custom" 
-                                   id="login" 
-                                   name="login" 
-                                   value="{{ old('login') }}" 
-                                   placeholder="johndoe@gmail.com atau username" 
-                                   required 
-                                   autofocus>
-                        </div>
-                    </div>
-
-                    <!-- Password Input -->
-                    <div class="form-group-custom">
-                        <label for="password" class="form-label-custom">Password</label>
-                        <div class="input-box-custom">
-                            <span class="input-icon">
-                                <i class="bi bi-lock"></i>
-                            </span>
-                            <input type="password" 
-                                   class="form-control-custom" 
-                                   id="password" 
-                                   name="password" 
-                                   placeholder="••••••••" 
-                                   required>
-                            <button type="button" class="btn-toggle-eye" onclick="togglePasswordVisibility()" aria-label="Lihat Password">
-                                <i class="bi bi-eye" id="togglePasswordIcon"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Options: Remember Me & Forgot Password -->
-                    <div class="auth-options">
-                        <label class="custom-checkbox">
-                            <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                            <span>Remember me</span>
-                        </label>
-                        <a href="https://wa.me/6281234567890?text=Halo%20Admin%20GDI,%20saya%20lupa%20password%20akun%20portal%20relawan" target="_blank" class="forgot-link">
-                            Forgot Password?
+                <!-- Mitra Register Section at Bottom -->
+                <div>
+                    <div class="mitra-register-box">
+                        <a href="{{ route('portal.affiliate.register') }}" class="mitra-register-link">
+                            <i class="bi bi-briefcase-fill icon-briefcase"></i>
+                            <span>Ingin bermitra? <strong>Daftar Mitra / Amil Zakat</strong></span>
+                            <i class="bi bi-chevron-right ms-auto text-muted" style="font-size: 0.75rem;"></i>
                         </a>
                     </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" class="btn-signin-primary">
-                        <span>Masuk</span>
-                        <i class="bi bi-arrow-right"></i>
-                    </button>
-                </form>
-
-                <!-- Sign Up Text -->
-                <div class="auth-signup-text">
-                    Belum memiliki akun? 
-                    <a href="{{ route('portal.volunteer.register') }}">Daftar sebagai Relawan</a>
                 </div>
             </div>
 
-            <!-- Mitra Register Section at Bottom -->
-            <div>
-                <div class="mitra-register-box">
-                    <a href="{{ route('portal.affiliate.register') }}" class="mitra-register-link">
-                        <i class="bi bi-briefcase-fill icon-briefcase"></i>
-                        <span>Ingin bermitra? <strong>Daftar Mitra / Amil Zakat</strong></span>
-                        <i class="bi bi-chevron-right ms-auto text-muted" style="font-size: 0.75rem;"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- ==========================================
+            <!-- ==========================================
              RIGHT COLUMN: HERO BANNER (Design from Reference)
              ========================================== -->
-        <div class="auth-banner-col">
-            <div class="auth-banner-overlay"></div>
+            <div class="auth-banner-col">
+                <div class="auth-banner-overlay"></div>
 
-            <div class="banner-content-inner">
-                <!-- Mid Text Content -->
-                <div class="banner-intro-area">
-                    <h3 class="banner-headline">Welcome to Sahabat Baik</h3>
-                    <p class="banner-desc">
-                        Graha Dhuafa Indonesia senantiasa berkomitmen untuk terus ambil peran dalam menjaga generasi pelanjut. Jadilah bagian dari aksi kemanusiaan dan kepedulian bersama kami.
-                    </p>
-                    <div class="banner-stat">
-                        <i class="bi bi-people-fill"></i>
-                        More than 500+ volunteers joined us, it's your turn
+                <div class="banner-content-inner">
+                    <!-- Mid Text Content -->
+                    <div class="banner-intro-area">
+                        <h3 class="banner-headline">Welcome to Sahabat Baik</h3>
+                        <p class="banner-desc">
+                            Graha Dhuafa Indonesia senantiasa berkomitmen untuk terus ambil peran dalam menjaga generasi
+                            pelanjut. Jadilah bagian dari aksi kemanusiaan dan kepedulian bersama kami.
+                        </p>
+                        <div class="banner-stat">
+                            <i class="bi bi-people-fill"></i>
+                            More than 500+ volunteers joined us, it's your turn
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
-
     </div>
-</div>
 
-<!-- Bootstrap 5 JS -->
-<script src="{{ asset('admin/assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- Bootstrap 5 JS -->
+    <script src="{{ asset('admin/assets/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
 
-<!-- Show / Hide Password Script -->
-<script>
-    function togglePasswordVisibility() {
-        const passInput = document.getElementById('password');
-        const icon = document.getElementById('togglePasswordIcon');
-        
-        if (passInput.type === 'password') {
-            passInput.type = 'text';
-            icon.classList.remove('bi-eye');
-            icon.classList.add('bi-eye-slash');
-        } else {
-            passInput.type = 'password';
-            icon.classList.remove('bi-eye-slash');
-            icon.classList.add('bi-eye');
+    <!-- Show / Hide Password Script -->
+    <script>
+        function togglePasswordVisibility() {
+            const passInput = document.getElementById('password');
+            const icon = document.getElementById('togglePasswordIcon');
+
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                passInput.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
         }
-    }
-</script>
+    </script>
 
 </body>
+
 </html>
