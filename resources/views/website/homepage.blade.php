@@ -388,6 +388,9 @@
                                         Daftar Jadi Mitra <i class="fas fa-handshake ms-1"></i>
                                     </a>
                                 @else
+                                    <a href="{{ route('donasi.index') }}" class="thm-btn gdi-hero__btn gdi-hero__btn--donasi" style="background: linear-gradient(135deg, #FF6B35 0%, #ff8c42 100%) !important; border-color: #FF6B35 !important; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);">
+                                        Donasi Sekarang! <i class="fas fa-heart ms-1"></i>
+                                    </a>
                                     @if($btn && count($btn))
                                     <a href="{{ $btn[0]->url }}" class="thm-btn gdi-hero__btn">
                                         {{ $btn[0]->text }} <i class="fas fa-arrow-right gdi-hero__btn-icon"></i>
