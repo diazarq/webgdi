@@ -105,9 +105,7 @@
                     <ul class="footer-widget__Explore-list list-unstyled">
                         <li><a href="{{ url('budaya') }}">Budaya</a></li>
                         <li><a href="{{ url('cinta') }}">Cinta</a></li>
-                        <li><a href="{{ url('senyum') }}">Senyum</a></li>
-                        <li><a href="{{ url('volunteer/daftar') }}" style="color: #86efac;"><i class="fa fa-heart me-1"></i> Jadi Relawan</a></li>
-                        <li><a href="{{ url('mitra/daftar') }}" style="color: #fde047;"><i class="fa fa-handshake me-1"></i> Jadi Mitra/Amil</a></li>
+                        <li><a href="{{ url('senyum') }}">Senyum</a></li>   
                     </ul>
                 </div>
             </div>

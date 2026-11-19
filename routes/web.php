@@ -34,6 +34,7 @@ use App\Http\Controllers\AdminDonasiCampaignController;
 use App\Http\Controllers\PortalAuthController;
 use App\Http\Controllers\PortalDashboardController;
 use App\Http\Controllers\AdminMemberController;
+use App\Http\Controllers\RoleController;
 
 
 /*
@@ -146,18 +147,39 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function(){
     /* PLUGINS: REDACTORX */
     Route::post('/redactor/upload', [RedactorController::class, 'upload']);
 
-    /* BAGIAN OCHA */
-    Route::get('/user', [UserController::class, 'index']);
-    Route::get('/user/table', [UserController::class, 'table']);
-    Route::get('/user/{id}/delete', [UserController::class, 'delete']);
-    Route::get('/user/add', [UserController::class, 'form']);
-    Route::get('/user/{id}/edit', [UserController::class, 'form']);
+    /* PROFIL USER LOGIN */
     Route::get('/user/detail', [UserController::class, 'detail']);
-    Route::post('/user/add', [UserController::class, 'store']);
 
-    /* KELOLA TEMA (ON/OFF ELEMEN & CHECK/UNCHECK) */
-    Route::get('/theme', [ThemeController::class, 'index'])->name('admin.theme.index');
-    Route::post('/theme/save', [ThemeController::class, 'save'])->name('admin.theme.save');
+    /* ROUTE KHUSUS SUPERADMIN: KELOLA USER, ROLE, USER PRIVILEGE, TEMA, MENU */
+    Route::group(['middleware' => ['role:superadmin']], function() {
+        /* KELOLA USER */
+        Route::get('/user', [UserController::class, 'index']);
+        Route::get('/user/table', [UserController::class, 'table']);
+        Route::get('/user/{id}/delete', [UserController::class, 'delete']);
+        Route::get('/user/add', [UserController::class, 'form']);
+        Route::get('/user/{id}/edit', [UserController::class, 'form']);
+        Route::post('/user/add', [UserController::class, 'store']);
+
+        /* KELOLA ROLE */
+        Route::get('/role', [RoleController::class, 'index'])->name('admin.role.index');
+
+        /* USER PRIVILEGE */
+        Route::get('/user-privilege', [RoleController::class, 'privilege'])->name('admin.privilege.index');
+        Route::post('/user-privilege/save', [RoleController::class, 'savePrivilege'])->name('admin.privilege.save');
+
+        /* KELOLA TEMA */
+        Route::get('/theme', [ThemeController::class, 'index'])->name('admin.theme.index');
+        Route::post('/theme/save', [ThemeController::class, 'save'])->name('admin.theme.save');
+
+        /* MENU WEBSITE */
+        Route::get('/menu', [MenuController::class, 'index']);
+        Route::get('/menu/table', [MenuController::class, 'table']);
+        Route::get('/menu/add', [MenuController::class, 'form']);
+        Route::get('/menu/{id}/edit', [MenuController::class, 'form']);
+        Route::get('/menu/{id}/delete', [MenuController::class, 'delete']);
+        Route::post('/menu/add', [MenuController::class, 'store']);
+        Route::post('/menu/update-order', [MenuController::class, 'updateOrder'])->name('menu.updateOrder');
+    });
 
     /* BLOG */
     Route::get('/blog', [BlogController::class, 'index']);
@@ -287,6 +309,7 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function(){
     Route::get('/campaign-donasi/{id}/delete', [AdminDonasiCampaignController::class, 'delete'])->name('admin.campaign.delete');
     /* ---- */
 
+<<<<<<< Updated upstream
     /* BAGIAN PA ANDRI */
     /* MENU */
     Route::get('/menu', [MenuController::class, 'index']);
@@ -297,6 +320,8 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function(){
     Route::post('/menu/add', [MenuController::class, 'store']);
     Route::post('/menu/reorder', [MenuController::class, 'reorder'])->name('admin.menu.reorder');
 
+=======
+>>>>>>> Stashed changes
     /* WIDGET: SLIDER */
     Route::get('/widget/slider', [WidgetController::class, 'index_slider']);
     Route::get('/widget/slider/table', [WidgetController::class, 'table_slider']);

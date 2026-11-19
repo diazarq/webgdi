@@ -29,6 +29,13 @@
       <header class="cs-header">
         <div class="cs-toggle" data-open="false" ><i class="bi-list"></i></div>
         <div class="cs-title">CMS</div>
+        @if(Auth::check())
+          <div class="cs-profile">
+            <span class="text-muted small me-2 d-none d-md-inline">Anda Login Sebagai:</span>
+            <span class="badge bg-primary text-uppercase me-2">{{ Auth::user()->role_type ?? 'Admin' }}</span>
+            <span class="fw-bold text-dark">{{ Auth::user()->name }}</span>
+          </div>
+        @endif
       </header>
 
       <div class="cs-left-bar" id="slide">
@@ -50,7 +57,6 @@
             
           </div>
         </div>
-        
       </div>
 
       <script src="{{ asset('admin/assets/plugins/jquery/jquery-3.6.0.min.js') }}"></script>

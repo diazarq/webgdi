@@ -34,19 +34,43 @@ class User extends Authenticatable
         return $this->status_approval === 'approved';
     }
 
-    public function isVolunteer()
+    public function isSuperAdmin()
     {
-        return $this->role_type === 'volunteer' || $this->level == 2;
-    }
-
-    public function isAffiliate()
-    {
-        return $this->role_type === 'affiliate' || $this->level == 3;
+        return strtolower($this->role_type ?? '') === 'superadmin' || $this->level == 99;
     }
 
     public function isAdmin()
     {
-        return $this->role_type === 'admin' || $this->level == 1;
+        return strtolower($this->role_type ?? '') === 'admin' || $this->level == 1;
+    }
+
+    public function isVolunteer()
+    {
+        return strtolower($this->role_type ?? '') === 'volunteer' || $this->level == 2;
+    }
+
+    public function isAffiliate()
+    {
+        return in_array(strtolower($this->role_type ?? ''), ['affiliate', 'mitra']) || $this->level == 3;
+    }
+
+    public function isMitra()
+    {
+        return $this->isAffiliate();
+    }
+
+    public function hasRole($roles)
+    {
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        if (is_string($roles)) {
+            $roles = [$roles];
+        }
+
+        $userRole = strtolower($this->role_type ?? '');
+        return in_array($userRole, array_map('strtolower', $roles));
     }
 
     /**
