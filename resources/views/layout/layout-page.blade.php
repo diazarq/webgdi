@@ -101,7 +101,7 @@
     text-align: center; 
 }
 .page-header__inner h2 {
-    color: #ffffff;
+    color: #ffffff !important;
     font-size: 38px;
     line-height: 48px;
     margin-top: 6px;
@@ -136,13 +136,26 @@
                 color: #7ef0c0;
             }
 
+            .thm-breadcrumb li,
             .thm-breadcrumb li a,
-            .thm-breadcrumb li span {
-                color: rgba(255, 255, 255, 0.75);
+            .thm-breadcrumb li span,
+            .thm-breadcrumb li strong {
+                color: rgba(255, 255, 255, 0.85) !important;
+            }
+
+            .thm-breadcrumb li a:hover {
+                color: #ffffff !important;
+            }
+
+            .thm-breadcrumb li.active,
+            .thm-breadcrumb li:last-child,
+            .thm-breadcrumb li:last-child span,
+            .thm-breadcrumb li:last-child strong {
+                color: #ffffff !important;
             }
 
             .thm-breadcrumb li + li::before {
-                color: rgba(255, 255, 255, 0.4);
+                color: rgba(255, 255, 255, 0.5) !important;
             }
         </style>
 

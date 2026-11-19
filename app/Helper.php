@@ -98,6 +98,24 @@ class Helper{
                     }
 
                 }
+
+                if(strtolower(trim($p->title)) === 'layanan'){
+                    $submenu[] = [
+                        'id' => 991,
+                        'title' => 'Daftar Relawan (Sahabat Baik)',
+                        'url' => 'volunteer/daftar'
+                    ];
+                    $submenu[] = [
+                        'id' => 992,
+                        'title' => 'Daftar Mitra Amil Zakat',
+                        'url' => 'mitra/daftar'
+                    ];
+                    $submenu[] = [
+                        'id' => 993,
+                        'title' => 'Portal Relawan & Mitra (Login)',
+                        'url' => 'z/login'
+                    ];
+                }
                 $arrMenu[] = [
                     'id' => $p->id,
                     'title' => $p->title,

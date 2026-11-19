@@ -310,13 +310,13 @@
 
 @section('breadcrumb')
 <ul class="thm-breadcrumb list-unstyled">
-    <li><a href="/" style="color: var(--color-primary)"><strong>Beranda</strong></a></li>
+    <li><a href="/">Beranda</a></li>
     <li><span>/</span></li>
-    <li><a href="/blog" style="color: var(--color-text)"><strong>Blog</strong></a></li>
+    <li><a href="/blog">Blog</a></li>
     <li><span>/</span></li>
-    <li><strong>{{ $pageTitle }}</strong></li>
+    <li class="active"><span>{{ $pageTitle }}</span></li>
 </ul>
-<h2 style="color: var(--color-primary)">{{ $pageTitle }}</h2>
+<h2>{{ $pageTitle }}</h2>
 @endsection
 
 @section('pageBlog')

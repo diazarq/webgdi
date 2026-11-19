@@ -416,6 +416,7 @@ class PortalDashboardController extends Controller
             'phone' => ['required', 'string', 'max:30'],
             'domisili' => ['required', 'string', 'max:150'],
             'organisasi' => ['nullable', 'string'],
+            'profile_photo' => ['nullable', 'image', 'max:2048'], // max 2MB
         ];
 
         if ($request->filled('password')) {
@@ -431,13 +432,37 @@ class PortalDashboardController extends Controller
             $user->organisasi = $request->organisasi;
         }
 
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
+        if ($request->hasFile('profile_photo')) {
+            $path = $request->file('profile_photo')->store('profile_photos', 'public');
+            $user->profile_photo = $path;
         }
 
         $user->save();
 
         return back()->with('success', 'Profil dan informasi akun berhasil diperbarui!');
+    }
+
+    /**
+     * Update Foto Profil Relawan / Mitra
+     */
+    public function updatePhoto(Request $request)
+    {
+        $request->validate([
+            'profile_photo' => ['required', 'image', 'mimes:jpeg,png,jpg,webp', 'max:2048'],
+        ], [
+            'profile_photo.required' => 'Silakan pilih gambar terlebih dahulu.',
+            'profile_photo.image' => 'File harus berupa gambar (jpg, png, webp).',
+            'profile_photo.max' => 'Ukuran foto maksimal 2MB.',
+        ]);
+
+        $user = Auth::user();
+        if ($request->hasFile('profile_photo')) {
+            $path = $request->file('profile_photo')->store('profile_photos', 'public');
+            $user->profile_photo = $path;
+            $user->save();
+        }
+
+        return back()->with('success', 'Foto profil berhasil diperbarui!');
     }
 }
 

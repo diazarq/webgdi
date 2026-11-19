@@ -21,7 +21,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'username', 'email', 'phone', 'password', 'status', 'level',
         'role_type', 'volunteer_type', 'organisasi', 'instansi', 'domisili',
-        'status_approval', 'rejection_note', 'approved_at', 'last_login'
+        'status_approval', 'rejection_note', 'approved_at', 'last_login', 'profile_photo'
     ];
 
     public function blogs()

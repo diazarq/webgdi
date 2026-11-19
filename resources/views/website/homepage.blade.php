@@ -375,14 +375,24 @@
 
                             <div class="gdi-hero__desc">{{ $desc }}</div>
 
+                            @php
+                                $isVolSlide = \Illuminate\Support\Str::contains(strtolower($dt->title ?? ''), ['volunteer', 'relawan']);
+                            @endphp
+
                             <div class="gdi-hero__cta d-flex gap-3 flex-wrap align-items-center">
-                                <a href="{{ route('donasi.index') }}" class="thm-btn gdi-hero__btn gdi-hero__btn--donasi" style="background: linear-gradient(135deg, #FF6B35 0%, #ff8c42 100%) !important; border-color: #FF6B35 !important; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);">
-                                    Donasi Sekarang! <i class="fas fa-heart ms-1"></i>
-                                </a>
-                                @if($btn && count($btn))
-                                <a href="{{ $btn[0]->url }}" class="thm-btn gdi-hero__btn">
-                                    {{ $btn[0]->text }} <i class="fas fa-arrow-right gdi-hero__btn-icon"></i>
-                                </a>
+                                @if($isVolSlide)
+                                    <a href="{{ route('portal.volunteer.register') }}" class="thm-btn gdi-hero__btn" style="background: linear-gradient(135deg, #0f7638 0%, #15803d 100%) !important; border-color: #0f7638 !important; box-shadow: 0 4px 15px rgba(15, 118, 56, 0.4); color: #ffffff !important;">
+                                        Daftar Relawan! <i class="fas fa-user-plus ms-1"></i>
+                                    </a>
+                                    <a href="{{ route('portal.affiliate.register') }}" class="thm-btn gdi-hero__btn" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important; border-color: #d97706 !important; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35); color: #ffffff !important;">
+                                        Daftar Jadi Mitra <i class="fas fa-handshake ms-1"></i>
+                                    </a>
+                                @else
+                                    @if($btn && count($btn))
+                                    <a href="{{ $btn[0]->url }}" class="thm-btn gdi-hero__btn">
+                                        {{ $btn[0]->text }} <i class="fas fa-arrow-right gdi-hero__btn-icon"></i>
+                                    </a>
+                                    @endif
                                 @endif
                             </div>
                         </div>
@@ -427,8 +437,8 @@
                 'subtitle' => 'Yayasan Graha Dhuafa Indonesia',
                 'title'    => 'Siapkah diri Anda untuk menjadi volunteer selanjutnya?',
                 'desc'     => 'Bergabung menjadi relawan Graha Dhuafa Indonesia dan ambil peran nyata dalam menjaga generasi pelanjut. #PeduliMenjagaGenerasi',
-                'text'     => '',
-                'url'      => '',
+                'text'     => 'Daftar Relawan',
+                'url'      => 'volunteer/daftar',
             ],
         ];
     @endphp
@@ -458,6 +468,7 @@
             @foreach($fallbackSlides as $fd)
                 @php
                     $words = array_values(array_filter(preg_split('/\s+/', trim($fd['title']))));
+                    $isVolSlide = \Illuminate\Support\Str::contains(strtolower($fd['title'] ?? ''), ['volunteer', 'relawan']);
                 @endphp
                 <div class="swiper-slide gdi-hero__slide">
                     <div class="gdi-hero__image" style="background-image: url('{{ asset($fd['image']) }}');"></div>
@@ -477,13 +488,25 @@
                             @endif
 
                             <div class="gdi-hero__cta d-flex gap-3 flex-wrap align-items-center">
-                                <a href="{{ route('donasi.index') }}" class="thm-btn gdi-hero__btn gdi-hero__btn--donasi" style="background: linear-gradient(135deg, #FF6B35 0%, #ff8c42 100%) !important; border-color: #FF6B35 !important; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);">
-                                    Donasi Sekarang! <i class="fas fa-heart ms-1"></i>
-                                </a>
-                                @if(trim($fd['text']) !== '')
-                                <a href="{{ url($fd['url']) }}" class="thm-btn gdi-hero__btn">
-                                    {{ $fd['text'] }} <i class="fas fa-arrow-right gdi-hero__btn-icon"></i>
-                                </a>
+                                @if($isVolSlide)
+                                    <a href="{{ route('portal.volunteer.register') }}" class="thm-btn gdi-hero__btn" style="background: linear-gradient(135deg, #0f7638 0%, #15803d 100%) !important; border-color: #0f7638 !important; box-shadow: 0 4px 15px rgba(15, 118, 56, 0.4); color: #ffffff !important;">
+                                        Daftar Relawan! <i class="fas fa-user-plus ms-1"></i>
+                                    </a>
+                                    <a href="{{ route('portal.affiliate.register') }}" class="thm-btn gdi-hero__btn" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important; border-color: #d97706 !important; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.35); color: #ffffff !important;">
+                                        Daftar Jadi Mitra <i class="fas fa-handshake ms-1"></i>
+                                    </a>
+                                    <a href="{{ route('donasi.index') }}" class="thm-btn gdi-hero__btn gdi-hero__btn--donasi" style="background: rgba(255, 255, 255, 0.2) !important; border: 1px solid rgba(255,255,255,0.4) !important; color: #ffffff !important;">
+                                        Donasi <i class="fas fa-heart ms-1"></i>
+                                    </a>
+                                @else
+                                    <a href="{{ route('donasi.index') }}" class="thm-btn gdi-hero__btn gdi-hero__btn--donasi" style="background: linear-gradient(135deg, #FF6B35 0%, #ff8c42 100%) !important; border-color: #FF6B35 !important; box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);">
+                                        Donasi Sekarang! <i class="fas fa-heart ms-1"></i>
+                                    </a>
+                                    @if(trim($fd['text']) !== '')
+                                    <a href="{{ url($fd['url']) }}" class="thm-btn gdi-hero__btn">
+                                        {{ $fd['text'] }} <i class="fas fa-arrow-right gdi-hero__btn-icon"></i>
+                                    </a>
+                                    @endif
                                 @endif
                             </div>
                         </div>

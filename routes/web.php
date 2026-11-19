@@ -106,6 +106,7 @@ Route::group(['prefix' => 'portal', 'middleware' => ['auth']], function() {
     Route::post('/berita/{id}/update', [PortalDashboardController::class, 'beritaUpdate'])->name('portal.berita.update');
     Route::get('/profile', [PortalDashboardController::class, 'profile'])->name('portal.profile');
     Route::post('/profile', [PortalDashboardController::class, 'updateProfile'])->name('portal.profile.update');
+    Route::post('/profile/photo', [PortalDashboardController::class, 'updatePhoto'])->name('portal.profile.photo');
 });
 
 Route::get('/{slug}', [WebsiteController::class, 'index']);

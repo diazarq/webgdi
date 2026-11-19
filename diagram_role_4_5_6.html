@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagram Activity & Privilege Role 4, 5, 6 - Web GDI</title>
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Manrope:wght@500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Bootstrap 5 & Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Mermaid.js -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f4f7f5;
+            color: #1e293b;
+            padding-bottom: 60px;
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, #0f7638 0%, #0a5728 100%);
+            color: #ffffff;
+            padding: 40px 20px;
+            border-radius: 0 0 24px 24px;
+            box-shadow: 0 10px 25px rgba(15, 118, 56, 0.15);
+            margin-bottom: 30px;
+        }
+
+        .card-diagram {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+        }
+
+        .diagram-container {
+            background: #fbfdfc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+        }
+
+        .btn-download {
+            font-size: 0.82rem;
+            font-weight: 700;
+            border-radius: 30px;
+            padding: 8px 18px;
+            transition: all 0.2s;
+        }
+
+        .badge-role {
+            font-size: 0.78rem;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+        }
+
+        @media print {
+            .no-print {
+                display: none !important;
+            }
+
+            body {
+                background: #ffffff;
+            }
+
+            .card-diagram {
+                box-shadow: none;
+                border: 1px solid #ccc;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header-section text-center">
+        <div class="container">
+            <span class="badge bg-white text-success px-3 py-2 rounded-pill fw-bold mb-2">GRAHA DHUAFA INDONESIA (WEB
+                GDI)</span>
+            <h2 class="fw-bold mb-1">Activity Diagram & User Privilege: Role 4, 5, dan 6</h2>
+            <p class="mb-3 opacity-90" style="font-size: 0.95rem;">Panduan Alur Kerja, Hak Akses & Integrasi Antar Peran
+            </p>
+            <button class="btn btn-warning btn-download no-print" onclick="window.print()">
+                <i class="bi bi-printer-fill me-1"></i> Cetak / Simpan sebagai PDF
+            </button>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- 1. HUBUNGAN ANTAR ROLE (BENANG MERAH) -->
+        <div class="card card-diagram">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <span class="badge bg-primary-subtle text-primary border border-primary badge-role me-2">HUBUNGAN
+                        ANTAR PERAN</span>
+                    <h4 class="fw-bold mb-0 d-inline-block">Siklus Ekosistem Role 4, 5, dan 6</h4>
+                </div>
+                <button class="btn btn-outline-success btn-download no-print"
+                    onclick="downloadSvgAsPng('svg-flow-relasi', 'Hubungan_Role_4_5_6')">
+                    <i class="bi bi-download me-1"></i> Download Gambar PNG
+                </button>
+            </div>
+            <p class="text-muted small">Menggambarkan alur sirkulasi antara Mitra/Relawan (Pelaksana Lapangan), Donatur
+                (Sumber Dana), dan Direksi (Pembuat Keputusan).</p>
+            <div class="diagram-container" id="container-relasi">
+                <div class="mermaid" id="svg-flow-relasi">
+                    flowchart LR
+                    R4["<b>Role 4: Mitra & Relawan</b><br>Sebarkan Link & Aksi Lapangan"] -->|"1. Promosi & Bukti
+                    Nyata"| R5["<b>Role 5: Donatur & Muzakki</b><br>Masyarakat Berdonasi"]
+                    R5 -->|"2. Salurkan Dana (ZISWAF)"| SYS[("<b>Sistem Web GDI</b><br>Database & Transaksi")]
+                    SYS -->|"3. Terbitkan Kuitansi & Laporan"| R5
+                    SYS -->|"4. Laporan Rekapitulasi Real-Time"| R6["<b>Role 6: Manajemen / Direksi</b><br>Executive
+                    Dashboard"]
+                    R6 -->|"5. Keputusan Kebijakan & Hak Amil"| R4
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. ROLE 4: VOLUNTEER & MITRA -->
+        <div class="card card-diagram">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <span class="badge bg-success-subtle text-success border border-success badge-role me-2">ROLE
+                        4</span>
+                    <h4 class="fw-bold mb-0 d-inline-block">Activity Diagram: Volunteer & Mitra (Portal)</h4>
+                </div>
+                <button class="btn btn-outline-success btn-download no-print"
+                    onclick="downloadSvgAsPng('svg-flow-role4', 'Activity_Role_4_Volunteer_Mitra')">
+                    <i class="bi bi-download me-1"></i> Download Gambar PNG
+                </button>
+            </div>
+            <p class="text-muted small">Alur kerja relawan mengikuti program aksi dan alur mitra membagikan link
+                afiliasi serta memantau hak amil 10%.</p>
+            <div class="diagram-container" id="container-role4">
+                <div class="mermaid" id="svg-flow-role4">
+                    flowchart TD
+                    A(["Mulai: Login di /z/login"]) --> B{"Status Akun?"}
+                    B -- Pending --> B1["Tampilkan: Menunggu Approval Admin GDI"]
+                    B -- Approved --> C["Masuk Dashboard Portal /portal"]
+                    C --> D{"Pilih Aktivitas"}
+
+                    %% Relawan
+                    D -->|"Relawan: Ikut Aksi"| E1["Pilih Program Aksi"]
+                    E1 --> E2["Isi Form & Gabung Grup WA"]
+                    E2 --> E3["Aksi Lapangan Selesai"]
+                    E3 --> E4["Kirim Draft Berita Liputan"]
+
+                    %% Mitra
+                    D -->|"Mitra: Afiliasi"| F1["Salin Link Referral Donasi"]
+                    F1 --> F2["Sebar Link ke Jamaah / Komunitas"]
+                    F2 --> F3["Donasi Masuk via Referral"]
+                    F3 --> F4["Pantau Uang Terkumpul & Hak Amil 10%"]
+
+                    %% Profil
+                    D -->|"Kelola Akun"| G1["Buka Menu Profil"]
+                    G1 --> G2["Arahkan Kursor / Klik Ikon Pensil"]
+                    G2 --> G3["Pilih Foto & Otomatis Tersimpan"]
+
+                    E4 --> Z(["Selesai"])
+                    F4 --> Z
+                    G3 --> Z
+                    B1 --> Z
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. ROLE 5: DONATUR & MUZAKKI -->
+        <div class="card card-diagram">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <span class="badge bg-warning-subtle text-warning border border-warning badge-role me-2">ROLE
+                        5</span>
+                    <h4 class="fw-bold mb-0 d-inline-block">Activity Diagram: Donatur & Muzakki</h4>
+                </div>
+                <button class="btn btn-outline-success btn-download no-print"
+                    onclick="downloadSvgAsPng('svg-flow-role5', 'Activity_Role_5_Donatur_Muzakki')">
+                    <i class="bi bi-download me-1"></i> Download Gambar PNG
+                </button>
+            </div>
+            <p class="text-muted small">Alur pembayaran donasi/zakat via Payment Gateway dan pemantauan riwayat
+                transparansi dana.</p>
+            <div class="diagram-container" id="container-role5">
+                <div class="mermaid" id="svg-flow-role5">
+                    flowchart TD
+                    A(["Mulai: Masuk ke Web GDI"]) --> B{"Tujuan Donatur"}
+
+                    %% Bayar
+                    B -->|"Berdonasi / Bayar Zakat"| C1["Pilih Program / Hitung di Kalkulator Zakat"]
+                    C1 --> C2["Isi Nominal & Data Pembayar"]
+                    C2 --> C3["Bayar via Midtrans: QRIS / VA / E-Wallet"]
+                    C3 --> C4["Pembayaran Berhasil Diverifikasi"]
+                    C4 --> C5["Unduh Bukti Setor Zakat / Invoice Resmi"]
+
+                    %% Riwayat
+                    B -->|"Pantau Riwayat Kebaikan"| D1["Masuk Area Donatur"]
+                    D1 --> D2["Lihat Daftar Donasi yang Pernah Disalurkan"]
+                    D2 --> D3["Cetak Ulang Kuitansi / Invoice Digital"]
+                    D3 --> D4["Baca Laporan Penyaluran Program Terkait"]
+
+                    C5 --> Z(["Selesai"])
+                    D4 --> Z
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. ROLE 6: MANAJEMEN & DIREKSI -->
+        <div class="card card-diagram">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <div>
+                    <span class="badge bg-danger-subtle text-danger border border-danger badge-role me-2">ROLE 6</span>
+                    <h4 class="fw-bold mb-0 d-inline-block">Activity Diagram: Manajemen / Direksi (Executive)</h4>
+                </div>
+                <button class="btn btn-outline-success btn-download no-print"
+                    onclick="downloadSvgAsPng('svg-flow-role6', 'Activity_Role_6_Manajemen_Direksi')">
+                    <i class="bi bi-download me-1"></i> Download Gambar PNG
+                </button>
+            </div>
+            <p class="text-muted small">Mode Read-Only khusus pimpinan untuk memantau grafik tren, neraca penyaluran,
+                dan export laporan pimpinan.</p>
+            <div class="diagram-container" id="container-role6">
+                <div class="mermaid" id="svg-flow-role6">
+                    flowchart TD
+                    A(["Mulai: Direksi Login di /q/login"]) --> B["Sistem Deteksi Role: Manajemen"]
+                    B --> C["Arahkan ke Executive Dashboard /admin"]
+                    C --> D["Sistem Mengunci / Sembunyikan Tombol Edit & Hapus"]
+                    D --> E{"Pilih Informasi Eksekutif"}
+
+                    %% Pantau Uang
+                    E -->|"Tren Keuangan"| F1["Lihat Grafik Penghimpunan Bulanan & Tahunan"]
+                    F1 --> F2["Lihat Neraca Penyaluran Dana per Pilar Program"]
+
+                    %% Pantau Anggota
+                    E -->|"Performa Anggota"| G1["Cek Jumlah Relawan Aktif di Lapangan"]
+                    G1 --> G2["Cek Daftar Top Mitra Penghimpun Donasi"]
+
+                    %% Export Laporan
+                    E -->|"Bahan Rapat Pimpinan"| H1["Filter Rentang Waktu Laporan"]
+                    H1 --> H2["Klik Download Laporan Rekap: PDF / Excel"]
+
+                    F2 --> Z(["Selesai / Logout"])
+                    G2 --> Z
+                    H2 --> Z
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Script untuk Download SVG sebagai Gambar PNG -->
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'forest' });
+
+        function downloadSvgAsPng(elementId, fileName) {
+            const svgElement = document.querySelector('#' + elementId + ' svg') || document.querySelector('#' + elementId);
+            if (!svgElement) {
+                alert('Sedang memuat diagram, silakan coba 1 detik lagi.');
+                return;
+            }
+
+            const svgData = new XMLSerializer().serializeToString(svgElement);
+            const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const URL = window.URL || window.webkitURL || window;
+            const blobURL = URL.createObjectURL(svgBlob);
+
+            const image = new Image();
+            image.onload = function () {
+                const canvas = document.createElement('canvas');
+                canvas.width = image.width * 2; // High Resolution
+                canvas.height = image.height * 2;
+                const context = canvas.getContext('2d');
+                context.fillStyle = '#ffffff';
+                context.fillRect(0, 0, canvas.width, canvas.height);
+                context.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+                const png = canvas.toDataURL('image/png');
+                const downloadLink = document.createElement('a');
+                downloadLink.href = png;
+                downloadLink.download = fileName + '.png';
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+            };
+            image.src = blobURL;
+        }
+    </script>
+
+</body>
+
+</html>

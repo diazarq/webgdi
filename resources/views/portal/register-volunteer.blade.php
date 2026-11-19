@@ -49,7 +49,6 @@
             margin: 0;
         }
 
-<<<<<<< Updated upstream
         /* WRAPPER KARTU DENGAN HEADER GAMBAR DI ATAS */
         .auth-wrapper {
             width: 100%;
@@ -74,34 +73,6 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-=======
-        /* WRAPPER ELEGAN VERTIKAL */
-        .auth-wrapper {
-            width: 96%;
-            max-width: 960px;
-            background: #ffffff;
-            border-radius: 36px;
-            box-shadow: 0 25px 70px -15px rgba(15, 23, 42, 0.08), 0 0 1px 1px rgba(0, 0, 0, 0.02);
-            padding: 26px;
-            overflow: hidden;
-        }
-
-        /* CONTAINER DENGAN BANNER DI ATAS DAN FORM DI BAWAH */
-        .auth-container {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            min-height: auto;
-        }
-
-        /* FORM DENGAN PADDING LAPANG */
-        .auth-form-col {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            padding: 6px 12px 10px 12px;
->>>>>>> Stashed changes
         }
 
         /* EFEK VIGNETTE & GRADASI GELAP SINEMATIK */
@@ -535,109 +506,6 @@
             background: #f0fdf4;
         }
 
-<<<<<<< Updated upstream
-=======
-        /* ===================================================
-           TOP: HERO BANNER DENGAN EFEK VIGNETTE
-           =================================================== */
-        .auth-banner-col {
-            width: 100%;
-            position: relative;
-            border-radius: 26px;
-            overflow: hidden;
-            background-image: url('{{ asset('images/login_volunteer/bg_register.jpg') }}');
-            background-size: cover;
-            background-position: center 30%;
-            min-height: 300px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            padding: 34px 34px 28px 34px;
-        }
-
-        /* OVERLAY EFEK VIGNETTE (Melengkung & Gelap Artistik di Sisi Foto) */
-        .auth-banner-overlay {
-            position: absolute;
-            inset: 0;
-            background: 
-                /* Efek Vignette Melingkar */
-                radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0, 0, 0, 0.35) 75%, rgba(0, 0, 0, 0.70) 100%),
-                /* Gradasi Gelap ke Bawah agar tipografi sangat jelas & kontras */
-                linear-gradient(180deg, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0.40) 50%, rgba(0, 0, 0, 0.88) 100%);
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .banner-content-inner {
-            position: relative;
-            z-index: 2;
-            width: 100%;
-        }
-
-        .banner-top-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            background: rgba(15, 23, 42, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 30px;
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            color: #ffffff;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            margin-bottom: 12px;
-        }
-
-        .banner-top-pill .pulse-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: #22c55e;
-            box-shadow: 0 0 10px #22c55e;
-        }
-
-        .banner-intro-area {
-            margin-top: 0;
-        }
-
-        .banner-headline {
-            font-size: 1.85rem;
-            font-weight: 800;
-            line-height: 1.25;
-            letter-spacing: -0.5px;
-            color: #ffffff;
-            margin-bottom: 8px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
-        }
-
-        .banner-desc {
-            font-size: 0.86rem;
-            line-height: 1.6;
-            color: #e2e8f0;
-            margin-bottom: 14px;
-            max-width: 720px;
-            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
-        }
-
-        .banner-stat {
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: #cbd5e1;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .banner-stat i {
-            color: #38bdf8;
-            font-size: 0.95rem;
-        }
-
->>>>>>> Stashed changes
         /* ALERTS */
         .alert-custom {
             border-radius: 14px;
@@ -648,16 +516,11 @@
         }
 
         /* RESPONSIVE */
-<<<<<<< Updated upstream
         @media (max-width: 767.98px) {
-=======
-        @media (max-width: 991.98px) {
->>>>>>> Stashed changes
             body {
                 padding: 16px 10px;
             }
             .auth-wrapper {
-<<<<<<< Updated upstream
                 border-radius: 26px;
             }
             .auth-top-banner {
@@ -671,24 +534,6 @@
             }
             .auth-form-body {
                 padding: 26px 18px;
-=======
-                padding: 16px;
-                border-radius: 26px;
-            }
-            .auth-container {
-                gap: 18px;
-            }
-            .auth-form-col {
-                padding: 8px 4px;
-            }
-            .auth-banner-col {
-                min-height: 200px;
-                padding: 22px 18px;
-                border-radius: 20px;
-            }
-            .banner-headline {
-                font-size: 1.45rem;
->>>>>>> Stashed changes
             }
             .volunteer-types-grid {
                 grid-template-columns: 1fr;
@@ -701,7 +546,6 @@
 </head>
 <body>
 
-<<<<<<< Updated upstream
 <div class="auth-wrapper">
     
     <!-- ==========================================
@@ -715,268 +559,12 @@
             <!-- Brand & Pill -->
             <div class="banner-top-row">
                 <a href="{{ url('/') }}" class="brand-header-banner">
-=======
-<div class="auth-wrapper shadow">
-    <div class="auth-container">
-        
-        <!-- ==========================================
-             TOP: HERO BANNER DENGAN EFEK VIGNETTE
-             ========================================== -->
-        <div class="auth-banner-col">
-            <!-- VIGNETTE OVERLAY -->
-            <div class="auth-banner-overlay"></div>
-
-            <div class="banner-content-inner">
-                <!-- Text Area with Vignette Backdrop -->
-                <div class="banner-intro-area">
-                    <h3 class="banner-headline">Welcome to Sahabat Baik</h3>
-                    <p class="banner-desc">
-                        Graha Dhuafa Indonesia senantiasa berkomitmen untuk terus ambil peran dalam menjaga generasi pelanjut. Jadilah bagian dari aksi kemanusiaan dan kepedulian bersama kami.
-                    </p>
-                    <div class="banner-stat">
-                        <i class="bi bi-people-fill"></i>
-                        <span>More than 500+ volunteers joined us, it's your turn</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ==========================================
-             BOTTOM: REGISTER VOLUNTEER FORM
-             ========================================== -->
-        <div class="auth-form-col">
-            <div>
-                <!-- Brand Header -->
-                <a href="{{ url('/') }}" class="brand-header">
->>>>>>> Stashed changes
                     <img src="{{ asset('admin/assets/img/logo_gdi.png') }}" alt="Logo GDI" class="brand-logo-img">
                     <h1 class="brand-name-banner">
                         Graha Dhuafa Indonesia
                         <span>Portal Sahabat Baik & Relawan</span>
                     </h1>
                 </a>
-<<<<<<< Updated upstream
-=======
-
-                <!-- Title & Subtitle -->
-                <div class="auth-title-area">
-                    <h2 class="auth-title">Daftar Sebagai Relawan</h2>
-                    <p class="auth-subtitle">Bergabunglah bersama ribuan relawan lainnya untuk menyebarkan senyum & kepedulian nyata bagi dhuafa.</p>
-                </div>
-
-                <!-- ALERTS: Error Validasi -->
-                @if($errors->any())
-                    <div class="alert alert-danger alert-custom alert-dismissible fade show" role="alert">
-                        <div class="d-flex align-items-start gap-2">
-                            <i class="bi bi-exclamation-triangle-fill fs-5 mt-1 text-danger"></i>
-                            <div>
-                                <strong>Mohon periksa formulir pendaftaran:</strong>
-                                <ul class="mb-0 mt-1 ps-3" style="font-size: 0.82rem;">
-                                    @foreach($errors->all() as $err)
-                                        <li>{{ $err }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
-                        </div>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                @endif
-
-                <!-- FORM PENDAFTARAN -->
-                <form action="{{ route('portal.volunteer.register.post') }}" method="POST">
-                    @csrf
-
-                    <!-- 1. BIDANG MINAT RELAWAN -->
-                    <div class="mb-4">
-                        <span class="section-label-chip">
-                            <i class="bi bi-compass-fill"></i> 1. Bidang Minat Relawan
-                        </span>
-                        <div class="volunteer-types-grid">
-                            <!-- Bencana -->
-                            <label class="type-radio-card">
-                                <input type="radio" name="volunteer_type" value="Tanggap Bencana Alam" {{ old('volunteer_type', 'Tanggap Bencana Alam') == 'Tanggap Bencana Alam' ? 'checked' : '' }} required>
-                                <div class="type-card-body">
-                                    <div class="type-card-icon">
-                                        <i class="bi bi-life-preserver"></i>
-                                    </div>
-                                    <div>
-                                        <div class="type-card-title">Tanggap Bencana Alam</div>
-                                        <div class="type-card-desc">Evakuasi, dapur umum & logistik darurat</div>
-                                    </div>
-                                </div>
-                            </label>
-
-                            <!-- Sosial & Pangan -->
-                            <label class="type-radio-card">
-                                <input type="radio" name="volunteer_type" value="Berbagi Pangan & Sosial" {{ old('volunteer_type') == 'Berbagi Pangan & Sosial' ? 'checked' : '' }}>
-                                <div class="type-card-body">
-                                    <div class="type-card-icon">
-                                        <i class="bi bi-heart-fill"></i>
-                                    </div>
-                                    <div>
-                                        <div class="type-card-title">Berbagi Pangan & Sosial</div>
-                                        <div class="type-card-desc">Santunan dhuafa, yatim & sembako</div>
-                                    </div>
-                                </div>
-                            </label>
-
-                            <!-- Dokumenter -->
-                            <label class="type-radio-card">
-                                <input type="radio" name="volunteer_type" value="Dokumenter & Publikasi Media" {{ old('volunteer_type') == 'Dokumenter & Publikasi Media' ? 'checked' : '' }}>
-                                <div class="type-card-body">
-                                    <div class="type-card-icon">
-                                        <i class="bi bi-camera-reels-fill"></i>
-                                    </div>
-                                    <div>
-                                        <div class="type-card-title">Dokumenter & Media</div>
-                                        <div class="type-card-desc">Foto, video liputan & berita aksi</div>
-                                    </div>
-                                </div>
-                            </label>
-
-                            <!-- Pendidikan -->
-                            <label class="type-radio-card">
-                                <input type="radio" name="volunteer_type" value="Pendidikan & Dakwah" {{ old('volunteer_type') == 'Pendidikan & Dakwah' ? 'checked' : '' }}>
-                                <div class="type-card-body">
-                                    <div class="type-card-icon">
-                                        <i class="bi bi-book-half"></i>
-                                    </div>
-                                    <div>
-                                        <div class="type-card-title">Pendidikan & Dakwah</div>
-                                        <div class="type-card-desc">Bimbel anak dhuafa & pembinaan</div>
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- 2. IDENTITAS DIRI -->
-                    <div class="mb-4">
-                        <span class="section-label-chip">
-                            <i class="bi bi-person-badge-fill"></i> 2. Identitas Diri
-                        </span>
-
-                        <div class="row g-3">
-                            <!-- Nama Lengkap -->
-                            <div class="col-md-6 form-group-custom">
-                                <label for="name" class="form-label-custom">Nama Lengkap *</label>
-                                <div class="input-box-custom">
-                                    <span class="input-icon">
-                                        <i class="bi bi-person"></i>
-                                    </span>
-                                    <input type="text" class="form-control-custom" id="name" name="name" value="{{ old('name') }}" placeholder="Contoh: Muhammad Fatih" required>
-                                </div>
-                            </div>
-
-                            <!-- WhatsApp -->
-                            <div class="col-md-6 form-group-custom">
-                                <label for="phone" class="form-label-custom">Nomor WhatsApp Aktif *</label>
-                                <div class="input-box-custom">
-                                    <span class="input-icon text-success">
-                                        <i class="bi bi-whatsapp"></i>
-                                    </span>
-                                    <input type="text" class="form-control-custom" id="phone" name="phone" value="{{ old('phone') }}" placeholder="08xxxxxxxxxx" required>
-                                </div>
-                            </div>
-
-                            <!-- Email -->
-                            <div class="col-md-6 form-group-custom">
-                                <label for="email" class="form-label-custom">Alamat Email *</label>
-                                <div class="input-box-custom">
-                                    <span class="input-icon">
-                                        <i class="bi bi-envelope"></i>
-                                    </span>
-                                    <input type="email" class="form-control-custom" id="email" name="email" value="{{ old('email') }}" placeholder="email@gmail.com" required>
-                                </div>
-                            </div>
-
-                            <!-- Kota / Domisili -->
-                            <div class="col-md-6 form-group-custom">
-                                <label for="domisili" class="form-label-custom">Kota Domisili Saat Ini *</label>
-                                <div class="input-box-custom">
-                                    <span class="input-icon">
-                                        <i class="bi bi-geo-alt"></i>
-                                    </span>
-                                    <input type="text" class="form-control-custom" id="domisili" name="domisili" value="{{ old('domisili') }}" placeholder="Contoh: Bandung / Cimahi" required>
-                                </div>
-                            </div>
-
-                            <!-- Pengalaman Organisasi & Keahlian -->
-                            <div class="col-12 form-group-custom">
-                                <label for="organisasi" class="form-label-custom">Pengalaman Organisasi & Keahlian Relawan *</label>
-                                <div class="input-box-custom align-items-start pt-1">
-                                    <span class="input-icon pt-2">
-                                        <i class="bi bi-pencil-square"></i>
-                                    </span>
-                                    <textarea class="form-control-custom" id="organisasi" name="organisasi" rows="3" placeholder="Ceritakan pengalaman kepanitiaan, komunitas, PMI/Pramuka, atau keahlian spesifik Anda (desain, dokumentasi, medis, logistik, dll)." required>{{ old('organisasi') }}</textarea>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- 3. AKUN LOGIN PORTAL -->
-                    <div class="mb-4">
-                        <span class="section-label-chip">
-                            <i class="bi bi-shield-lock-fill"></i> 3. Akun Login Portal
-                        </span>
-
-                        <div class="row g-3">
-                            <!-- Username -->
-                            <div class="col-12 form-group-custom">
-                                <label for="username" class="form-label-custom">Username Login *</label>
-                                <div class="input-box-custom">
-                                    <span class="input-icon">
-                                        <i class="bi bi-at"></i>
-                                    </span>
-                                    <input type="text" class="form-control-custom" id="username" name="username" value="{{ old('username') }}" placeholder="username_pilihan (huruf & angka tanpa spasi)" required>
-                                </div>
-                            </div>
-
-                            <!-- Password -->
-                            <div class="col-md-6 form-group-custom">
-                                <label for="password" class="form-label-custom">Password *</label>
-                                <div class="input-box-custom">
-                                    <span class="input-icon">
-                                        <i class="bi bi-lock"></i>
-                                    </span>
-                                    <input type="password" class="form-control-custom" id="password" name="password" placeholder="Minimal 6 karakter" required>
-                                    <button type="button" class="btn-toggle-eye" onclick="togglePassVisibility('password', 'togglePassIcon1')" aria-label="Lihat Password">
-                                        <i class="bi bi-eye" id="togglePassIcon1"></i>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <!-- Konfirmasi Password -->
-                            <div class="col-md-6 form-group-custom">
-                                <label for="password_confirmation" class="form-label-custom">Konfirmasi Password *</label>
-                                <div class="input-box-custom">
-                                    <span class="input-icon">
-                                        <i class="bi bi-shield-check"></i>
-                                    </span>
-                                    <input type="password" class="form-control-custom" id="password_confirmation" name="password_confirmation" placeholder="Ulangi password" required>
-                                    <button type="button" class="btn-toggle-eye" onclick="togglePassVisibility('password_confirmation', 'togglePassIcon2')" aria-label="Lihat Password">
-                                        <i class="bi bi-eye" id="togglePassIcon2"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button type="submit" class="btn-signin-primary">
-                        <span>Daftar Relawan Sekarang</span>
-                        <i class="bi bi-arrow-right"></i>
-                    </button>
-                </form>
-
-                <!-- Footer Sign In Link -->
-                <div class="auth-signup-text">
-                    Sudah punya akun? 
-                    <a href="{{ route('portal.login') }}">Masuk ke Portal Relawan</a>
-                    <span class="mx-1 text-muted">•</span>
-                    <a href="{{ route('portal.affiliate.register') }}" class="text-secondary fw-semibold">Daftar Sebagai Mitra</a>
-                </div>
->>>>>>> Stashed changes
             </div>
 
             <!-- Headline & Narasi -->
@@ -993,7 +581,6 @@
         </div>
     </div>
 
-<<<<<<< Updated upstream
     <!-- ==========================================
          BOTTOM: FORMULIR PENDAFTARAN RELAWAN
          ========================================== -->
@@ -1234,8 +821,6 @@
             </a>
         </div>
 
-=======
->>>>>>> Stashed changes
     </div>
 
 </div>

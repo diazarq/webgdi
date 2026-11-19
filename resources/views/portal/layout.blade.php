@@ -170,8 +170,8 @@
             transition: all 0.2s;
         }
         .top-avatar {
-            width: 34px;
-            height: 34px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             background: #0f7638;
             color: #ffffff;
@@ -180,6 +180,14 @@
             justify-content: center;
             font-weight: 700;
             font-size: 0.88rem;
+            overflow: hidden;
+            flex-shrink: 0;
+            border: 2px solid #e8edea;
+        }
+        .top-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         /* SIDEBAR CARDS */
@@ -354,7 +362,11 @@
             <div class="dropdown">
                 <a href="#" class="user-top-profile dropdown-toggle" data-bs-toggle="dropdown">
                     <div class="top-avatar">
-                        {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
+                        @if(Auth::user()->profile_photo)
+                            <img src="{{ asset('storage/' . Auth::user()->profile_photo) }}" alt="{{ Auth::user()->name }}">
+                        @else
+                            {{ strtoupper(substr(Auth::user()->name ?? 'U', 0, 1)) }}
+                        @endif
                     </div>
                     <div class="text-start d-none d-sm-block">
                         <div class="fw-bold text-dark" style="font-size: 0.88rem;">{{ Auth::user()->name }}</div>
