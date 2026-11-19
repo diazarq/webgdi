@@ -15,6 +15,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="icon" href="{{ asset('admin/assets/img/logo_gdi.png') }}">
 
+    <!-- Iconify Web Component Global -->
+    <script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+
     <style>
         :root {
             --gdi-primary: #0f7638;
@@ -274,6 +277,17 @@
             margin-bottom: 3px;
             transition: all 0.2s ease;
         }
+        .portal-nav-item i,
+        .portal-nav-item iconify-icon {
+            font-size: 1.22rem;
+            width: 24px;
+            height: 24px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            line-height: 1;
+        }
         .portal-nav-item:hover {
             background-color: #f1f5f9;
             color: #0f7638;
@@ -380,8 +394,9 @@
                         <div class="fw-bold text-dark">{{ Auth::user()->name }}</div>
                         <div class="small text-muted">{{ Auth::user()->email }}</div>
                     </li>
-                    <li><a class="dropdown-item py-2 rounded-3 mt-1" href="{{ route('portal.profile') }}"><i class="bi bi-person me-2"></i> Profil & Pengaturan</a></li>
-                    <li><a class="dropdown-item py-2 rounded-3" href="{{ route('portal.berita.index') }}"><i class="bi bi-journal-text me-2"></i> Berita Saya</a></li>
+                    <li><a class="dropdown-item py-2 rounded-3 mt-1" href="{{ route('portal.profile') }}"><iconify-icon icon="material-symbols:person" class="me-2 text-muted"></iconify-icon> Profil & Pengaturan</a></li>
+                    <li><a class="dropdown-item py-2 rounded-3" href="{{ route('portal.berita.index') }}"><iconify-icon icon="mdi:notebook" class="me-2 text-muted"></iconify-icon> Berita Saya</a></li>
+                    <li><a class="dropdown-item align-middle py-2 rounded-3" href="{{ route('portal.berita.index') }}"><iconify-icon icon="icon-park-solid:help" class="me-2 text-muted"></iconify-icon> Saya Butuh Bantuan</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item py-2 text-danger rounded-3" href="{{ route('portal.logout') }}"><i class="bi bi-box-arrow-right me-2"></i> Keluar (Logout)</a></li>
                 </ul>
@@ -402,36 +417,46 @@
                 <nav class="nav flex-column">
                     @if(Auth::user()->isAffiliate())
                         <a href="{{ route('portal.dashboard') }}" class="portal-nav-item {{ request()->routeIs('portal.dashboard') ? 'active' : '' }}">
-                            <i class="bi bi-grid-1x2-fill fs-5"></i> Dashboard Afiliasi
+                            <i class="bi bi-grid-1x2-fill"></i>
+                            <span>Dashboard Afiliasi</span>
                         </a>
                         <a href="{{ route('portal.berita.create') }}" class="portal-nav-item {{ request()->routeIs('portal.berita.create') ? 'active' : '' }}">
-                            <i class="bi bi-pencil-square fs-5"></i> Tulis Berita / Laporan
+                            <i class="bi bi-pencil-square"></i>
+                            <span>Tulis Berita / Laporan</span>
                         </a>
                         <a href="{{ route('portal.berita.index') }}" class="portal-nav-item {{ request()->routeIs('portal.berita.index*') && !request()->routeIs('portal.berita.create') ? 'active' : '' }}">
-                            <i class="bi bi-journal-text fs-5"></i> Berita Lembaga Saya
+                            <i class="bi bi-journal-text"></i>
+                            <span>Berita Lembaga Saya</span>
                         </a>
                         <a href="{{ route('portal.profile') }}" class="portal-nav-item {{ request()->routeIs('portal.profile') ? 'active' : '' }}">
-                            <i class="bi bi-building-gear fs-5"></i> Profil & Kemitraan
+                            <i class="bi bi-building-gear"></i>
+                            <span>Profil & Kemitraan</span>
                         </a>
                     @else
                         <a href="{{ route('portal.dashboard', ['tab' => 'programs']) }}" class="portal-nav-item {{ request()->routeIs('portal.dashboard') && request('tab') !== 'riwayat' ? 'active' : '' }}">
-                            <i class="bi bi-compass-fill fs-5"></i> Program Relawan
+                            <iconify-icon icon="material-symbols:group-auto-rounded"></iconify-icon>
+                            <span>Program Relawan</span>
                         </a>
                         <a href="{{ route('portal.dashboard', ['tab' => 'riwayat']) }}" class="portal-nav-item {{ request()->routeIs('portal.dashboard') && request('tab') === 'riwayat' ? 'active' : '' }}">
-                            <i class="bi bi-clock-history fs-5"></i> Riwayat Aktivitasmu
+                            <iconify-icon icon="uis:clock"></iconify-icon>
+                            <span>Riwayat Aktivitasmu</span>
                         </a>
                         <a href="{{ route('portal.berita.create') }}" class="portal-nav-item {{ request()->routeIs('portal.berita.create') ? 'active' : '' }}">
-                            <i class="bi bi-pencil-square fs-5"></i> Tulis Berita Kegiatan
+                            <iconify-icon icon="streamline-ultimate:content-pen-write-bold"></iconify-icon>
+                            <span>Tulis Berita Kegiatan</span>
                         </a>
                         <a href="{{ route('portal.berita.index') }}" class="portal-nav-item {{ request()->routeIs('portal.berita.index*') && !request()->routeIs('portal.berita.create') ? 'active' : '' }}">
-                            <i class="bi bi-journal-text fs-5"></i> Daftar Berita Saya
+                            <iconify-icon icon="dashicons:book"></iconify-icon>
+                            <span>Daftar Berita Saya</span>
                         </a>
                         <a href="{{ route('portal.profile') }}" class="portal-nav-item {{ request()->routeIs('portal.profile') ? 'active' : '' }}">
-                            <i class="bi bi-person-gear fs-5"></i> Profil & Pengaturan
+                            <iconify-icon icon="tdesign:user-setting-filled"></iconify-icon>
+                            <span>Profil & Pengaturan</span>
                         </a>
                     @endif
                     <a href="{{ route('portal.logout') }}" class="portal-nav-item logout">
-                        <i class="bi bi-box-arrow-right fs-5"></i> Logout
+                        <iconify-icon icon="reicon:exit-duotone"></iconify-icon>
+                        <span>Logout</span>
                     </a>
                 </nav>
             </div>

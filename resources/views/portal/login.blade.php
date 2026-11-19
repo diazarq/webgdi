@@ -731,9 +731,9 @@
                             Graha Dhuafa Indonesia senantiasa berkomitmen untuk terus ambil peran dalam menjaga generasi
                             pelanjut. Jadilah bagian dari aksi kemanusiaan dan kepedulian bersama kami.
                         </p>
-                        <div class="banner-stat">
+                        <div class="banner-stat me-2">
                             <i class="bi bi-people-fill"></i>
-                            More than 500+ volunteers joined us, it's your turn
+                            Lebih dari 500+ relawan sudah bergabung, ini saatnya untuk kamu menjadi bagian dari kami.
                         </div>
                     </div>
                 </div>

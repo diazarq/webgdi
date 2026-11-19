@@ -316,6 +316,23 @@ class PortalDashboardController extends Controller
 
         $kategori = $request->kategori_baru ? trim($request->kategori_baru) : $request->kategori;
 
+        // Susun metadata ringkasan & lokasi jika diisi di form gaya baru
+        $finalContent = $request->content;
+        $metaDetails = [];
+        if ($request->filled('ringkasan')) {
+            $metaDetails[] = "<strong>Ringkasan Kegiatan:</strong> " . e($request->ringkasan);
+        }
+        $lokasiCombined = array_filter([$request->lokasi_line1, $request->lokasi_line2, $request->kecamatan, $request->kota]);
+        if (!empty($lokasiCombined)) {
+            $metaDetails[] = "<strong>Lokasi Kegiatan:</strong> " . e(implode(', ', $lokasiCombined));
+        }
+        if ($request->filled('estimasi_penerima')) {
+            $metaDetails[] = "<strong>Estimasi Terlibat / Penerima:</strong> " . e($request->estimasi_penerima);
+        }
+        if (!empty($metaDetails)) {
+            $finalContent = "<div class='p-3 mb-4 rounded-3 border bg-light text-secondary small'>\n" . implode("<br>", $metaDetails) . "\n</div>\n\n" . $finalContent;
+        }
+
         Blog::create([
             'user_id' => $user->id,
             'title' => $request->title,
@@ -323,7 +340,7 @@ class PortalDashboardController extends Controller
             'page_type' => 'page',
             'kategori' => $kategori,
             'featured_img' => $pathImg,
-            'content' => $request->content,
+            'content' => $finalContent,
             'status' => 'draft', // Selalu draft! Wajib di-review Admin
             'author' => $user->name . ' (' . ($user->isVolunteer() ? 'Sahabat Baik' : 'Mitra GDI') . ')',
             'hashtag' => $request->hashtag,

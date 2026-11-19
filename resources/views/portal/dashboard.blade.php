@@ -608,11 +608,11 @@
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
         <div class="dashboard-tabs">
             <a href="{{ route('portal.dashboard', ['tab' => 'programs']) }}" class="dashboard-tab-btn {{ $activeTab !== 'riwayat' ? 'active' : '' }}">
-                <i class="bi bi-compass"></i> Daftar Program Relawan
+                <iconify-icon icon="material-symbols:group-auto-rounded" class="fs-5 align-middle"></iconify-icon> Daftar Program Relawan
                 <span class="badge-count">{{ $programs->count() }}</span>
             </a>
             <a href="{{ route('portal.dashboard', ['tab' => 'riwayat']) }}" class="dashboard-tab-btn {{ $activeTab === 'riwayat' ? 'active' : '' }}">
-                <i class="bi bi-clock-history"></i> Riwayat Aktivitasmu
+                <iconify-icon icon="fa-solid:clock" class="fs-5"></iconify-icon> Riwayat Aktivitasmu
                 <span class="badge-count">{{ $myRegistrations->count() }}</span>
             </a>
         </div>
