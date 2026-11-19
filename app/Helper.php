@@ -54,14 +54,14 @@ class Helper{
         $parent = Menu::where([
             'parent_id' => 0,
             'status_display' => 'publish'
-        ])->get();
+        ])->orderBy('order', 'asc')->orderBy('id', 'asc')->get();
         if($parent){
             foreach($parent as $p){
                 $submenu = [];
                 $child = Menu::where([
                     'parent_id' => $p->id,
                     'status_display' => 'publish'
-                ])->get();
+                ])->orderBy('order', 'asc')->orderBy('id', 'asc')->get();
                 if($child){
                     foreach($child as $c){
                         $submenu[] = [

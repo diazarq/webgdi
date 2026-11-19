@@ -60,6 +60,7 @@ Route::get('/cinta', [WebsiteController::class, 'index_cinta']);
 Route::get('/senyum', [WebsiteController::class, 'index_senyum']);
 Route::get('/wakaf-hibah', [WebsiteController::class, 'index_wakaf_hibah']);
 Route::get('/kalkulator-zakat', [WebsiteController::class, 'index_kalkulator_zakat'])->name('website.kalkulator_zakat');
+Route::get('/tentang-zakat', [WebsiteController::class, 'index_about_zakat'])->name('website.tentang_zakat');
 
 /* SIMULASI MIDTRANS PAYMENT GATEWAY (SANDBOX / SNAP) - HARUS SEBELUM /{slug} */
 Route::get('/simulasi-midtrans', [MidtransController::class, 'index'])->name('midtrans.index');
@@ -294,6 +295,7 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function(){
     Route::get('/menu/{id}/edit', [MenuController::class, 'form']);
     Route::get('/menu/{id}/delete', [MenuController::class, 'delete']);
     Route::post('/menu/add', [MenuController::class, 'store']);
+    Route::post('/menu/reorder', [MenuController::class, 'reorder'])->name('admin.menu.reorder');
 
     /* WIDGET: SLIDER */
     Route::get('/widget/slider', [WidgetController::class, 'index_slider']);

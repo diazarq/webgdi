@@ -1,0 +1,127 @@
+/**
+ * Nestable CSS - Enhanced Hierarchical Layout
+ */
+.dd {
+    position: relative;
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    list-style: none;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.dd-list {
+    display: block;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.dd-list .dd-list {
+    padding-left: 36px;
+    margin-top: 8px;
+    border-left: 2px dashed #3b82f6;
+}
+
+.dd-item,
+.dd-empty,
+.dd-placeholder {
+    display: block;
+    position: relative;
+    margin: 0;
+    padding: 0;
+    min-height: 20px;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.dd-item {
+    margin-bottom: 10px;
+}
+
+.dd-handle {
+    cursor: grab;
+    cursor: -webkit-grab;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dd-handle:active {
+    cursor: grabbing;
+    cursor: -webkit-grabbing;
+}
+
+.dd-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    color: #1e293b;
+    text-decoration: none;
+    font-weight: 500;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: all 0.2s ease;
+}
+
+.dd-content:hover {
+    border-color: #0d6efd;
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.08);
+}
+
+.dd-dragel {
+    position: absolute;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: .95;
+    box-shadow: 0 12px 28px rgba(13, 110, 253, 0.25);
+}
+
+.dd-dragel .dd-content {
+    border-color: #0d6efd;
+    background: #f8fafc;
+}
+
+.dd-item > button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    float: left;
+    width: 26px;
+    height: 26px;
+    margin: 12px 8px 5px 0;
+    padding: 0;
+    border: 1px solid #cbd5e1;
+    background: #f1f5f9;
+    font-size: 14px;
+    line-height: 1;
+    text-align: center;
+    font-weight: bold;
+    border-radius: 6px;
+    color: #334155;
+    transition: all 0.2s;
+}
+
+.dd-item > button:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+.dd-placeholder {
+    margin: 8px 0;
+    padding: 0;
+    min-height: 54px;
+    background: #eff6ff;
+    border: 2px dashed #2563eb;
+    border-radius: 8px;
+    box-sizing: border-box;
+}

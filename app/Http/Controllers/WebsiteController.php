@@ -50,6 +50,9 @@ class WebsiteController extends Controller
             if($slug == 'kalkulator-zakat'){
                 return $this->index_kalkulator_zakat();
             }
+            if($slug == 'tentang-zakat'){
+                return $this->index_about_zakat();
+            }
             if($slug != 'donasi'){
                 $detail = Menu::where('slug', $slug)->first();
                 $parentID = $detail ? ($detail->parent_id == 0 ? $detail->id : $detail->parent_id) : null;

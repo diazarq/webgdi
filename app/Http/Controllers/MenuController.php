@@ -22,10 +22,23 @@ class MenuController extends Controller
 
     public function index(){
         $menu = [];
-        $parentMenu = Menu::where('parent_id', 0)->get();
+        $parentMenu = Menu::where('parent_id', 0)->orderBy('order', 'asc')->orderBy('id', 'asc')->get();
         if($parentMenu){
             foreach($parentMenu as $par){
-                $child_menu = Menu::where('parent_id', $par->id)->get();
+                $child_menu = Menu::where('parent_id', $par->id)->orderBy('order', 'asc')->orderBy('id', 'asc')->get();
+                $child_items = [];
+                foreach($child_menu as $ch){
+                    $sub_child = Menu::where('parent_id', $ch->id)->orderBy('order', 'asc')->orderBy('id', 'asc')->get();
+                    $child_items[] = [
+                        'id' => $ch->id,
+                        'title' => $ch->title,
+                        'page_type' => $this->pageType[$ch->page_type] ?? ($ch->page_type ? ucfirst($ch->page_type) : '-'),
+                        'menu_type' => ucfirst($ch->menu_type),
+                        'footer_display' => $ch->footer_display == 'A' ? 'Ya' : 'Tidak',
+                        'status_display' => ucfirst($ch->status_display),
+                        'sub_child' => $sub_child,
+                    ];
+                }
                 $menu[] = [
                     'id' => $par->id,
                     'title' => $par->title,
@@ -34,6 +47,7 @@ class MenuController extends Controller
                     'footer_display' => $par->footer_display == 'A' ? 'Ya' : 'Tidak',
                     'status_display' => ucfirst($par->status_display),
                     'child' => json_encode($child_menu),
+                    'child_items' => $child_items,
                 ];
             }
         }
@@ -43,6 +57,43 @@ class MenuController extends Controller
             'list_menu' => $menu,
             'pageType' => $this->pageType
         ]);
+    }
+
+    public function reorder(Request $request){
+        $hierarchy = $request->input('hierarchy');
+        if(is_string($hierarchy)){
+            $hierarchy = json_decode($hierarchy, true);
+        }
+
+        if(!is_array($hierarchy)){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Format data tidak valid.'
+            ], 400);
+        }
+
+        $this->saveHierarchy($hierarchy, 0);
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Urutan dan hierarki menu berhasil disimpan!'
+        ]);
+    }
+
+    private function saveHierarchy(array $items, $parentId = 0){
+        foreach($items as $index => $item){
+            if(isset($item['id']) && $item['id'] !== null){
+                $id = intval($item['id']);
+                Menu::where('id', $id)->update([
+                    'parent_id' => intval($parentId),
+                    'order' => $index + 1
+                ]);
+
+                if(!empty($item['children']) && is_array($item['children'])){
+                    $this->saveHierarchy($item['children'], $id);
+                }
+            }
+        }
     }
 
     public function table(){
@@ -63,7 +114,7 @@ class MenuController extends Controller
 
     public function form($id=null){
         $detail = [];
-        $parent = Menu::where('parent_id', 0)->get();
+        $parent = Menu::where('parent_id', 0)->orderBy('order', 'asc')->get();
         if($id){
             $mode = 'Ubah Data';
             $detail = Menu::find($id);
@@ -71,7 +122,7 @@ class MenuController extends Controller
             $mode = 'Tambah';
         }
         
-        return view('user.menu.form-menu', [
+        return view('menu.form-menu', [
             'pageTitle' => $mode.' Menu',
             'active' => ['MenuActive' => 'active'],
             'mode' => $mode,
