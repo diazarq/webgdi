@@ -161,6 +161,9 @@ class MenuController extends Controller
         if($req->id){
             Menu::where('id', $req->id)->update($dataInput);
         }else{
+            if (!isset($dataInput['order'])) {
+                $dataInput['order'] = (Menu::where('parent_id', $req->parent_id ?? 0)->max('order') ?? 0) + 1;
+            }
             Menu::create($dataInput);
         }
         
