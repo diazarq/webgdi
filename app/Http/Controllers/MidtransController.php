@@ -76,6 +76,7 @@ class MidtransController extends Controller
             'email'          => $email,
             'notelp'         => $notelp,
             'nominal'        => $nominal,
+            'doa'            => $request->filled('doa') ? trim($request->doa) : null,
             'type'           => $program,
             'payment_method' => 'Midtrans Snap',
             'bank_type'      => 'midtrans',

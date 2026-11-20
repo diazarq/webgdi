@@ -19,6 +19,7 @@ class Payment extends Model
         'notelp',
         'email',
         'nominal',
+        'doa',
         'payment_method',
         'bank_type',
         'bank_id',

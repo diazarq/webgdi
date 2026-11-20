@@ -63,12 +63,6 @@
             border-radius: 8px;
             padding: 8px 18px;
         }
-        .instruction-box {
-            background: #f8fafc;
-            border: 1px dashed #cbd5e1;
-            border-radius: 10px;
-            padding: 18px;
-        }
         .btn-indent, .btn-outdent {
             font-size: 12px;
             padding: 3px 8px;
@@ -129,7 +123,7 @@
         <!-- TAB 1: DRAG & DROP HIERARCHY -->
         <div class="tab-pane fade show active" id="dragdrop-view" role="tabpanel" aria-labelledby="dragdrop-tab">
             <div class="row g-4">
-                <div class="col-lg-8">
+                <div class="col-12">
                     <div class="menu-builder-card">
                         <div class="d-flex align-items-center justify-content-between mb-3 pb-2 border-bottom">
                             <span class="text-muted small fw-semibold text-uppercase">STRUKTUR NAVIGASI AKTIF</span>
@@ -274,59 +268,6 @@
                                     Belum ada data menu. Klik tombol <strong>Tambah Menu</strong> di atas.
                                 </div>
                             @endif
-                        </div>
-                    </div>
-                </div>
-
-                <!-- SIDEBAR PETUNJUK -->
-                <div class="col-lg-4">
-                    <div class="instruction-box mb-4">
-                        <h6 class="fw-bold mb-3 text-dark"><i class="bi bi-lightbulb text-warning me-2"></i>2 Cara Mengatur Menu:</h6>
-                        
-                        <div class="mb-3">
-                            <span class="badge bg-primary mb-2">Cara 1: Drag & Drop (Tarik & Lepas)</span>
-                            <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small text-secondary">
-                                <li>
-                                    <i class="bi bi-arrow-down-up text-primary me-1"></i>
-                                    <strong>Urutan:</strong> Tahan ikon <i class="bi bi-grip-vertical text-dark"></i> lalu geser ke atas/bawah.
-                                </li>
-                                <li>
-                                    <i class="bi bi-arrow-right-circle text-primary me-1"></i>
-                                    <strong>Jadikan Sub-Menu:</strong> Geser item <strong>sedikit ke kanan</strong> di bawah menu yang diinginkan.
-                                </li>
-                                <li>
-                                    <i class="bi bi-arrow-left-circle text-primary me-1"></i>
-                                    <strong>Kembalikan Menu Utama:</strong> Geser item <strong>ke kiri</strong> hingga sejajar kembali.
-                                </li>
-                                <li>
-                                    <i class="bi bi-layers text-success me-1"></i>
-                                    <strong>Menu Induk Membawa Anak:</strong> Menggeser menu induk (seperti <em>Zakat</em> atau <em>Layanan</em>) otomatis membawa semua sub-menu di bawahnya!
-                                </li>
-                            </ul>
-                        </div>
-
-                        <hr/>
-
-                        <div class="mb-3">
-                            <span class="badge bg-info text-dark mb-2">Cara 2: Tombol Cepat (1-Klik)</span>
-                            <p class="small text-secondary mb-2">Jika kesulitan menggeser dengan mouse/touchpad, gunakan tombol pada baris menu:</p>
-                            <ul class="list-unstyled mb-0 d-flex flex-column gap-2 small text-secondary">
-                                <li>
-                                    <span class="badge bg-outline-primary border text-primary me-1"><i class="bi bi-arrow-right"></i> Submenu</span>
-                                    Otomatis memasukkan menu tersebut menjadi sub-menu di bawah menu di atasnya.
-                                </li>
-                                <li>
-                                    <span class="badge bg-outline-secondary border text-secondary me-1"><i class="bi bi-arrow-left"></i> Utama</span>
-                                    Otomatis mengeluarkan sub-menu menjadi menu utama kembali.
-                                </li>
-                            </ul>
-                        </div>
-
-                        <hr/>
-
-                        <div class="alert alert-success py-2 px-3 mb-0 small">
-                            <i class="bi bi-check-circle-fill me-1"></i>
-                            Setelah mengatur posisi, klik tombol hijau <strong>"Simpan Struktur & Urutan"</strong> di kanan atas!
                         </div>
                     </div>
                 </div>

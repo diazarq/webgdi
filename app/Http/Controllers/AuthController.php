@@ -10,11 +10,17 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
     public function authenticate(Request $req){
-        $creds = $req->validate([
+        $req->validate([
             'username' => ['required', 'string'],
-            'password'=> ['required']
+            'password' => ['required']
         ]);
         
+        $loginInput = $req->input('username');
+        $field = filter_var($loginInput, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $creds = [
+            $field     => $loginInput,
+            'password' => $req->input('password')
+        ];
         
         if(Auth::attempt($creds)){
             $user = Auth::user();

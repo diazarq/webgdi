@@ -277,10 +277,28 @@ class DonasiCampaignController extends Controller
         // Ambil donasi lain sebagai rekomendasi
         $otherCampaigns = $campaigns->where('slug', '!=', $slug)->take(3);
 
+        // Ambil riwayat doa & dukungan donatur untuk campaign ini
+        $doas = Payment::where(function($q) use ($campaign) {
+            if (!empty($campaign['id'])) {
+                $q->where('bank_id', $campaign['id']);
+            }
+            if (!empty($campaign['title'])) {
+                $q->orWhere('type', $campaign['title'])
+                  ->orWhere('type', 'like', substr($campaign['title'], 0, 30) . '%');
+            }
+            if (!empty($campaign['slug'])) {
+                $q->orWhere('type', 'like', '%' . $campaign['slug'] . '%');
+            }
+        })
+        ->where('status', 'complete')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
         return view('website.page-detail-donasi', [
             'pageTitle'      => $campaign['title'] . ' - Graha Dhuafa Indonesia',
             'campaign'       => $campaign,
             'otherCampaigns' => $otherCampaigns,
+            'doas'           => $doas,
             'clientKey'      => $this->getClientKey(),
             'isProduction'   => $this->isProduction(),
         ]);
@@ -380,6 +398,7 @@ class DonasiCampaignController extends Controller
             'notelp'         => $notelp,
             'email'          => $email,
             'nominal'        => $nominal,
+            'doa'            => $request->filled('doa') ? trim($request->doa) : null,
             'payment_method' => $paymentMethod,
             'bank_type'      => 'midtrans',
             'bank_id'        => $campaignId ? (int) $campaignId : 1,

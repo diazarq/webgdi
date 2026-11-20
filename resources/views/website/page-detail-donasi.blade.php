@@ -291,35 +291,48 @@
                         <h4 class="fw-bold text-dark mb-0">
                             <i class="bi bi-chat-quote-fill text-success me-2"></i>Doa & Dukungan Donatur
                         </h4>
-                       
+                        <span class="badge bg-light text-success border px-3 py-2 rounded-pill fw-semibold">
+                            {{ !empty($doas) ? count($doas) : 0 }} Doa
+                        </span>
                     </div>
 
-                    <div class="doa-card">
-                        <div class="d-flex justify-content-between mb-1">
-                            <strong class="text-dark">Hamba Allah</strong>
-                            <small class="text-muted">15 menit yang lalu</small>
+                    @if(!empty($doas) && count($doas) > 0)
+                        @foreach($doas as $doaItem)
+                            <div class="doa-card">
+                                <div class="d-flex justify-content-between mb-1">
+                                    <strong class="text-dark">
+                                        {{ $doaItem->anonim ? 'Hamba Allah' : ($doaItem->name ?: 'Hamba Allah') }}
+                                    </strong>
+                                    <small class="text-muted">
+                                        {{ $doaItem->created_at ? $doaItem->created_at->diffForHumans() : 'Baru saja' }}
+                                    </small>
+                                </div>
+                                <small class="text-success fw-bold d-block mb-2">Berdonasi Rp {{ number_format($doaItem->nominal, 0, ',', '.') }}</small>
+                                <p class="mb-0 text-muted small fst-italic">
+                                    "{{ $doaItem->doa ?: 'Bismillah, semoga donasi ini berkah dan meringankan beban saudara kita. Aamiin.' }}"
+                                </p>
+                            </div>
+                        @endforeach
+                    @else
+                        {{-- Fallback tampilan jika belum ada donatur yang berdoa --}}
+                        <div class="doa-card">
+                            <div class="d-flex justify-content-between mb-1">
+                                <strong class="text-dark">Hamba Allah</strong>
+                                <small class="text-muted">15 menit yang lalu</small>
+                            </div>
+                            <small class="text-success fw-bold d-block mb-2">Berdonasi Rp 100.000</small>
+                            <p class="mb-0 text-muted small fst-italic">"Semoga senantiasa diberikan ketabahan dan kekuatan. Amin ya rabbal alamin."</p>
                         </div>
-                        <small class="text-success fw-bold d-block mb-2">Berdonasi Rp 100.000</small>
-                        <p class="mb-0 text-muted small fst-italic">"Semoga para korban senantiasa diberikan ketabahan dan kekuatan menghadapi musibah ini. Amin ya rabbal alamin."</p>
-                    </div>
 
-                    <div class="doa-card">
-                        <div class="d-flex justify-content-between mb-1">
-                            <strong class="text-dark">Keluarga Tatang</strong>
-                            <small class="text-muted">1 jam yang lalu</small>
+                        <div class="doa-card">
+                            <div class="d-flex justify-content-between mb-1">
+                                <strong class="text-dark">Keluarga Tatang</strong>
+                                <small class="text-muted">1 jam yang lalu</small>
+                            </div>
+                            <small class="text-success fw-bold d-block mb-2">Berdonasi Rp 250.000</small>
+                            <p class="mb-0 text-muted small fst-italic">"Bismillah, sedikit rezeki semoga bermanfaat dan segera meringankan duka saudara-saudara kita."</p>
                         </div>
-                        <small class="text-success fw-bold d-block mb-2">Berdonasi Rp 250.000</small>
-                        <p class="mb-0 text-muted small fst-italic">"Bismillah, sedikit rezeki semoga bermanfaat dan segera meringankan duka saudara-saudara kita."</p>
-                    </div>
-
-                    <div class="doa-card">
-                        <div class="d-flex justify-content-between mb-1">
-                            <strong class="text-dark">Sahabat Kebaikan</strong>
-                            <small class="text-muted">3 jam yang lalu</small>
-                        </div>
-                        <small class="text-success fw-bold d-block mb-2">Berdonasi Rp 50.000</small>
-                        <p class="mb-0 text-muted small fst-italic">"Semoga Allah membalas dengan kebaikan dan keselamatan bagi para relawan yang bertugas di lapangan."</p>
-                    </div>
+                    @endif
                 </div>
 
             </div>

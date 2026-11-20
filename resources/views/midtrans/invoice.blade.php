@@ -269,6 +269,15 @@
                         <!-- Doa Donatur (Hanya jika lunas) -->
                         @if($isComplete)
                             <div class="kuitansi-doa-box card bg-light border-0 p-2 px-3 rounded-3 text-center mb-3">
+                                @if(!empty($payment->doa))
+                                    <div class="fw-bold text-dark small mb-1">
+                                        <i class="bi bi-chat-quote-fill text-success me-1"></i>Doa / Pesan Donatur:
+                                    </div>
+                                    <p class="fst-italic text-dark mb-2 small" style="font-size: 0.82rem; line-height: 1.4;">
+                                        "{{ $payment->doa }}"
+                                    </p>
+                                    <hr class="my-1 border-secondary opacity-25">
+                                @endif
                                 <p class="fst-italic text-muted mb-0 small" style="font-size: 0.78rem; line-height: 1.4;">
                                     "Semoga Allah membalas kebaikan Anda dengan pahala yang berlipat ganda, memberkahi rezeki keluarga Anda, dan menjadikan donasi ini sebagai amal jariyah yang terus mengalir."
                                 </p>

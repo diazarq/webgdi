@@ -50,13 +50,13 @@
     <li class="text">Pengaturan</li>
     @if(Auth::check() && (Auth::user()->isSuperAdmin() || Auth::user()->isAdmin()))
         <li><a href="{{ route('admin.members.index') }}" class="{{ @$MemberActive }}"><i class="cs-menu-icon bi-people-fill"></i> Relawan & Mitra</a></li>
+        <li><a href="/admin/menu" class="{{ @$MenuActive }}"><i class="cs-menu-icon bi-menu-app"></i> Menu Website</a></li>
     @endif
 
     {{-- MENU KHUSUS SUPERADMIN --}}
     @if(Auth::check() && Auth::user()->isSuperAdmin())
         <li><a href="/admin/user" class="{{ @$UserActive }}"><i class="cs-menu-icon bi-file-person-fill"></i> Kelola User</a></li>
         <li><a href="/admin/role" class="{{ @$RoleActive }}"><i class="cs-menu-icon bi-shield-lock-fill"></i> Role <span class="badge bg-primary" style="font-size: 10px; vertical-align: middle;">baru</span></a></li>
-        <li><a href="/admin/menu" class="{{ @$MenuActive }}"><i class="cs-menu-icon bi-menu-app"></i> Menu</a></li>
         <li><a href="/admin/user-privilege" class="{{ @$PrivilegeActive }}"><i class="cs-menu-icon bi-key-fill"></i> User Privilege <span class="badge bg-primary" style="font-size: 10px; vertical-align: middle;">baru</span></a></li>
         <li><a href="/admin/theme" class="{{ @$ThemeActive }}"><i class="cs-menu-icon bi-palette-fill"></i> Kelola Tema</a></li>
     @endif

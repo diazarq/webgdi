@@ -170,8 +170,10 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function(){
         /* KELOLA TEMA */
         Route::get('/theme', [ThemeController::class, 'index'])->name('admin.theme.index');
         Route::post('/theme/save', [ThemeController::class, 'save'])->name('admin.theme.save');
+    });
 
-        /* MENU WEBSITE */
+    /* MENU WEBSITE (SUPERADMIN & ADMIN) */
+    Route::group(['middleware' => ['role:superadmin,admin']], function() {
         Route::get('/menu', [MenuController::class, 'index']);
         Route::get('/menu/table', [MenuController::class, 'table']);
         Route::get('/menu/add', [MenuController::class, 'form']);
