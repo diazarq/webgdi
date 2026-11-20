@@ -87,8 +87,18 @@ class RoleController extends Controller
      */
     public function privilege(Request $request)
     {
-        $roles = Role::all();
-        $selectedRole = $request->get('role', 'Admin');
+        $roles = Role::orderBy('is_system', 'desc')->orderBy('name', 'asc')->get();
+        $defaultRole = $roles->first() ? $roles->first()->name : 'Superadmin';
+        $selectedRole = $request->get('role', $defaultRole);
+
+        // Ambil data role yang dipilih
+        $currentRoleModel = Role::where('name', $selectedRole)->first();
+        if (!$currentRoleModel && $roles->isNotEmpty()) {
+            $currentRoleModel = $roles->first();
+            $selectedRole = $currentRoleModel->name;
+        }
+
+        $rolePermissions = $currentRoleModel ? ($currentRoleModel->permissions ?? []) : [];
 
         $modules = [
             ['key' => 'dashboard', 'name' => 'Dashboard', 'category' => 'Navigasi'],
@@ -109,19 +119,32 @@ class RoleController extends Controller
         ];
 
         return view('admin.role.privilege', [
-            'pageTitle'    => 'User Privilege (Permission Matrix)',
-            'active'       => ['PrivilegeActive' => 'active'],
-            'roles'        => $roles,
-            'selectedRole' => $selectedRole,
-            'modules'      => $modules,
+            'pageTitle'        => 'User Privilege (Permission Matrix)',
+            'active'           => ['PrivilegeActive' => 'active'],
+            'roles'            => $roles,
+            'selectedRole'     => $selectedRole,
+            'currentRoleModel' => $currentRoleModel,
+            'rolePermissions'  => $rolePermissions,
+            'modules'          => $modules,
         ]);
     }
 
     /**
-     * Simpan Hak Akses Privilege
+     * Simpan Hak Akses Privilege ke Database
      */
     public function savePrivilege(Request $request)
     {
-        return redirect()->back()->with('success', 'Hak akses untuk role ' . strtoupper($request->role) . ' berhasil diperbarui!');
+        $roleName = $request->input('role');
+        $privileges = $request->input('privileges', []);
+
+        $role = Role::where('name', $roleName)->first();
+
+        if ($role) {
+            $role->permissions = $privileges;
+            $role->save();
+        }
+
+        return redirect()->route('admin.privilege.index', ['role' => $roleName])
+                         ->with('success', 'Hak akses untuk role ' . $roleName . ' berhasil disimpan ke database!');
     }
 }

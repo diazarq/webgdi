@@ -74,6 +74,39 @@ class User extends Authenticatable
     }
 
     /**
+     * Cek apakah user memiliki izin akses terhadap suatu modul (berdasarkan tabel roles di database)
+     */
+    public function canAccess($module, $action = 'view')
+    {
+        // 1. Superadmin selalu memiliki akses penuh ke seluruh modul
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+
+        // 2. Ambil role user dari tabel roles di database
+        $userRoleName = strtolower(trim($this->role_type ?? ''));
+        $roleModel = Role::whereRaw('LOWER(name) = ?', [$userRoleName])->first();
+
+        // 3. Jika role memiliki konfigurasi permissions di database, ikuti pengaturan database 100%!
+        if ($roleModel && !empty($roleModel->permissions) && is_array($roleModel->permissions)) {
+            return !empty($roleModel->permissions[$module][$action]);
+        }
+
+        // 4. Default fallback jika permissions role belum pernah disimpan di database
+        if ($this->isAdmin()) {
+            return !in_array($module, ['kelola_user', 'kelola_role', 'kelola_tema']);
+        }
+        if ($this->isVolunteer()) {
+            return in_array($module, ['dashboard', 'blog']);
+        }
+        if ($this->isMitra()) {
+            return in_array($module, ['dashboard', 'program', 'donasi']);
+        }
+
+        return false;
+    }
+
+    /**
      * The attributes that should be hidden for arrays.
      *
      * @var array

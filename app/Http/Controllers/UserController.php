@@ -47,30 +47,18 @@ class UserController extends Controller
         return DataTables::eloquent(User::query())
             ->addIndexColumn()
             ->addColumn('role_badge', function(User $user) {
-                $role = strtolower($user->role_type ?? '');
+                $role = $user->role_type;
                 if (!$role) {
-                    $role = $user->level == 1 ? 'admin' : ($user->level == 2 ? 'volunteer' : 'user');
+                    $role = $user->level == 1 ? 'Admin' : ($user->level == 2 ? 'Volunteer' : 'User');
                 }
 
-                switch ($role) {
-                    case 'superadmin':
-                        return '<span class="badge bg-dark">Superadmin</span>';
-                    case 'admin':
-                        return '<span class="badge bg-primary">Admin</span>';
-                    case 'mitra':
-                    case 'affiliate':
-                        return '<span class="badge bg-warning text-dark">Mitra</span>';
-                    case 'volunteer':
-                        return '<span class="badge bg-info text-dark">Volunteer</span>';
-                    default:
-                        return '<span class="badge bg-secondary">' . ucfirst($role) . '</span>';
-                }
+                return ucfirst($role);
             })
             ->addColumn('status_badge', function(User $user) {
                 if ($user->status === 'A') {
-                    return '<span class="badge bg-success">Aktif</span>';
+                    return '<span class="badge bg-success rounded-pill p-2">Aktif</span>';
                 }
-                return '<span class="badge bg-danger">Nonaktif</span>';
+                return '<span class="badge bg-danger p-2 rounded-pill">Nonaktif</span>';
             })
             ->addColumn('created_date', function(User $user) {
                 return $user->created_at ? $user->created_at->format('d M Y') : '-';

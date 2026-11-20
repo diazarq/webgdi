@@ -14,7 +14,7 @@
     <!-- Header Section -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
-            <h4 class="fw-bold mb-1">Kelola User</h4>
+            <h4 class="fw-bold mb-1 mt-2">Kelola User</h4>
             <p class="text-muted mb-0 small">Pengaturan akun pengguna dan role Yayasan Graha Dhuafa Indonesia</p>
         </div>
         <div>
@@ -64,7 +64,7 @@
     <div class="alert alert-warning border-0 mt-3 d-flex align-items-center shadow-sm" style="background-color: #fff8e1; color: #856404;">
         <i class="bi-info-circle-fill fs-5 me-2 text-warning"></i>
         <div class="small">
-            <strong>Catatan Otoritas:</strong> Hanya Superadmin yang bisa membuat user Admin. Role menentukan menu sidebar dan batasan aksi yang tampil saat user login.
+            <strong>Note:</strong> Hanya Superadmin yang bisa membuat akun user.
         </div>
     </div>
 </div>
@@ -89,8 +89,7 @@
                     data: 'name', 
                     name: 'name',
                     render: function(data, type, row) {
-                        return '<strong>' + (data || '-') + '</strong>' + 
-                               (row.username ? '<br><small class="text-muted">@' + row.username + '</small>' : '');
+                        return '<strong>' + (data || '-');
                     }
                 },
                 { data: 'email', name: 'email' },

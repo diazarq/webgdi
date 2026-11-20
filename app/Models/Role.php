@@ -15,12 +15,27 @@ class Role extends Model
     protected $fillable = [
         'name',
         'description',
+        'permissions',
         'is_system',
     ];
 
     protected $casts = [
-        'is_system' => 'boolean',
+        'is_system'   => 'boolean',
+        'permissions' => 'array',
     ];
+
+    /**
+     * Cek apakah role memiliki izin tertentu pada modul
+     */
+    public function hasPermission($module, $action = 'view')
+    {
+        if (str_contains(strtolower($this->name), 'superadmin')) {
+            return true;
+        }
+
+        $perms = $this->permissions ?? [];
+        return !empty($perms[$module][$action]);
+    }
 
     /**
      * Helper menghitung jumlah user yang menggunakan role ini

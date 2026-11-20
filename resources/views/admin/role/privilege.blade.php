@@ -15,7 +15,7 @@
     <!-- Header Section -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
-            <h4 class="fw-bold mb-1">User Privilege (Matriks Hak Akses)</h4>
+            <h4 class="fw-bold mb-1 mt-2">User Privilege</h4>
             <p class="text-muted mb-0 small">Atur izin melihat, menambah, mengubah, dan menghapus untuk setiap peran</p>
         </div>
         <div>
@@ -89,13 +89,29 @@
                                 $isAdmin = str_contains($roleKey, 'admin');
                                 $isVol = str_contains($roleKey, 'volunteer') || str_contains($roleKey, 'relawan');
                                 $isMit = str_contains($roleKey, 'mitra') || str_contains($roleKey, 'affiliate');
+                                $hasSaved = !empty($rolePermissions) && is_array($rolePermissions);
                             @endphp
                             @foreach($modules as $idx => $m)
                                 @php
-                                    $canView = $isSuper || ($isAdmin && !in_array($m['key'], ['kelola_user', 'kelola_role', 'kelola_tema'])) || ($isVol && in_array($m['key'], ['dashboard', 'blog', 'program'])) || ($isMit && in_array($m['key'], ['dashboard', 'program', 'donasi']));
-                                    $canCreate = $isSuper || ($isAdmin && !in_array($m['key'], ['kelola_user', 'kelola_role', 'kelola_tema'])) || ($isVol && in_array($m['key'], ['blog']));
-                                    $canEdit = $isSuper || ($isAdmin && !in_array($m['key'], ['kelola_user', 'kelola_role', 'kelola_tema']));
-                                    $canDelete = $isSuper || ($isAdmin && in_array($m['key'], ['blog', 'program', 'galeri']));
+                                    $modKey = $m['key'];
+                                    if ($isSuper) {
+                                        $canView = true;
+                                        $canCreate = true;
+                                        $canEdit = true;
+                                        $canDelete = true;
+                                    } elseif ($hasSaved) {
+                                        // BACA LANGSUNG DARI DATABASE
+                                        $canView = !empty($rolePermissions[$modKey]['view']);
+                                        $canCreate = !empty($rolePermissions[$modKey]['create']);
+                                        $canEdit = !empty($rolePermissions[$modKey]['edit']);
+                                        $canDelete = !empty($rolePermissions[$modKey]['delete']);
+                                    } else {
+                                        // NILAI DEFAULT PERTAMA KALI JIKA BELUM PERNAH DISIMPAN
+                                        $canView = ($isAdmin && !in_array($modKey, ['kelola_user', 'kelola_role', 'kelola_tema'])) || ($isVol && in_array($modKey, ['dashboard', 'blog', 'program'])) || ($isMit && in_array($modKey, ['dashboard', 'program', 'donasi']));
+                                        $canCreate = ($isAdmin && !in_array($modKey, ['kelola_user', 'kelola_role', 'kelola_tema'])) || ($isVol && in_array($modKey, ['blog']));
+                                        $canEdit = ($isAdmin && !in_array($modKey, ['kelola_user', 'kelola_role', 'kelola_tema']));
+                                        $canDelete = ($isAdmin && in_array($modKey, ['blog', 'program', 'galeri']));
+                                    }
                                 @endphp
                                 <tr>
                                     <td class="text-center">{{ $idx + 1 }}</td>
