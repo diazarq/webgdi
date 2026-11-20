@@ -41,10 +41,18 @@
                 </div>
                 <div class="col-md-4">
                     <select class="form-select" name="role" onchange="this.form.submit()">
-                        <option value="superadmin" {{ $selectedRole == 'superadmin' ? 'selected' : '' }}>Superadmin (Semua Akses)</option>
-                        <option value="admin" {{ $selectedRole == 'admin' ? 'selected' : '' }}>Admin (Pengurus Operasional)</option>
-                        <option value="mitra" {{ $selectedRole == 'mitra' ? 'selected' : '' }}>Mitra (Affiliate)</option>
-                        <option value="volunteer" {{ $selectedRole == 'volunteer' ? 'selected' : '' }}>Volunteer (Relawan)</option>
+                        @if(isset($roles) && count($roles) > 0)
+                            @foreach($roles as $roleItem)
+                                <option value="{{ $roleItem->name }}" {{ $selectedRole == $roleItem->name ? 'selected' : '' }}>
+                                    {{ $roleItem->name }}
+                                </option>
+                            @endforeach
+                        @else
+                            <option value="Superadmin" {{ $selectedRole == 'Superadmin' ? 'selected' : '' }}>Superadmin (Semua Akses)</option>
+                            <option value="Admin (Pengurus)" {{ $selectedRole == 'Admin (Pengurus)' ? 'selected' : '' }}>Admin (Pengurus Operasional)</option>
+                            <option value="Mitra" {{ $selectedRole == 'Mitra' ? 'selected' : '' }}>Mitra (Affiliate)</option>
+                            <option value="Volunteer (Relawan)" {{ $selectedRole == 'Volunteer (Relawan)' ? 'selected' : '' }}>Volunteer (Relawan)</option>
+                        @endif
                     </select>
                 </div>
                 <div class="col-auto">
@@ -76,10 +84,11 @@
                         </thead>
                         <tbody>
                             @php
-                                $isSuper = ($selectedRole === 'superadmin');
-                                $isAdmin = ($selectedRole === 'admin');
-                                $isVol = ($selectedRole === 'volunteer');
-                                $isMit = ($selectedRole === 'mitra');
+                                $roleKey = strtolower($selectedRole);
+                                $isSuper = str_contains($roleKey, 'superadmin');
+                                $isAdmin = str_contains($roleKey, 'admin');
+                                $isVol = str_contains($roleKey, 'volunteer') || str_contains($roleKey, 'relawan');
+                                $isMit = str_contains($roleKey, 'mitra') || str_contains($roleKey, 'affiliate');
                             @endphp
                             @foreach($modules as $idx => $m)
                                 @php

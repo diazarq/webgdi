@@ -56,7 +56,7 @@
     {{-- MENU KHUSUS SUPERADMIN --}}
     @if(Auth::check() && Auth::user()->isSuperAdmin())
         <li><a href="/admin/user" class="{{ @$UserActive }}"><i class="cs-menu-icon bi-file-person-fill"></i> Kelola User</a></li>
-        <li><a href="/admin/role" class="{{ @$RoleActive }}"><i class="cs-menu-icon bi-shield-lock-fill"></i> Role <span class="badge bg-primary" style="font-size: 10px; vertical-align: middle;">baru</span></a></li>
+        <li><a href="/admin/role" class="{{ @$RoleActive }}"><i class="cs-menu-icon bi-shield-lock-fill"></i> Role</a></li>
         <li><a href="/admin/user-privilege" class="{{ @$PrivilegeActive }}"><i class="cs-menu-icon bi-key-fill"></i> User Privilege <span class="badge bg-primary" style="font-size: 10px; vertical-align: middle;">baru</span></a></li>
         <li><a href="/admin/theme" class="{{ @$ThemeActive }}"><i class="cs-menu-icon bi-palette-fill"></i> Kelola Tema</a></li>
     @endif
@@ -65,3 +65,4 @@
     <li><a href="/admin/user/detail" class="{{ @$ProfileActive }}"><i class="cs-menu-icon bi-person-badge"></i> Profil Anda</a></li>
     <li><a href="/q/logout"><i class="cs-menu-icon bi-door-open-fill"></i> Logout</a></li>
 </ul>
+

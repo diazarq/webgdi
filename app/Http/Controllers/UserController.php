@@ -8,15 +8,26 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Role;
 
 class UserController extends Controller
 {
-    protected $roles = [
-        'superadmin' => 'Superadmin',
-        'admin'      => 'Admin',
-        'mitra'      => 'Mitra',
-        'volunteer'  => 'Volunteer',
-    ];
+    protected function getRoles()
+    {
+        try {
+            $dbRoles = Role::pluck('name', 'name')->toArray();
+            if (!empty($dbRoles)) {
+                return $dbRoles;
+            }
+        } catch (\Exception $e) {}
+
+        return [
+            'superadmin' => 'Superadmin',
+            'admin'      => 'Admin',
+            'mitra'      => 'Mitra',
+            'volunteer'  => 'Volunteer',
+        ];
+    }
 
     public function __construct()
     {
@@ -27,7 +38,7 @@ class UserController extends Controller
         return view('user.list-user', [
             'pageTitle' => 'Kelola User',
             'active'    => ['UserActive' => 'active'],
-            'roles'     => $this->roles,
+            'roles'     => $this->getRoles(),
         ]);
     }
 
@@ -112,7 +123,7 @@ class UserController extends Controller
             'active'    => ['UserActive' => 'active'],
             'mode'      => $mode,
             'detail'    => $detail,
-            'roles'     => $this->roles,
+            'roles'     => $this->getRoles(),
         ]);
     }
 

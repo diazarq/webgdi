@@ -26,13 +26,12 @@
           </div>
       </div>
 
-      <header class="cs-header">
+      <header class="cs-header align-middle ">
         <div class="cs-toggle" data-open="false" ><i class="bi-list"></i></div>
         <div class="cs-title">CMS</div>
         @if(Auth::check())
           <div class="cs-profile">
             <span class="text-muted small me-2 d-none d-md-inline">Anda Login Sebagai:</span>
-            <span class="badge bg-primary text-uppercase me-2">{{ Auth::user()->role_type ?? 'Admin' }}</span>
             <span class="fw-bold text-dark">{{ Auth::user()->name }}</span>
           </div>
         @endif

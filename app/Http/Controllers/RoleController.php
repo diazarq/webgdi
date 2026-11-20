@@ -4,48 +4,16 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Role;
 
 class RoleController extends Controller
 {
     /**
-     * Halaman Manajemen Role (CRUD Role)
+     * Halaman Manajemen Role (CRUD Role Dinamis dari Database)
      */
     public function index()
     {
-        $roles = [
-            [
-                'id' => 1,
-                'name' => 'Superadmin',
-                'slug' => 'superadmin',
-                'description' => 'Akses penuh ke semua modul, manajemen user, role, privilege, dan pengaturan teknis.',
-                'user_count' => User::where('role_type', 'superadmin')->orWhere('level', 99)->count(),
-                'is_system' => true,
-            ],
-            [
-                'id' => 2,
-                'name' => 'Admin (Pengurus)',
-                'slug' => 'admin',
-                'description' => 'Mengelola operasional harian: Blog, Program, Donasi Masuk, Zakat, dan Persetujuan Relawan/Mitra.',
-                'user_count' => User::where('role_type', 'admin')->orWhere('level', 1)->count(),
-                'is_system' => true,
-            ],
-            [
-                'id' => 3,
-                'name' => 'Mitra',
-                'slug' => 'mitra',
-                'description' => 'Mitra penghimpun dana dan kolaborasi program LAZ dengan akses dashboard portal mitra.',
-                'user_count' => User::whereIn('role_type', ['mitra', 'affiliate'])->orWhere('level', 3)->count(),
-                'is_system' => false,
-            ],
-            [
-                'id' => 4,
-                'name' => 'Volunteer (Relawan)',
-                'slug' => 'volunteer',
-                'description' => 'Relawan lapangan: menulis draft berita/kegiatan relawan dan mengikuti kegiatan program.',
-                'user_count' => User::where('role_type', 'volunteer')->orWhere('level', 2)->count(),
-                'is_system' => false,
-            ],
-        ];
+        $roles = Role::orderBy('is_system', 'desc')->orderBy('id', 'asc')->get();
 
         return view('admin.role.index', [
             'pageTitle'  => 'Manajemen Role',
@@ -55,11 +23,72 @@ class RoleController extends Controller
     }
 
     /**
+     * Simpan Role Baru atau Update Role
+     */
+    public function store(Request $request)
+    {
+        $rules = [
+            'name'        => ['required', 'string', 'max:100', 'unique:roles,name,' . ($request->id ?? 0)],
+            'description' => ['nullable', 'string'],
+        ];
+
+        $request->validate($rules);
+
+        $data = [
+            'name'        => trim($request->name),
+            'description' => $request->description,
+        ];
+
+        if ($request->id) {
+            $role = Role::findOrFail($request->id);
+            $role->update($data);
+            $msg = 'Role berhasil diperbarui!';
+        } else {
+            $data['is_system'] = false;
+            Role::create($data);
+            $msg = 'Role baru berhasil ditambahkan!';
+        }
+
+        return redirect()->route('admin.role.index')->with('success', $msg);
+    }
+
+    /**
+     * Hapus Role (Hanya role non-sistem)
+     */
+    public function destroy($id)
+    {
+        $role = Role::findOrFail($id);
+
+        if ($role->is_system) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Role bawaan sistem tidak boleh dihapus demi keamanan aplikasi!'
+            ], 403);
+        }
+
+        // Cek jika role masih memiliki user
+        if ($role->user_count > 0) {
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'Role masih digunakan oleh ' . $role->user_count . ' pengguna. Pindahkan role user tersebut terlebih dahulu sebelum menghapus!'
+            ], 400);
+        }
+
+        $role->delete();
+
+        return response()->json([
+            'status'  => 'success',
+            'message' => 'Role berhasil dihapus.'
+        ]);
+    }
+
+    /**
      * Halaman User Privilege / Permission Matrix
      */
     public function privilege(Request $request)
     {
-        $selectedRole = $request->get('role', 'admin');
+        $roles = Role::all();
+        $selectedRole = $request->get('role', 'Admin');
 
         $modules = [
             ['key' => 'dashboard', 'name' => 'Dashboard', 'category' => 'Navigasi'],
@@ -82,6 +111,7 @@ class RoleController extends Controller
         return view('admin.role.privilege', [
             'pageTitle'    => 'User Privilege (Permission Matrix)',
             'active'       => ['PrivilegeActive' => 'active'],
+            'roles'        => $roles,
             'selectedRole' => $selectedRole,
             'modules'      => $modules,
         ]);

@@ -162,6 +162,8 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function(){
 
         /* KELOLA ROLE */
         Route::get('/role', [RoleController::class, 'index'])->name('admin.role.index');
+        Route::post('/role/store', [RoleController::class, 'store'])->name('admin.role.store');
+        Route::get('/role/{id}/delete', [RoleController::class, 'destroy'])->name('admin.role.delete');
 
         /* USER PRIVILEGE */
         Route::get('/user-privilege', [RoleController::class, 'privilege'])->name('admin.privilege.index');
