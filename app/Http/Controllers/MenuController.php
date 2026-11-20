@@ -167,39 +167,8 @@ class MenuController extends Controller
         return redirect('/admin/menu');
     }
 
-    /**
-     * Update hierarki dan urutan menu via Drag-and-Drop (Nestable)
-     */
     public function updateOrder(Request $request)
     {
-        $hierarchy = $request->input('hierarchy');
-
-        if ($hierarchy && is_array($hierarchy)) {
-            $this->saveMenuTree($hierarchy, 0);
-        }
-
-        return response()->json([
-            'status'  => 'success',
-            'message' => 'Hierarki dan urutan menu berhasil diperbarui!'
-        ]);
-    }
-
-    /**
-     * Rekursif simpan urutan dan parent_id
-     */
-    private function saveMenuTree($items, $parentId = 0)
-    {
-        foreach ($items as $index => $item) {
-            if (isset($item['id'])) {
-                Menu::where('id', $item['id'])->update([
-                    'parent_id' => $parentId,
-                    'order'     => $index + 1
-                ]);
-
-                if (!empty($item['children'])) {
-                    $this->saveMenuTree($item['children'], $item['id']);
-                }
-            }
-        }
+        return $this->reorder($request);
     }
 }

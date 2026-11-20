@@ -62,11 +62,11 @@ class AdminMemberController extends Controller
         $user->rejection_note = null;
         $user->save();
 
-        return back()->with('success', 'Akun ' . $user->name . ' (' . ucfirst($user->role_type) . ') BERHASIL DISETUJUI / DI-ACC. Pengguna sekarang dapat login di /z/login.');
+        return back()->with('success', 'Akun ' . $user->name . ' (' . ucfirst($user->role_type) . ') BERHASIL DISETUJUI / DI-ACC.');
     }
 
     /**
-     * Tolak Pendaftaran Relawan / Mitra
+     * Tolak Pendaftaran Relawan / Mitra 
      */
     public function reject(Request $request, $id)
     {

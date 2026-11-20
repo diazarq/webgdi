@@ -179,6 +179,7 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function(){
         Route::get('/menu/{id}/delete', [MenuController::class, 'delete']);
         Route::post('/menu/add', [MenuController::class, 'store']);
         Route::post('/menu/update-order', [MenuController::class, 'updateOrder'])->name('menu.updateOrder');
+        Route::post('/menu/reorder', [MenuController::class, 'reorder'])->name('admin.menu.reorder');
     });
 
     /* BLOG */
@@ -309,19 +310,6 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function(){
     Route::get('/campaign-donasi/{id}/delete', [AdminDonasiCampaignController::class, 'delete'])->name('admin.campaign.delete');
     /* ---- */
 
-<<<<<<< Updated upstream
-    /* BAGIAN PA ANDRI */
-    /* MENU */
-    Route::get('/menu', [MenuController::class, 'index']);
-    Route::get('/menu/table', [MenuController::class, 'table']);
-    Route::get('/menu/add', [MenuController::class, 'form']);
-    Route::get('/menu/{id}/edit', [MenuController::class, 'form']);
-    Route::get('/menu/{id}/delete', [MenuController::class, 'delete']);
-    Route::post('/menu/add', [MenuController::class, 'store']);
-    Route::post('/menu/reorder', [MenuController::class, 'reorder'])->name('admin.menu.reorder');
-
-=======
->>>>>>> Stashed changes
     /* WIDGET: SLIDER */
     Route::get('/widget/slider', [WidgetController::class, 'index_slider']);
     Route::get('/widget/slider/table', [WidgetController::class, 'table_slider']);

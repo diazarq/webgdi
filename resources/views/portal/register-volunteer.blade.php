@@ -805,7 +805,6 @@
             <a href="{{ route('portal.affiliate.register') }}" class="text-secondary fw-semibold">Daftar Sebagai Mitra</a>
         </div>
 
-<<<<<<< Updated upstream
         <!-- Social / Shortcuts at Bottom -->
         <div class="social-row">
             <!-- Website Utama -->
@@ -821,9 +820,6 @@
                 <i class="bi bi-heart-pulse-fill"></i>
             </a>
         </div>
-
-=======
->>>>>>> Stashed changes
     </div>
 
 </div>
