@@ -71,6 +71,58 @@
         background-color: #00875A;
     }
 
+    @font-face {
+        font-family: 'Handflair';
+        src: url('{{ asset("website/assets/fonts/Handflair.ttf") }}?v={{ time() }}') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+    @font-face {
+        font-family: 'Black';
+        src: url('{{ asset("website/assets/fonts/Motterdam.otf") }}?v={{ time() }}') format('opentype'),
+             url('{{ asset("website/assets/fonts/Motterdam.otf") }}?v={{ time() }}') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+
+    .main-menu .main-menu__list > li > ul > li > a .font-handflair,
+    .mobile-nav__content .font-handflair,
+    .font-handflair {
+        font-family: 'Black', cursive !important;
+        font-size: 25px !important;    
+        font-weight: normal !important;   
+        display: inline-block;
+        margin-left: 3px;
+        color: #00875A;
+    }
+
+    .page-header__inner h2 .font-banner,
+    .page-header h2 .font-banner {
+        font-family: 'Handflair', cursive !important;
+        font-size: 50px !important;       
+        font-weight: normal !important;
+        color: #ffffff !important;
+        display: inline-block;
+        margin-left: -12px;
+        color: #fc804c !important;
+        vertical-align: middle;
+    }
+
+        .mobile-nav__content .font-handflair {
+        color: #ffffff !important;  
+        font-size: 24px !important;  
+        margin-left: 4px !important;
+    }
+
+    .mobile-nav__content .main-menu__list li a {
+        justify-content: flex-start !important;
+        gap: 6px !important;
+    }
+    .mobile-nav__content .main-menu__list li a button {
+        margin-left: auto !important;
+    }
+
     /* === LAZ GDI Custom: Navbar Sticky (selalu menempel di atas saat scroll) === */
     @if(App\Helper::getThemeSetting('sticky_navbar', true))
     .main-header-two {

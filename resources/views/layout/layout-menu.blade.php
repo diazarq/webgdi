@@ -14,7 +14,7 @@
                     <a href="{{ !empty($dt['url']) ? '/' . ltrim($dt['url'], '/') : '#' }}">{{ $dt['title'] }}</a>
                     <ul class="shadow-box">
                         @foreach($dt['submenu'] as $c)
-                            <li><a href="/{{ ltrim($c['url'], '/') }}">{{ $c['title'] }}</a></li>
+                            <li><a href="/{{ ltrim($c['url'], '/') }}">{!! preg_replace('/^LAZ\s*(.+)$/i', 'LAZ <span class="font-handflair">$1</span>', $c['title']) !!}</a></li>
                         @endforeach
                     </ul>
                 </li>

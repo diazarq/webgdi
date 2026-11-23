@@ -18,11 +18,6 @@
             <h4 class="fw-bold mb-1 mt-2">User Privilege</h4>
             <p class="text-muted mb-0 small">Atur izin melihat, menambah, mengubah, dan menghapus untuk setiap peran</p>
         </div>
-        <div>
-            <a href="/admin/role" class="btn btn-outline-secondary px-3">
-                <i class="bi-arrow-left me-1"></i> Kembali ke Role
-            </a>
-        </div>
     </div>
 
     @if(session('success'))

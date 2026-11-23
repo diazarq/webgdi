@@ -58,27 +58,31 @@ hr:not([size]) {
 
 .cs-header {
   width: 100%;
-  max-height: 50px;
-  padding: 13px 15px;
+  height: 50px;
+  padding: 0 20px;
   background-color: #FFFFFF;
   box-shadow: 0px 2px 5px #F2F2F2;
   position: fixed;
   z-index: 4;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .cs-header > .cs-title {
-  float: left;
   font-weight: bold;
   font-size: 16px;
+  margin: 0;
+  display: flex;
+  align-items: center;
 }
 
 .cs-header > .cs-profile {
-  float: right;
-  display: inline-flex;
+  display: flex;
+  align-items: center;
   position: relative;
   font-size: 14px;
-  top: -0.2rem;
+  top: 0;
 }
 
 .cs-profile .profile-dropdown {
@@ -108,34 +112,36 @@ hr:not([size]) {
 }
 
 .cs-left-bar {
-  width: 180px;
+  width: 190px;
   background-color: #FFFFFF;
   height: 100%;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   position: fixed;
-  padding: 55px 0;
+  padding: 55px 0 20px 0;
   z-index: 1;
+  border-right: 1px solid #edf2f7;
 }
 
 /* width */
 .cs-left-bar::-webkit-scrollbar {
-  width: 7px;
+  width: 5px;
 }
 
 /* Track */
 .cs-left-bar::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: #f8fafc;
 }
 
 /* Handle */
 .cs-left-bar::-webkit-scrollbar-thumb {
-  background: rgba(222, 222, 222, 0.8);
+  background: rgba(200, 205, 215, 0.7);
   border-radius: 10px;
 }
 
 /* Handle on hover */
 .cs-left-bar::-webkit-scrollbar-thumb:hover {
-  background: #ddd;
+  background: #a0aec0;
 }
 
 .cs-left-bar > nav > ul {
@@ -148,20 +154,29 @@ hr:not([size]) {
   width: 100%;
 }
 
-.cs-left-bar > nav > ul > li > a,
-.cs-left-bar > nav > ul > li.text {
+.cs-left-bar > nav > ul > li > a {
+  display: flex;
+  align-items: center;
   text-decoration: none;
-  padding: 7px 15px;
+  padding: 8px 16px;
   width: 100%;
-  display: block;
-  color: #251D3A;
+  color: #2b3445;
+  font-size: 13.5px;
+  position: relative;
+  transition: all 0.2s ease-in-out;
 }
 
 .cs-left-bar > nav > ul > li.text {
+  text-decoration: none;
+  padding: 14px 16px 6px 16px;
+  width: 100%;
+  display: block;
+  color: #8c9097;
   text-transform: uppercase;
-  font-size: 8pt;
-  font-weight: bold;
-  margin-top: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  margin-top: 4px;
 }
 
 .cs-left-bar > nav > ul > li > a:hover,
@@ -169,32 +184,21 @@ hr:not([size]) {
 .cs-left-bar > nav > ul > li > a:active,
 .cs-left-bar > nav > ul > li > a.cs-menu-dropdown:hover {
   color: #0E3EDA;
-  background-color: #F2F2F2;
+  background-color: #F2F4F8;
 }
 
 .cs-left-bar > nav > ul > li > a.active {
   color: #0E3EDA;
+  font-weight: 600;
+  background-color: #EEF2FF;
 }
 
 .cs-menu-dropdown-item > li > a.active {
   color: #0E3EDA;
-  background-color: #F2F2F2;
+  font-weight: 600;
+  background-color: #EEF2FF;
 }
 
-/*
-.cs-menu-dropdown::after{
-    content: '';
-    color: #0E3EDA;
-    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 22 22"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg>');
-    background-repeat: no-repeat;
-    background-size: 1rem 1rem;
-    padding-right: 5px;
-    width: 54px;
-    height: 9px;
-    background-position-x: right;
-    display: inline-block;
-}
-*/
 .cs-menu-dropdown-item {
   list-style: none;
   padding: 0px;
@@ -203,25 +207,36 @@ hr:not([size]) {
 
 .cs-menu-dropdown-item > li > a {
   text-decoration: none;
-  padding-top: 7px;
-  padding-bottom: 7px;
+  padding-top: 6px;
+  padding-bottom: 6px;
   padding-right: 15px;
-  padding-left: 36px;
+  padding-left: 46px;
   width: 100%;
   display: block;
-  color: #251D3A;
+  color: #4b5563;
+  font-size: 13px;
+  transition: all 0.2s ease-in-out;
 }
 
 .cs-menu-dropdown-item > li > a:hover,
 .cs-menu-dropdown-item > li > a:focus,
 .cs-menu-dropdown-item > li > a:active {
   color: #0E3EDA;
-  background-color: #F2F2F2;
+  background-color: #F2F4F8;
 }
 
 .cs-menu-icon {
-  padding-right: 5px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 20px;
+  min-width: 20px;
+  height: 20px;
+  margin-right: 10px;
+  font-size: 16px;
+  text-align: center;
+  flex-shrink: 0;
+  line-height: 1;
 }
 
 .cs-toggle {
@@ -272,7 +287,7 @@ hr:not([size]) {
 }
 
 .cs-right-content {
-  padding-left: 180px;
+  padding-left: 190px;
   display: block;
   position: absolute;
   padding-top: 60px;

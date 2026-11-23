@@ -26,12 +26,15 @@
           </div>
       </div>
 
-      <header class="cs-header align-middle ">
-        <div class="cs-toggle" data-open="false" ><i class="bi-list"></i></div>
-        <div class="cs-title">CMS</div>
+      <header class="cs-header d-flex align-items-center justify-content-between px-3">
+        <div class="d-flex align-items-center">
+          <div class="cs-toggle me-2" data-open="false"><i class="bi-list fs-5"></i></div>
+          <div class="cs-title mb-0 fw-bold fs-6">CMS</div>
+        </div>
         @if(Auth::check())
-          <div class="cs-profile">
+          <div class="cs-profile d-flex align-items-center">
             <span class="text-muted small me-2 d-none d-md-inline">Anda Login Sebagai:</span>
+            </span>
             <span class="fw-bold text-dark">{{ Auth::user()->name }}</span>
           </div>
         @endif

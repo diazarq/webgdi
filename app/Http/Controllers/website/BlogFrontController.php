@@ -25,7 +25,6 @@ class BlogFrontController extends Controller
             $query->where('kategori', $kategori);
         }
 
-        // Filter jenis (LAZNews menggantikan kegiatan, LAZJourney menggantikan journey, LAZSalam menggantikan salam)
         $jenisFilter = $jenis ?: ($request->query('jenis') ?: $request->route('jenis'));
         $jenisLabel = null;
 

@@ -10,7 +10,7 @@
         @if($user->canAccess('dashboard'))
             <li>
                 <a href="/admin/dashboard" class="{{ @$DashActive }}">
-                    <i class="cs-menu-icon bi bi-speedometer2"></i> Dashboard
+                    <i class="cs-menu-icon bi-speedometer2"></i> Dashboard
                 </a>
             </li>
         @endif
