@@ -81,16 +81,15 @@
                 </div>
                 <hr/>
                 <div class="mb-3 row">
-    <label class="col-sm-2 col-form-label">Jenis *</label>
-    <div class="col-sm-3">
-        <select class="form-select" name="jenis" required>   
-            <option value="salam" {{ @$detail->jenis == 'salam' ? 'selected' : '' }}>Salam</option>
-            <option value="kegiatan" {{ @$detail->jenis == 'kegiatan' ? 'selected' : '' }}>Kegiatan</option>
-            <option value="journey" {{ @$detail->jenis == 'journey' ? 'selected' : '' }}>Journey</option>
-        </select>
-    </div>
-</div>
-<div class="mb-3 row"></div>
+                    <label class="col-sm-2 col-form-label">Jenis *</label>
+                    <div class="col-sm-4">
+                        <select class="form-select" name="jenis" required>   
+                            <option value="laznews" {{ in_array(@$detail->jenis, ['laznews', 'kegiatan']) ? 'selected' : '' }}>LAZNews (Kegiatan)</option>
+                            <option value="lazjourney" {{ in_array(@$detail->jenis, ['lazjourney', 'journey']) ? 'selected' : '' }}>LAZJourney (Journey)</option>
+                            <option value="lazsalam" {{ in_array(@$detail->jenis, ['lazsalam', 'salam']) ? 'selected' : '' }}>LAZSalam (Salam)</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="mb-3 row">
                     <label class="col-sm-2 col-form-label">Kategori *</label>
                     <div class="col-sm-4">

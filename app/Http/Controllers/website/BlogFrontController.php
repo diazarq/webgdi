@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class BlogFrontController extends Controller
 {
-    public function index(Request $request, $kategori = null)
+    public function index(Request $request, $kategori = null, $jenis = null)
     {
         $query = Blog::where('status', 'publish');
 
@@ -20,25 +20,39 @@ class BlogFrontController extends Controller
             });
         }
 
-        // Filter kategori (fleksibel: menangani format slug seperti laz-news maupun teks asli LAZ News)
-        $titleKategori = $kategori;
+        // Filter kategori
         if ($kategori) {
-            $normalizedKategori = str_replace('-', ' ', $kategori);
-            $query->where(function ($q) use ($kategori, $normalizedKategori) {
-                $q->where('kategori', $kategori)
-                    ->orWhere('kategori', 'like', '%' . $normalizedKategori . '%')
-                    ->orWhereRaw("LOWER(REPLACE(kategori, ' ', '-')) = ?", [strtolower($kategori)])
-                    ->orWhere('jenis', 'like', '%' . $kategori . '%');
-            });
+            $query->where('kategori', $kategori);
+        }
 
-            if (strtolower($kategori) === 'laz-news') {
-                $titleKategori = 'LAZ News';
-            } elseif (strtolower($kategori) === 'laz-journey') {
-                $titleKategori = 'LAZ Journey';
-            } elseif (strtolower($kategori) === 'laz-salam') {
-                $titleKategori = 'LAZ Salam';
+        // Filter jenis (LAZNews menggantikan kegiatan, LAZJourney menggantikan journey, LAZSalam menggantikan salam)
+        $jenisFilter = $jenis ?: ($request->query('jenis') ?: $request->route('jenis'));
+        $jenisLabel = null;
+
+        if ($jenisFilter) {
+            $jenisLower = strtolower(trim($jenisFilter));
+            if (in_array($jenisLower, ['laznews', 'kegiatan', 'news', 'berita'])) {
+                $query->where(function($q) {
+                    $q->whereIn('jenis', ['laznews', 'kegiatan', 'news', 'berita'])
+                      ->orWhere('kategori', 'like', '%news%')
+                      ->orWhere('kategori', 'like', '%kegiatan%');
+                });
+                $jenisLabel = 'LAZNews';
+            } elseif (in_array($jenisLower, ['lazjourney', 'journey'])) {
+                $query->where(function($q) {
+                    $q->whereIn('jenis', ['lazjourney', 'journey'])
+                      ->orWhere('kategori', 'like', '%journey%');
+                });
+                $jenisLabel = 'LAZJourney';
+            } elseif (in_array($jenisLower, ['lazsalam', 'salam', 'edukasi'])) {
+                $query->where(function($q) {
+                    $q->whereIn('jenis', ['lazsalam', 'salam', 'edukasi'])
+                      ->orWhere('kategori', 'like', '%salam%');
+                });
+                $jenisLabel = 'LAZSalam';
             } else {
-                $titleKategori = ucwords($normalizedKategori);
+                $query->where('jenis', $jenisFilter);
+                $jenisLabel = ucfirst($jenisFilter);
             }
         }
 
@@ -47,21 +61,13 @@ class BlogFrontController extends Controller
 
         // Sidebar data
         $blogRealisasi = Blog::where('status', 'publish')
-            ->where(function($q) {
-                $q->where('kategori', 'like', '%realisasi%')
-                  ->orWhere('kategori', 'like', '%news%')
-                  ->orWhere('kategori', 'like', '%kegiatan%');
-            })
+            ->where('kategori', 'Berita Realisasi')
             ->orderBy('date_publish', 'desc')
             ->take(5)
             ->get();
 
         $blogDewanSyariah = Blog::where('status', 'publish')
-            ->where(function($q) {
-                $q->where('kategori', 'like', '%salam%')
-                  ->orWhere('kategori', 'like', '%syariah%')
-                  ->orWhere('kategori', 'like', '%edukasi%');
-            })
+            ->where('kategori', 'Salam Dewan Syariah')
             ->orderBy('date_publish', 'desc')
             ->take(5)
             ->get();
@@ -74,25 +80,32 @@ class BlogFrontController extends Controller
         $category = Blog::select('kategori')
             ->selectRaw('COUNT(*) as total')
             ->where('status', 'publish')
-            ->whereNotNull('kategori')
-            ->where('kategori', '!=', '')
             ->groupBy('kategori')
             ->get();
 
         $totalAllPosts = Blog::where('status', 'publish')->count();
 
+        $pageTitle = $jenisLabel ?: ($kategori ?: 'Blog & Berita');
+
         return view('website.page-blog', [
-            'pageTitle' => $kategori ? 'Blog - ' . $titleKategori : 'Blog',
+            'pageTitle' => $pageTitle,
             'blog' => $blog,
             'blogRealisasi' => $blogRealisasi,
             'blogDewanSyariah' => $blogDewanSyariah,
             'blogLatest' => $blogLatest,
             'category' => $category,
             'totalAllPosts' => $totalAllPosts,
-            'categoryKey' => $titleKategori,
-            'parent' => $kategori ? 'Blog' : null,
+            'categoryKey' => $kategori,
+            'jenisKey' => $jenisFilter,
+            'jenisLabel' => $jenisLabel,
+            'parent' => ($kategori || $jenisLabel) ? 'Blog' : null,
             'detail' => null,
         ]);
+    }
+
+    public function byJenis(Request $request, $jenis)
+    {
+        return $this->index($request, null, $jenis);
     }
 
     public function detail($slug)

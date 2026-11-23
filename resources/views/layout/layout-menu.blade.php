@@ -11,7 +11,7 @@
             @endphp
             @if($dt['submenu'])
                 <li class="dropdown {{ @$$menuActive }}">
-                    <a href="#">{{ $dt['title'] }}</a>
+                    <a href="{{ !empty($dt['url']) ? '/' . ltrim($dt['url'], '/') : '#' }}">{{ $dt['title'] }}</a>
                     <ul class="shadow-box">
                         @foreach($dt['submenu'] as $c)
                             <li><a href="/{{ ltrim($c['url'], '/') }}">{{ $c['title'] }}</a></li>
@@ -19,7 +19,7 @@
                     </ul>
                 </li>
             @else
-                <li class="{{ @$$menuActive }}"><a href="/{{ $dt['url'] }}">{{ $dt['title'] }}</a></li>
+                <li class="{{ @$$menuActive }}"><a href="/{{ ltrim($dt['url'], '/') }}">{{ $dt['title'] }}</a></li>
             @endif
         @endforeach
     @endif

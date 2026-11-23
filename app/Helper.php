@@ -116,6 +116,28 @@ class Helper{
                         'url' => 'z/login'
                     ];
                 }
+
+                if($p->page_type == 'blog_list' || strtolower(trim($p->title)) === 'blog'){
+                    if(empty($submenu)){
+                        $submenu = [
+                            [
+                                'id' => 801,
+                                'title' => 'LAZNews',
+                                'url' => 'blog/jenis/laznews'
+                            ],
+                            [
+                                'id' => 802,
+                                'title' => 'LAZJourney',
+                                'url' => 'blog/jenis/lazjourney'
+                            ],
+                            [
+                                'id' => 803,
+                                'title' => 'LAZSalam',
+                                'url' => 'blog/jenis/lazsalam'
+                            ],
+                        ];
+                    }
+                }
                 $arrMenu[] = [
                     'id' => $p->id,
                     'title' => $p->title,

@@ -277,7 +277,7 @@
     <li><a href="/">Beranda</a></li>
     @if(@$parent)
     <li><span>/</span></li>
-    <li><a href="/">{{ @$parent }}</a></li>
+    <li><a href="/blog">{{ @$parent }}</a></li>
     @endif
     <li><span>/</span></li>
     <li>{{ @$detail->title ? @$detail->title : $pageTitle }}</li>

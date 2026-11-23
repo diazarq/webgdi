@@ -87,7 +87,12 @@
                         data: 'jenis',
                         defaultContent: '-',
                         render: function(data){
-                            return data ? data : '-';
+                            if(!data) return '-';
+                            var d = String(data).toLowerCase();
+                            if(d === 'laznews' || d === 'kegiatan') return '<span class="badge bg-success">LAZNews</span>';
+                            if(d === 'lazjourney' || d === 'journey') return '<span class="badge bg-info text-dark">LAZJourney</span>';
+                            if(d === 'lazsalam' || d === 'salam') return '<span class="badge bg-warning text-dark">LAZSalam</span>';
+                            return '<span class="badge bg-light text-dark border">' + data + '</span>';
                         }
                     },
                     {
