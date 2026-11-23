@@ -67,7 +67,7 @@ class Helper{
                         $submenu[] = [
                             'id' => $c->id,
                             'title' => $c->title,
-                            'url' => $c->menu_type == 'page' ? $c->slug : $p->url,
+                            'url' => $c->menu_type == 'page' ? $c->slug : ($c->url ?: $c->slug),
                         ];
                     }
                 }

@@ -20,9 +20,26 @@ class BlogFrontController extends Controller
             });
         }
 
-        // Filter kategori
+        // Filter kategori (fleksibel: menangani format slug seperti laz-news maupun teks asli LAZ News)
+        $titleKategori = $kategori;
         if ($kategori) {
-            $query->where('kategori', $kategori);
+            $normalizedKategori = str_replace('-', ' ', $kategori);
+            $query->where(function ($q) use ($kategori, $normalizedKategori) {
+                $q->where('kategori', $kategori)
+                    ->orWhere('kategori', 'like', '%' . $normalizedKategori . '%')
+                    ->orWhereRaw("LOWER(REPLACE(kategori, ' ', '-')) = ?", [strtolower($kategori)])
+                    ->orWhere('jenis', 'like', '%' . $kategori . '%');
+            });
+
+            if (strtolower($kategori) === 'laz-news') {
+                $titleKategori = 'LAZ News';
+            } elseif (strtolower($kategori) === 'laz-journey') {
+                $titleKategori = 'LAZ Journey';
+            } elseif (strtolower($kategori) === 'laz-salam') {
+                $titleKategori = 'LAZ Salam';
+            } else {
+                $titleKategori = ucwords($normalizedKategori);
+            }
         }
 
         // Ambil data blog dengan pagination
@@ -30,13 +47,21 @@ class BlogFrontController extends Controller
 
         // Sidebar data
         $blogRealisasi = Blog::where('status', 'publish')
-            ->where('kategori', 'Berita Realisasi')
+            ->where(function($q) {
+                $q->where('kategori', 'like', '%realisasi%')
+                  ->orWhere('kategori', 'like', '%news%')
+                  ->orWhere('kategori', 'like', '%kegiatan%');
+            })
             ->orderBy('date_publish', 'desc')
             ->take(5)
             ->get();
 
         $blogDewanSyariah = Blog::where('status', 'publish')
-            ->where('kategori', 'Salam Dewan Syariah')
+            ->where(function($q) {
+                $q->where('kategori', 'like', '%salam%')
+                  ->orWhere('kategori', 'like', '%syariah%')
+                  ->orWhere('kategori', 'like', '%edukasi%');
+            })
             ->orderBy('date_publish', 'desc')
             ->take(5)
             ->get();
@@ -49,20 +74,22 @@ class BlogFrontController extends Controller
         $category = Blog::select('kategori')
             ->selectRaw('COUNT(*) as total')
             ->where('status', 'publish')
+            ->whereNotNull('kategori')
+            ->where('kategori', '!=', '')
             ->groupBy('kategori')
             ->get();
 
         $totalAllPosts = Blog::where('status', 'publish')->count();
 
         return view('website.page-blog', [
-            'pageTitle' => $kategori ? 'Blog - ' . $kategori : 'Blog',
+            'pageTitle' => $kategori ? 'Blog - ' . $titleKategori : 'Blog',
             'blog' => $blog,
             'blogRealisasi' => $blogRealisasi,
             'blogDewanSyariah' => $blogDewanSyariah,
             'blogLatest' => $blogLatest,
             'category' => $category,
             'totalAllPosts' => $totalAllPosts,
-            'categoryKey' => $kategori,
+            'categoryKey' => $titleKategori,
             'parent' => $kategori ? 'Blog' : null,
             'detail' => null,
         ]);

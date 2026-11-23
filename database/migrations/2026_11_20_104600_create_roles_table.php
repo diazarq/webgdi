@@ -60,6 +60,15 @@ class CreateRolesTable extends Migration
                     'updated_at' => now(),
                 ],
             ]);
+        } else {
+            Schema::table('roles', function (Blueprint $table) {
+                if (!Schema::hasColumn('roles', 'deleted_at')) {
+                    $table->softDeletes();
+                }
+                if (!Schema::hasColumn('roles', 'is_system')) {
+                    $table->boolean('is_system')->default(false);
+                }
+            });
         }
     }
 
