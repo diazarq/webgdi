@@ -68,17 +68,47 @@ class WebsiteController extends Controller
                         break;
     
                     case 'blog_list':
-                        $kategori = Blog::selectRaw('DISTINCT(kategori) as kategori')->get();
-                        $blog = Blog::where('status', 'publish')->orderBy('date_publish', 'desc')->paginate(9);
-                        $heroBlogs = Blog::where('status', 'publish')->orderBy('date_publish', 'desc')->take(4)->get();
+                        $search = trim((string) request('search', ''));
+                        $blogQuery = Blog::where('status', 'publish');
+                        if ($search !== '') {
+                            $blogQuery->where(function ($q) use ($search) {
+                                $q->where('title', 'like', '%' . $search . '%')
+                                  ->orWhere('content', 'like', '%' . $search . '%');
+                            });
+                        }
+                        $blog = $blogQuery->orderBy('date_publish', 'desc')->paginate(9);
+                        $featuredBlog = Blog::where('status', 'publish')->orderBy('date_publish', 'desc')->first();
                         $blogLatest = Blog::where('status', 'publish')->orderBy('date_publish', 'desc')->take(5)->get();
-                        return view('website.page-blog', [
+                        $kategori = Blog::select('kategori')
+                            ->selectRaw('COUNT(*) as total')
+                            ->where('status', 'publish')
+                            ->groupBy('kategori')
+                            ->get();
+                        $totalAllPosts = Blog::where('status', 'publish')->count();
+                        $rubricCounts = [
+                            'laznews' => Blog::where('status', 'publish')->where(function ($q) {
+                                $q->whereIn('jenis', ['laznews', 'kegiatan', 'news', 'berita'])
+                                  ->orWhere('kategori', 'like', '%news%')
+                                  ->orWhere('kategori', 'like', '%kegiatan%');
+                            })->count(),
+                            'lazjourney' => Blog::where('status', 'publish')->where(function ($q) {
+                                $q->whereIn('jenis', ['lazjourney', 'journey'])
+                                  ->orWhere('kategori', 'like', '%journey%');
+                            })->count(),
+                            'lazsalam' => Blog::where('status', 'publish')->where(function ($q) {
+                                $q->whereIn('jenis', ['lazsalam', 'salam', 'edukasi'])
+                                  ->orWhere('kategori', 'like', '%salam%');
+                            })->count(),
+                        ];
+                        return view('website.page-kabarlaz', [
                             'pageTitle' => $detail->title,
                             'detail' => $detail,
                             'blog' => $blog,
-                            'heroBlogs' => $heroBlogs,
+                            'featuredBlog' => $featuredBlog,
                             'blogLatest' => $blogLatest,
                             'category' => $kategori,
+                            'totalAllPosts' => $totalAllPosts,
+                            'rubricCounts' => $rubricCounts,
                             'active' => ['menu'.$parentID => 'current']
                         ]);
                         break;

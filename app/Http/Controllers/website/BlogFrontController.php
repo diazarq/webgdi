@@ -90,21 +90,56 @@ class BlogFrontController extends Controller
 
         $totalAllPosts = Blog::where('status', 'publish')->count();
 
-        $pageTitle = $jenisLabel ?: ($kategori ?: 'Blog & Berita');
+        // Untuk LAZNews, LAZJourney, LAZSalam tetap gunakan tampilan page-blog yang sudah ada (tidak diubah)
+        if ($jenisFilter) {
+            $pageTitle = $jenisLabel ?: 'Blog & Berita';
 
-        return view('website.page-blog', [
+            return view('website.page-blog', [
+                'pageTitle' => $pageTitle,
+                'blog' => $blog,
+                'heroBlogs' => $heroBlogs,
+                'blogRealisasi' => $blogRealisasi,
+                'blogDewanSyariah' => $blogDewanSyariah,
+                'blogLatest' => $blogLatest,
+                'category' => $category,
+                'totalAllPosts' => $totalAllPosts,
+                'categoryKey' => $kategori,
+                'jenisKey' => $jenisFilter,
+                'jenisLabel' => $jenisLabel,
+                'parent' => 'KabarLAZ',
+                'detail' => null,
+            ]);
+        }
+
+        // Untuk halaman general KabarLAZ (/blog atau /blog/category/...) gunakan tampilan baru page-kabarlaz
+        $featuredBlog = Blog::where('status', 'publish')->orderBy('date_publish', 'desc')->first();
+        $rubricCounts = [
+            'laznews' => Blog::where('status', 'publish')->where(function ($q) {
+                $q->whereIn('jenis', ['laznews', 'kegiatan', 'news', 'berita'])
+                  ->orWhere('kategori', 'like', '%news%')
+                  ->orWhere('kategori', 'like', '%kegiatan%');
+            })->count(),
+            'lazjourney' => Blog::where('status', 'publish')->where(function ($q) {
+                $q->whereIn('jenis', ['lazjourney', 'journey'])
+                  ->orWhere('kategori', 'like', '%journey%');
+            })->count(),
+            'lazsalam' => Blog::where('status', 'publish')->where(function ($q) {
+                $q->whereIn('jenis', ['lazsalam', 'salam', 'edukasi'])
+                  ->orWhere('kategori', 'like', '%salam%');
+            })->count(),
+        ];
+
+        $pageTitle = $kategori ?: 'KabarLAZ';
+
+        return view('website.page-kabarlaz', [
             'pageTitle' => $pageTitle,
             'blog' => $blog,
-            'heroBlogs' => $heroBlogs,
-            'blogRealisasi' => $blogRealisasi,
-            'blogDewanSyariah' => $blogDewanSyariah,
+            'featuredBlog' => $featuredBlog,
             'blogLatest' => $blogLatest,
             'category' => $category,
             'totalAllPosts' => $totalAllPosts,
+            'rubricCounts' => $rubricCounts,
             'categoryKey' => $kategori,
-            'jenisKey' => $jenisFilter,
-            'jenisLabel' => $jenisLabel,
-            'parent' => ($kategori || $jenisLabel) ? 'Blog' : null,
             'detail' => null,
         ]);
     }
