@@ -202,47 +202,152 @@
     }
 
     /* ==========================================================================
-       2. SOROTAN UTAMA — CLEAN ELEVATED STAGE + INTERACTIVE DOCK
+       2. SOROTAN UTAMA — 3D ROTATING CAROUSEL
        ========================================================================== */
-    .kl-stage-shell {
-        border-radius: 26px;
-        padding: 20px;
+    .kl-carousel-nav {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .kl-nav-btn {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        border: 1px solid #d1e7dd;
         background: #ffffff;
-        border: 1px solid #e2ece8;
-        box-shadow: 0 18px 50px rgba(6, 48, 31, 0.08);
+        color: #06301f;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(6, 48, 31, 0.06);
+        transition: all 0.25s ease;
+    }
+
+    .kl-nav-btn:hover {
+        background: #00875A;
+        border-color: #00875A;
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(0, 135, 90, 0.22);
+    }
+
+    .kl-stage-viewport {
+        position: relative;
+        overflow: hidden;
+        padding: 12px 0;
     }
 
     .kl-stage-slides {
         position: relative;
-        min-height: 390px;
+        height: 620px;
     }
 
     .kl-stage-slide {
-        display: none;
-        animation: klFadeSlide 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 92%;
+        max-width: 900px;
+        height: 330px;
+        border-radius: 24px;
+        padding: 18px;
+        background: #ffffff;
+        border: 1px solid #e2ece8;
+        box-shadow: 0 16px 42px rgba(6, 48, 31, 0.08);
+        will-change: transform, opacity;
+        transition:
+            transform 0.78s cubic-bezier(0.22, 1, 0.36, 1),
+            opacity 0.65s ease,
+            box-shadow 0.65s ease;
+        transform: translate(-50%, -50%) scale(0.5);
+        opacity: 0;
+        visibility: hidden;
+        z-index: 1;
+        pointer-events: none;
+        overflow: hidden;
     }
 
-    .kl-stage-slide.active {
-        display: block;
+    .kl-stage-slide > .row {
+        height: 100%;
     }
 
-    @keyframes klFadeSlide {
-        from {
-            opacity: 0;
-            transform: translateY(8px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    .kl-stage-slide.is-active {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+        visibility: visible;
+        z-index: 5;
+        pointer-events: auto;
+        box-shadow: 0 24px 55px rgba(6, 48, 31, 0.14);
+        border-color: #b7e4d4;
+    }
+
+    .kl-stage-slide.is-next {
+        transform: translate(-50%, 2%) scale(0.76);
+        opacity: 0.42;
+        visibility: visible;
+        z-index: 3;
+        pointer-events: auto;
+        cursor: pointer;
+    }
+
+    .kl-stage-slide.is-prev {
+        transform: translate(-50%, -102%) scale(0.76);
+        opacity: 0.42;
+        visibility: visible;
+        z-index: 3;
+        pointer-events: auto;
+        cursor: pointer;
+    }
+
+    .kl-stage-slide.is-next:hover,
+    .kl-stage-slide.is-prev:hover {
+        opacity: 0.75;
+    }
+
+    .kl-stage-slide.is-next a,
+    .kl-stage-slide.is-prev a {
+        pointer-events: none;
+    }
+
+    /* Indikator Pill di Bawah Carousel */
+    .kl-carousel-dots {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 8px;
+    }
+
+    .kl-carousel-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        border: none;
+        padding: 0;
+        background: #cbd5e1;
+        cursor: pointer;
+        transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .kl-carousel-dot:hover {
+        background: #6ee7b7;
+    }
+
+    .kl-carousel-dot.active {
+        width: 34px;
+        background: linear-gradient(90deg, #06301f, #00875A);
     }
 
     .kl-stage-photo-wrap {
         position: relative;
-        border-radius: 18px;
+        border-radius: 16px;
         overflow: hidden;
         height: 100%;
-        min-height: 370px;
+        min-height: 292px;
+        max-height: 292px;
         display: block;
         border: 1px solid #e2e8f0;
         box-shadow: 0 10px 26px rgba(6, 48, 31, 0.10);
@@ -251,7 +356,7 @@
     .kl-stage-photo-wrap img {
         width: 100%;
         height: 100%;
-        min-height: 370px;
+        min-height: 292px;
         object-fit: cover;
         transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
     }
@@ -267,8 +372,8 @@
         left: 16px;
         display: inline-flex;
         align-items: center;
-        gap: 7px;
-        padding: 7px 14px;
+        gap:6px;
+        padding: 4px 14px;
         border-radius: 999px;
         background: rgba(6, 48, 31, 0.78);
         backdrop-filter: blur(12px);
@@ -297,23 +402,26 @@
         display: inline-flex;
         align-items: center;
         gap: 7px;
-        padding: 6px 14px;
+        padding: 4px 20px;
         border-radius: 999px;
-        background: #ecfdf5;
+        background: #00875A;
         border: 1px solid #a7f3d0;
-        color: #065f46;
-        font-size: 11.5px;
+        color: white;
+        font-size: 11px;
         font-weight: 800;
-        letter-spacing: 0.8px;
-        text-transform: uppercase;
+
     }
 
     .kl-stage-title {
-        font-size: 28px;
+        font-size: 24px;
         font-weight: 800;
         line-height: 1.3;
-        margin: 16px 0 14px;
+        margin: 14px 0 10px;
         letter-spacing: -0.4px;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
 
     .kl-stage-title a {
@@ -327,67 +435,77 @@
     }
 
     .kl-stage-excerpt {
-        font-size: 15px;
-        line-height: 1.72;
+        font-size: 14.5px;
+        line-height: 1.65;
         color: #475569;
-        margin-bottom: 24px;
+        margin-bottom: 18px;
         display: -webkit-box;
-        -webkit-line-clamp: 3;
+        -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
 
     .kl-stage-footer {
         margin-top: auto;
-        padding-top: 18px;
-        border-top: 1px solid #f1f5f9;
+        padding-top: 14px;
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         align-items: center;
         justify-content: space-between;
-        gap: 16px;
+        gap: 12px;
     }
 
     .kl-author-chip {
         display: inline-flex;
         align-items: center;
-        gap: 11px;
+        gap: 9px;
+        min-width: 0;
     }
 
     .kl-author-orb {
-        width: 40px;
-        height: 40px;
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
         border-radius: 50%;
-        background: linear-gradient(135deg, #06301f, #00875A);
+        background-color: #00875A;
         color: #ffffff;
         font-weight: 800;
-        font-size: 15px;
+        font-size: 14px;
         display: inline-flex;
         align-items: center;
         justify-content: center;
     }
 
     .kl-author-name {
-        font-size: 14px;
-        font-weight: 700;
+        font-size: 16px;
+        font-weight: 800;
+        line-height: 1.2;
         color: #0f172a;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .kl-author-role {
-        font-size: 11.5px;
+        font-size: 11px;
+        line-height: 1.2;
+        margin-top: 2px;
         color: #64748b;
+        white-space: nowrap;
     }
 
     .kl-read-btn {
         display: inline-flex;
         align-items: center;
-        gap: 10px;
-        padding: 12px 24px;
+        gap: 8px;
+        padding: 10px 18px;
         border-radius: 999px;
-        background: linear-gradient(135deg, #06301f 0%, #00875A 100%);
+        background-color: #00875A;
         color: #ffffff !important;
-        font-size: 13.5px;
+        font-size: 12.5px;
         font-weight: 800;
+        white-space: nowrap;
+        flex-shrink: 0;
         text-decoration: none !important;
         box-shadow: 0 8px 20px rgba(0, 135, 90, 0.25);
         transition: all 0.25s ease;
@@ -471,18 +589,99 @@
     }
 
     @media (max-width: 991px) {
-        .kl-stage-photo-wrap,
-        .kl-stage-photo-wrap img {
-            min-height: 260px;
+        .kl-glass-canvas {
+            padding: 36px 0 60px;
         }
-        .kl-stage-content {
-            padding: 22px 10px 10px;
-        }
-        .kl-stage-title {
+        .kl-sec-title {
             font-size: 22px;
         }
-        .kl-stage-dock {
-            grid-template-columns: 1fr;
+        .kl-sec-desc {
+            font-size: 13.5px;
+        }
+        .kl-topic-card {
+            padding: 22px 20px;
+            border-radius: 18px;
+        }
+        .kl-topic-icon {
+            font-size: 115px;
+            right: -10px;
+            bottom: -14px;
+        }
+        .kl-topic-title {
+            font-size: 20px;
+        }
+        .kl-topic-desc br {
+            display: none;
+        }
+
+        /* Carousel Mobile: tetap animasi Vertical Wheel utuh & proporsional */
+        .kl-stage-viewport {
+            padding: 10px 0;
+            overflow: hidden;
+        }
+        .kl-stage-slides {
+            height: 690px;
+        }
+        .kl-stage-slide {
+            width: 94%;
+            max-width: 440px;
+            height: 460px;
+            padding: 15px;
+            border-radius: 20px;
+        }
+        .kl-stage-slide.is-active {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+            visibility: visible;
+            z-index: 5;
+        }
+        .kl-stage-slide.is-next {
+            transform: translate(-50%, -14%) scale(0.76);
+            opacity: 0.42;
+            visibility: visible;
+            z-index: 3;
+        }
+        .kl-stage-slide.is-prev {
+            transform: translate(-50%, -86%) scale(0.76);
+            opacity: 0.42;
+            visibility: visible;
+            z-index: 3;
+        }
+        .kl-stage-slide > .row {
+            height: 100%;
+            --bs-gutter-y: 0.75rem;
+        }
+        .kl-stage-photo-wrap,
+        .kl-stage-photo-wrap img {
+            min-height: 180px;
+            max-height: 180px;
+            height: 180px;
+        }
+        .kl-stage-content {
+            padding: 6px 4px 2px;
+            height: 240px;
+            justify-content: flex-start;
+        }
+        .kl-stage-title {
+            font-size: 18px;
+            margin: 8px 0 6px;
+        }
+        .kl-stage-excerpt {
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        .kl-stage-footer {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 10px;
+            padding-top: 10px;
+        }
+        .kl-read-btn {
+            width: 100%;
+            justify-content: center;
+            padding: 9px 16px;
+            font-size: 12.5px;
         }
     }
 </style>
@@ -551,7 +750,7 @@
     if ($highlights->isEmpty() && isset($featuredBlog) && $featuredBlog) {
         $highlights = collect([$featuredBlog]);
     }
-    $highlights = $highlights->take(3)->values();
+    $highlights = $highlights->take(5)->values();
 
     $counts = $rubricCounts ?? [
         'laznews' => 0,
@@ -568,7 +767,7 @@
 </ul>
 <h2>{{ @$detail->title ?: 'KabarLAZ' }}</h2>
 <p class="kl-hero-subtitle">
-    {{ @$detail->subtitle ?: 'Ikuti kabar penyaluran amanah donatur, kisah perjalanan relawan di lapangan, serta pesan kebaikan Islami bersama Graha Dhuafa Indonesia.' }}
+    {{ @$detail->subtitle ?: 'Ikuti kabar penyaluran amanah, kisah perjalanan yang membuat haru, serta pesan kebaikan Islami bersama Graha Dhuafa Indonesia.' }}
 </p>
 @endsection
 
@@ -644,18 +843,18 @@
             </div>
         </div>
 
-        <!-- ================= 2. SOROTAN UTAMA (GLASSMORPHISM STAGE) ================= -->
+        <!-- ================= 2. SOROTAN UTAMA (3D ROTATING CAROUSEL) ================= -->
         @if($highlights->count() > 0)
         <div class="pt-2" id="klSorotanWrap">
-            <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-end gap-2 mb-3">
                 <div>
-                    <h3 class="kl-sec-title">Sorotan Utama</h3>
-                    <p class="kl-sec-desc">Berita dan cerita pilihan terbaru yang kami rangkum khusus untuk Anda.</p>
+                    <h3 class="kl-sec-title">Kabar Utama</h3>
+                    <p class="kl-sec-desc">Baca kabar pilihan terbaru yang kami rangkum khusus untuk Anda.</p>
                 </div>
             </div>
 
-            <div class="kl-stage-shell">
-                <div class="kl-stage-slides">
+            <div class="kl-stage-viewport">
+                <div class="kl-stage-slides" id="klStageSlides">
                     @foreach($highlights as $idx => $post)
                         @php
                             $postUrl = url('/blog/' . $post->slug);
@@ -664,7 +863,7 @@
                             $topicLabel = $resolveTopicLabel($post);
                             $imgUrl = $cleanImg($post->featured_img);
                         @endphp
-                        <div class="kl-stage-slide {{ $idx === 0 ? 'active' : '' }}" data-slide-index="{{ $idx }}">
+                        <div class="kl-stage-slide {{ $idx === 0 ? 'is-active' : '' }}" data-slide-index="{{ $idx }}">
                             <div class="row g-4 align-items-stretch">
                                 <!-- Foto Berita -->
                                 <div class="col-lg-6">
@@ -673,12 +872,12 @@
                                              onerror="this.src='{{ asset('images/blog/sedekah-ramadhan.jpg') }}'"
                                              alt="{{ $post->title }}">
                                         <span class="kl-photo-glass-badge">
-                                            <i class="fas fa-star"></i> {{ $formatTgl($post->date_publish) }}
+                                            <iconify-icon icon="keyline-icons:calendar-fill" class="fs-6 align-middle"></iconify-icon> {{ $formatTgl($post->date_publish) }}
                                         </span>
                                     </a>
                                 </div>
 
-                                <!-- Detail Konten Kaca -->
+                                <!-- Detail Konten -->
                                 <div class="col-lg-6">
                                     <div class="kl-stage-content">
                                         <div class="d-flex flex-wrap align-items-center gap-2">
@@ -714,28 +913,18 @@
                         </div>
                     @endforeach
                 </div>
-
-                @if($highlights->count() > 1)
-                <!-- Dock Pilihan Sorotan di Bawah Frame Kaca -->
-                <div class="kl-stage-dock">
-                    @foreach($highlights as $dIdx => $dPost)
-                        <button type="button"
-                                class="kl-dock-item {{ $dIdx === 0 ? 'active' : '' }}"
-                                data-dock-target="{{ $dIdx }}">
-                            <div class="kl-dock-thumb">
-                                <img src="{{ $cleanImg($dPost->featured_img) }}"
-                                     onerror="this.src='{{ asset('images/blog/sedekah-ramadhan.jpg') }}'"
-                                     alt="{{ $dPost->title }}">
-                            </div>
-                            <div class="min-w-0">
-                                <div class="kl-dock-meta">Sorotan 0{{ $dIdx + 1 }} • {{ $formatTgl($dPost->date_publish) }}</div>
-                                <p class="kl-dock-title">{{ $dPost->title }}</p>
-                            </div>
-                        </button>
-                    @endforeach
-                </div>
-                @endif
             </div>
+
+            @if($highlights->count() > 1)
+            <div class="kl-carousel-dots" id="klCarouselDots">
+                @foreach($highlights as $dIdx => $dPost)
+                    <button type="button"
+                            class="kl-carousel-dot {{ $dIdx === 0 ? 'active' : '' }}"
+                            data-dot-index="{{ $dIdx }}"
+                            aria-label="Sorotan {{ $dIdx + 1 }}"></button>
+                @endforeach
+            </div>
+            @endif
         </div>
         @endif
 
@@ -746,30 +935,50 @@
 @push('script')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const slides = document.querySelectorAll('.kl-stage-slide');
-        const docks = document.querySelectorAll('.kl-dock-item');
+        const slides = Array.from(document.querySelectorAll('.kl-stage-slide'));
+        const dots = Array.from(document.querySelectorAll('.kl-carousel-dot'));
         const wrap = document.getElementById('klSorotanWrap');
+        const stageSlides = document.getElementById('klStageSlides');
 
-        if (slides.length <= 1 || !docks.length) return;
+        if (slides.length === 0) return;
 
+        // Durasi putar otomatis (dalam milidetik: 5000 = 5 detik)
+        const INTERVAL_MS = 4000;
         let current = 0;
         let timer = null;
-        const INTERVAL_MS = 4500;
+        let wheelLocked = false;
 
-        function activateSlide(index) {
-            current = (index + slides.length) % slides.length;
-            slides.forEach(function (s, i) {
-                s.classList.toggle('active', i === current);
+        function renderCarousel() {
+            const total = slides.length;
+            const prevIdx = (current - 1 + total) % total;
+            const nextIdx = (current + 1) % total;
+
+            slides.forEach(function (slide, idx) {
+                slide.classList.remove('is-active', 'is-prev', 'is-next');
+                if (idx === current) {
+                    slide.classList.add('is-active');
+                } else if (total > 1 && idx === nextIdx) {
+                    slide.classList.add('is-next');
+                } else if (total > 2 && idx === prevIdx) {
+                    slide.classList.add('is-prev');
+                }
             });
-            docks.forEach(function (d, i) {
-                d.classList.toggle('active', i === current);
+
+            dots.forEach(function (dot, idx) {
+                dot.classList.toggle('active', idx === current);
             });
         }
 
+        function goTo(index) {
+            current = (index + slides.length) % slides.length;
+            renderCarousel();
+        }
+
         function startAuto() {
+            if (slides.length <= 1) return;
             stopAuto();
             timer = setInterval(function () {
-                activateSlide(current + 1);
+                goTo(current + 1);
             }, INTERVAL_MS);
         }
 
@@ -780,19 +989,71 @@
             }
         }
 
-        docks.forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                const idx = parseInt(btn.getAttribute('data-dock-target'), 10) || 0;
-                activateSlide(idx);
+        // Klik pada kartu atas/bawah langsung memutarnya ke tengah
+        slides.forEach(function (slide, idx) {
+            slide.addEventListener('click', function () {
+                if (idx !== current) {
+                    goTo(idx);
+                    startAuto();
+                }
+            });
+        });
+
+        dots.forEach(function (dot) {
+            dot.addEventListener('click', function () {
+                const idx = parseInt(dot.getAttribute('data-dot-index'), 10) || 0;
+                goTo(idx);
                 startAuto();
             });
         });
 
-        if (wrap) {
-            wrap.addEventListener('mouseenter', stopAuto);
-            wrap.addEventListener('mouseleave', startAuto);
+        // Kontrol Scroll Mouse Wheel di area kartu carousel
+        if (stageSlides && slides.length > 1) {
+            stageSlides.addEventListener('wheel', function (e) {
+                e.preventDefault();
+                if (wheelLocked) return;
+
+                if (Math.abs(e.deltaY) > 10) {
+                    wheelLocked = true;
+                    if (e.deltaY > 0) {
+                        goTo(current + 1);
+                    } else {
+                        goTo(current - 1);
+                    }
+                    startAuto();
+                    setTimeout(function () {
+                        wheelLocked = false;
+                    }, 550);
+                }
+            }, { passive: false });
         }
 
+        // Pause hanya saat kursor benar-benar di atas fisik card (bukan area kosong sekitarnya)
+        slides.forEach(function (slide) {
+            slide.addEventListener('mouseenter', stopAuto);
+            slide.addEventListener('mouseleave', startAuto);
+        });
+
+        // Support Touch Swipe Vertikal (Atas/Bawah) di Mobile
+        let touchStartY = 0;
+        if (stageSlides) {
+            stageSlides.addEventListener('touchstart', function (e) {
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+
+            stageSlides.addEventListener('touchend', function (e) {
+                const diff = e.changedTouches[0].screenY - touchStartY;
+                if (diff < -40) {
+                    goTo(current + 1);
+                    startAuto();
+                } else if (diff > 40) {
+                    goTo(current - 1);
+                    startAuto();
+                }
+            }, { passive: true });
+        }
+
+        renderCarousel();
         startAuto();
     });
 </script>
