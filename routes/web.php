@@ -35,6 +35,7 @@ use App\Http\Controllers\PortalAuthController;
 use App\Http\Controllers\PortalDashboardController;
 use App\Http\Controllers\AdminMemberController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\FooterMenuController;
 
 
 /*
@@ -185,6 +186,11 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function(){
         Route::post('/menu/add', [MenuController::class, 'store']);
         Route::post('/menu/update-order', [MenuController::class, 'updateOrder'])->name('menu.updateOrder');
         Route::post('/menu/reorder', [MenuController::class, 'reorder'])->name('admin.menu.reorder');
+
+        /* MENU FOOTER (SUPERADMIN & ADMIN) */
+        Route::get('/footer-menu', [FooterMenuController::class, 'index'])->name('admin.footer-menu.index');
+        Route::post('/footer-menu/save', [FooterMenuController::class, 'saveLink'])->name('admin.footer-menu.save');
+        Route::get('/footer-menu/{id}/delete', [FooterMenuController::class, 'deleteLink'])->name('admin.footer-menu.delete');
     });
 
     /* BLOG */

@@ -3,271 +3,338 @@
 
 @section('style')
 <style>
-    .blog-grid-section {
-        padding: 80px 0;
-        background: #f8f9fa;
-    }
-    
-    .blog-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 30px;
-        margin-bottom: 50px;
-    }
-    
-    .blog-card {
-        background: white;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .blog-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    }
-    
-    .blog-card__image {
+    /* ==========================================================
+       GDI MAGAZINE EDITORIAL SHOWCASE (GLASSMORPHISM)
+       Gradien selaras dengan navbar & header GDI
+       ========================================================== */
+    .gdi-blog-section {
+        padding: 45px 0 75px 0;
+        background: linear-gradient(135deg, #06301f 0%, #0a4a2e 55%, #0d5c38 100%);
         position: relative;
-        height: 220px;
         overflow: hidden;
     }
-    
-    .blog-card__image img {
+
+    .gdi-blog-section::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+            radial-gradient(520px 320px at 12% 18%, rgba(45, 212, 167, 0.24), transparent 62%),
+            radial-gradient(480px 320px at 88% 22%, rgba(126, 240, 192, 0.18), transparent 60%),
+            radial-gradient(500px 320px at 78% 85%, rgba(45, 212, 167, 0.2), transparent 60%);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    .gdi-blog-container {
+        max-width: 1240px;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* LEFT HERO CARD (GLASSMORPHISM FRAME) */
+    .gdi-hero-card {
+        position: relative;
+        border-radius: 22px;
+        overflow: hidden;
+        min-height: 460px;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-top-color: rgba(255, 255, 255, 0.35);
+    }
+
+    .gdi-hero-slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.55s ease, transform 0.55s ease;
+        transform: scale(1.02);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 45px 50px;
+        z-index: 1;
+    }
+
+    .gdi-hero-slide.active {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1);
+        z-index: 2;
+    }
+
+    .gdi-hero-img {
+        position: absolute;
+        inset: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
-        transition: transform 0.3s ease;
+        object-position: center center;
+        z-index: 1;
+        transition: transform 6s ease-out;
     }
-    
-    .blog-card:hover .blog-card__image img {
+
+    .gdi-hero-slide.active .gdi-hero-img {
+        transform: scale(1.04);
+    }
+
+    /* Gradient Overlay dari kiri ke kanan agar teks tajam & foto kanan jelas */
+    .gdi-hero-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            to right,
+            rgba(6, 48, 31, 0.95) 0%,
+            rgba(6, 48, 31, 0.78) 46%,
+            rgba(6, 48, 31, 0.15) 100%
+        ),
+        linear-gradient(
+            to top,
+            rgba(6, 48, 31, 0.75) 0%,
+            transparent 50%
+        );
+        z-index: 2;
+    }
+
+    .gdi-hero-content {
+        position: relative;
+        z-index: 3;
+        max-width: 540px;
+    }
+
+    /* Category Glass Pill */
+    .gdi-category-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.12);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        color: #ffffff;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        padding: 6px 14px;
+        border-radius: 30px;
+        margin-bottom: 18px;
+    }
+
+    .gdi-category-pill::before {
+        content: '';
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #2dd4a7;
+        display: inline-block;
+    }
+
+    /* Headline Title */
+    .gdi-hero-title {
+        font-size: 36px;
+        font-weight: 800;
+        color: #ffffff;
+        line-height: 1.22;
+        margin-bottom: 16px;
+        letter-spacing: -0.3px;
+        text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .gdi-hero-title a {
+        color: #ffffff;
+        text-decoration: none;
+        transition: color 0.25s ease;
+    }
+
+    .gdi-hero-title a:hover {
+        color: #7ef0c0;
+    }
+
+    .gdi-hero-title em {
+        font-style: italic;
+        font-weight: 700;
+        color: #7ef0c0;
+    }
+
+    /* Garis aksen hijau kecil di bawah judul */
+    .gdi-title-divider {
+        width: 38px;
+        height: 3px;
+        background: #2dd4a7;
+        border-radius: 2px;
+        margin-bottom: 16px;
+    }
+
+    /* Meta Info */
+    .gdi-hero-meta {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 24px;
+        font-size: 11.5px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: rgba(236, 253, 245, 0.85);
+    }
+
+    .gdi-hero-meta span {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .gdi-hero-meta .sep {
+        opacity: 0.4;
+    }
+
+    /* CTA Button "Baca Selengkapnya ->" */
+    .gdi-hero-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 700;
+        padding: 10px 22px;
+        border-radius: 30px;
+        text-decoration: none;
+        transition: all 0.25s ease;
+    }
+
+    .gdi-hero-btn:hover {
+        background: #2dd4a7;
+        border-color: #2dd4a7;
+        color: #06301f;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(45, 212, 167, 0.35);
+    }
+
+    /* RIGHT COLUMN (UNIFORM GLASSMORPHISM CARDS) */
+    .gdi-playlist-col {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 16px;
+        height: 100%;
+    }
+
+    .gdi-side-card {
+        flex: 1;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0.04) 100%);
+        backdrop-filter: blur(20px) saturate(160%);
+        -webkit-backdrop-filter: blur(20px) saturate(160%);
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        border-top-color: rgba(255, 255, 255, 0.35);
+        border-left-color: rgba(255, 255, 255, 0.28);
+        border-radius: 20px;
+        padding: 14px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    }
+
+    .gdi-side-card:hover {
+        border-color: rgba(45, 212, 167, 0.75);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 100%);
+        transform: translateX(4px);
+        box-shadow: 0 14px 32px rgba(0, 0, 0, 0.26), inset 0 1px 0 rgba(255, 255, 255, 0.32);
+    }
+
+    .gdi-side-card.active {
+        border: 1.5px solid #2dd4a7;
+        box-shadow: 0 10px 30px rgba(45, 212, 167, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        background: linear-gradient(135deg, rgba(45, 212, 167, 0.24) 0%, rgba(255, 255, 255, 0.08) 100%);
+    }
+
+    .gdi-side-thumb {
+        width: 130px;
+        height: 92px;
+        border-radius: 12px;
+        overflow: hidden;
+        flex-shrink: 0;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    .gdi-side-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    .gdi-side-card:hover .gdi-side-thumb img {
         transform: scale(1.05);
     }
-    
-    .blog-card__date-badge {
-        position: absolute;
-        top: 15px;
-        left: 15px;
-        background: #1ab69d;
-        color: white;
-        padding: 6px 12px;
-        border-radius: 4px;
-        font-size: 12px;
-        font-weight: 600;
+
+    .gdi-side-body {
+        flex-grow: 1;
+        min-width: 0;
     }
-    
-    .blog-card__content {
-        padding: 25px;
-    }
-    
-    .blog-card__category {
-        display: inline-block;
-        color: #1ab69d;
-        font-size: 12px;
+
+    .gdi-side-title {
+        font-size: 15px;
         font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-bottom: 10px;
-    }
-    
-    .blog-card__title {
-        font-size: 20px;
-        font-weight: 700;
-        margin-bottom: 12px;
-        line-height: 1.4;
-    }
-    
-    .blog-card__title a {
-        color: #1e1e1e;
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
-    
-    .blog-card__title a:hover {
-        color: #1ab69d;
-    }
-    
-    .blog-card__excerpt {
-        color: #666;
-        font-size: 14px;
-        line-height: 1.6;
-        margin-bottom: 0;
-    }
-    
-    .sidebar-widget {
-        background: white;
-        border-radius: 8px;
-        padding: 30px;
-        margin-bottom: 30px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    
-    .sidebar-widget__title {
-        font-size: 22px;
-        font-weight: 700;
-        margin-bottom: 25px;
-        padding-bottom: 15px;
-        border-bottom: 2px solid #1ab69d;
-    }
-    
-    .search-form {
-        position: relative;
-    }
-    
-    .search-form input {
-        width: 100%;
-        padding: 12px 50px 12px 20px;
-        border: 1px solid #e0e0e0;
-        border-radius: 4px;
-        font-size: 14px;
-    }
-    
-    .search-form button {
-        position: absolute;
-        right: 0;
-        top: 0;
-        height: 100%;
-        width: 50px;
-        border: none;
-        background: #1ab69d;
-        color: white;
-        border-radius: 0 4px 4px 0;
-        cursor: pointer;
-    }
-    
-    .latest-post-item {
-        display: flex;
-        gap: 15px;
-        margin-bottom: 20px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid #e0e0e0;
-    }
-    
-    .latest-post-item:last-child {
-        margin-bottom: 0;
-        padding-bottom: 0;
-        border-bottom: none;
-    }
-    
-    .latest-post-item__image {
-        flex-shrink: 0;
-        width: 80px;
-        height: 80px;
-        border-radius: 4px;
+        color: #ffffff;
+        line-height: 1.38;
+        margin-bottom: 8px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
         overflow: hidden;
+        text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
     }
-    
-    .latest-post-item__image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    
-    .latest-post-item__content h4 {
-        font-size: 14px;
+
+    .gdi-side-meta {
+        font-size: 11px;
         font-weight: 600;
-        margin-bottom: 5px;
-        line-height: 1.4;
-    }
-    
-    .latest-post-item__content h4 a {
-        color: #1e1e1e;
-        text-decoration: none;
-    }
-    
-    .latest-post-item__content h4 a:hover {
-        color: #1ab69d;
-    }
-    
-    .latest-post-item__meta {
-        color: #999;
-        font-size: 12px;
-    }
-    
-    .category-list {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-    
-    .category-list li {
-        margin-bottom: 12px;
-    }
-    
-    .category-list li:last-child {
-        margin-bottom: 0;
-    }
-    
-    .category-list a {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: #666;
-        text-decoration: none;
-        padding: 10px 15px;
-        border-radius: 4px;
-        transition: all 0.3s ease;
-    }
-    
-    .category-list a:hover,
-    .category-list li.active a {
-        background: #1ab69d;
-        color: white;
-    }
-    
-    .category-list .count {
-        background: #f0f0f0;
-        padding: 2px 8px;
-        border-radius: 10px;
-        font-size: 12px;
-    }
-    
-    .category-list a:hover .count,
-    .category-list li.active a .count {
-        background: rgba(255,255,255,0.2);
-        color: white;
-    }
-    
-    .pagination-wrapper {
-        display: flex;
-        justify-content: center;
-        gap: 10px;
-        margin-top: 50px;
-    }
-    
-    .pagination-wrapper a,
-    .pagination-wrapper span {
-        width: 40px;
-        height: 40px;
+        color: rgba(236, 253, 245, 0.78);
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
         display: flex;
         align-items: center;
-        justify-content: center;
-        border: 1px solid #e0e0e0;
-        border-radius: 50%;
-        color: #666;
-        text-decoration: none;
-        font-weight: 600;
-        transition: all 0.3s ease;
+        gap: 6px;
     }
-    
-    .pagination-wrapper a:hover,
-    .pagination-wrapper .active {
-        background: #1ab69d;
-        color: white;
-        border-color: #1ab69d;
+
+    /* RESPONSIVE */
+    @media (max-width: 991px) {
+        .gdi-hero-card {
+            min-height: 400px;
+            margin-bottom: 20px;
+        }
+
+        .gdi-hero-slide {
+            padding: 30px 24px;
+        }
+
+        .gdi-hero-title {
+            font-size: 26px;
+        }
     }
-    
-    .pagination-wrapper .disabled {
-        opacity: 0.45;
-        pointer-events: none;
-    }
-    
-    .pagination-wrapper .dots {
-        display: flex;
-        align-items: center;
-        color: #666;
-        font-weight: 600;
+
+    @media (max-width: 576px) {
+        .gdi-side-thumb {
+            width: 100px;
+            height: 75px;
+        }
+
+        .gdi-side-title {
+            font-size: 13.5px;
+        }
     }
 </style>
 @endsection
@@ -275,10 +342,6 @@
 @section('breadcrumb')
 <ul class="thm-breadcrumb list-unstyled">
     <li><a href="/">Beranda</a></li>
-    @if(@$parent)
-    <li><span>/</span></li>
-    <li><a href="/blog">{{ @$parent }}</a></li>
-    @endif
     <li><span>/</span></li>
     <li>{{ @$detail->title ? @$detail->title : $pageTitle }}</li>
 </ul>
@@ -286,161 +349,184 @@
 @endsection
 
 @section('pageBlog')
-<section class="blog-grid-section">
-    <div class="container">
-        <div class="row">
+@php
+    $heroItems = collect(@$heroBlogs && count($heroBlogs) > 0 ? $heroBlogs : (isset($blog) ? $blog->take(3) : []));
+    if ($heroItems->count() < 3) {
+        $extra = \App\Models\Blog::where('status', 'publish')->orderBy('date_publish', 'desc')->take(3)->get();
+        if ($extra->count() > $heroItems->count()) {
+            $heroItems = $extra;
+        }
+    } else {
+        $heroItems = $heroItems->take(3);
+    }
+
+    // Helper sanitasi URL gambar
+    $getCleanImageUrl = function($rawPath) {
+        if (empty($rawPath)) {
+            return asset('website/assets/images/blog/news-1-1.jpg');
+        }
+        $clean = str_replace('\\', '/', $rawPath);
+        $clean = ltrim($clean, '/');
+        $parts = explode('/', $clean);
+        $encodedParts = array_map('rawurlencode', $parts);
+        return asset(implode('/', $encodedParts));
+    };
+
+    $formatEditorialTitle = function($rawTitle) {
+        $words = explode(' ', trim($rawTitle));
+        if (count($words) >= 4) {
+            $italicIdx = min(2, count($words) - 2);
+            $words[$italicIdx] = '<em>' . e($words[$italicIdx]) . '</em>';
+            return implode(' ', $words);
+        }
+        return e($rawTitle);
+    };
+
+    $calcReadTime = function($content) {
+        $wordCount = str_word_count(strip_tags($content ?? ''));
+        $minutes = max(3, (int) ceil($wordCount / 180));
+        return $minutes . ' MIN READ';
+    };
+
+    $getAuthorName = function($item) {
+        if (!empty($item->author)) return $item->author;
+        if ($item->user && !empty($item->user->name)) return $item->user->name;
+        return 'REDAKSI GDI';
+    };
+
+    $sliderData = [];
+    foreach ($heroItems as $k => $item) {
+        $sliderData[] = [
+            'index' => $k,
+            'title' => $item->title,
+            'formattedTitle' => $formatEditorialTitle($item->title),
+            'category' => strtoupper($item->jenis ?: ($item->kategori ?: 'KABAR GDI')),
+            'img' => $getCleanImageUrl($item->featured_img),
+            'url' => '/blog/' . $item->slug,
+            'readTime' => $calcReadTime($item->content),
+            'author' => strtoupper($getAuthorName($item)),
+        ];
+    }
+@endphp
+
+@if(count($sliderData) > 0)
+<section class="gdi-blog-section">
+    <div class="container gdi-blog-container">
+        <div class="row g-4 align-items-stretch" id="gdiShowcaseWrap">
+            <!-- LEFT COLUMN: MAIN HERO SLIDE (~65% width) -->
             <div class="col-lg-8">
-                @if(@$blog)
-                    <div class="blog-grid">
-                        @foreach($blog as $dt)
-                            @php
-                                $date = App\Helper::dateFormat(date('Y-m-d', strtotime($dt->date_publish)));
-                                $slug = '/blog/'.$dt->slug;
-                            @endphp
-                            <div class="blog-card">
-                                <div class="blog-card__image">
-                                    <img src="{{ asset($dt->featured_img) }}" alt="{{ $dt->title }}">
-                                    <div class="blog-card__date-badge">
-                                        {{ date('d M, Y', strtotime($dt->date_publish)) }}
-                                    </div>
-                                </div>
-                                <div class="blog-card__content">
-                                    <span class="blog-card__category">{{ $dt->kategori ?? 'UNCATEGORIZED' }}</span>
-                                    <h3 class="blog-card__title">
-                                        <a href="{{ $slug }}">{{ $dt->title }}</a>
-                                    </h3>
-                                    <p class="blog-card__excerpt">
-                                        @php
-                                            $text = strip_tags($dt->content);
-                                            echo substr($text, 0, 100).'...';
-                                        @endphp
-                                    </p>
-                                </div>
+                <div class="gdi-hero-card" id="gdiHeroCard">
+                    @foreach($sliderData as $sIdx => $slide)
+                    <div class="gdi-hero-slide {{ $sIdx === 0 ? 'active' : '' }}" id="gdiSlide-{{ $sIdx }}">
+                        <img class="gdi-hero-img" src="{{ $slide['img'] }}" alt="{{ $slide['title'] }}">
+                        <div class="gdi-hero-overlay"></div>
+                        
+                        <div class="gdi-hero-content">
+                            <span class="gdi-category-pill">{{ $slide['category'] }}</span>
+                            <h1 class="gdi-hero-title">
+                                <a href="{{ $slide['url'] }}">{!! $slide['formattedTitle'] !!}</a>
+                            </h1>
+                            <div class="gdi-title-divider"></div>
+                            <div class="gdi-hero-meta">
+                                <span><i class="far fa-clock"></i> {{ $slide['readTime'] }}</span>
+                                <span class="sep">|</span>
+                                <span><i class="far fa-user"></i> BY {{ $slide['author'] }}</span>
                             </div>
-                        @endforeach
+
+                            <a href="{{ $slide['url'] }}" class="gdi-hero-btn">
+                                Baca Selengkapnya <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
                     </div>
-                    
-                    <div class="pagination-wrapper">
-                        {{-- Pagination asli dari Laravel paginator --}}
-                        @if($blog instanceof \Illuminate\Contracts\Pagination\LengthAwarePaginator && $blog->lastPage() > 1)
-                            @php
-                                $qs = $_GET; $qs['page'] = null;
-                                $urlPage = function ($p) use ($qs) {
-                                    $q = array_filter($qs); $q['page'] = $p;
-                                    return '?' . http_build_query($q);
-                                };
-                                $mulai = max(1, $blog->currentPage() - 2);
-                                $akhir = min($blog->lastPage(), $mulai + 4);
-                                $mulai = max(1, $akhir - 4);
-                            @endphp
-                            <a href="{{ $urlPage($blog->currentPage() - 1) }}"
-                               class="{{ $blog->onFirstPage() ? 'disabled' : '' }}" aria-label="Sebelumnya">&laquo;</a>
-                            @if($mulai > 1)
-                                <a href="{{ $urlPage(1) }}">1</a>
-                                <span class="dots">...</span>
-                            @endif
-                            @for($p = $mulai; $p <= $akhir; $p++)
-                                @if($p == $blog->currentPage())
-                                    <span class="active">{{ $p }}</span>
-                                @else
-                                    <a href="{{ $urlPage($p) }}">{{ $p }}</a>
-                                @endif
-                            @endfor
-                            @if($akhir < $blog->lastPage())
-                                <span class="dots">...</span>
-                                <a href="{{ $urlPage($blog->lastPage()) }}">{{ $blog->lastPage() }}</a>
-                            @endif
-                            <a href="{{ $urlPage($blog->currentPage() + 1) }}"
-                               class="{{ $blog->hasMorePages() ? '' : 'disabled' }}" aria-label="Berikutnya">&raquo;</a>
-                        @endif
-                    </div>
-                @else
-                    <div class="alert alert-warning">Kategori tidak ditemukan</div>
-                @endif
+                    @endforeach
+                </div>
             </div>
-            
+
+            <!-- RIGHT COLUMN: 3 UNIFORM GLASSMORPHISM CARDS (TANPA ARROW) -->
             <div class="col-lg-4">
-                <div class="sidebar-widget">
-                    <h3 class="sidebar-widget__title">Search</h3>
-                    <form action="#" class="search-form">
-                        <input type="search" placeholder="Search">
-                        <button type="submit"><i class="icon-magnifying-glass"></i></button>
-                    </form>
-                </div>
-                
-                <div class="sidebar-widget">
-                    <h3 class="sidebar-widget__title">Latest Post</h3>
-                    @php
-                        $latestBlog = @$blogLatest ? @$blogLatest : @$blog;
-                    @endphp
-                    @if(@$latestBlog)
-                        @php $no = 1; @endphp
-                        @foreach($latestBlog as $dt)
-                            @php
-                                $tanggal = App\Helper::dateFormat(date('Y-m-d', strtotime($dt->date_publish)));
-                            @endphp
-                            <div class="latest-post-item">
-                                <div class="latest-post-item__image">
-                                    <img src="{{ asset($dt->featured_img) }}" alt="{{ $dt->title }}">
-                                </div>
-                                <div class="latest-post-item__content">
-                                    <div class="latest-post-item__meta">
-                                        <i class="fas fa-clock"></i> {{ $tanggal }}
-                                    </div>
-                                    <h4><a href="/blog/{{ $dt->slug }}">{{ $dt->title }}</a></h4>
-                                </div>
+                <div class="gdi-playlist-col">
+                    @foreach($sliderData as $pIdx => $item)
+                    <div class="gdi-side-card {{ $pIdx === 0 ? 'active' : '' }}" id="gdiSide-{{ $pIdx }}" onclick="changeSlide({{ $pIdx }})">
+                        <div class="gdi-side-thumb">
+                            <img src="{{ $item['img'] }}" alt="{{ $item['title'] }}">
+                        </div>
+                        <div class="gdi-side-body">
+                            <h4 class="gdi-side-title">{{ $item['title'] }}</h4>
+                            <div class="gdi-side-meta">
+                                <i class="far fa-clock"></i> {{ $item['readTime'] }}
                             </div>
-                            @php
-                                $no += 1;
-                                if($no == 4) break;
-                            @endphp
-                        @endforeach
-                    @endif
-                </div>
-                
-                <div class="sidebar-widget">
-                    <h3 class="sidebar-widget__title">Categories</h3>
-                    @if(@$category)
-                        <ul class="category-list">
-                            <li class="{{ @$categoryKey == 'Uncategorized' ? 'active' : ''}}">
-                                <a href="/blog/category/Uncategorized">
-                                    <span>Uncategorized</span>
-                                    <span class="count">(0)</span>
-                                </a>
-                            </li>
-                            @foreach($category as $cat)
-                            <li class="{{ @$categoryKey == $cat->kategori ? 'active' : ''}}">
-                                <a href="/blog/category/{{ $cat->kategori }}">
-                                    <span>{{ $cat->kategori }}</span>
-                                    <span class="count">({{ $cat->total ?? 0 }})</span>
-                                </a>
-                            </li>
-                            @endforeach
-                        </ul>
-                    @endif
+                        </div>
+                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
 </section>
+@endif
 @endsection
 
 @push('script')
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-  const slides = document.querySelectorAll('.blog-slide');
-  const buttons = document.querySelectorAll('.page-btn');
+        const slides = @json($sliderData);
+        const total = slides.length;
+        if (total === 0) return;
 
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      slides.forEach(s => s.classList.remove('active'));
-      buttons.forEach(b => b.classList.remove('active'));
+        // =========================================================================
+        // PENGATURAN DURASI AUTOPLAY SLIDER
+        // Ubah angka di bawah ini (dalam milidetik: 1000 = 1 detik, 5000 = 5 detik)
+        // =========================================================================
+        const SLIDE_DURATION_MS = 3000; 
 
-      const index = btn.getAttribute('data-index');
-      slides[index].classList.add('active');
-      btn.classList.add('active');
+        let current = 0;
+        let timer = null;
+        const wrap = document.getElementById('gdiShowcaseWrap');
+
+        window.changeSlide = function (idx) {
+            if (idx >= total) idx = 0;
+            if (idx < 0) idx = total - 1;
+            current = idx;
+
+            // 1. Update left hero slides
+            document.querySelectorAll('.gdi-hero-slide').forEach((slide, i) => {
+                slide.classList.toggle('active', i === current);
+            });
+
+            // 2. Update right side cards active border
+            document.querySelectorAll('.gdi-side-card').forEach(card => {
+                card.classList.toggle('active', card.id === 'gdiSide-' + current);
+            });
+
+            resetTimer();
+        };
+
+        function startTimer() {
+            stopTimer();
+            timer = setInterval(function () {
+                window.changeSlide((current + 1) % total);
+            }, SLIDE_DURATION_MS);
+        }
+
+        function stopTimer() {
+            if (timer) {
+                clearInterval(timer);
+                timer = null;
+            }
+        }
+
+        function resetTimer() {
+            stopTimer();
+            startTimer();
+        }
+
+        startTimer();
+
+        // Pause saat mouse diarahkan ke area showcase
+        if (wrap) {
+            wrap.addEventListener('mouseenter', stopTimer);
+            wrap.addEventListener('mouseleave', startTimer);
+        }
     });
-  });
-});
 </script>
 @endpush

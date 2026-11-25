@@ -105,15 +105,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="mb-3 row">
-                    <label class="col-sm-2 col-form-label">Display Footer *</label>
-                    <div class="col-sm-3">
-                        <select class="form-select" name="footer_display" required>
-                            <option value="NA" {{ @$detail->footer_display == 'NA' ? 'selected' : '' }}>Non Aktif</option>
-                            <option value="A" {{ @$detail->footer_display == 'A' ? 'selected' : '' }}>Aktif</option>
-                        </select>
-                    </div>
-                </div>
+                <input type="hidden" name="footer_display" value="NA"/>
                 <div class="mb-3 row">
                     <label class="col-sm-2 col-form-label">Status Publish *</label>
                     <div class="col-sm-3">

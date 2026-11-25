@@ -157,9 +157,6 @@
                                                             @else
                                                                 <span class="badge bg-success">Publish</span>
                                                             @endif
-                                                            @if($menu['footer_display'] == 'Ya')
-                                                                <span class="badge bg-info text-dark">Footer: Ya</span>
-                                                            @endif
                                                         </div>
                                                     </div>
                                                 </div>
@@ -284,7 +281,6 @@
                             <th>Menu</th>
                             <th>Page Type</th>
                             <th>Menu Type</th>
-                            <th>Footer Display</th>
                             <th>Status</th>
                             <th width="12%" class="text-end">Aksi</th>
                         </tr>
@@ -298,7 +294,6 @@
                                     <td><strong>{{ $menu['title'] }}</strong></td>
                                     <td>{{ $menu['page_type'] }}</td>
                                     <td>{{ $menu['menu_type'] }}</td>
-                                    <td>{{ $menu['footer_display'] }}</td>
                                     <td>{!! (strtolower($menu['status_display']) == 'draft' ? '<span class="badge bg-secondary">Draft</span>' : '<span class="badge bg-success">Publish</span>') !!}</td>
                                     <td class="text-end">
                                         <a href="/admin/menu/{{ $menu['id'] }}/edit" class="btn btn-sm btn-outline-primary" title="Edit"><i class="bi bi-pencil-square"></i></a> 
@@ -316,7 +311,6 @@
                                         <td><span class="ps-3"><i class="bi bi-arrow-return-right text-primary me-1"></i> {{ $ch['title'] }}</span></td>
                                         <td>{{ $pageType[$ch['page_type']] ?? ($ch['page_type'] ? ucfirst($ch['page_type']) : '-') }}</td>
                                         <td>{{ ucfirst($ch['menu_type']) }}</td>
-                                        <td>{{ $ch['footer_display'] == 'A' ? 'Ya' : 'Tidak' }}</td>
                                         <td>{!! (strtolower($ch['status_display']) == 'draft' ? '<span class="badge bg-secondary">Draft</span>' : '<span class="badge bg-success">Publish</span>') !!}</td>
                                         <td class="text-end">
                                             <a href="/admin/menu/{{ $ch['id'] }}/edit" class="btn btn-sm btn-outline-primary" title="Edit"><i class="bi bi-pencil-square"></i></a> 

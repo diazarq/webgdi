@@ -84,17 +84,27 @@ class BlogController extends Controller
     }
 
     public function store(Request $req){
-        /* nanti dilengkapi */
-        $dataCheck = $req->validate([
-            'title' => ['required', 'string'],
-            'slug' => ['required', 'string'],
-            'featured_img' => 'image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+        $req->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'slug' => ['required', 'string', 'max:255'],
+            'author' => ['required', 'string', 'max:255'],
+            'featured_img' => ['nullable', 'image', 'mimes:jpg,png,jpeg,gif,svg,webp', 'max:5120'],
+        ], [
+            'title.required' => 'Judul blog wajib diisi.',
+            'slug.required' => 'Slug wajib diisi.',
+            'author.required' => 'Author wajib diisi.',
+            'featured_img.image' => 'File yang diunggah harus berupa gambar.',
+            'featured_img.mimes' => 'Format gambar harus jpg, jpeg, png, gif, svg, atau webp.',
+            'featured_img.max' => 'Ukuran gambar maksimal 5 MB.',
         ]);
+
+        $slug = $req->slug ? Str::slug($req->slug, '-') : Str::slug($req->title, '-');
+
         $dataInput = [
             'title' => $req->title,
             'author' => $req->author,
-            'slug' => Str::of($req->title)->slug('-'), //$req->slug,
-            'kategori' => $req->kategori_baru ? $req->kategori_baru : $req->kategori,
+            'slug' => $slug,
+            'kategori' => $req->kategori == '_newcat' && $req->kategori_baru ? $req->kategori_baru : $req->kategori,
             'url' => $req->url,
             'content' => $req->content, 
             'page_type' => $req->page_type,
@@ -103,19 +113,23 @@ class BlogController extends Controller
             'jenis' => $req->jenis,
         ];
 
-        if($req->file('featured_img')){
-            $filename = $req->file('featured_img')->getClientOriginalName();
-            $path = $req->file('featured_img')->move('images/blog', $filename);
-            $dataInput['featured_img'] = $path;
+        if($req->hasFile('featured_img')){
+            $file = $req->file('featured_img');
+            $safeName = preg_replace('/[^A-Za-z0-9.\-_]/', '_', $file->getClientOriginalName());
+            $filename = time() . '_' . $safeName;
+            $file->move(public_path('images/blog'), $filename);
+            $dataInput['featured_img'] = 'images/blog/' . $filename;
         }
         
         if($req->id){
             Blog::where('id', $req->id)->update($dataInput);
+            $msg = 'Blog berhasil diperbarui!';
         }else{
             Blog::create($dataInput);
+            $msg = 'Blog baru berhasil ditambahkan!';
         }
         
-        return redirect('/admin/blog');
+        return redirect('/admin/blog')->with('success', $msg);
     }
 }
 

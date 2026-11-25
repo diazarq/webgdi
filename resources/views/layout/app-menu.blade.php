@@ -91,6 +91,7 @@
             @endif
             @if($user->canAccess('menu_dinamis'))
                 <li><a href="/admin/menu" class="{{ @$MenuActive }}"><i class="cs-menu-icon bi-menu-app"></i> Menu Website</a></li>
+                <li><a href="{{ route('admin.footer-menu.index') }}" class="{{ @$FooterMenuActive }}"><i class="cs-menu-icon bi-layout-text-window-reverse"></i> Kelola Footer</a></li>
             @endif
             @if($user->canAccess('kelola_user'))
                 <li><a href="/admin/user" class="{{ @$UserActive }}"><i class="cs-menu-icon bi-file-person-fill"></i> Kelola User</a></li>

@@ -2,6 +2,11 @@
 
     
 <style>
+    .site-footer {
+        border-top: 4px solid rgba(45, 212, 167, 0.55) !important;
+
+    }
+
     .site-footer__bottom-text {
         font-size: 14px;
         line-height: 22px;
@@ -34,6 +39,28 @@
         margin-right: 0;
     }
 
+    /* Penyelarasan sejajar Kolom Profil/Logo dengan kolom-kolom menu lainnya */
+    .site-footer__top .footer-widget__about {
+        margin-top: 0 !important;
+    }
+
+    .site-footer__top .footer-widget__logo {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 22px;
+    }
+
+    .site-footer__top .footer-widget__logo img {
+        max-height: 120px;
+        width: auto;
+    }
+
+    .site-footer__top .footer-widget__about-text-box {
+        padding-top: 0 !important;
+        padding-bottom: 18px;
+    }
+
    
     .site-footer__top .footer-widget__Contact-list li {
         align-items: flex-start;
@@ -59,12 +86,12 @@
         <img src="{{ asset('website/assets/images/shapes/site-footer-shape-1.png') }}" alt="">
     </div>
     @php
-        $quickLinks = App\Helper::displayFooterMenu();
-        $hasQuickLinks = $quickLinks && count($quickLinks) > 0;
+        $quickLinks = App\Helper::displayFooterMenu('quick_link');
+        $programLinks = App\Helper::displayFooterMenu('program_link');
     @endphp
     <div class="container">
         <div class="row">
-            <div class="col-xl-5 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="100ms">
+            <div class="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="100ms">
                 <div class="footer-widget__column footer-widget__about">
                     <div class="footer-widget__logo">
                         <a href="#"><img src="{{ asset('website/assets/images/custom/logo_gdi_long.png') }}" alt=""></a>
@@ -72,44 +99,48 @@
                     <div class="footer-widget__about-text-box">
                         <p class="footer-widget__about-text">Menjadi lembaga global yang profesional untuk peduli menjaga generasi mandiri dan unggul</p>
                     </div>
-                    <a href="{{ url('app/zakat') }}" class="thm-btn main-slider-two__btn">Zakat Sekarang</a>
-                    <!--
-                    <form class="footer-widget__subscribe-box">
-                        <div class="footer-widget__subscribe-input-box">
-                            <input type="email" placeholder="Email address" name="email">
-                            <button type="submit" class="footer-widget__subscribe-btn"><img
-                                    src="{{ asset('website/assets/images/icon/paper-plan.png') }}" alt=""></button>
-                        </div>
-                    </form>-->
+
                 </div>
             </div>
-            @if($hasQuickLinks)
             <div class="col-xl-2 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="200ms">
                 <div class="footer-widget__column footer-widget__Explore">
                     <div class="footer-widget__title-box">
                         <h3 class="footer-widget__title">Quick Links</h3>
                     </div>
                     <ul class="footer-widget__Explore-list list-unstyled">
-                        @foreach($quickLinks as $q)
-                            <li><a href="{{ $q->slug }}">{{ $q->title }}</a></li>
-                        @endforeach
+                        @if($quickLinks && $quickLinks->count() > 0)
+                            @foreach($quickLinks as $q)
+                                <li><a href="{{ Str::startsWith($q->url, ['http://', 'https://']) ? $q->url : url(ltrim($q->url, '/')) }}">{{ $q->title }}</a></li>
+                            @endforeach
+                        @else
+                            <li><a href="{{ url('/') }}">Beranda</a></li>
+                            <li><a href="{{ url('/tentang-zakat') }}">Tentang Zakat</a></li>
+                            <li><a href="{{ url('/kalkulator-zakat') }}">Kalkulator Zakat</a></li>
+                            <li><a href="{{ url('/zakat-online') }}">Zakat Online</a></li>
+                            <li><a href="{{ url('/blog') }}">Berita & Artikel</a></li>
+                        @endif
                     </ul>
                 </div>
             </div>
-            @endif
-            <div class="col-xl-{{ $hasQuickLinks ? 2 : 3 }} col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="300ms">
+            <div class="col-xl-2 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="300ms">
                 <div class="footer-widget__column footer-widget__Fundraising">
                     <div class="footer-widget__title-box">
                         <h3 class="footer-widget__title">Program</h3>
                     </div>
                     <ul class="footer-widget__Explore-list list-unstyled">
-                        <li><a href="{{ url('budaya') }}">Budaya</a></li>
-                        <li><a href="{{ url('cinta') }}">Cinta</a></li>
-                        <li><a href="{{ url('senyum') }}">Senyum</a></li>   
+                        @if($programLinks && $programLinks->count() > 0)
+                            @foreach($programLinks as $p)
+                                <li><a href="{{ Str::startsWith($p->url, ['http://', 'https://']) ? $p->url : url(ltrim($p->url, '/')) }}">{{ $p->title }}</a></li>
+                            @endforeach
+                        @else
+                            <li><a href="{{ url('budaya') }}">Budaya</a></li>
+                            <li><a href="{{ url('cinta') }}">Cinta</a></li>
+                            <li><a href="{{ url('senyum') }}">Senyum</a></li>   
+                        @endif
                     </ul>
                 </div>
             </div>
-            <div class="col-xl-{{ $hasQuickLinks ? 3 : 4 }} col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="400ms">
+            <div class="col-xl-4 col-lg-6 col-md-6 wow fadeInUp" data-wow-delay="400ms">
                 <div class="footer-widget__column footer-widget__Contact">
                     <div class="footer-widget__title-box">
                         <h3 class="footer-widget__title">Kontak</h3>
@@ -172,7 +203,7 @@
         <div class="row">
             <div class="col-xl-12">
                 <div class="site-footer__bottom-inner d-flex flex-wrap justify-content-between align-items-center">
-                    <p class="site-footer__bottom-text mb-0">© copyright 2026 by <a href="#">Yayasan Graha Dhuafa Indonesia</a></p>
+                    <p class="site-footer__bottom-text mb-0">© copyright {{ date('Y') }} by <a href="#">Yayasan Graha Dhuafa Indonesia</a></p>
                 </div>
             </div>
         </div>

@@ -79,8 +79,7 @@
     }
     @font-face {
         font-family: 'Black';
-        src: url('{{ asset("website/assets/fonts/Motterdam.otf") }}?v={{ time() }}') format('opentype'),
-             url('{{ asset("website/assets/fonts/Motterdam.otf") }}?v={{ time() }}') format('truetype');
+        src: url('{{ asset("website/assets/fonts/Overlays.otf") }}?v={{ time() }}') format('opentype');
         font-weight: normal;
         font-style: normal;
     }
@@ -90,10 +89,10 @@
     .mobile-nav__content .font-handflair,
     .font-handflair {
         font-family: 'Black', cursive !important;
-        font-size: 25px !important;    
+        font-size: 16px !important;    
         font-weight: normal !important;   
         display: inline-block;
-        margin-left: 3px;
+        margin-left: 6px;
         color: #00875A;
     }
 
@@ -111,8 +110,8 @@
 
         .mobile-nav__content .font-handflair {
         color: #ffffff !important;  
-        font-size: 24px !important;  
-        margin-left: 4px !important;
+        font-size: 16px !important;  
+        margin-left: -1px !important;
     }
 
     .mobile-nav__content .main-menu__list li a {
@@ -130,6 +129,11 @@
         top: 0;
         z-index: 999;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+    @else
+    .main-header-two {
+        position: relative;
+        z-index: 999;
     }
     @endif
 

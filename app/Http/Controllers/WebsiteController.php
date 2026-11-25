@@ -70,10 +70,14 @@ class WebsiteController extends Controller
                     case 'blog_list':
                         $kategori = Blog::selectRaw('DISTINCT(kategori) as kategori')->get();
                         $blog = Blog::where('status', 'publish')->orderBy('date_publish', 'desc')->paginate(9);
+                        $heroBlogs = Blog::where('status', 'publish')->orderBy('date_publish', 'desc')->take(4)->get();
+                        $blogLatest = Blog::where('status', 'publish')->orderBy('date_publish', 'desc')->take(5)->get();
                         return view('website.page-blog', [
                             'pageTitle' => $detail->title,
                             'detail' => $detail,
                             'blog' => $blog,
+                            'heroBlogs' => $heroBlogs,
+                            'blogLatest' => $blogLatest,
                             'category' => $kategori,
                             'active' => ['menu'.$parentID => 'current']
                         ]);
@@ -667,12 +671,14 @@ class WebsiteController extends Controller
             'kategori' => $category
         ])->get();
         $blogLatest = Blog::where('status', 'publish')->orderBy('date_publish', 'desc')->get();
+        $heroBlogs = Blog::where('status', 'publish')->orderBy('date_publish', 'desc')->take(4)->get();
         $kategori = Blog::selectRaw('DISTINCT(kategori) as kategori')->get();
         return view('website.page-blog', [
             'pageTitle' => $menu->title,
             'category' => $kategori,
             'active' => ['menu'.$parentID => 'current'],
             'blog' => $blog,
+            'heroBlogs' => $heroBlogs,
             'blogLatest' => $blogLatest,
             'categoryKey' => $category
         ]);

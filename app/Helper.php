@@ -151,10 +151,48 @@ class Helper{
         return $arrMenu;
     }
 
-    public static function displayFooterMenu(){
-        $result = Menu::where('footer_display', 'A')->get();
+    public static function getFooterSettings($key = null, $default = null)
+    {
+        $defaultSettings = [
+            'about_text' => 'Menjadi lembaga global yang profesional untuk peduli menjaga generasi mandiri dan unggul',
+            'cta_text' => 'Zakat Sekarang',
+            'cta_url' => '/app/zakat',
+            'quick_links_title' => 'Quick Links',
+            'program_title' => 'Program',
+            'contact_title' => 'Kontak',
+            'copyright_text' => '© copyright ' . date('Y') . ' by Yayasan Graha Dhuafa Indonesia',
+        ];
 
-        return $result;
+        try {
+            $meta = Meta::where('var', 'FOOTER_SETTINGS')->first();
+            if ($meta && !empty($meta->value)) {
+                $saved = json_decode($meta->value, true);
+                if (is_array($saved)) {
+                    $defaultSettings = array_merge($defaultSettings, $saved);
+                }
+            }
+        } catch (\Exception $e) {
+            // fallback to default
+        }
+
+        if ($key !== null) {
+            return $defaultSettings[$key] ?? $default;
+        }
+
+        return $defaultSettings;
+    }
+
+    public static function displayFooterMenu($category = 'quick_link'){
+        if (class_exists('App\Models\FooterMenu')) {
+            $footerMenus = \App\Models\FooterMenu::where('category', $category)
+                ->where('status', 'A')
+                ->orderBy('order', 'asc')
+                ->get();
+            if ($footerMenus && $footerMenus->count() > 0) {
+                return $footerMenus;
+            }
+        }
+        return collect([]);
     }
 
     public static function displaySocialMedia(){

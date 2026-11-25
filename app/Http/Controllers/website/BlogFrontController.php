@@ -58,6 +58,12 @@ class BlogFrontController extends Controller
         // Ambil data blog dengan pagination
         $blog = $query->orderBy('date_publish', 'desc')->paginate(9);
 
+        // Featured Hero Blogs for magazine showcase slider (ambil 4 berita terbaru berstatus publish)
+        $heroBlogs = Blog::where('status', 'publish')
+            ->orderBy('date_publish', 'desc')
+            ->take(4)
+            ->get();
+
         // Sidebar data
         $blogRealisasi = Blog::where('status', 'publish')
             ->where('kategori', 'Berita Realisasi')
@@ -89,6 +95,7 @@ class BlogFrontController extends Controller
         return view('website.page-blog', [
             'pageTitle' => $pageTitle,
             'blog' => $blog,
+            'heroBlogs' => $heroBlogs,
             'blogRealisasi' => $blogRealisasi,
             'blogDewanSyariah' => $blogDewanSyariah,
             'blogLatest' => $blogLatest,
