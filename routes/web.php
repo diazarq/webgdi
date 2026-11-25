@@ -64,6 +64,7 @@ Route::get('/senyum', [WebsiteController::class, 'index_senyum']);
 Route::get('/wakaf-hibah', [WebsiteController::class, 'index_wakaf_hibah']);
 Route::get('/kalkulator-zakat', [WebsiteController::class, 'index_kalkulator_zakat'])->name('website.kalkulator_zakat');
 Route::get('/tentang-zakat', [WebsiteController::class, 'index_about_zakat'])->name('website.tentang_zakat');
+Route::get('/lazgdi', [WebsiteController::class, 'index_lazgdi'])->name('website.lazgdi');
 
 /* SIMULASI MIDTRANS PAYMENT GATEWAY (SANDBOX / SNAP) - HARUS SEBELUM /{slug} */
 Route::get('/simulasi-midtrans', [MidtransController::class, 'index'])->name('midtrans.index');

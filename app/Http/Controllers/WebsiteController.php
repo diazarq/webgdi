@@ -53,6 +53,9 @@ class WebsiteController extends Controller
             if($slug == 'tentang-zakat'){
                 return $this->index_about_zakat();
             }
+            if($slug == 'lazgdi'){
+                return $this->index_lazgdi();
+            }
             if($slug != 'donasi'){
                 $detail = Menu::where('slug', $slug)->first();
                 $parentID = $detail ? ($detail->parent_id == 0 ? $detail->id : $detail->parent_id) : null;
@@ -782,6 +785,13 @@ class WebsiteController extends Controller
     }
     public function index_about_zakat(){
         return view('website.page-about-zakat');
+    }
+    public function index_lazgdi(){
+        $menu = Menu::where('slug', 'lazgdi')->first();
+        $active = $menu ? ['menu' . ($menu->parent_id ?: $menu->id) => 'current'] : [];
+        return view('website.page-lazgdi', [
+            'active' => $active,
+        ]);
     }
     public function index_calc_zakat(){
         return view('website.page-calc-zakat');

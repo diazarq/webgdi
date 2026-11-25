@@ -8,8 +8,8 @@
        Dipakai untuk LAZNews, LAZJourney, dan LAZSalam
        ========================================================== */
     .fk-editorial-section {
-        background: #081c15;
-        color: #f1f5f9;
+        background: #ffffff;
+        color: #1e293b;
         padding: 45px 0 85px 0;
     }
 
@@ -28,7 +28,7 @@
         justify-content: center;
         text-align: center;
         background: #04120d;
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid #e2e8f0;
     }
 
     .fk-hero-banner__img {
@@ -120,7 +120,7 @@
         aspect-ratio: 4 / 3;
         position: relative;
         overflow: hidden;
-        background: #04120d;
+        background: #f1f5f9;
     }
 
     .fk-article-card__thumb img {
@@ -138,7 +138,7 @@
         position: absolute;
         top: 12px;
         left: 12px;
-        background: #06301f;
+        background: #00875A;
         color: #ffffff;
         font-size: 10px;
         font-weight: 800;
@@ -157,29 +157,29 @@
         font-size: 22px;
         font-weight: 800;
         line-height: 1.32;
-        color: #ffffff;
+        color: #0f172a;
         margin-bottom: 8px;
     }
 
     .fk-article-card__title a {
-        color: #ffffff;
+        color: #0f172a;
         text-decoration: none;
         transition: color 0.25s ease;
     }
 
     .fk-article-card__title a:hover {
-        color: #2dd4a7;
+        color: #00875A;
     }
 
     .fk-article-card__date {
         font-size: 12px;
-        color: #94a3b8;
+        color: #64748b;
         margin-bottom: 12px;
     }
 
     .fk-article-card__excerpt {
         font-size: 14px;
-        color: #cbd5e1;
+        color: #475569;
         line-height: 1.6;
         margin-bottom: 18px;
         display: -webkit-box;
@@ -190,8 +190,8 @@
 
     .fk-readmore-btn {
         display: inline-block;
-        background: #e2e8f0;
-        color: #06301f;
+        background: #06301f;
+        color: #ffffff;
         font-size: 11px;
         font-weight: 800;
         letter-spacing: 1.5px;
@@ -202,8 +202,8 @@
     }
 
     .fk-readmore-btn:hover {
-        background: #2dd4a7;
-        color: #04120d;
+        background: #00875A;
+        color: #ffffff;
     }
 
     /* RIGHT SIDEBAR */
@@ -216,9 +216,9 @@
         font-weight: 800;
         letter-spacing: 1.5px;
         text-transform: uppercase;
-        color: #ffffff;
+        color: #0f172a;
         padding-bottom: 10px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        border-bottom: 2px solid #e2e8f0;
         margin-bottom: 16px;
     }
 
@@ -229,21 +229,21 @@
 
     .fk-search-form input {
         flex: 1;
-        background: #04120d;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        color: #ffffff;
+        background: #f8fafc;
+        border: 1px solid #cbd5e1;
+        color: #0f172a;
         padding: 10px 14px;
         font-size: 13.5px;
     }
 
     .fk-search-form input:focus {
         outline: none;
-        border-color: #2dd4a7;
+        border-color: #00875A;
     }
 
     .fk-search-form button {
-        background: #1ab69d;
-        color: #04120d;
+        background: #00875A;
+        color: #ffffff;
         border: none;
         padding: 0 16px;
         font-weight: 700;
@@ -258,7 +258,7 @@
     }
 
     .fk-cat-list li {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        border-bottom: 1px solid #e2e8f0;
     }
 
     .fk-cat-list a {
@@ -266,8 +266,8 @@
         justify-content: space-between;
         align-items: center;
         padding: 12px 16px;
-        background: #04120d;
-        color: #e2e8f0;
+        background: #f8fafc;
+        color: #334155;
         font-size: 12px;
         font-weight: 700;
         letter-spacing: 1.2px;
@@ -277,13 +277,13 @@
     }
 
     .fk-cat-list a:hover {
-        background: #0a4a2e;
+        background: #00875A;
         color: #ffffff;
     }
 
     .fk-cat-list li.active a {
-        background: #1ab69d;
-        color: #04120d;
+        background: #00875A;
+        color: #ffffff;
     }
 
     /* Sidebar Popular / Latest */
@@ -299,7 +299,7 @@
         height: 60px;
         flex-shrink: 0;
         overflow: hidden;
-        background: #04120d;
+        background: #f1f5f9;
     }
 
     .fk-popular-item__thumb img {
@@ -316,17 +316,17 @@
     }
 
     .fk-popular-item__title a {
-        color: #ffffff;
+        color: #0f172a;
         text-decoration: none;
     }
 
     .fk-popular-item__title a:hover {
-        color: #2dd4a7;
+        color: #00875A;
     }
 
     .fk-popular-item__date {
         font-size: 11px;
-        color: #94a3b8;
+        color: #64748b;
     }
 
     /* Pagination */
@@ -344,18 +344,18 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: #04120d;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        color: #e2e8f0;
+        background: #ffffff;
+        border: 1px solid #cbd5e1;
+        color: #334155;
         font-size: 13px;
         font-weight: 700;
         text-decoration: none;
     }
 
     .fk-pagination .active {
-        background: #1ab69d;
-        border-color: #1ab69d;
-        color: #04120d;
+        background: #00875A;
+        border-color: #00875A;
+        color: #ffffff;
     }
 
     .fk-pagination .disabled {
@@ -502,7 +502,7 @@
             </div>
         @else
             <div class="text-center py-5">
-                <h4 class="text-white mb-2">{{ $currentMeta['empty_title'] }}</h4>
+                <h4 class="text-dark mb-2">{{ $currentMeta['empty_title'] }}</h4>
                 <p class="text-muted">Belum ada artikel yang dipublikasikan pada kategori ini.</p>
             </div>
         @endif

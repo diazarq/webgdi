@@ -7,8 +7,8 @@
        EDITORIAL ARTICLE DETAIL (INSPIRASI FOLKATIVE + TEMA GDI)
        ========================================================== */
     .fk-detail-section {
-        background: #081c15;
-        color: #f1f5f9;
+        background: #ffffff;
+        color: #1e293b;
         padding: 55px 0 85px 0;
     }
 
@@ -20,34 +20,47 @@
     .fk-detail-header {
         text-align: center;
         max-width: 820px;
-        margin: 0 auto 42px auto;
+        margin: 0 auto 36px auto;
     }
 
+    /* Modern Capsule Badge untuk Berita / Edukasi / Kegiatan */
     .fk-detail-badge {
-        display: inline-block;
-        background: #04120d;
-        color: #2dd4a7;
-        border: 1px solid rgba(45, 212, 167, 0.45);
-        font-size: 11px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+        color: #047857;
+        border: 1px solid rgba(5, 150, 105, 0.28);
+        border-radius: 999px;
+        font-size: 11.5px;
         font-weight: 800;
-        letter-spacing: 1.8px;
+        letter-spacing: 1.4px;
         text-transform: uppercase;
-        padding: 5px 14px;
+        padding: 7px 20px;
         margin-bottom: 18px;
+        box-shadow: 0 4px 14px rgba(0, 135, 90, 0.10);
+    }
+
+    .fk-detail-badge--kegiatan {
+        background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+        color: #0f766e;
+        border-color: rgba(13, 148, 136, 0.28);
+        box-shadow: 0 4px 14px rgba(13, 148, 136, 0.10);
+    }
+
+    .fk-detail-badge--edukasi {
+        background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+        color: #c2410c;
+        border-color: rgba(234, 88, 12, 0.26);
+        box-shadow: 0 4px 14px rgba(234, 88, 12, 0.10);
     }
 
     .fk-detail-title {
         font-size: 38px;
         font-weight: 800;
         line-height: 1.24;
-        color: #ffffff;
-        margin-bottom: 14px;
-    }
-
-    .fk-detail-date {
-        font-size: 13px;
-        color: #94a3b8;
-        letter-spacing: 0.5px;
+        color: #0f172a;
+        margin-bottom: 0;
     }
 
     /* FEATURED IMAGE */
@@ -55,16 +68,45 @@
         width: 100%;
         aspect-ratio: 16 / 10;
         object-fit: cover;
-        margin-bottom: 32px;
-        background: #04120d;
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        margin-bottom: 18px;
+        background: #f1f5f9;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+    }
+
+    /* META DI BAWAH GAMBAR (PENULIS DI ATAS, TANGGAL DI BAWAH, TANPA KOTAK/KAPSUL) */
+    .fk-detail-meta-bar {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 0 0 18px 0;
+        margin-bottom: 24px;
+        border-bottom: 1px solid #e2e8f0;
+        font-size: 13.5px;
+        color: #64748b;
+    }
+
+    .fk-detail-meta-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+    }
+
+    .fk-detail-meta-item i {
+        color: #00875A;
+        font-size: 13.5px;
+    }
+
+    .fk-detail-meta-author {
+        color: #0f172a;
+        font-weight: 700;
     }
 
     /* ARTICLE BODY TYPOGRAPHY */
     .fk-detail-content {
         font-size: 16px;
-        line-height: 1.8;
-        color: #e2e8f0;
+        line-height: 1.85;
+        color: #334155;
         margin-bottom: 45px;
     }
 
@@ -75,14 +117,14 @@
     .fk-detail-content h2,
     .fk-detail-content h3,
     .fk-detail-content h4 {
-        color: #ffffff;
+        color: #0f172a;
         font-weight: 800;
         margin-top: 34px;
         margin-bottom: 16px;
     }
 
     .fk-detail-content a {
-        color: #2dd4a7;
+        color: #00875A;
         text-decoration: underline;
     }
 
@@ -90,21 +132,22 @@
         max-width: 100%;
         height: auto;
         margin: 26px 0;
+        border-radius: 10px;
     }
 
     .fk-detail-content blockquote {
-        border-left: 3px solid #2dd4a7;
-        background: #04120d;
+        border-left: 3px solid #00875A;
+        background: #f8fafc;
         padding: 18px 24px;
         margin: 26px 0;
         font-style: italic;
-        color: #cbd5e1;
+        color: #475569;
     }
 
     /* PREVIOUS / BACK NAVIGATION BLOCK */
     .fk-prev-post {
-        border-top: 1px solid rgba(255, 255, 255, 0.12);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+        border-top: 1px solid #e2e8f0;
+        border-bottom: 1px solid #e2e8f0;
         padding: 22px 0;
         display: flex;
         align-items: center;
@@ -117,7 +160,8 @@
         height: 78px;
         flex-shrink: 0;
         overflow: hidden;
-        background: #04120d;
+        background: #f1f5f9;
+        border-radius: 8px;
     }
 
     .fk-prev-post__thumb img {
@@ -131,7 +175,7 @@
         font-weight: 800;
         letter-spacing: 1.5px;
         text-transform: uppercase;
-        color: #2dd4a7;
+        color: #00875A;
         margin-bottom: 5px;
     }
 
@@ -143,12 +187,12 @@
     }
 
     .fk-prev-post__title a {
-        color: #ffffff;
+        color: #0f172a;
         text-decoration: none;
     }
 
     .fk-prev-post__title a:hover {
-        color: #2dd4a7;
+        color: #00875A;
     }
 
     /* RIGHT SIDEBAR */
@@ -161,9 +205,9 @@
         font-weight: 800;
         letter-spacing: 1.5px;
         text-transform: uppercase;
-        color: #ffffff;
+        color: #0f172a;
         padding-bottom: 10px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        border-bottom: 2px solid #e2e8f0;
         margin-bottom: 18px;
     }
 
@@ -315,20 +359,57 @@
 <section class="fk-detail-section">
     <div class="container fk-detail-container">
         @if(isset($blog) && $blog)
+            @php
+                $badgeRaw = strtolower(trim($blog->jenis ?: ($blog->kategori ?: 'kabar gdi')));
+                $badgeModifier = '';
+                $badgeIcon = 'fas fa-newspaper';
+                if (in_array($badgeRaw, ['kegiatan', 'journey', 'lazjourney'])) {
+                    $badgeModifier = 'fk-detail-badge--kegiatan';
+                    $badgeIcon = 'fas fa-route';
+                } elseif (in_array($badgeRaw, ['edukasi', 'salam', 'lazsalam'])) {
+                    $badgeModifier = 'fk-detail-badge--edukasi';
+                    $badgeIcon = 'fas fa-book-open';
+                }
+
+                $authorName = !empty($blog->author)
+                    ? $blog->author
+                    : (($blog->user && !empty($blog->user->name)) ? $blog->user->name : 'Admin GDI');
+
+                $bulanIndo = [
+                    '01' => 'Januari', '02' => 'Februari', '03' => 'Maret', '04' => 'April',
+                    '05' => 'Mei', '06' => 'Juni', '07' => 'Juli', '08' => 'Agustus',
+                    '09' => 'September', '10' => 'Oktober', '11' => 'November', '12' => 'Desember',
+                ];
+                $tsPub = strtotime($blog->date_publish ?? $blog->created_at);
+                $formattedDate = $tsPub
+                    ? date('d', $tsPub) . ' ' . ($bulanIndo[date('m', $tsPub)] ?? date('F', $tsPub)) . ' ' . date('Y', $tsPub)
+                    : '-';
+            @endphp
+
             {{-- CENTERED HEADER BLOCK --}}
             <div class="fk-detail-header">
-                <span class="fk-detail-badge">{{ strtoupper($blog->jenis ?: ($blog->kategori ?: 'KABAR GDI')) }}</span>
+                <span class="fk-detail-badge {{ $badgeModifier }}">
+                    <i class="{{ $badgeIcon }}"></i> {{ strtoupper($blog->jenis ?: ($blog->kategori ?: 'KABAR GDI')) }}
+                </span>
                 <h1 class="fk-detail-title">{{ $blog->title }}</h1>
-                <div class="fk-detail-date">
-                    {{ date('F j, Y', strtotime($blog->date_publish ?? $blog->created_at)) }}
-                </div>
             </div>
 
             {{-- 2-COLUMN ASYMMETRIC SPLIT --}}
             <div class="row g-5">
-                {{-- LEFT COLUMN: FEATURED IMAGE + ARTICLE CONTENT --}}
+                {{-- LEFT COLUMN: FEATURED IMAGE + META PENULIS & TANGGAL + ARTICLE CONTENT --}}
                 <div class="col-lg-8">
                     <img src="{{ $getCleanImageUrl($blog->featured_img) }}" alt="{{ $blog->title }}" class="fk-detail-featured-img">
+
+                    <div class="fk-detail-meta-bar">
+                        <div class="fk-detail-meta-item">
+                            <i class="far fa-user-circle"></i>
+                            <span>Diposting oleh <strong class="fk-detail-meta-author">{{ $authorName }}</strong></span>
+                        </div>
+                        <div class="fk-detail-meta-item">
+                            <i class="far fa-calendar-alt"></i>
+                            <span>{{ $formattedDate }}</span>
+                        </div>
+                    </div>
 
                     <div class="fk-detail-content">
                         {!! $blog->content !!}
@@ -389,8 +470,8 @@
             </div>
         @else
             <div class="text-center py-5">
-                <h4 class="text-white mb-2">Artikel tidak ditemukan</h4>
-                <a href="/blog" class="btn btn-outline-light mt-2">Kembali ke Kabar LAZ</a>
+                <h4 class="text-dark mb-2">Artikel tidak ditemukan</h4>
+                <a href="/kabarlaz" class="btn btn-outline-success mt-2">Kembali ke KabarLAZ</a>
             </div>
         @endif
     </div>
