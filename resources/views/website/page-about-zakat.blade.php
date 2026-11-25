@@ -3,10 +3,6 @@
 @section('title', 'Tentang Zakat | Yayasan Graha Dhuafa Indonesia')
 
 @section('breadcrumb')
-<ul class="thm-breadcrumb list-unstyled">
-    <li><a href="{{ url('/') }}">Beranda</a></li>
-    <li><span>Tentang Zakat</span></li>
-</ul>
 <h2>Tentang Zakat</h2>
 @endsection
 

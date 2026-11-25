@@ -55,13 +55,6 @@
 
 @section('breadcrumb')
 <div class="text-center">
-    <ul class="thm-breadcrumb list-unstyled">
-        <li><a href="/">Beranda</a></li>
-        <li><span>/</span></li>
-        <li><a href="{{ route('donasi.index') }}">Donasi</a></li>
-        <li><span>/</span></li>
-        <li>{{ $isComplete ? 'Kuitansi Berhasil' : ($isPending ? 'Menunggu Pembayaran' : 'Status Pembayaran') }}</li>
-    </ul>
     <h2>{{ $isComplete ? 'Kuitansi Donasi Berhasil' : ($isPending ? 'Instruksi Pembayaran Donasi' : 'Status Donasi') }}</h2>
 </div>
 @endsection

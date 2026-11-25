@@ -7,11 +7,6 @@
 
 @section('breadcrumb')
 <div class="text-center">
-    <ul class="thm-breadcrumb list-unstyled">
-        <li><a href="/">Beranda</a></li>
-        <li><span>/</span></li>
-        <li>Simulasi Donasi</li>
-    </ul>
     <h2>Simulasi Donasi Online</h2>
 </div>
 @endsection

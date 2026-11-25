@@ -2,15 +2,6 @@
 @section('title', $pageTitle)
 
 @section('breadcrumb')
-<ul class="thm-breadcrumb list-unstyled">
-    <li><a href="/">Beranda</a></li>
-    @if(@$parent)
-    <li><span>/</span></li>
-    <li><a href="/">{{ @$parent }}</a></li>
-    @endif
-    <li><span>/</span></li>
-    <li>{{ @$detail->title ? @$detail->title : $pageTitle }}</li>
-</ul>
 <h2>{{ @$detail->title ? @$detail->title : $pageTitle }}</h2>
 @endsection
 

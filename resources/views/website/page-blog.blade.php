@@ -340,11 +340,6 @@
 @endsection
 
 @section('breadcrumb')
-<ul class="thm-breadcrumb list-unstyled">
-    <li><a href="/">Beranda</a></li>
-    <li><span>/</span></li>
-    <li>{{ @$detail->title ? @$detail->title : $pageTitle }}</li>
-</ul>
 <h2>{!! preg_replace('/^LAZ\s*(.+)$/i', 'LAZ <span class="font-banner">$1</span>', @$detail->title ? @$detail->title : $pageTitle) !!}</h2>
 @endsection
 

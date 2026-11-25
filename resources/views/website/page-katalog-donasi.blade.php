@@ -135,11 +135,6 @@
 
 @section('breadcrumb')
 <div class="text-center">
-    <ul class="thm-breadcrumb list-unstyled">
-        <li><a href="/">Beranda</a></li>
-        <li><span>/</span></li>
-        <li>Katalog Donasi</li>
-    </ul>
     <h2>Satu Bantuan, Sejuta Harapan.</h2>
     <p class="text-white-50 mt-2 mb-0" style="max-width: 650px; margin: 0 auto; font-size: 0.95rem;">
         Sedikit uluran tanganmu adalah napas baru bagi mereka. Salurkan kepedulian sekarang!

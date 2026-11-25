@@ -191,11 +191,6 @@
 @endsection
 
 @section('breadcrumb')
-<ul class="thm-breadcrumb list-unstyled">
-    <li><a href="/">Beranda</a></li>
-    <li><span>/</span></li>
-    <li>{{ @$detail->title ?? 'Kalkulator Zakat' }}</li>
-</ul>
 <h2>{{ @$detail->title ?? 'Kalkulator Zakat' }}</h2>
 @endsection
 

@@ -787,11 +787,6 @@
 @endsection
 
 @section('breadcrumb')
-<ul class="thm-breadcrumb list-unstyled">
-    <li><a href="{{ url('/') }}">Beranda</a></li>
-    <li><span>/</span></li>
-    <li>Wakaf &amp; Hibah</li>
-</ul>
 <h2>Wakaf &amp; Hibah</h2>
 @endsection
 

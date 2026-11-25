@@ -5,11 +5,6 @@
 @endsection
 
 @section('breadcrumb')
-<ul class="thm-breadcrumb list-unstyled">
-    <li><a href="/">Beranda</a></li>
-    <li><span>/</span></li>
-    <li>{{ @$detail->title }}</li>
-</ul>
 <h2>{{ @$detail->title }} {!! @$detail->subtitle ? '<div class="subtitle">'.@$detail->subtitle.'</div>' : ''!!}</h2>
 
 @endsection

@@ -94,6 +94,7 @@ class BlogFrontController extends Controller
         if ($jenisFilter) {
             $pageTitle = $jenisLabel ?: 'Blog & Berita';
 
+<<<<<<< Updated upstream
             return view('website.page-blog', [
                 'pageTitle' => $pageTitle,
                 'blog' => $blog,
@@ -132,6 +133,14 @@ class BlogFrontController extends Controller
         $pageTitle = $kategori ?: 'KabarLAZ';
 
         return view('website.page-kabarlaz', [
+=======
+        $viewName = 'website.page-blog';
+        if (in_array($jenisLabel, ['LAZNews', 'LAZJourney', 'LAZSalam'])) {
+            $viewName = 'website.page-blog-lazjourney';
+        }
+
+        return view($viewName, [
+>>>>>>> Stashed changes
             'pageTitle' => $pageTitle,
             'blog' => $blog,
             'featuredBlog' => $featuredBlog,

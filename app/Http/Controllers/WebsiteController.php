@@ -68,6 +68,7 @@ class WebsiteController extends Controller
                         break;
     
                     case 'blog_list':
+<<<<<<< Updated upstream
                         $search = trim((string) request('search', ''));
                         $blogQuery = Blog::where('status', 'publish');
                         if ($search !== '') {
@@ -78,6 +79,14 @@ class WebsiteController extends Controller
                         }
                         $blog = $blogQuery->orderBy('date_publish', 'desc')->paginate(9);
                         $featuredBlog = Blog::where('status', 'publish')->orderBy('date_publish', 'desc')->first();
+=======
+                        if (in_array(strtolower($detail->slug), ['laznews', 'lazjourney', 'lazsalam'])) {
+                            return app(\App\Http\Controllers\Website\BlogFrontController::class)->index(request(), null, $detail->slug);
+                        }
+                        $kategori = Blog::selectRaw('DISTINCT(kategori) as kategori')->get();
+                        $blog = Blog::where('status', 'publish')->orderBy('date_publish', 'desc')->paginate(9);
+                        $heroBlogs = Blog::where('status', 'publish')->orderBy('date_publish', 'desc')->take(4)->get();
+>>>>>>> Stashed changes
                         $blogLatest = Blog::where('status', 'publish')->orderBy('date_publish', 'desc')->take(5)->get();
                         $kategori = Blog::select('kategori')
                             ->selectRaw('COUNT(*) as total')

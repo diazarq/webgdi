@@ -713,11 +713,6 @@
 @endsection
 
 @section('breadcrumb')
-<ul class="thm-breadcrumb list-unstyled">
-    <li><a href="/">Beranda</a></li>
-    <li><span>/</span></li>
-    <li>{{ $pilar['title'] }}</li>
-</ul>
 <h2>Program {{ $pilar['title'] }}</h2>
 @endsection
 

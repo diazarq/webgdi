@@ -224,15 +224,6 @@
 
 @section('breadcrumb')
 <div class="text-center">
-    <ul class="thm-breadcrumb list-unstyled">
-        <li><a href="/">Beranda</a></li>
-        <li><span>/</span></li>
-        <li><a href="{{ route('donasi.index') }}">Katalog Donasi</a></li>
-        <li><span>/</span></li>
-        <li><a href="{{ route('donasi.detail', ['slug' => $campaign['slug']]) }}">{{ Str::limit($campaign['title'], 30) }}</a></li>
-        <li><span>/</span></li>
-        <li>Formulir Donasi</li>
-    </ul>
     <h2>Formulir Donasi</h2>
 </div>
 @endsection

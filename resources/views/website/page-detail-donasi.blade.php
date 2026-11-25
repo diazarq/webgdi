@@ -195,13 +195,6 @@
 
 @section('breadcrumb')
 <div class="text-center">
-    <ul class="thm-breadcrumb list-unstyled">
-        <li><a href="/">Beranda</a></li>
-        <li><span>/</span></li>
-        <li><a href="{{ route('donasi.index') }}">Katalog Donasi</a></li>
-        <li><span>/</span></li>
-        <li>{{ $campaign['category_label'] }}</li>
-    </ul>
     <h2>Detail Penggalangan Dana</h2>
 </div>
 @endsection
