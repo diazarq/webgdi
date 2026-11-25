@@ -90,12 +90,14 @@ class BlogFrontController extends Controller
 
         $totalAllPosts = Blog::where('status', 'publish')->count();
 
-        // Untuk LAZNews, LAZJourney, LAZSalam tetap gunakan tampilan page-blog yang sudah ada (tidak diubah)
+        // Untuk LAZNews, LAZJourney, LAZSalam gunakan tampilan page-blog-lazjourney (gaya editorial Folkative)
         if ($jenisFilter) {
             $pageTitle = $jenisLabel ?: 'Blog & Berita';
+            $viewName = in_array($jenisLabel, ['LAZNews', 'LAZJourney', 'LAZSalam'])
+                ? 'website.page-blog-lazjourney'
+                : 'website.page-blog';
 
-<<<<<<< Updated upstream
-            return view('website.page-blog', [
+            return view($viewName, [
                 'pageTitle' => $pageTitle,
                 'blog' => $blog,
                 'heroBlogs' => $heroBlogs,
@@ -130,17 +132,14 @@ class BlogFrontController extends Controller
             })->count(),
         ];
 
-        $pageTitle = $kategori ?: 'KabarLAZ';
+        $pageTitle = $jenisLabel ?: ($kategori ?: 'KabarLAZ');
 
-        return view('website.page-kabarlaz', [
-=======
         $viewName = 'website.page-blog';
         if (in_array($jenisLabel, ['LAZNews', 'LAZJourney', 'LAZSalam'])) {
             $viewName = 'website.page-blog-lazjourney';
         }
 
         return view($viewName, [
->>>>>>> Stashed changes
             'pageTitle' => $pageTitle,
             'blog' => $blog,
             'featuredBlog' => $featuredBlog,
@@ -149,6 +148,7 @@ class BlogFrontController extends Controller
             'totalAllPosts' => $totalAllPosts,
             'rubricCounts' => $rubricCounts,
             'categoryKey' => $kategori,
+            'jenisLabel' => $jenisLabel,
             'detail' => null,
         ]);
     }
