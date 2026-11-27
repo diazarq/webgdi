@@ -3,6 +3,7 @@
 @section('title', 'Profil LAZ Graha Dhuafa Indonesia | #PeduliMenjagaGenerasi')
 
 @section('style')
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <style>
     /* ==========================================================================
        PROFIL LAZ GDI 2025 — CLEAN WHITE LIGHT-GLASSMORPHISM + GSAP
@@ -254,8 +255,28 @@
     }
 
     /* ==========================================================================
-       2. SEJARAH SINGKAT & LEGALITAS
+       2. SEJARAH SINGKAT & LEGALITAS (Minimalist Editorial Timeline)
        ========================================================================== */
+    .lz-history-header {
+        margin-bottom: 44px;
+    }
+
+    .lz-history-header .lz-heading {
+        font-size: clamp(26px, 3.2vw, 36px);
+        font-weight: 800;
+        color: #0f172a;
+        letter-spacing: -0.02em;
+        margin-bottom: 10px;
+    }
+
+    .lz-history-header .lz-subtext {
+        max-width: 520px;
+        font-size: 14.5px;
+        color: #475569;
+        line-height: 1.65;
+        margin-bottom: 0;
+    }
+
     .lz-timeline-wrap {
         position: relative;
     }
@@ -268,55 +289,95 @@
         .lz-timeline-track {
             display: block;
             position: absolute;
-            top: 44px;
-            left: 12%;
-            right: 12%;
-            height: 2px;
+            top: 11px;
+            left: 0;
+            right: 0;
+            height: 1px;
             background: #e2e8f0;
             z-index: 1;
         }
         .lz-timeline-fill {
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, #00875A 0%, #10b981 55%, #f97316 100%);
+            background: #cbd5e1;
             transform-origin: left center;
         }
     }
 
-    .lz-year-tag {
-        display: inline-flex;
-        align-items: center;
-        padding: 5px 14px;
-        border-radius: 999px;
-        background: rgba(0, 135, 90, 0.10);
-        color: #00875A;
-        font-size: 12.5px;
+    .lz-timeline-item {
+        position: relative;
+        z-index: 2;
+        padding-right: 12px;
+    }
+
+    .lz-timeline-dot {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        border: 2.5px solid #00875A;
+        background: #ffffff;
+        margin-bottom: 18px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .lz-timeline-dot--orange {
+        background: #ea580c;
+        border-color: #ea580c;
+    }
+
+    .lz-timeline-year {
+        font-size: clamp(28px, 3vw, 34px);
         font-weight: 800;
-        margin-bottom: 14px;
-    }
-
-    .lz-year-tag--amber {
-        background: rgba(234, 88, 12, 0.12);
-        color: #c2410c;
-    }
-
-    .lz-legal-num {
-        width: 40px;
-        height: 40px;
-        border-radius: 12px;
-        background: rgba(0, 135, 90, 0.10);
         color: #00875A;
-        font-size: 15px;
-        font-weight: 800;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        flex-shrink: 0;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+        margin-bottom: 10px;
     }
 
-    .lz-glass--amber .lz-legal-num {
-        background: rgba(234, 88, 12, 0.14);
-        color: #c2410c;
+    .lz-timeline-year--orange {
+        color: #ea580c;
+        font-size: clamp(22px, 2.25vw, 27px);
+        line-height: 1.3;
+        padding-top: 3px;
+    }
+
+    .lz-timeline-title {
+        font-size: 15.5px;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 8px;
+    }
+
+    .lz-timeline-desc {
+        font-size: 13.5px;
+        color: #475569;
+        line-height: 1.72;
+        margin-bottom: 0;
+    }
+
+    .lz-legal-grid {
+        margin-top: 56px;
+    }
+
+    .lz-legal-editorial {
+        border-top: 1px solid #e2e8f0;
+        padding-top: 20px;
+        height: 100%;
+    }
+
+    .lz-legal-editorial h6 {
+        font-size: 14.5px;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 6px;
+    }
+
+    .lz-legal-editorial p {
+        font-size: 13.5px;
+        color: #475569;
+        line-height: 1.68;
+        margin-bottom: 0;
     }
 
     /* ==========================================================================
@@ -451,65 +512,156 @@
     }
 
     /* ==========================================================================
-       6. CAROUSEL HORIZONTAL SEBARAN PROGRAM (GESER TIAP 3 DETIK)
+       6. FULL PETA INDONESIA INTERAKTIF (SEBARAN IMPLEMENTASI PROGRAM)
        ========================================================================== */
-    .lz-city-viewport {
-        overflow: hidden;
+    .lz-map-shell {
+        padding: 14px;
+        border-radius: 26px;
+        position: relative;
+    }
+
+    #indonesiaProgramMap {
         width: 100%;
-        padding: 8px 2px 14px;
-    }
-
-    .lz-city-track {
-        display: flex;
-        gap: 18px;
-        transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-        will-change: transform;
-    }
-
-    .lz-city-slide {
-        flex: 0 0 calc(25% - 13.5px);
-        padding: 18px 20px;
+        height: 470px;
         border-radius: 18px;
-        display: flex;
-        align-items: center;
-        gap: 13px;
+        z-index: 1;
+        background: #eef6f4;
+        border: 1px solid rgba(15, 23, 42, 0.08);
     }
 
-    .lz-city-icon {
-        width: 46px;
-        height: 46px;
-        border-radius: 13px;
-        background: rgba(0, 135, 90, 0.08);
-        border: 1px solid rgba(0, 135, 90, 0.18);
-        color: #00875A;
-        display: inline-flex;
+    #indonesiaProgramMap .leaflet-tile-pane {
+        filter: saturate(0.78) brightness(1.03);
+    }
+
+    /* Custom Pulsing Markers */
+    .lz-pin-wrap {
+        position: relative;
+        width: 18px;
+        height: 18px;
+        display: flex;
         align-items: center;
         justify-content: center;
-        flex-shrink: 0;
-        transition: all 0.25s ease;
     }
 
-    .lz-city-slide:hover .lz-city-icon {
+    .lz-pin-dot {
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #00875A;
+        border: 2.5px solid #ffffff;
+        box-shadow: 0 3px 10px rgba(0, 135, 90, 0.45);
+        position: relative;
+        z-index: 2;
+        transition: transform 0.2s ease;
+    }
+
+    .lz-pin-pulse {
+        position: absolute;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        background: rgba(0, 135, 90, 0.30);
+        animation: lzMapPulse 2.2s infinite ease-out;
+        z-index: 1;
+    }
+
+    .lz-pin-wrap--office .lz-pin-dot {
+        width: 15px;
+        height: 15px;
+        background: #f97316;
+        box-shadow: 0 3px 12px rgba(249, 115, 22, 0.55);
+    }
+
+    .lz-pin-wrap--office .lz-pin-pulse {
+        width: 30px;
+        height: 30px;
+        background: rgba(249, 115, 22, 0.34);
+    }
+
+    @keyframes lzMapPulse {
+        0% { transform: scale(0.5); opacity: 0.9; }
+        100% { transform: scale(1.7); opacity: 0; }
+    }
+
+    /* Leaflet Popup Styling */
+    .leaflet-popup-content-wrapper {
+        border-radius: 14px !important;
+        box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14) !important;
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        font-family: 'Manrope', sans-serif !important;
+    }
+
+    .leaflet-popup-content {
+        margin: 12px 15px !important;
+        min-width: 185px;
+    }
+
+    .lz-map-legend {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 14px 20px;
+        font-size: 12.5px;
+        font-weight: 700;
+        color: #475569;
+    }
+
+    .lz-legend-dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        display: inline-block;
+        margin-right: 6px;
+    }
+
+    .lz-map-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 16px;
+        padding: 4px 2px 2px;
+    }
+
+    .lz-map-chip {
+        border: 1px solid rgba(15, 23, 42, 0.10);
+        background: rgba(255, 255, 255, 0.90);
+        color: #334155;
+        font-size: 12.5px;
+        font-weight: 700;
+        padding: 6px 13px;
+        border-radius: 999px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s ease;
+    }
+
+    .lz-map-chip:hover,
+    .lz-map-chip.active {
         background: #00875A;
         border-color: #00875A;
         color: #ffffff;
+        transform: translateY(-1px);
     }
 
-    .lz-city-icon svg {
-        width: 24px;
-        height: 24px;
+    .lz-map-chip--office:hover,
+    .lz-map-chip--office.active {
+        background: #f97316;
+        border-color: #f97316;
+        color: #ffffff;
     }
 
     @media (max-width: 991px) {
         .lz-hero-title { font-size: 26px; }
         .lz-heading { font-size: 24px; }
         .lz-hero-stage { padding: 24px; }
-        .lz-city-slide { flex: 0 0 calc(50% - 9px); }
         .lz-tabs-bar { border-radius: 20px; }
+        #indonesiaProgramMap { height: 370px; }
     }
 
     @media (max-width: 576px) {
-        .lz-city-slide { flex: 0 0 100%; }
+        #indonesiaProgramMap { height: 320px; }
     }
 </style>
 @endsection
@@ -639,42 +791,44 @@
              2. SEJARAH SINGKAT & LEGALITAS RESMI
              =============================================================== -->
         <div class="lz-block" id="sec-sejarah">
-            <div class="mb-4 gsap-reveal">
-                <span class="lz-kicker">Perjalanan & Legalitas</span>
-                <h2 class="lz-heading">Sejarah Singkat LAZ Graha Dhuafa Indonesia</h2>
+            <div class="lz-history-header gsap-reveal">
+                <h2 class="lz-heading">Sejarah singkat LAZ Graha Dhuafa Indonesia</h2>
                 <p class="lz-subtext">
                     Transformasi dari gerakan sosial pendidikan di kampus hingga menjadi Lembaga Amil Zakat resmi dan akuntabel.
                 </p>
             </div>
 
-            <div class="lz-timeline-wrap mb-4">
+            <div class="lz-timeline-wrap">
                 <div class="lz-timeline-track" aria-hidden="true">
                     <div class="lz-timeline-fill" id="lzHistoryFill"></div>
                 </div>
-                <div class="row g-4 position-relative" style="z-index: 2;">
+                <div class="row g-4 g-lg-5 position-relative" style="z-index: 2;">
                     <div class="col-lg-4 gsap-stagger-history">
-                        <div class="lz-glass lz-glass--hover p-4 h-100">
-                            <span class="lz-year-tag">2013 • Awal Komunitas</span>
-                            <h5 class="fw-bold text-dark mb-2">Komunitas Sosial Pendidikan</h5>
-                            <p class="text-secondary small mb-0" style="line-height: 1.72;">
+                        <div class="lz-timeline-item">
+                            <div class="lz-timeline-dot" aria-hidden="true"></div>
+                            <div class="lz-timeline-year">2013</div>
+                            <h5 class="lz-timeline-title">Komunitas Sosial Pendidikan</h5>
+                            <p class="lz-timeline-desc">
                                 Diinisiasi oleh salah satu dosen UNIKOM dan STT Telkom yang berfokus pada kegiatan berbagi serta mengajar anak-anak yatim dan dhuafa.
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-4 gsap-stagger-history">
-                        <div class="lz-glass lz-glass--hover p-4 h-100">
-                            <span class="lz-year-tag">2016 • Badan Hukum</span>
-                            <h5 class="fw-bold text-dark mb-2">Yayasan Graha Dhuafa Indonesia</h5>
-                            <p class="text-secondary small mb-0" style="line-height: 1.72;">
+                        <div class="lz-timeline-item">
+                            <div class="lz-timeline-dot" aria-hidden="true"></div>
+                            <div class="lz-timeline-year">2016</div>
+                            <h5 class="lz-timeline-title">Yayasan Graha Dhuafa Indonesia</h5>
+                            <p class="lz-timeline-desc">
                                 Resmi berdiri sebagai yayasan filantropi di bidang sosial, kemanusiaan, dan keagamaan agar manfaatnya semakin luas dan terlembaga.
                             </p>
                         </div>
                     </div>
                     <div class="col-lg-4 gsap-stagger-history">
-                        <div class="lz-glass lz-glass--hover lz-glass--amber p-4 h-100">
-                            <span class="lz-year-tag lz-year-tag--amber">2021 – 03 Okt 2022 • LAZ Resmi</span>
-                            <h5 class="fw-bold text-dark mb-2">Izin Operasional LAZ No. 1913</h5>
-                            <p class="text-secondary small mb-0" style="line-height: 1.72;">
+                        <div class="lz-timeline-item">
+                            <div class="lz-timeline-dot lz-timeline-dot--orange" aria-hidden="true"></div>
+                            <div class="lz-timeline-year lz-timeline-year--orange">2021 – 3 Okt 2022</div>
+                            <h5 class="lz-timeline-title">Izin Operasional LAZ No. 1913</h5>
+                            <p class="lz-timeline-desc">
                                 Mendapat rekomendasi BAZNAS dan diresmikan Kemenag Provinsi Jawa Barat sebagai LAZ Tingkat Kota Bandung untuk mengoptimalkan dana ZIS.
                             </p>
                         </div>
@@ -683,49 +837,37 @@
             </div>
 
             <!-- 4 Dokumen Legalitas -->
-            <div class="row g-3 mt-2">
+            <div class="row gx-lg-5 gy-4 lz-legal-grid">
                 <div class="col-md-6 gsap-stagger-legal">
-                    <div class="lz-glass lz-glass--hover p-4 h-100 d-flex align-items-start gap-3">
-                        <span class="lz-legal-num">01</span>
-                        <div>
-                            <h6 class="fw-bold text-dark mb-1">Akta Pendirian Yayasan</h6>
-                            <p class="text-secondary small mb-0" style="line-height: 1.65;">
-                                Notaris Endang Sosilowati, SH. Nomor 01 tanggal 03 Oktober 2016 tentang Pendirian Yayasan Graha Dhuafa Indonesia.
-                            </p>
-                        </div>
+                    <div class="lz-legal-editorial">
+                        <h6>Akta Pendirian Yayasan</h6>
+                        <p>
+                            Notaris Endang Sosilowati, SH. Nomor 01 tanggal 3 Oktober 2016 tentang Pendirian Yayasan Graha Dhuafa Indonesia.
+                        </p>
                     </div>
                 </div>
                 <div class="col-md-6 gsap-stagger-legal">
-                    <div class="lz-glass lz-glass--hover p-4 h-100 d-flex align-items-start gap-3">
-                        <span class="lz-legal-num">02</span>
-                        <div>
-                            <h6 class="fw-bold text-dark mb-1">Akta Perubahan</h6>
-                            <p class="text-secondary small mb-0" style="line-height: 1.65;">
-                                Notaris Mohamad Juania, SH., M.Kn. Nomor 27 tanggal 18 Mei 2020 Akta Pernyataan Keputusan Pembina Yayasan.
-                            </p>
-                        </div>
+                    <div class="lz-legal-editorial">
+                        <h6>Akta Perubahan</h6>
+                        <p>
+                            Notaris Mohamad Juania, SH., M.Kn. Nomor 27 tanggal 18 Mei 2020. Akta Pernyataan Keputusan Pembina Yayasan.
+                        </p>
                     </div>
                 </div>
                 <div class="col-md-6 gsap-stagger-legal">
-                    <div class="lz-glass lz-glass--hover lz-glass--amber p-4 h-100 d-flex align-items-start gap-3">
-                        <span class="lz-legal-num">03</span>
-                        <div>
-                            <h6 class="fw-bold text-dark mb-1">Izin Operasional LAZ Tingkat Kota Bandung</h6>
-                            <p class="text-secondary small mb-0" style="line-height: 1.65;">
-                                Nomor: 1913 Tahun 2022 tanggal 03 Oktober 2022 tentang Pemberian Izin Operasional Kantor LAZ Graha Dhuafa Indonesia.
-                            </p>
-                        </div>
+                    <div class="lz-legal-editorial">
+                        <h6>Izin Operasional LAZ Tingkat Kota Bandung</h6>
+                        <p>
+                            Nomor 1913 Tahun 2022 tanggal 3 Oktober 2022 tentang Pemberian Izin Operasional Kantor LAZ Graha Dhuafa Indonesia.
+                        </p>
                     </div>
                 </div>
                 <div class="col-md-6 gsap-stagger-legal">
-                    <div class="lz-glass lz-glass--hover p-4 h-100 d-flex align-items-start gap-3">
-                        <span class="lz-legal-num">04</span>
-                        <div>
-                            <h6 class="fw-bold text-dark mb-1">Pengesahan Kemenkumham RI</h6>
-                            <p class="text-secondary small mb-0" style="line-height: 1.65;">
-                                Nomor AHU-0039586.AH.01.04. Tahun 2016 tentang Pengesahan Badan Hukum Yayasan Graha Dhuafa Indonesia.
-                            </p>
-                        </div>
+                    <div class="lz-legal-editorial">
+                        <h6>Pengesahan Kemenkumham RI</h6>
+                        <p>
+                            Nomor AHU-0039586.AH.01.04. Tahun 2016 tentang Pengesahan Badan Hukum Yayasan Graha Dhuafa Indonesia.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -1196,123 +1338,63 @@
         </div>
 
         <!-- ===============================================================
-             6. CAROUSEL SEBARAN PROGRAM (3 DETIK) & LOKASI KANTOR LAYANAN
+             6. FULL PETA INDONESIA SEBARAN PROGRAM & LOKASI KANTOR LAYANAN
              =============================================================== -->
         <div class="lz-block" id="sec-jangkauan">
-            <div class="mb-5 gsap-reveal" id="cityCarouselWrap">
+            <div class="mb-5 gsap-reveal">
                 <div class="d-flex flex-wrap align-items-end justify-content-between gap-3 mb-3">
                     <div>
                         <span class="lz-kicker lz-kicker--amber">Jangkauan Nasional</span>
                         <h2 class="lz-heading mb-1">Peta Sebaran Implementasi Program</h2>
                         <p class="lz-subtext">
-                            Amanah donatur telah disalurkan menjangkau 17 wilayah kabupaten dan kota lintas provinsi di Indonesia.
+                            Klik titik lokasi di peta Indonesia atau pilih kota di bawah untuk melihat wilayah penyaluran program LAZ Graha Dhuafa Indonesia.
                         </p>
                     </div>
-                    <div class="d-inline-flex gap-2">
-                        <button type="button" class="lz-nav-btn" id="cityPrev" aria-label="Sebelumnya"><i class="fas fa-chevron-left"></i></button>
-                        <button type="button" class="lz-nav-btn" id="cityNext" aria-label="Berikutnya"><i class="fas fa-chevron-right"></i></button>
+                    <div class="d-flex flex-wrap align-items-center gap-3">
+                        <div class="lz-map-legend">
+                            <span><span class="lz-legend-dot" style="background: #f97316;"></span>Kantor & Unit Layanan</span>
+                            <span><span class="lz-legend-dot" style="background: #00875A;"></span>Wilayah Implementasi</span>
+                        </div>
+                        <button type="button" class="lz-btn-outline" id="btnResetMap">
+                            <i class="fas fa-globe-asia"></i> Reset Peta
+                        </button>
                     </div>
                 </div>
 
                 @php
-                    $wilayahList = [
-                        [
-                            'nama' => 'Kota Bandung',
-                            'ket'  => 'Kantor Pusat',
-                            'svg'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v5"/><circle cx="12" cy="4.2" r="0.9" fill="currentColor"/><path d="M8 10l4-3 4 3"/><path d="M6 13h12"/><path d="M4 21h16"/><path d="M5 21v-8h14v8"/><path d="M9 21v-4a3 3 0 0 1 6 0v4"/></svg>',
-                        ],
-                        [
-                            'nama' => 'Kab. Bandung',
-                            'ket'  => 'Jawa Barat',
-                            'svg'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-9 4 6 3-4 6 7"/><path d="M3 20c2-1.2 4 1.2 6 0s4-1.2 6 0 4 1.2 6 0"/></svg>',
-                        ],
-                        [
-                            'nama' => 'Kab. Bandung Barat',
-                            'ket'  => 'Jawa Barat',
-                            'svg'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13a7 7 0 0 1 14 0"/><path d="M12 6v7"/><path d="M4 13h16v7H4z"/><path d="M2 20h20"/><path d="M16 4l2-2"/></svg>',
-                        ],
-                        [
-                            'nama' => 'Cimahi',
-                            'ket'  => 'Jawa Barat',
-                            'svg'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10l9-6 9 6"/><path d="M5 10v10h14V10"/><path d="M3 20h18"/><path d="M9 20v-5a3 3 0 0 1 6 0v5"/><circle cx="12" cy="9" r="1.2"/></svg>',
-                        ],
-                        [
-                            'nama' => 'Sukabumi',
-                            'ket'  => 'Jawa Barat',
-                            'svg'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 6v14"/><path d="M19 6v14"/><path d="M2 16h20"/><path d="M5 7c3 5 11 5 14 0"/><path d="M9 11.5V16"/><path d="M15 11.5V16"/></svg>',
-                        ],
-                        [
-                            'nama' => 'Karawang',
-                            'ket'  => 'Kantor Daerah',
-                            'svg'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21V4"/><path d="M12 16c-3 0-5-2-5-4.5 2.5 0 4.5 1.5 5 4.5z"/><path d="M12 13c3 0 5-2 5-4.5-2.5 0-4.5 1.5-5 4.5z"/><path d="M12 10c-2.5 0-4.5-1.8-4.5-4 2.2 0 4 1.3 4.5 4z"/></svg>',
-                        ],
-                        [
-                            'nama' => 'Jakarta',
-                            'ket'  => 'Kantor Daerah',
-                            'svg'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c.9 1.2.9 2.4 0 3.2-.9-.8-.9-2 0-3.2z"/><path d="M11 6h2l.8 11h-3.6L11 6z"/><path d="M7 17h10l-1.5 2.5h-7L7 17z"/><path d="M4 21h16"/></svg>',
-                        ],
-                        [
-                            'nama' => 'Tangerang',
-                            'ket'  => 'Banten',
-                            'svg'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v2"/><path d="M7 12c0-3.2 2.2-6 5-7 2.8 1 5 3.8 5 7"/><path d="M3 15c0-1.8 1.5-3 3-3.5"/><path d="M21 15c0-1.8-1.5-3-3-3.5"/><path d="M3 15h18v6H3z"/><path d="M10 21v-3a2 2 0 0 1 4 0v3"/></svg>',
-                        ],
-                        [
-                            'nama' => 'Yogyakarta',
-                            'ket'  => 'Unit Layanan',
-                            'svg'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v3"/><path d="M10 6h4l-1-1h-2l-1 1z"/><path d="M10 6v10h4V6"/><path d="M8 16h8v2H8z"/><path d="M5 18h14v3H5z"/></svg>',
-                        ],
-                        [
-                            'nama' => 'Solo',
-                            'ket'  => 'Unit Layanan',
-                            'svg'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l3-3 3 3"/><path d="M3 12l6-6h6l6 6"/><path d="M5 12v8"/><path d="M19 12v8"/><path d="M9 12v8"/><path d="M15 12v8"/><path d="M3 20h18"/></svg>',
-                        ],
-                        [
-                            'nama' => 'Surabaya',
-                            'ket'  => 'Jawa Timur',
-                            'svg'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.5 16h-5L12 2z"/><path d="M12 6v12"/><path d="M7 18h10l1 3H6l1-3z"/></svg>',
-                        ],
-                        [
-                            'nama' => 'Bali',
-                            'ket'  => 'Bali',
-                            'svg'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21h16"/><path d="M6 21V9l3-5v17"/><path d="M18 21V9l-3-5v17"/><path d="M5 13h4"/><path d="M15 13h4"/><path d="M6 17h3"/><path d="M15 17h3"/></svg>',
-                        ],
-                        [
-                            'nama' => 'NTB',
-                            'ket'  => 'Nusa Tenggara Barat',
-                            'svg'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17c1-8 4-13 8-13s7 5 8 13"/><path d="M3 17h18"/><path d="M6 17v4h12v-4"/><path d="M10 21v-3h4v3"/></svg>',
-                        ],
-                        [
-                            'nama' => 'Kupang NTT',
-                            'ket'  => 'Nusa Tenggara Timur',
-                            'svg'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18"/><path d="M12 6c-4.5 1-7 4-7 7.5 0 2.5 2 4.5 7 4.5"/><path d="M12 6c4.5 1 7 4 7 7.5 0 2.5-2 4.5-7 4.5"/><path d="M8.5 9.5v6"/><path d="M15.5 9.5v6"/></svg>',
-                        ],
-                        [
-                            'nama' => 'Makassar',
-                            'ket'  => 'Sulawesi Selatan',
-                            'svg'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4v11"/><path d="M15 6v9"/><path d="M10 4l-6 9h6"/><path d="M15 6l5 7h-5"/><path d="M3 16h18l-2 3.5H5L3 16z"/></svg>',
-                        ],
-                        [
-                            'nama' => 'Kalimantan Selatan',
-                            'ket'  => 'Kalimantan',
-                            'svg'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M10 4l4 4"/><path d="M14 4l-4 4"/><path d="M5 13l7-7 7 7"/><path d="M6 13v7h12v-7"/><path d="M3 21c3-1 6 1 9 0s6-1 9 0"/></svg>',
-                        ],
-                        [
-                            'nama' => 'Merauke',
-                            'ket'  => 'Papua Selatan',
-                            'svg'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l8 5-3 7H7l-3-7 8-5z"/><path d="M12 4v12"/><path d="M4 20h16"/><path d="M7 16l-1 4"/><path d="M17 16l1 4"/></svg>',
-                        ],
+                    $petaWilayah = [
+                        ['nama' => 'Kota Bandung', 'ket' => 'Kantor Pusat LAZ GDI', 'desc' => 'Pusat koordinasi program Budaya, CINTA, SENYUM, Bandung Berdzikir & layanan zakat.', 'lat' => -6.9175, 'lng' => 107.6191, 'office' => true],
+                        ['nama' => 'Kab. Bandung', 'ket' => 'Wilayah Implementasi • Jawa Barat', 'desc' => 'Penyaluran Beasiswa Tahfizh, BBM, sembako dhuafa & kelas tahfiz.', 'lat' => -7.0253, 'lng' => 107.5198, 'office' => false],
+                        ['nama' => 'Kab. Bandung Barat', 'ket' => 'Wilayah Implementasi • Jawa Barat', 'desc' => 'Program pemberdayaan ekonomi Insan Kreatif & santunan yatim dhuafa.', 'lat' => -6.8652, 'lng' => 107.4920, 'office' => false],
+                        ['nama' => 'Cimahi', 'ket' => 'Wilayah Implementasi • Jawa Barat', 'desc' => 'Program Jumat Berbagi, bantuan pangan & layanan ambulans dhuafa.', 'lat' => -6.8722, 'lng' => 107.5425, 'office' => false],
+                        ['nama' => 'Sukabumi', 'ket' => 'Wilayah Implementasi • Jawa Barat', 'desc' => 'Distribusi Sedekah Al-Qur\'an, bantuan kemanusiaan & santunan.', 'lat' => -6.9277, 'lng' => 106.9300, 'office' => false],
+                        ['nama' => 'Karawang', 'ket' => 'Kantor Daerah • Graha Tahfizh', 'desc' => 'Kantor GDI Karawang & pembinaan Graha Tahfizh Syamsul Bahri.', 'lat' => -6.3227, 'lng' => 107.3376, 'office' => true],
+                        ['nama' => 'Jakarta', 'ket' => 'Kantor Daerah • DKI Jakarta', 'desc' => 'Kantor GDI Jakarta, layanan kemitraan & distribusi program sosial.', 'lat' => -6.2088, 'lng' => 106.8456, 'office' => true],
+                        ['nama' => 'Tangerang', 'ket' => 'Wilayah Implementasi • Banten', 'desc' => 'Penyaluran paket sembako dhuafa & program sosial kemanusiaan.', 'lat' => -6.1783, 'lng' => 106.6319, 'office' => false],
+                        ['nama' => 'Yogyakarta', 'ket' => 'Unit Layanan • DI Yogyakarta', 'desc' => 'Unit Layanan LAZ GDI Sleman Yogyakarta & pembinaan masyarakat.', 'lat' => -7.7956, 'lng' => 110.3695, 'office' => true],
+                        ['nama' => 'Solo', 'ket' => 'Unit Layanan • Jawa Tengah', 'desc' => 'Unit Layanan Graha Dhuafa Solo & penyaluran program pendidikan.', 'lat' => -7.5755, 'lng' => 110.8243, 'office' => true],
+                        ['nama' => 'Surabaya', 'ket' => 'Wilayah Implementasi • Jawa Timur', 'desc' => 'Implementasi program sosial, dakwah & jaringan relawan Jawa Timur.', 'lat' => -7.2575, 'lng' => 112.7521, 'office' => false],
+                        ['nama' => 'Bali', 'ket' => 'Wilayah Implementasi • Bali', 'desc' => 'Distribusi Sedekah Al-Qur\'an & program kepedulian masyarakat.', 'lat' => -8.4095, 'lng' => 115.1889, 'office' => false],
+                        ['nama' => 'NTB', 'ket' => 'Wilayah Implementasi • NTB', 'desc' => 'Aksi tanggap bencana, Peace Qurban & penyaluran bantuan pangan.', 'lat' => -8.5833, 'lng' => 116.1167, 'office' => false],
+                        ['nama' => 'Kupang NTT', 'ket' => 'Wilayah Implementasi • NTT', 'desc' => 'Distribusi Peace Qurban siap saji & bantuan banjir/kemanusiaan NTT.', 'lat' => -10.1772, 'lng' => 123.6070, 'office' => false],
+                        ['nama' => 'Makassar', 'ket' => 'Wilayah Implementasi • Sulsel', 'desc' => 'Implementasi program dakwah, pendidikan & santunan dhuafa.', 'lat' => -5.1477, 'lng' => 119.4327, 'office' => false],
+                        ['nama' => 'Kalimantan Selatan', 'ket' => 'Wilayah Implementasi • Kalsel', 'desc' => 'Distribusi bantuan sosial & Sedekah Al-Qur\'an untuk pelosok.', 'lat' => -3.3194, 'lng' => 114.5908, 'office' => false],
+                        ['nama' => 'Merauke', 'ket' => 'Wilayah Implementasi • Papua Selatan', 'desc' => 'Penyaluran Peace Qurban & misi kemanusiaan untuk saudara di Papua.', 'lat' => -8.4932, 'lng' => 140.4018, 'office' => false],
                     ];
                 @endphp
-                <div class="lz-city-viewport">
-                    <div class="lz-city-track" id="cityTrack">
-                        @foreach($wilayahList as $w)
-                            <div class="lz-glass lz-glass--hover lz-city-slide">
-                                <span class="lz-city-icon">{!! $w['svg'] !!}</span>
-                                <div>
-                                    <div class="fw-bold text-dark" style="font-size: 14px;">{{ $w['nama'] }}</div>
-                                    <div class="text-muted" style="font-size: 11.5px;">{{ $w['ket'] }}</div>
-                                </div>
-                            </div>
+
+                <div class="lz-glass lz-map-shell">
+                    <div id="indonesiaProgramMap"></div>
+
+                    <!-- Tombol Pintas Kota untuk Fokus di Peta -->
+                    <div class="lz-map-chips" id="lzMapChips">
+                        @foreach($petaWilayah as $mIdx => $w)
+                            <button type="button"
+                                    class="lz-map-chip {{ $w['office'] ? 'lz-map-chip--office' : '' }}"
+                                    data-map-idx="{{ $mIdx }}">
+                                <span style="width:7px;height:7px;border-radius:50%;background:{{ $w['office'] ? '#f97316' : '#00875A' }};display:inline-block;"></span>
+                                {{ $w['nama'] }}
+                            </button>
                         @endforeach
                     </div>
                 </div>
@@ -1373,6 +1455,7 @@
 @endsection
 
 @push('script')
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
@@ -1421,52 +1504,89 @@
             start();
         })();
 
-        // 2. CAROUSEL SEBARAN PROGRAM (Bergeser otomatis tiap 3 detik)
-        (function initCityCarousel() {
-            const track = document.getElementById('cityTrack');
-            const wrap = document.getElementById('cityCarouselWrap');
-            const prev = document.getElementById('cityPrev');
-            const next = document.getElementById('cityNext');
-            if (!track) return;
+        // 2. FULL PETA INDONESIA INTERAKTIF (LEAFLET + 17 LOKASI IMPLEMENTASI)
+        (function initIndonesiaMap() {
+            const mapEl = document.getElementById('indonesiaProgramMap');
+            if (!mapEl || !window.L) return;
 
-            const slides = track.children;
-            let idx = 0;
-            let timer = null;
+            const locations = @json($petaWilayah ?? []);
+            const defaultCenter = [-2.5, 118.0];
+            const defaultZoom = window.innerWidth < 768 ? 4 : 5;
 
-            function visibleCount() {
-                if (window.innerWidth <= 576) return 1;
-                if (window.innerWidth <= 991) return 2;
-                return 4;
-            }
+            const map = L.map('indonesiaProgramMap', {
+                center: defaultCenter,
+                zoom: defaultZoom,
+                minZoom: 4,
+                maxZoom: 13,
+                scrollWheelZoom: false
+            });
 
-            function update() {
-                const maxIdx = Math.max(0, slides.length - visibleCount());
-                if (idx > maxIdx) idx = 0;
-                if (idx < 0) idx = maxIdx;
-                const slideEl = slides[0];
-                const step = slideEl ? (slideEl.getBoundingClientRect().width + 18) : 260;
-                track.style.transform = 'translateX(-' + (idx * step) + 'px)';
-            }
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(map);
 
-            function start() {
-                stop();
-                timer = setInterval(function () {
-                    idx++;
-                    update();
-                }, 3000);
-            }
-            function stop() {
-                if (timer) { clearInterval(timer); timer = null; }
-            }
+            const markers = [];
+            locations.forEach(function (loc, idx) {
+                const iconHtml =
+                    '<div class="lz-pin-wrap ' + (loc.office ? 'lz-pin-wrap--office' : '') + '">' +
+                        '<span class="lz-pin-pulse"></span>' +
+                        '<span class="lz-pin-dot"></span>' +
+                    '</div>';
 
-            if (prev) prev.addEventListener('click', function () { idx--; update(); start(); });
-            if (next) next.addEventListener('click', function () { idx++; update(); start(); });
-            if (wrap) {
-                wrap.addEventListener('mouseenter', stop);
-                wrap.addEventListener('mouseleave', start);
+                const customIcon = L.divIcon({
+                    html: iconHtml,
+                    className: 'lz-leaflet-custom-pin',
+                    iconSize: [24, 24],
+                    iconAnchor: [12, 12],
+                    popupAnchor: [0, -10]
+                });
+
+                const badgeColor = loc.office ? '#ea580c' : '#00875A';
+                const badgeBg = loc.office ? '#fff7ed' : '#ecfdf5';
+                const popupHtml =
+                    '<div>' +
+                        '<div style="display:inline-block;font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.6px;padding:3px 9px;border-radius:999px;background:' + badgeBg + ';color:' + badgeColor + ';margin-bottom:6px;">' + loc.ket + '</div>' +
+                        '<div style="font-size:15px;font-weight:800;color:#0f172a;margin-bottom:4px;">' + loc.nama + '</div>' +
+                        '<div style="font-size:12.5px;color:#475569;line-height:1.5;">' + loc.desc + '</div>' +
+                    '</div>';
+
+                const marker = L.marker([loc.lat, loc.lng], { icon: customIcon })
+                    .addTo(map)
+                    .bindPopup(popupHtml);
+
+                marker.on('click', function () {
+                    document.querySelectorAll('#lzMapChips .lz-map-chip').forEach(function (c, i) {
+                        c.classList.toggle('active', i === idx);
+                    });
+                });
+
+                markers.push(marker);
+            });
+
+            // Klik chip kota di bawah peta -> fokus & buka popup lokasi
+            const chips = document.querySelectorAll('#lzMapChips .lz-map-chip');
+            chips.forEach(function (chip) {
+                chip.addEventListener('click', function () {
+                    const i = parseInt(chip.getAttribute('data-map-idx'), 10);
+                    const loc = locations[i];
+                    if (!loc || !markers[i]) return;
+                    chips.forEach(function (c) { c.classList.remove('active'); });
+                    chip.classList.add('active');
+                    map.flyTo([loc.lat, loc.lng], 9, { duration: 0.9 });
+                    markers[i].openPopup();
+                });
+            });
+
+            // Reset ke tampilan Full Indonesia
+            const resetBtn = document.getElementById('btnResetMap');
+            if (resetBtn) {
+                resetBtn.addEventListener('click', function () {
+                    chips.forEach(function (c) { c.classList.remove('active'); });
+                    map.closePopup();
+                    map.flyTo(defaultCenter, defaultZoom, { duration: 0.9 });
+                });
             }
-            window.addEventListener('resize', update);
-            start();
         })();
 
         // 3. INTERACTIVE GLASS TABS + GSAP STAGGER
