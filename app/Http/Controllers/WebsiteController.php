@@ -189,7 +189,9 @@ class WebsiteController extends Controller
                 'type' => 'about',
                 'status' => 'A'
             ])->first();
-            $programImplementasi = ProgramImplementasi::orderBy('id')->get();
+            $programImplementasi = ProgramImplementasi::where(function ($q) {
+                $q->where('status', 'A')->orWhereNull('status');
+            })->orderBy('id')->get();
             return view('website.homepage', [
                 'pageTitle' => 'Yayasan Graha Dhuafa Indonesia',
                 'slider' => $slider,

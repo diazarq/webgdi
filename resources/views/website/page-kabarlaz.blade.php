@@ -171,12 +171,34 @@
     .kl-topic-card--journey .kl-topic-subtag { color: #0284c7; }
     .kl-topic-card--salam .kl-topic-subtag { color: #d97706; }
 
+      @font-face {
+        font-family: 'Handflair';
+        src: url('{{ asset("website/assets/fonts/Handflair.ttf") }}?v={{ time() }}') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
     .kl-topic-title {
+        display: flex;
+        align-items: center;
         font-size: 23px;
         font-weight: 800;
+        line-height: 1.2;
+        min-height: 36px;
         color: #06301f;
         margin: 4px 0 10px;
         letter-spacing: -0.3px;
+    }
+
+    .kl-font-title {
+        display: inline-block;
+        font-family: 'Handflair', cursive;
+        font-weight: 500;
+        font-size: 38px;
+        line-height: 1;
+        margin-left: -4px;
+        color: #f8682f;
+        transform: translateY(2px);
     }
 
     .kl-topic-desc {
@@ -773,7 +795,6 @@
 
 @section('pageBlog')
 <section class="kl-glass-canvas">
-    <!-- Ambient Bokeh Orbs untuk kedalaman Glassmorphism -->
     <div class="kl-orb kl-orb--mint" aria-hidden="true"></div>
     <div class="kl-orb kl-orb--cyan" aria-hidden="true"></div>
     <div class="kl-orb kl-orb--amber" aria-hidden="true"></div>
@@ -795,7 +816,7 @@
                         </div>
                         <div>
                             <span class="kl-topic-subtag">Berita & Liputan Kegiatan</span>
-                            <h4 class="kl-topic-title">LAZNews</h4>
+                            <h4 class="kl-topic-title">LAZ<span class="kl-font-title">News</span></h4>
                             <p class="kl-topic-desc">
                                 Kabar terbaru penyaluran zakat, <br>
                                  infak, sedekah, bantuan kemanusiaan, <br> 
@@ -813,7 +834,7 @@
                         </div>
                         <div>
                             <span class="kl-topic-subtag">Cerita & Jejak Perjalanan</span>
-                            <h4 class="kl-topic-title">LAZJourney</h4>
+                            <h4 class="kl-topic-title">LAZ<span class="kl-font-title">Journey</span></h4>
                             <p class="kl-topic-desc">
                                 Kisah menyentuh dari lapangan <br>
                                 saat tim amil dan relawan menyapa <br> saudara-saudara penerima manfaat <br>
@@ -831,7 +852,7 @@
                         </div>
                         <div>
                             <span class="kl-topic-subtag">Kajian & Pesan Kebaikan</span>
-                            <h4 class="kl-topic-title">LAZSalam</h4>
+                            <h4 class="kl-topic-title">LAZ<span class="kl-font-title">Salam</span></h4>
                             <p class="kl-topic-desc">
                                 Artikel edukasi seputar zakat, wakaf, <br>
                                 tanya-jawab keislaman, dan nasihat <br> 

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\ProgramDokumentasi;
 use App\Models\ProgramGaleri;
 use App\Models\ProgramImplementasi;
-use App\Models\ProgramUtama;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -14,8 +13,8 @@ class ProgramGaleriController extends Controller
     /* konteks program + kegiatan (dokumentasi) yang sedang dikelola */
     private function context(Request $req)
     {
-        $programs     = ProgramUtama::options();
-        $programSlug  = ProgramUtama::resolveSlug($req->get('program'));
+        $programs     = ProgramImplementasi::options();
+        $programSlug  = ProgramImplementasi::resolveSlug($req->get('program'));
         $dokumentasiId = $req->get('dokumentasi');
 
         $dokumentasi = null;
@@ -77,7 +76,7 @@ class ProgramGaleriController extends Controller
             'files.*.image'      => 'File harus berupa gambar.',
         ]);
 
-        $programSlug = ProgramUtama::resolveSlug($req->program);
+        $programSlug = ProgramImplementasi::resolveSlug($req->program);
 
         $dokumentasi = null;
         if ($req->filled('program_dokumentasi_id')) {
@@ -133,7 +132,7 @@ class ProgramGaleriController extends Controller
 
         $foto = ProgramGaleri::findOrFail($id);
 
-        $programSlug   = ProgramUtama::resolveSlug($req->program);
+        $programSlug   = ProgramImplementasi::resolveSlug($req->program);
         $dokumentasiId = $req->filled('program_dokumentasi_id') ? (int) $req->program_dokumentasi_id : null;
 
         if ($foto->program !== $programSlug || (int) $foto->program_dokumentasi_id !== (int) $dokumentasiId) {

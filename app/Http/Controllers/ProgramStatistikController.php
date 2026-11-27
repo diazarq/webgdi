@@ -6,7 +6,6 @@ use DataTables;
 use App\Models\ProgramDokumentasi;
 use App\Models\ProgramImplementasi;
 use App\Models\ProgramStatistik;
-use App\Models\ProgramUtama;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -15,8 +14,8 @@ class ProgramStatistikController extends Controller
     /* konteks program + kegiatan (dokumentasi) yang sedang dikelola */
     private function context(Request $req, $detail = null)
     {
-        $programs     = ProgramUtama::options();
-        $programSlug  = ProgramUtama::resolveSlug($detail ? $detail->program : $req->get('program'));
+        $programs     = ProgramImplementasi::options();
+        $programSlug  = ProgramImplementasi::resolveSlug($detail ? $detail->program : $req->get('program'));
         $dokumentasiId = $detail ? $detail->program_dokumentasi_id : $req->get('dokumentasi');
 
         $dokumentasi = null;
@@ -116,7 +115,7 @@ class ProgramStatistikController extends Controller
 
     public function store(Request $req)
     {
-        $programSlug = ProgramUtama::resolveSlug($req->program);
+        $programSlug = ProgramImplementasi::resolveSlug($req->program);
 
         $dokumentasi = null;
         if ($req->filled('program_dokumentasi_id')) {

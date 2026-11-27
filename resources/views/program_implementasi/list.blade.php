@@ -15,7 +15,6 @@
     <p class="text-muted">Klik baris atau ikon daftar pada kolom <strong>Dokumentasi</strong> untuk mengelola dokumentasi kegiatan program yang bersangkutan.</p>
     <div class="d-flex flex-wrap gap-2 mb-3">
         <a href="/admin/program/implementasi/add" class="btn btn-primary"><i class="bi-plus-square"></i> Tambah Program Implementasi</a>
-        <a href="/admin/program/utama" class="btn btn-outline-primary"><i class="bi-grid"></i> Kelola Program Utama</a>
     </div>
     <hr/>
 
@@ -25,8 +24,10 @@
                 <th width="5%">No.</th>
                 <th width="12%">Logo</th>
                 <th>Nama Program</th>
+                <th width="16%">Status Homepage</th>
                 <th width="14%">Dibuat Oleh</th>
-                <th width="18%">Dokumentasi</th>
+                <th width="14%">Dokumentasi</th>
+                <th width="12%">Aksi</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -45,23 +46,36 @@
                     { data: 'DT_RowIndex', name: 'id', orderable: false, searchable: false },
                     { data: 'logo', name: 'logo_image', orderable: false, searchable: false },
                     { data: 'nama_program', name: 'nama_program' },
+                    { data: 'status_badge', name: 'status', orderable: false, searchable: false },
                     { data: 'create_user', name: 'create_user' },
                     { data: 'dokumentasi', name: 'dokumentasi', orderable: false, searchable: false },
+                    { data: 'action', name: 'action', orderable: false, searchable: false },
                 ],
                 columnDefs: [
                     { className: 'align-middle', targets: '_all' },
-                    { className: 'text-center', targets: 4 },
+                    { className: 'text-center', targets: [3, 5, 6] },
                 ]
             });
 
             /* klik baris untuk langsung membuka kelola dokumentasi program */
             $('#datatable tbody').on('click', 'tr', function(e){
-                if ($(e.target).closest('a').length) {
+                if ($(e.target).closest('a, button').length) {
                     return;
                 }
                 var href = $(this).find('.btn-docs').attr('href');
                 if (href) {
                     window.location.href = href;
+                }
+            });
+
+            /* hapus program implementasi */
+            $(document).on('click', '.btn-del', function(e){
+                e.stopPropagation();
+                var id = $(this).data('id');
+                if (confirm('Yakin ingin menghapus program implementasi ini?')) {
+                    $.get('/admin/program/implementasi/' + id + '/delete', function(){
+                        table.ajax.reload(null, false);
+                    });
                 }
             });
         })

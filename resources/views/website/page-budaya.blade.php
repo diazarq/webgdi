@@ -28,7 +28,6 @@
         content: "";
         position: absolute;
         inset: 0;
-        background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1.2px, transparent 1.2px);
         background-size: 26px 26px;
         pointer-events: none;
         z-index: 2;
@@ -91,33 +90,6 @@
         position: relative;
         z-index: 1;
         text-align: center;
-    }
-
-    /* Badge glass "Program Unggulan" */
-    .budaya-hero__badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        padding: 9px 20px;
-        border-radius: 999px;
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        font-size: 13.5px;
-        font-weight: 700;
-        letter-spacing: 0.16em;
-        text-transform: uppercase;
-        color: #bff0dc;
-        margin-bottom: 32px;
-    }
-
-    .budaya-hero__badge .budaya-hero__badge-dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background: #2dd4a7;
-        animation: budayaPulse 2s infinite;
     }
 
     @keyframes budayaPulse {
@@ -738,12 +710,6 @@
 
     <div class="budaya-hero__inner">
         <div class="budaya-hero__brand">
-            @if(trim($heroBadge) !== '')
-            <span class="budaya-hero__badge">
-                <span class="budaya-hero__badge-dot"></span>
-                {{ $heroBadge }}
-            </span>
-            @endif
 
             <div class="budaya-hero__brand-top">
                 <div class="budaya-hero__logo">

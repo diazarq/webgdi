@@ -5,15 +5,14 @@ namespace App\Http\Controllers;
 use DataTables;
 use App\Models\ProgramDokumentasi;
 use App\Models\ProgramImplementasi;
-use App\Models\ProgramUtama;
 use Illuminate\Http\Request;
 
 class ProgramDokumentasiController extends Controller
 {
-    /* daftar program induk yang memiliki bagian dokumentasi */
+    /* daftar program implementasi yang memiliki bagian dokumentasi */
     public static function programs()
     {
-        return ProgramUtama::options();
+        return ProgramImplementasi::options();
     }
 
     public function index()
@@ -26,7 +25,7 @@ class ProgramDokumentasiController extends Controller
             'pageTitle' => 'Program: Dokumentasi Program',
             'active' => ['ProgActive' => 'active', 'ProgDokActive' => 'active'],
             'programs' => self::programs(),
-            'programLogos' => ProgramUtama::orderBy('id')->pluck('logo_image', 'slug')->toArray(),
+            'programLogos' => ProgramImplementasi::logoMap(),
             'counts' => $counts,
         ]);
     }

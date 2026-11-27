@@ -14,8 +14,10 @@ class ProgramImplementasi extends Model
 
     protected $fillable = [
         'nama_program',
+        'slug',
         'logo_image',
         'url_program',
+        'status',
         'create_user',
         'update_user',
         'create_date',
@@ -23,6 +25,50 @@ class ProgramImplementasi extends Model
     ];
 
     public $timestamps = false;
+
+    /* daftar program implementasi: [slug => nama_program] */
+    public static function options()
+    {
+        $programs = [];
+        foreach (static::orderBy('id')->get(['nama_program', 'slug']) as $row) {
+            $slug = $row->slug ?: Str::slug((string) $row->nama_program);
+            if ($slug !== '') {
+                $programs[$slug] = $row->nama_program;
+            }
+        }
+
+        return $programs ?: [
+            'budaya' => 'Budaya',
+            'cinta'  => 'Cinta',
+            'senyum' => 'Senyum',
+        ];
+    }
+
+    /* peta logo berdasarkan slug: [slug => logo_image] */
+    public static function logoMap()
+    {
+        $logos = [];
+        foreach (static::orderBy('id')->get(['nama_program', 'slug', 'logo_image']) as $row) {
+            $slug = $row->slug ?: Str::slug((string) $row->nama_program);
+            if ($slug !== '') {
+                $logos[$slug] = $row->logo_image;
+            }
+        }
+
+        return $logos;
+    }
+
+    /* pastikan slug program valid, jika tidak kembali ke program pertama */
+    public static function resolveSlug($slug)
+    {
+        $programs = static::options();
+
+        if (!$slug || !isset($programs[$slug])) {
+            $slug = array_key_exists('budaya', $programs) ? 'budaya' : array_key_first($programs);
+        }
+
+        return $slug;
+    }
 
     /* cari id program implementasi dari slug/nama program (mis. "budaya" => 1) */
     public static function idForProgram($program)
@@ -32,8 +78,9 @@ class ProgramImplementasi extends Model
             return null;
         }
 
-        foreach (static::query()->get(['id', 'nama_program']) as $row) {
-            if (Str::slug((string) $row->nama_program) === $slug) {
+        foreach (static::query()->get(['id', 'nama_program', 'slug']) as $row) {
+            $rowSlug = $row->slug ?: Str::slug((string) $row->nama_program);
+            if ($rowSlug === $slug) {
                 return $row->id;
             }
         }

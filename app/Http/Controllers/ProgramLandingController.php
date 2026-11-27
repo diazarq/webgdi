@@ -10,13 +10,54 @@ use Illuminate\Support\Facades\Auth;
 
 class ProgramLandingController extends Controller
 {
-    /* Halaman admin yang boleh memakai landing page ini (slug => nama menu) */
-    public static $pages = [
-        'budaya'      => 'Budaya',
-        'cinta'       => 'Cinta',
-        'senyum'      => 'Senyum',
-        'wakaf-hibah' => 'Wakaf & Hibah',
-    ];
+    /* Daftar program diambil langsung secara dinamis dari ProgramImplementasi */
+    public static function pages()
+    {
+        $pages = ProgramImplementasi::options();
+        if (!isset($pages['wakaf-hibah'])) {
+            $pages['wakaf-hibah'] = 'Wakaf & Hibah';
+        }
+        return $pages;
+    }
+
+    /* Sinkronkan agar setiap ProgramImplementasi otomatis punya baris Hero Landing */
+    public static function syncFromImplementasi()
+    {
+        $maxOrder = (int) (ProgramLanding::max('order') ?? 0);
+        foreach (ProgramImplementasi::orderBy('id')->get() as $impl) {
+            $slug = $impl->slug ?: \Illuminate\Support\Str::slug($impl->nama_program);
+            if ($slug === '') continue;
+
+            $landing = ProgramLanding::where('program_implementasi_id', $impl->id)
+                ->orWhere('slug', $slug)
+                ->first();
+
+            if (!$landing) {
+                $maxOrder++;
+                ProgramLanding::create([
+                    'slug'                    => $slug,
+                    'program_implementasi_id' => $impl->id,
+                    'title'                   => $impl->nama_program,
+                    'logo_image'              => $impl->logo_image,
+                    'order'                   => $maxOrder,
+                    'status'                  => 'A',
+                    'create_user'             => $impl->create_user ?: 'Administrator',
+                    'create_date'             => now(),
+                ]);
+            } else {
+                $updates = [];
+                if (!$landing->program_implementasi_id) {
+                    $updates['program_implementasi_id'] = $impl->id;
+                }
+                if (!$landing->logo_image && $impl->logo_image) {
+                    $updates['logo_image'] = $impl->logo_image;
+                }
+                if (!empty($updates)) {
+                    $landing->update($updates);
+                }
+            }
+        }
+    }
 
     /* pilihan ikon untuk kartu tambahan (key => path SVG bootstrap-icons) */
     public static $icons = [
@@ -38,6 +79,8 @@ class ProgramLandingController extends Controller
 
     public function index()
     {
+        self::syncFromImplementasi();
+
         return view('program_landing.list', [
             'pageTitle' => 'Program: Hero Landing',
             'active' => ['ProgActive' => 'active', 'ProgLandingActive' => 'active'],
@@ -46,13 +89,24 @@ class ProgramLandingController extends Controller
 
     public function table()
     {
-        return DataTables::eloquent(ProgramLanding::query()->orderBy('order')->orderBy('id'))
+        self::syncFromImplementasi();
+        $pages = self::pages();
+
+        return DataTables::eloquent(ProgramLanding::with('programImplementasi')->orderBy('order')->orderBy('id'))
             ->addIndexColumn()
             ->addColumn('logo', function (ProgramLanding $row) {
-                if ($row->logo_image && file_exists(public_path($row->logo_image))) {
-                    return '<img src="' . asset($row->logo_image) . '" width="60" style="border-radius:50%"/>';
+                $logo = $row->logo_image ?: ($row->programImplementasi ? $row->programImplementasi->logo_image : null);
+                if ($logo && file_exists(public_path($logo))) {
+                    return '<img src="' . asset($logo) . '" width="60" style="border-radius:50%"/>';
                 }
                 return '<img src="' . asset('admin/assets/img/setting/_img.jpg') . '" width="60" style="border-radius:50%"/>';
+            })
+            ->addColumn('program_name', function (ProgramLanding $row) use ($pages) {
+                if ($row->programImplementasi) {
+                    return '<span class="badge bg-light text-dark border">' . e($row->programImplementasi->nama_program) . ' (/' . e($row->slug) . ')</span>';
+                }
+                $label = $pages[$row->slug] ?? $row->slug;
+                return '<span class="badge bg-light text-dark border">' . e($label) . ' (/' . e($row->slug) . ')</span>';
             })
             ->addColumn('status', function (ProgramLanding $row) {
                 return $row->status == 'A'
@@ -68,7 +122,7 @@ class ProgramLandingController extends Controller
                     <button type="button" class="btn btn-sm btn-danger btn-del" data-id="' . $row->id . '"><i class="bi-trash"></i></button>';
                 return $button;
             })
-            ->rawColumns(['logo', 'status', 'drag_handle', 'action'])
+            ->rawColumns(['logo', 'program_name', 'status', 'drag_handle', 'action'])
             ->make();
     }
 
@@ -122,23 +176,28 @@ class ProgramLandingController extends Controller
 
     public function form($id = null)
     {
+        self::syncFromImplementasi();
         $detail = null;
         if ($id) {
             $mode = 'Ubah';
             $detail = ProgramLanding::findOrFail($id);
+        } elseif (request()->get('program')) {
+            $slug = trim(request()->get('program'));
+            $detail = ProgramLanding::where('slug', $slug)->first();
+            $mode = $detail ? 'Ubah' : 'Tambah';
         } else {
             $mode = 'Tambah';
         }
 
         /* halaman yang sudah punya hero landing (tidak boleh dipilih lagi) */
-        $usedSlugs = ProgramLanding::where('id', '!=', $id)->pluck('slug')->toArray();
+        $usedSlugs = ProgramLanding::where('id', '!=', optional($detail)->id)->pluck('slug')->toArray();
 
         return view('program_landing.form', [
             'pageTitle' => $mode . ' Hero Landing Program',
             'active' => ['ProgActive' => 'active', 'ProgLandingActive' => 'active'],
             'mode' => $mode,
             'detail' => $detail,
-            'pages' => self::$pages,
+            'pages' => self::pages(),
             'usedSlugs' => $usedSlugs,
             'icons' => self::$icons,
         ]);
@@ -216,6 +275,15 @@ class ProgramLandingController extends Controller
             $dataInput['create_user'] = $user ? $user->name : null;
             $dataInput['create_date'] = now();
             ProgramLanding::create($dataInput);
+        }
+
+        /* Sinkronkan kembali ke ProgramImplementasi (nama & logo jika diupdate) */
+        if ($dataInput['program_implementasi_id']) {
+            $implUpdate = ['nama_program' => $req->title];
+            if (isset($dataInput['logo_image'])) {
+                $implUpdate['logo_image'] = $dataInput['logo_image'];
+            }
+            ProgramImplementasi::where('id', $dataInput['program_implementasi_id'])->update($implUpdate);
         }
 
         return redirect('/admin/program/landing');

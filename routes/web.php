@@ -17,7 +17,6 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ProgramController;
 use App\Http\Controllers\ProgramImplementasiController;
-use App\Http\Controllers\ProgramUtamaController;
 use App\Http\Controllers\ProgramLandingController;
 use App\Http\Controllers\ProgramDokumentasiController;
 use App\Http\Controllers\ProgramStatistikController;
@@ -236,14 +235,6 @@ Route::group(['prefix'=>'admin', 'middleware'=>['auth']], function(){
     Route::get('/program/implementasi/{id}/edit', [ProgramImplementasiController::class, 'form']);
     Route::get('/program/implementasi/{id}/delete', [ProgramImplementasiController::class, 'delete']);
     Route::post('/program/implementasi/add', [ProgramImplementasiController::class, 'store']);
-
-    /* PROGRAM: UTAMA */
-    Route::get('/program/utama', [ProgramUtamaController::class, 'index']);
-    Route::get('/program/utama/table', [ProgramUtamaController::class, 'table']);
-    Route::get('/program/utama/add', [ProgramUtamaController::class, 'form']);
-    Route::get('/program/utama/{id}/edit', [ProgramUtamaController::class, 'form']);
-    Route::get('/program/utama/{id}/delete', [ProgramUtamaController::class, 'delete']);
-    Route::post('/program/utama/add', [ProgramUtamaController::class, 'store']);
 
     /* PROGRAM: HERO LANDING */
     Route::get('/program/landing', [ProgramLandingController::class, 'index']);

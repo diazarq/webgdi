@@ -24,23 +24,35 @@
                 <input type="hidden" name="id" value="{{ @$detail->id }}"/>
 
                 <div class="mb-3 row">
-                    <label class="col-sm-2 col-form-label">Nama Program *</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" required name="nama_program" value="{{ @$detail->nama_program }}" placeholder="eg. Budaya">
+                    <label class="col-sm-3 col-form-label">Nama Program *</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" required name="nama_program" value="{{ old('nama_program', @$detail->nama_program) }}" placeholder="eg. Budaya">
                     </div>
                 </div>
 
                 <div class="mb-3 row">
-                    <label class="col-sm-2 col-form-label">URL Program</label>
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control" name="url_program" value="{{ @$detail->url_program }}" placeholder="eg. /budaya atau https://...">
-                        <small class="text-muted">Halaman tujuan saat tile diklik di homepage (mis. <code>/budaya</code> atau URL lengkap). Kosongkan bila tile tidak diarahkan ke halaman manapun.</small>
+                    <label class="col-sm-3 col-form-label">URL Program</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="url_program" value="{{ old('url_program', @$detail->url_program) }}" placeholder="eg. /budaya atau https://...">
+                        <small class="text-muted">Halaman tujuan saat tile diklik di homepage (mis. <code>/budaya</code>). Jika dikosongkan saat tambah baru, otomatis dibuat dari nama program.</small>
                     </div>
                 </div>
 
                 <div class="mb-3 row">
-                    <label class="col-sm-2 col-form-label">Logo Image *</label>
-                    <div class="col-sm-10">
+                    <label class="col-sm-3 col-form-label">Tampil di Homepage</label>
+                    <div class="col-sm-5">
+                        @php $curStatus = old('status', @$detail->status ?? 'A'); @endphp
+                        <select class="form-control" name="status">
+                            <option value="A" {{ $curStatus === 'A' ? 'selected' : '' }}>Tampil di Homepage (Aktif)</option>
+                            <option value="N" {{ $curStatus === 'N' ? 'selected' : '' }}>Sembunyikan (Nonaktif)</option>
+                        </select>
+                        <small class="text-muted">Atur apakah kartu program ini ditampilkan di Homepage atau disembunyikan.</small>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">Logo Image *</label>
+                    <div class="col-sm-9">
                         {{-- kotak preview: logo tampil utuh (tidak terpotong) --}}
                         <div class="logo-preview-box">
                             @php
@@ -55,6 +67,42 @@
                             <input type="file" name="logo_image" style="display: none" id="logoImg" accept="image/png,image/jpeg,image/jpg,image/gif,image/svg+xml,image/webp"/>
                             <label class="btn btn-primary btn-upload" for="logoImg"><i class="bi-upload"></i> Upload</label>
                         </div>
+                    </div>
+                </div>
+
+                <hr class="my-4"/>
+                <h6 class="text-muted mb-3">Pengaturan Hero Halaman Program <span class="fw-normal">(Opsional — tampil di banner atas halaman program)</span></h6>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">Teks Kecil (Badge)</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="badge_text" value="{{ old('badge_text', @$landing->badge_text) }}" placeholder="eg. Program Unggulan">
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">Sub Judul (Tagline)</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="tagline" value="{{ old('tagline', @$landing->tagline) }}" placeholder="eg. Bangun Peradaban, Berakhlak & Berkarya">
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">Deskripsi Hero</label>
+                    <div class="col-sm-9">
+                        <textarea class="form-control" name="description" rows="3" placeholder="Deskripsi singkat yang tampil di bagian atas halaman program...">{{ old('description', @$landing->description) }}</textarea>
+                    </div>
+                </div>
+
+                <div class="mb-3 row">
+                    <label class="col-sm-3 col-form-label">Background Hero</label>
+                    <div class="col-sm-9">
+                        <input type="file" class="form-control" name="background_image" accept="image/png,image/jpeg,image/jpg,image/webp"/>
+                        @if(@$landing->background_image)
+                            <small class="text-success d-block mt-1"><i class="bi-check-circle"></i> Background saat ini sudah terpasang. Upload file baru jika ingin mengganti.</small>
+                        @else
+                            <small class="text-muted d-block mt-1">Opsional (1920x1080 px). Kosongkan untuk memakai gradien hijau bawaan.</small>
+                        @endif
                     </div>
                 </div>
 

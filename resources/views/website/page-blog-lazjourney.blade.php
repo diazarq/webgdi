@@ -190,7 +190,7 @@
 
     .fk-readmore-btn {
         display: inline-block;
-        background: #06301f;
+        background: #00875A;
         color: #ffffff;
         font-size: 11px;
         font-weight: 800;
@@ -202,7 +202,7 @@
     }
 
     .fk-readmore-btn:hover {
-        background: #00875A;
+        background: #06301f;
         color: #ffffff;
     }
 
@@ -452,7 +452,7 @@
                                 <p class="fk-article-card__excerpt">
                                     {{ Str::limit(strip_tags($item->content), 115) }}
                                 </p>
-                                <a href="/blog/{{ $item->slug }}" class="fk-readmore-btn">Read More</a>
+                                <a href="/blog/{{ $item->slug }}" class="fk-readmore-btn">Baca Selengkapnya</a>
                             </div>
                         </article>
                         @endforeach
@@ -480,7 +480,7 @@
                     {{-- Popular / Latest Posts --}}
                     @if(@$blogLatest && count($blogLatest) > 0)
                     <div class="fk-sidebar-block">
-                        <h4 class="fk-sidebar-heading">Latest Posts</h4>
+                        <h4 class="fk-sidebar-heading">Kabar Lainnya</h4>
                         @foreach($blogLatest->take(4) as $lp)
                         <div class="fk-popular-item">
                             <div class="fk-popular-item__thumb">

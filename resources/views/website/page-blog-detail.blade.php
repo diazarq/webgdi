@@ -255,11 +255,10 @@
         top: 16px;
         left: 16px;
         z-index: 3;
-        background: #06301f;
-        color: #2dd4a7;
+        background: #00875A;
+        color: white;
         font-size: 10px;
         font-weight: 800;
-        letter-spacing: 1.5px;
         text-transform: uppercase;
         padding: 4px 10px;
     }
@@ -388,15 +387,11 @@
 
             {{-- CENTERED HEADER BLOCK --}}
             <div class="fk-detail-header">
-                <span class="fk-detail-badge {{ $badgeModifier }}">
-                    <i class="{{ $badgeIcon }}"></i> {{ strtoupper($blog->jenis ?: ($blog->kategori ?: 'KABAR GDI')) }}
-                </span>
                 <h1 class="fk-detail-title">{{ $blog->title }}</h1>
             </div>
 
-            {{-- 2-COLUMN ASYMMETRIC SPLIT --}}
+            {{-- 2-COLUMN CONTENT --}}
             <div class="row g-5">
-                {{-- LEFT COLUMN: FEATURED IMAGE + META PENULIS & TANGGAL + ARTICLE CONTENT --}}
                 <div class="col-lg-8">
                     <img src="{{ $getCleanImageUrl($blog->featured_img) }}" alt="{{ $blog->title }}" class="fk-detail-featured-img">
 
@@ -447,7 +442,7 @@
                             }
                         @endphp
                         <div class="fk-sidebar-block">
-                            <h4 class="fk-sidebar-heading">Something Fresh</h4>
+                            <h4 class="fk-sidebar-heading">Kabar Lainnya</h4>
                             @foreach($freshPosts as $freshPost)
                             <div class="fk-fresh-card">
                                 <span class="fk-fresh-card__badge">{{ strtoupper($freshPost->jenis ?: ($freshPost->kategori ?: 'TERBARU')) }}</span>

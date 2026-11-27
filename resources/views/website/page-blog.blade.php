@@ -3,10 +3,6 @@
 
 @section('style')
 <style>
-    /* ==========================================================
-       GDI MAGAZINE EDITORIAL SHOWCASE (GLASSMORPHISM)
-       Gradien selaras dengan navbar & header GDI
-       ========================================================== */
     .gdi-blog-section {
         padding: 45px 0 75px 0;
         background: linear-gradient(135deg, #06301f 0%, #0a4a2e 55%, #0d5c38 100%);

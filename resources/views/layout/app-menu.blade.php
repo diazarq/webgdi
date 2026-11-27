@@ -60,7 +60,6 @@
                 <ul class="cs-menu-dropdown-item {{ @$ProgActive ? 'mm-collapse mm-show' : ''}}">
                     <li><a href="/admin/program" class="{{ @$ProgMngActive }}">Kelola Program</a></li>
                     <li><a href="/admin/program/implementasi" class="{{ @$ProgImplActive }}">Program Implementasi</a></li>
-                    <li><a href="/admin/program/landing" class="{{ @$ProgLandingActive }}">Hero Landing</a></li>
                     <li><a href="/admin/program/dokumentasi" class="{{ @$ProgDokActive }}">Kelola Dokumentasi Program</a></li>
                     <li><a href="/admin/program/rekapitulasi" class="{{ @$ProgRecapActive }}">Rekapitulasi</a></li>
                 </ul>
