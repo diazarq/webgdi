@@ -14,250 +14,6 @@
         background: linear-gradient(135deg, #04231a 0%, #06301f 50%, #0a4a2e 100%);
     }
 
-    /* ================= Hero ================= */
-    .budaya-hero {
-        position: relative;
-        z-index: 1;
-        overflow: hidden;
-        padding: 110px 0 140px;
-        background: linear-gradient(135deg, #04231a 0%, #06301f 30%, #0a4a2e 65%, #0d5c38 100%);
-        color: #fff;
-    }
-
-    .budaya-hero::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background-size: 26px 26px;
-        pointer-events: none;
-        z-index: 2;
-    }
-
-    /* Foto latar: tampil penuh di hero & ikut bergulir, tidak terpotong saat di-scroll */
-    .page-header .page-header-bg,
-    .budaya-hero .page-header-bg {
-        background-attachment: scroll;
-    }
-
-    /* ---- Aurora blobs: cahaya lembut beranimasi ---- */
-    .budaya-hero__blob {
-        position: absolute;
-        border-radius: 50%;
-        filter: blur(70px);
-        pointer-events: none;
-        z-index: 1;
-    }
-
-    .budaya-hero__blob--1 {
-        width: 520px;
-        height: 520px;
-        top: -180px;
-        right: -100px;
-        background: radial-gradient(circle, rgba(45, 212, 167, 0.50), transparent 65%);
-        animation: budayaFloat 9s ease-in-out infinite alternate;
-    }
-
-    .budaya-hero__blob--2 {
-        width: 460px;
-        height: 460px;
-        bottom: -200px;
-        left: -140px;
-        background: radial-gradient(circle, rgba(255, 138, 61, 0.32), transparent 65%);
-        animation: budayaFloat 12s ease-in-out infinite alternate-reverse;
-    }
-
-    @keyframes budayaFloat {
-        from { transform: translate(0, 0) scale(1); }
-        to   { transform: translate(50px, 35px) scale(1.1); }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        .budaya-hero__blob--1,
-        .budaya-hero__blob--2 {
-            animation: none;
-        }
-    }
-
-    .budaya-hero__inner {
-        position: relative;
-        z-index: 3;
-        max-width: none;
-        padding: 0 40px; /* sejajar dengan logo Graha Dhuafa Indonesia di navbar (padding 40px) */
-    }
-
-    /* ===== Blok konten: logo kiri + nama & tagline di sebelahnya ===== */
-    .budaya-hero__brand {
-        position: relative;
-        z-index: 1;
-        text-align: center;
-    }
-
-    @keyframes budayaPulse {
-        0%   { box-shadow: 0 0 0 0 rgba(45, 212, 167, 0.55); }
-        70%  { box-shadow: 0 0 0 10px rgba(45, 212, 167, 0); }
-        100% { box-shadow: 0 0 0 0 rgba(45, 212, 167, 0); }
-    }
-
-    /* Susunan vertikal: logo di atas, nama & tagline di bawah, semuanya center */
-    .budaya-hero__brand-top {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 26px;
-        margin-bottom: 18px;
-    }
-
-    /* Logo bulat dengan ring bercahaya */
-    .budaya-hero__logo {
-        width: 140px;
-        height: 140px;
-        flex-shrink: 0;
-        border-radius: 50%;
-        background: #ffffff;
-        overflow: hidden;
-        border: 4px solid rgba(255, 255, 255, 0.35);
-        box-shadow:
-            0 24px 60px rgba(0, 0, 0, 0.40),
-            0 0 70px rgba(45, 212, 167, 0.35);
-    }
-
-    .budaya-hero__logo img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: top;
-        display: block;
-    }
-
-    /* Kolom teks di bawah logo */
-    .budaya-hero__brand-text {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .budaya-hero__brand-name {
-        font-size: clamp(56px, 7vw, 92px);
-        font-weight: 800;
-        line-height: 1.05;
-        letter-spacing: 0.01em;
-        background: linear-gradient(90deg, #ffffff 35%, #a9f2d3 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        color: transparent;
-        filter: drop-shadow(0 6px 24px rgba(0, 0, 0, 0.35));
-    }
-
-    .budaya-hero__brand-sub {
-        font-size: clamp(20px, 2.2vw, 28px);
-        font-weight: 600;
-        color: #7ef0c0;
-        line-height: 1.45;
-        margin-bottom: 0;
-    }
-
-    .budaya-hero__brand-desc {
-        font-size: 19px;
-        line-height: 1.85;
-        color: rgba(255, 255, 255, 0.92);
-        text-shadow: 0 2px 10px rgba(4, 35, 26, 0.55);
-        max-width: 640px;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 38px;
-    }
-
-    /* ===== Tombol CTA ===== */
-    .budaya-hero__cta {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 16px;
-    }
-
-    .budaya-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        padding: 18px 40px;
-        border-radius: 999px;
-        font-size: 16.5px;
-        font-weight: 700;
-        letter-spacing: 0.02em;
-        text-decoration: none !important;
-        transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-    }
-
-    .budaya-btn svg {
-        width: 20px;
-        height: 20px;
-        transition: transform 0.25s ease;
-    }
-
-    .budaya-btn--primary {
-        background: linear-gradient(90deg, #ff8a3d, #ff6600);
-        color: #ffffff !important;
-        box-shadow: 0 14px 34px rgba(255, 102, 0, 0.35);
-    }
-
-    .budaya-btn--primary:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 20px 44px rgba(255, 102, 0, 0.45);
-        color: #ffffff !important;
-    }
-
-    .budaya-btn--primary:hover svg {
-        transform: translateX(4px);
-    }
-
-    .budaya-btn--ghost {
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.30);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        color: #ffffff !important;
-    }
-
-    .budaya-btn--ghost:hover {
-        transform: translateY(-3px);
-        background: rgba(255, 255, 255, 0.16);
-        color: #ffffff !important;
-    }
-
-    /* Scroll indicator */
-    .budaya-hero__scroll {
-        position: absolute;
-        left: 50%;
-        bottom: 24px;
-        transform: translateX(-50%);
-        z-index: 3;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 6px;
-        color: rgba(255, 255, 255, 0.65);
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-        text-decoration: none !important;
-    }
-
-    .budaya-hero__scroll-line {
-        width: 2px;
-        height: 34px;
-        border-radius: 999px;
-        background: linear-gradient(to bottom, rgba(255, 255, 255, 0.7), transparent);
-        animation: budayaScroll 1.8s ease-in-out infinite;
-    }
-
-    @keyframes budayaScroll {
-        0%, 100% { transform: scaleY(0.6); opacity: 0.5; }
-        50%      { transform: scaleY(1); opacity: 1; }
-    }
-
     /* ================= Section umum ================= */
     .budaya-section {
         padding: 80px 0;
@@ -602,81 +358,6 @@
 
     /* ================= Responsive ================= */
     @media (max-width: 991px) {
-        .budaya-hero {
-            padding: 60px 0 90px;
-        }
-
-        .budaya-hero__inner {
-            padding: 0 20px;
-        }
-
-        .budaya-hero__blob--1 {
-            width: 340px;
-            height: 340px;
-            top: -120px;
-            right: -120px;
-        }
-
-        .budaya-hero__blob--2 {
-            width: 300px;
-            height: 300px;
-            bottom: -140px;
-            left: -120px;
-        }
-
-        /* Di HP: blok brand (logo + judul) tampil paling atas & tetap di tengah */
-        .budaya-hero__brand {
-            order: -1;
-            text-align: center;
-            width: auto;
-            margin-left: 0;
-        }
-
-        .budaya-hero__badge {
-            font-size: 11px;
-            padding: 8px 16px;
-        }
-
-        .budaya-hero__brand-top {
-            gap: 18px;
-        }
-
-        .budaya-hero__brand-text {
-            align-items: center;
-        }
-
-        .budaya-hero__brand-name {
-            font-size: 40px;
-        }
-
-        .budaya-hero__brand-sub {
-            font-size: 16px;
-        }
-
-        .budaya-hero__logo {
-            width: 110px;
-            height: 110px;
-        }
-
-        .budaya-hero__brand-desc {
-            margin-left: auto;
-            margin-right: auto;
-            font-size: 15.5px;
-        }
-
-        .budaya-hero__cta {
-            justify-content: center;
-        }
-
-        .budaya-btn {
-            padding: 13px 26px;
-            font-size: 14px;
-        }
-
-        .budaya-hero__scroll {
-            display: none;
-        }
-
         .budaya-galeri {
             grid-template-columns: 1fr;
         }
@@ -690,63 +371,26 @@
 
 @section('pageGeneral')
 
-<!-- ====== Hero Program ====== -->
+<!-- ====== Hero Program (Komponen Reusable) ====== -->
 @php
     /* fallback ke data default per program bila data hero belum diisi di admin */
-    $heroSlug        = @$landing->slug ?: $pilar['title'];
-    $heroBadge       = @$landing->badge_text ?: $pilar['badge'];
     $heroLogo        = @$landing->logo_image ? asset($landing->logo_image) : asset($pilar['logo']);
     $heroTitle       = @$landing->title ?: $pilar['title'];
     $heroTagline     = @$landing->tagline ?: $pilar['tagline'];
     $heroDescription = @$landing->description ?: $pilar['description'];
     $heroBackground  = @$landing->background_image ? asset($landing->background_image) : asset($pilar['background']);
+    $heroAccent      = $pilar['accent'] ?? '#eab308';
 @endphp
-<section class="budaya-hero">
-    <div class="page-header-bg" style="background-image: url({{ $heroBackground }})"></div>
-    <div class="page-header-overlay" aria-hidden="true"></div>
 
-    <div class="budaya-hero__blob budaya-hero__blob--1" aria-hidden="true"></div>
-    <div class="budaya-hero__blob budaya-hero__blob--2" aria-hidden="true"></div>
-
-    <div class="budaya-hero__inner">
-        <div class="budaya-hero__brand">
-
-            <div class="budaya-hero__brand-top">
-                <div class="budaya-hero__logo">
-                    <img src="{{ $heroLogo }}" alt="Logo Program {{ $heroTitle }}"/>
-                </div>
-                <div class="budaya-hero__brand-text">
-                    <span class="budaya-hero__brand-name">{{ $heroTitle }}</span>
-                    @if(trim($heroTagline) !== '')
-                    <p class="budaya-hero__brand-sub">{{ $heroTagline }}</p>
-                    @endif
-                </div>
-            </div>
-
-            @if(trim($heroDescription) !== '')
-            <p class="budaya-hero__brand-desc">{!! nl2br(e($heroDescription)) !!}</p>
-            @endif
-
-            {{-- Tombol "Lihat Galeri Kegiatan" dihilangkan sementara --}}
-            {{--
-            <div class="budaya-hero__cta">
-                <a href="#galeri" class="budaya-btn budaya-btn--primary">
-                    Lihat Galeri Kegiatan
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M5 12h14M13 6l6 6-6 6"/>
-                    </svg>
-                </a>
-            </div>
-            --}}
-        </div>
-    </div>
-
-    <a href="#galeri" class="budaya-hero__scroll" aria-label="Scroll ke bawah">
-        <span class="budaya-hero__scroll-line"></span>
-        Scroll
-    </a>
-</section>
+<x-program-hero
+    :background="$heroBackground"
+    :logo="$heroLogo"
+    :title="$heroTitle"
+    :subtitle="$heroTagline"
+    :description="$heroDescription"
+    :accent="$heroAccent"
+    scroll-target="#galeri"
+/>
 
 <!-- ====== Galeri Kegiatan ====== -->
 <section class="budaya-section budaya-section--alt" id="galeri">

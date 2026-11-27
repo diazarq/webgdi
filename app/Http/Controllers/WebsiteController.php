@@ -56,6 +56,9 @@ class WebsiteController extends Controller
             if($slug == 'lazgdi'){
                 return $this->index_lazgdi();
             }
+            if(ProgramImplementasi::where('slug', $slug)->exists()){
+                return $this->index_pilar($slug);
+            }
             if($slug != 'donasi'){
                 $detail = Menu::where('slug', $slug)->first();
                 $parentID = $detail ? ($detail->parent_id == 0 ? $detail->id : $detail->parent_id) : null;
@@ -286,6 +289,7 @@ class WebsiteController extends Controller
                 'description'   => "Merupakan program yang berkonsentrasi pada pembangunan lingkungan\nuntuk memunculkan generasi yang kreatif, penuh karya dan Qur'ani.",
                 'logo'          => 'website/assets/images/custom/budaya.png',
                 'background'    => 'website/assets/images/backgrounds/page-header-bg-3.jpeg',
+                'accent'        => '#34d399',
                 'section_title' => 'Momen Kegiatan Program Budaya',
                 'galeri'        => [
                     [
@@ -318,6 +322,7 @@ class WebsiteController extends Controller
                 'description'   => "Program yang berfokus pada pembinaan anak yatim, dhuafa, dan tahfidz melalui beasiswa, pendidikan Al-Qur'an, serta kegiatan penuh kasih sayang untuk menumbuhkan generasi Qur'ani.",
                 'logo'          => 'website/assets/images/custom/cinta.png',
                 'background'    => 'website/assets/images/backgrounds/page-header-bg-3.jpeg',
+                'accent'        => '#facc15',
                 'section_title' => 'Momen Kegiatan Program Cinta',
                 'galeri'        => [
                     [
@@ -350,6 +355,7 @@ class WebsiteController extends Controller
                 'description'   => 'Program kepedulian sosial dan kemanusiaan yang menghadirkan senyum bagi masyarakat dhuafa melalui santunan, paket sembako, Jumat berbagi, serta respons cepat terhadap kebutuhan darurat.',
                 'logo'          => 'website/assets/images/custom/senyum.png',
                 'background'    => 'website/assets/images/backgrounds/page-header-bg-3.jpeg',
+                'accent'        => '#fb923c',
                 'section_title' => 'Momen Kegiatan Program Senyum',
                 'galeri'        => [
                     [
@@ -411,10 +417,25 @@ class WebsiteController extends Controller
     protected function index_pilar($slug)
     {
         $configs = $this->pilarConfig();
-        if (!isset($configs[$slug])) {
-            abort(404);
+        if (isset($configs[$slug])) {
+            $config = $configs[$slug];
+        } else {
+            $impl = ProgramImplementasi::where('slug', $slug)->first();
+            if (!$impl) {
+                abort(404);
+            }
+            $config = [
+                'title'         => $impl->nama_program,
+                'badge'         => 'Program Implementasi',
+                'tagline'       => '',
+                'description'   => '',
+                'logo'          => $impl->logo_image ?: 'website/assets/images/custom/logo_gdi.png',
+                'background'    => 'website/assets/images/backgrounds/page-header-bg-3.jpeg',
+                'accent'        => '#eab308',
+                'section_title' => 'Momen Kegiatan Program ' . $impl->nama_program,
+                'galeri'        => [],
+            ];
         }
-        $config = $configs[$slug];
 
         /* hero landing dari database (dikelola di menu admin: Program > Hero Landing) */
         $landing = ProgramLanding::where('slug', $slug)->where('status', 'A')->first();

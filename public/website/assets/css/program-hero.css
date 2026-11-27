@@ -1,0 +1,899 @@
+/* ==========================================================================
+   LAZ Graha Dhuafa Indonesia — Reusable Program Hero Component (v1.1)
+   GPU-friendly 60fps animations (transform & opacity only)
+   ========================================================================== */
+
+.program-hero {
+    --accent: #eab308;
+    --accent-rgb: 234, 179, 8;
+    --gdi-deep: #031c14;
+    --gdi-forest: #06301f;
+    --gdi-emerald: #0a4a2e;
+    --gdi-gold-rgb: 234, 179, 8;
+
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    min-height: clamp(560px, 78vh, 740px);
+    display: flex;
+    align-items: center;
+    padding: 84px 0 108px;
+    background-color: var(--gdi-deep);
+    color: #ffffff;
+    isolation: isolate;
+}
+
+/* ==========================================================================
+   1. BACKGROUND, PARALLAX, KEN BURNS, OVERLAY & BOKEH
+   ========================================================================== */
+.program-hero__bg-stage {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.program-hero__bg-parallax {
+    position: absolute;
+    inset: -5%;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+}
+
+.program-hero__bg-photo {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: 36% 30%;
+    background-repeat: no-repeat;
+    opacity: 0.34;
+    filter: saturate(0.92) contrast(1.04);
+    transform: scale(1.06);
+    will-change: transform;
+    animation: phKenBurns 24s ease-in-out infinite alternate;
+}
+
+@keyframes phKenBurns {
+    0% {
+        transform: scale(1.05) translate3d(0, 0, 0);
+    }
+    100% {
+        transform: scale(1.13) translate3d(-1.2%, -1%, 0);
+    }
+}
+
+.program-hero__overlay-shield {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            98deg,
+            rgba(3, 28, 20, 0.94) 0%,
+            rgba(6, 48, 31, 0.88) 38%,
+            rgba(8, 61, 39, 0.72) 58%,
+            rgba(4, 35, 26, 0.90) 82%,
+            rgba(3, 26, 18, 0.96) 100%
+        ),
+        linear-gradient(
+            180deg,
+            rgba(3, 28, 20, 0.52) 0%,
+            rgba(6, 48, 31, 0.10) 45%,
+            rgba(3, 28, 20, 0.72) 100%
+        );
+}
+
+.program-hero__overlay-drift {
+    position: absolute;
+    inset: -18%;
+    background:
+        radial-gradient(580px 440px at 74% 48%, rgba(var(--accent-rgb), 0.24), transparent 68%),
+        radial-gradient(560px 360px at 16% 24%, rgba(45, 212, 167, 0.16), transparent 65%),
+        radial-gradient(460px 340px at 66% 86%, rgba(var(--gdi-gold-rgb), 0.15), transparent 65%);
+    will-change: transform, opacity;
+    animation: phGradientDrift 16s ease-in-out infinite alternate;
+}
+
+@keyframes phGradientDrift {
+    0% {
+        transform: translate3d(-2%, -1.5%, 0) scale(1);
+        opacity: 0.85;
+    }
+    100% {
+        transform: translate3d(2.5%, 2%, 0) scale(1.06);
+        opacity: 1;
+    }
+}
+
+/* Bokeh / partikel cahaya lembut */
+.program-hero__bokeh {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+}
+
+.program-hero__particle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(var(--accent-rgb), 0.85) 0%, rgba(var(--accent-rgb), 0) 72%);
+    opacity: 0.24;
+    will-change: transform, opacity;
+}
+
+.program-hero__particle--1 {
+    width: 14px;
+    height: 14px;
+    left: 12%;
+    top: 72%;
+    animation: phBokehFloatA 15s ease-in-out infinite alternate;
+}
+
+.program-hero__particle--2 {
+    width: 22px;
+    height: 22px;
+    left: 28%;
+    top: 22%;
+    background: radial-gradient(circle, rgba(253, 230, 138, 0.75) 0%, rgba(253, 230, 138, 0) 72%);
+    animation: phBokehFloatB 19s ease-in-out -3s infinite alternate;
+}
+
+.program-hero__particle--3 {
+    width: 10px;
+    height: 10px;
+    left: 46%;
+    top: 66%;
+    animation: phBokehFloatA 13s ease-in-out -6s infinite alternate;
+}
+
+.program-hero__particle--4 {
+    width: 26px;
+    height: 26px;
+    left: 56%;
+    top: 18%;
+    opacity: 0.18;
+    animation: phBokehFloatB 21s ease-in-out -4s infinite alternate;
+}
+
+.program-hero__particle--5 {
+    width: 12px;
+    height: 12px;
+    left: 86%;
+    top: 22%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0) 72%);
+    animation: phBokehFloatA 17s ease-in-out -8s infinite alternate;
+}
+
+.program-hero__particle--6 {
+    width: 18px;
+    height: 18px;
+    left: 90%;
+    top: 76%;
+    animation: phBokehFloatB 16s ease-in-out -2s infinite alternate;
+}
+
+.program-hero__particle--7 {
+    width: 9px;
+    height: 9px;
+    left: 64%;
+    top: 82%;
+    background: radial-gradient(circle, rgba(253, 230, 138, 0.8) 0%, rgba(253, 230, 138, 0) 72%);
+    animation: phBokehFloatA 14s ease-in-out -5s infinite alternate;
+}
+
+.program-hero__particle--8 {
+    width: 20px;
+    height: 20px;
+    left: 6%;
+    top: 30%;
+    opacity: 0.16;
+    animation: phBokehFloatB 20s ease-in-out -9s infinite alternate;
+}
+
+@keyframes phBokehFloatA {
+    0% {
+        transform: translate3d(0, 0, 0) scale(0.92);
+        opacity: 0.15;
+    }
+    50% {
+        opacity: 0.34;
+    }
+    100% {
+        transform: translate3d(24px, -38px, 0) scale(1.14);
+        opacity: 0.18;
+    }
+}
+
+@keyframes phBokehFloatB {
+    0% {
+        transform: translate3d(0, 0, 0) scale(1);
+        opacity: 0.14;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translate3d(-26px, -30px, 0) scale(1.18);
+        opacity: 0.16;
+    }
+}
+
+/* ==========================================================================
+   2. TWO-COLUMN LAYOUT (Seimbang & Proporsional antara Teks Kiri & Logo Kanan)
+   ========================================================================== */
+.program-hero__inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1220px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(390px, 0.95fr);
+    align-items: center;
+    gap: 36px;
+}
+
+.program-hero__content {
+    text-align: left;
+    max-width: 600px;
+}
+
+.program-hero__title {
+    margin: 0 0 18px;
+    font-size: clamp(48px, 5.8vw, 80px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    text-shadow: 0 10px 32px rgba(2, 20, 14, 0.48);
+}
+
+.program-hero__word {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.program-hero__char {
+    display: inline-block;
+    will-change: transform, opacity;
+}
+
+.program-hero__subtitle-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.program-hero__accent-line {
+    display: inline-block;
+    width: 48px;
+    height: 3px;
+    flex-shrink: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--accent), rgba(255, 255, 255, 0.85));
+    box-shadow: 0 0 16px rgba(var(--accent-rgb), 0.55);
+    transform-origin: left center;
+    will-change: transform, opacity;
+}
+
+.program-hero__subtitle {
+    margin: 0;
+    font-size: clamp(18px, 1.9vw, 24px);
+    font-weight: 600;
+    line-height: 1.42;
+    color: #e6f9f0;
+    text-shadow: 0 2px 12px rgba(2, 20, 14, 0.45);
+    will-change: transform, opacity;
+}
+
+.program-hero__desc {
+    margin: 0;
+    font-size: clamp(16px, 1.25vw, 18.5px);
+    line-height: 1.82;
+    color: rgba(255, 255, 255, 0.9);
+    text-shadow: 0 2px 12px rgba(2, 20, 14, 0.5);
+    max-width: 575px;
+    will-change: transform, opacity;
+}
+
+/* ==========================================================================
+   3. RIGHT COLUMN: LARGE SCULPTED 3D MEDALLION WITH RESTING PERSPECTIVE
+   ========================================================================== */
+.program-hero__visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Posisi ditarik sedikit ke kiri-tengah & sedikit naik agar menyatu harmonis dengan blok teks */
+    margin-top: -8px;
+    will-change: transform, opacity;
+}
+
+.program-hero__stage {
+    position: relative;
+    width: 460px;
+    height: 460px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 880px;
+    transform-style: preserve-3d;
+}
+
+/* Glow hangat berlapis di belakang logo besar */
+.program-hero__aura {
+    position: absolute;
+    inset: 5%;
+    border-radius: 50%;
+    background:
+        radial-gradient(circle, rgba(var(--accent-rgb), 0.42) 0%, rgba(var(--gdi-gold-rgb), 0.18) 45%, transparent 72%);
+    filter: blur(34px);
+    pointer-events: none;
+    will-change: transform, opacity;
+    animation: phAuraPulse 6.5s ease-in-out infinite alternate;
+}
+
+@keyframes phAuraPulse {
+    0% {
+        transform: scale(0.94);
+        opacity: 0.74;
+    }
+    100% {
+        transform: scale(1.08);
+        opacity: 1;
+    }
+}
+
+/* Bidang orbit miring 3D di belakang medali (efek cincin planet / giroskop halus) */
+.program-hero__orbit-plane {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    transform-style: preserve-3d;
+}
+
+.program-hero__orbit-plane--1 {
+    transform: rotateX(58deg) rotateY(-24deg) translateZ(-30px);
+}
+
+.program-hero__orbit-plane--2 {
+    transform: rotateX(-52deg) rotateY(-22deg) translateZ(-36px);
+}
+
+.program-hero__ring {
+    border-radius: 50%;
+    pointer-events: none;
+    will-change: transform;
+}
+
+.program-hero__ring--outer {
+    position: relative;
+    width: 452px;
+    height: 452px;
+    border: 1.4px solid rgba(var(--accent-rgb), 0.45);
+    box-shadow: 0 0 24px rgba(var(--accent-rgb), 0.14);
+    animation: phRingSpinCW 28s linear infinite;
+}
+
+.program-hero__ring-node {
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    margin-left: -5px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 16px 4px rgba(var(--accent-rgb), 0.9);
+}
+
+.program-hero__ring--inner {
+    width: 404px;
+    height: 404px;
+    border: 1.2px dashed rgba(255, 255, 255, 0.28);
+    animation: phRingSpinCCW 38s linear infinite;
+}
+
+/* Cincin halo tipis sejajar sudut medali 3D */
+.program-hero__ring-halo {
+    position: absolute;
+    width: 396px;
+    height: 396px;
+    border-radius: 50%;
+    border: 1px solid rgba(var(--accent-rgb), 0.26);
+    transform: rotateX(9deg) rotateY(-20deg) translateZ(-28px);
+    pointer-events: none;
+}
+
+@keyframes phRingSpinCW {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes phRingSpinCCW {
+    from {
+        transform: rotate(360deg);
+    }
+    to {
+        transform: rotate(0deg);
+    }
+}
+
+/* Animasi idle: melayang pelan & hidup */
+.program-hero__float {
+    position: relative;
+    z-index: 2;
+    transform-style: preserve-3d;
+    will-change: transform;
+    animation: phLogoIdle 5.6s ease-in-out infinite alternate;
+}
+
+@keyframes phLogoIdle {
+    0% {
+        transform: translate3d(0, 9px, 0) rotateZ(-1.2deg);
+    }
+    100% {
+        transform: translate3d(0, -11px, 0) rotateZ(1.2deg);
+    }
+}
+
+/* Medali 3D besar (332px) dengan perspektif awal menghadap serong ke arah teks di kiri */
+.program-hero__tilt {
+    position: relative;
+    width: 332px;
+    height: 332px;
+    border-radius: 50%;
+    transform-style: preserve-3d;
+    transform: rotateX(9deg) rotateY(-20deg) rotateZ(-1.5deg);
+    will-change: transform;
+    cursor: grab;
+}
+
+.program-hero__tilt:active {
+    cursor: grabbing;
+}
+
+/* Layer Z -58px: bayangan jatuh yang dalam & realistis sesuai arah serong medali */
+.program-hero__cast-shadow {
+    position: absolute;
+    inset: 6px;
+    border-radius: 50%;
+    background: rgba(1, 14, 9, 0.74);
+    filter: blur(28px);
+    transform: translateZ(-58px) translate3d(18px, 24px, 0) scale(0.95);
+    pointer-events: none;
+}
+
+/* Layer Z -26px: ketebalan sisi belakang koin / plakat 3D (terlihat jelas dari sudut serong) */
+.program-hero__extrude-back {
+    position: absolute;
+    inset: -16px;
+    border-radius: 50%;
+    background: linear-gradient(
+        135deg,
+        rgba(4, 35, 26, 0.92) 0%,
+        rgba(var(--accent-rgb), 0.42) 52%,
+        rgba(3, 24, 17, 0.96) 100%
+    );
+    border: 2px solid rgba(var(--accent-rgb), 0.55);
+    box-shadow:
+        12px 22px 48px rgba(0, 0, 0, 0.46),
+        0 0 42px rgba(var(--accent-rgb), 0.25);
+    transform: translateZ(-26px) translateX(6px);
+    pointer-events: none;
+}
+
+/* Layer Z -12px: rim kaca bercahaya di antara tepi belakang & keping porselen */
+.program-hero__rim-plate {
+    position: absolute;
+    inset: -12px;
+    border-radius: 50%;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.34) 0%,
+        rgba(var(--accent-rgb), 0.30) 48%,
+        rgba(10, 74, 46, 0.44) 100%
+    );
+    border: 1.5px solid rgba(255, 255, 255, 0.48);
+    transform: translateZ(-12px) translateX(3px);
+    pointer-events: none;
+}
+
+/* Layer Z 0px: piringan porselen utama yang bersih & kontras untuk semua logo */
+.program-hero__disc {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 26%, #ffffff 0%, #f9fcfa 64%, #e2eee8 100%);
+    border: 3.5px solid rgba(255, 255, 255, 0.96);
+    box-shadow:
+        inset -10px -14px 26px rgba(6, 48, 31, 0.12),
+        inset 6px 6px 16px rgba(255, 255, 255, 0.98),
+        0 14px 32px rgba(2, 20, 14, 0.34);
+    transform: translateZ(0);
+    pointer-events: none;
+}
+
+/* Layer Z +22px: bayangan siluet internal agar logo tampak timbul dari permukaan kepingan */
+.program-hero__logo-shadow {
+    position: absolute;
+    inset: 0;
+    padding: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateZ(22px) translate3d(8px, 10px, 0) scale(0.96);
+    opacity: 0.18;
+    filter: blur(7px) brightness(0.12);
+    pointer-events: none;
+}
+
+.program-hero__logo-shadow img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+/* Layer Z +50px: artwork logo utama timbul tajam di bagian paling depan */
+.program-hero__logo-layer {
+    position: absolute;
+    inset: 0;
+    padding: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateZ(50px);
+    pointer-events: none;
+}
+
+.program-hero__logo-layer img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Layer Z +58px: kilau kaca (memiliki kilau diagonal lembut saat diam + bergerak mengikuti kursor) */
+.program-hero__shine-mask {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    overflow: hidden;
+    transform: translateZ(58px);
+    pointer-events: none;
+}
+
+.program-hero__shine {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+        circle at 50% 50%,
+        rgba(255, 255, 255, 0.56) 0%,
+        rgba(var(--accent-rgb), 0.16) 26%,
+        rgba(255, 255, 255, 0) 56%
+    );
+    opacity: 0.34;
+    transform: translate3d(-44px, -48px, 0);
+    will-change: transform, opacity;
+}
+
+/* ==========================================================================
+   4. SCROLL INDICATOR (Mouse + Panah Looping)
+   ========================================================================== */
+.program-hero__scroll {
+    position: absolute;
+    left: 50%;
+    bottom: 22px;
+    transform: translate3d(-50%, 0, 0);
+    z-index: 3;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    color: rgba(255, 255, 255, 0.78);
+    text-decoration: none !important;
+    transition: opacity 0.25s ease, color 0.25s ease;
+    will-change: transform, opacity;
+}
+
+.program-hero__scroll:hover {
+    color: #ffffff;
+    opacity: 1;
+}
+
+.program-hero__mouse {
+    width: 24px;
+    height: 38px;
+    border-radius: 999px;
+    border: 1.8px solid rgba(255, 255, 255, 0.62);
+    background: rgba(4, 35, 26, 0.28);
+    display: flex;
+    justify-content: center;
+    padding-top: 7px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+    transition: border-color 0.25s ease;
+}
+
+.program-hero__scroll:hover .program-hero__mouse {
+    border-color: var(--accent);
+}
+
+.program-hero__mouse-wheel {
+    width: 3.5px;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--accent);
+    will-change: transform, opacity;
+    animation: phMouseWheel 1.9s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+}
+
+.program-hero__scroll-chevron {
+    width: 18px;
+    height: 18px;
+    display: inline-flex;
+    color: rgba(255, 255, 255, 0.75);
+    will-change: transform, opacity;
+    animation: phChevronBounce 1.9s ease-in-out infinite;
+}
+
+.program-hero__scroll-chevron svg {
+    width: 100%;
+    height: 100%;
+}
+
+@keyframes phMouseWheel {
+    0% {
+        transform: translate3d(0, 0, 0);
+        opacity: 1;
+    }
+    70% {
+        transform: translate3d(0, 11px, 0);
+        opacity: 0.15;
+    }
+    100% {
+        transform: translate3d(0, 0, 0);
+        opacity: 0;
+    }
+}
+
+@keyframes phChevronBounce {
+    0%, 100% {
+        transform: translate3d(0, -2px, 0);
+        opacity: 0.55;
+    }
+    50% {
+        transform: translate3d(0, 4px, 0);
+        opacity: 1;
+    }
+}
+
+/* ==========================================================================
+   5. RESPONSIVE (Layar Menengah, Tablet & Mobile)
+   ========================================================================== */
+@media (max-width: 1199.98px) {
+    .program-hero__inner {
+        grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr);
+        gap: 28px;
+        padding: 0 32px;
+    }
+
+    .program-hero__stage {
+        width: 390px;
+        height: 390px;
+    }
+
+    .program-hero__ring--outer {
+        width: 384px;
+        height: 384px;
+    }
+
+    .program-hero__ring--inner {
+        width: 344px;
+        height: 344px;
+    }
+
+    .program-hero__ring-halo {
+        width: 338px;
+        height: 338px;
+    }
+
+    .program-hero__tilt {
+        width: 286px;
+        height: 286px;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .program-hero {
+        min-height: auto;
+        padding: 64px 0 98px;
+    }
+
+    .program-hero__bg-photo {
+        background-position: 50% 24%;
+    }
+
+    .program-hero__overlay-shield {
+        background:
+            linear-gradient(
+                180deg,
+                rgba(3, 28, 20, 0.90) 0%,
+                rgba(6, 48, 31, 0.84) 50%,
+                rgba(3, 28, 20, 0.94) 100%
+            );
+    }
+
+    .program-hero__inner {
+        grid-template-columns: 1fr;
+        gap: 32px;
+        padding: 0 24px;
+        text-align: center;
+    }
+
+    .program-hero__visual {
+        order: -1;
+        margin-top: 0;
+    }
+
+    .program-hero__content {
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .program-hero__subtitle-row {
+        flex-direction: column;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 18px;
+    }
+
+    .program-hero__accent-line {
+        width: 56px;
+        transform-origin: center center;
+    }
+
+    .program-hero__desc {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .program-hero__stage {
+        width: 330px;
+        height: 330px;
+    }
+
+    .program-hero__ring--outer {
+        width: 322px;
+        height: 322px;
+    }
+
+    .program-hero__ring--inner {
+        width: 288px;
+        height: 288px;
+    }
+
+    .program-hero__ring-halo {
+        width: 284px;
+        height: 284px;
+        transform: rotateX(8deg) rotateY(-12deg) translateZ(-22px);
+    }
+
+    .program-hero__tilt {
+        width: 238px;
+        height: 238px;
+        transform: rotateX(8deg) rotateY(-12deg) rotateZ(-1deg);
+        cursor: default;
+    }
+
+    .program-hero__extrude-back {
+        inset: -13px;
+    }
+
+    .program-hero__rim-plate {
+        inset: -10px;
+    }
+
+    .program-hero__logo-layer,
+    .program-hero__logo-shadow {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 575.98px) {
+    .program-hero {
+        padding: 52px 0 88px;
+    }
+
+    .program-hero__inner {
+        padding: 0 20px;
+        gap: 26px;
+    }
+
+    .program-hero__title {
+        font-size: clamp(36px, 10vw, 46px);
+        margin-bottom: 14px;
+    }
+
+    .program-hero__subtitle {
+        font-size: 16.5px;
+    }
+
+    .program-hero__desc {
+        font-size: 15.5px;
+        line-height: 1.75;
+    }
+
+    .program-hero__stage {
+        width: 276px;
+        height: 276px;
+    }
+
+    .program-hero__ring--outer {
+        width: 268px;
+        height: 268px;
+    }
+
+    .program-hero__ring--inner {
+        width: 238px;
+        height: 238px;
+    }
+
+    .program-hero__ring-halo {
+        width: 234px;
+        height: 234px;
+    }
+
+    .program-hero__tilt {
+        width: 196px;
+        height: 196px;
+    }
+
+    .program-hero__logo-layer,
+    .program-hero__logo-shadow {
+        padding: 17px;
+    }
+
+    .program-hero__scroll {
+        bottom: 16px;
+    }
+}
+
+/* ==========================================================================
+   6. TOUCH DEVICES & PREFERS-REDUCED-MOTION
+   ========================================================================== */
+@media (hover: none), (pointer: coarse) {
+    .program-hero__tilt {
+        cursor: default;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .program-hero__bg-photo,
+    .program-hero__overlay-drift,
+    .program-hero__particle,
+    .program-hero__aura,
+    .program-hero__ring--outer,
+    .program-hero__ring--inner,
+    .program-hero__float,
+    .program-hero__mouse-wheel,
+    .program-hero__scroll-chevron {
+        animation: none !important;
+    }
+
+    .program-hero__scroll {
+        transform: translate3d(-50%, 0, 0) !important;
+    }
+}
