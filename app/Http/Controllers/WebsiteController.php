@@ -286,7 +286,7 @@ class WebsiteController extends Controller
                 'title'         => 'Budaya',
                 'badge'         => '3 Program Unggulan',
                 'tagline'       => 'Bangun Peradaban, Berakhlak & Berkarya',
-                'description'   => "Merupakan program yang berkonsentrasi pada pembangunan lingkungan\nuntuk memunculkan generasi yang kreatif, penuh karya dan Qur'ani.",
+                'description'   => "Merupakan program yang berkonsentrasi pada pembangunan lingkungan untuk memunculkan generasi yang kreatif, penuh karya dan Qur'ani.",
                 'logo'          => 'website/assets/images/custom/budaya.png',
                 'background'    => 'website/assets/images/backgrounds/page-header-bg-3.jpeg',
                 'accent'        => '#34d399',

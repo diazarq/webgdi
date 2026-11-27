@@ -24,15 +24,18 @@
         $cleanAccent = '#eab308';
         $accentRgb = '234, 179, 8';
     }
+
+    /* Hilangkan baris baru paksa agar paragraf mengalir natural tanpa <br> */
+    $cleanDescription = preg_replace('/\s+/u', ' ', trim((string) $description));
 @endphp
 
 @once
     @push('style')
-        <link rel="stylesheet" href="{{ asset('website/assets/css/program-hero.css') }}?v=1.1.0" />
+        <link rel="stylesheet" href="{{ asset('website/assets/css/program-hero.css') }}?v=1.2.1" />
     @endpush
     @push('script')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-        <script src="{{ asset('website/assets/js/program-hero.js') }}?v=1.1.0"></script>
+        <script src="{{ asset('website/assets/js/program-hero.js') }}?v=1.2.1"></script>
     @endpush
 @endonce
 
@@ -40,7 +43,7 @@
          data-program-hero
          style="--accent: {{ $cleanAccent }}; --accent-rgb: {{ $accentRgb }};">
 
-    {{-- Latar belakang: parallax mouse + scroll + slow Ken Burns zoom --}}
+    {{-- Latar belakang: foto terlihat jelas + slow Ken Burns + parallax mouse halus + overlay hijau terang --}}
     <div class="program-hero__bg-stage" aria-hidden="true">
         <div class="program-hero__bg-parallax" data-ph-bg-parallax>
             <div class="program-hero__bg-photo"
@@ -48,64 +51,32 @@
         </div>
         <div class="program-hero__overlay-shield"></div>
         <div class="program-hero__overlay-drift"></div>
-
-        {{-- Partikel bokeh hangat & halus (hanya transform & opacity) --}}
-        <div class="program-hero__bokeh">
-            <span class="program-hero__particle program-hero__particle--1"></span>
-            <span class="program-hero__particle program-hero__particle--2"></span>
-            <span class="program-hero__particle program-hero__particle--3"></span>
-            <span class="program-hero__particle program-hero__particle--4"></span>
-            <span class="program-hero__particle program-hero__particle--5"></span>
-            <span class="program-hero__particle program-hero__particle--6"></span>
-            <span class="program-hero__particle program-hero__particle--7"></span>
-            <span class="program-hero__particle program-hero__particle--8"></span>
-        </div>
     </div>
 
-    {{-- Konten utama: Desktop 2 kolom proporsional | Tablet & Mobile 1 kolom (logo atas, teks bawah) --}}
+    {{-- Konten utama: sejajar kiri dengan logo navbar (padding 40px) --}}
     <div class="program-hero__inner">
         <div class="program-hero__content">
-            <h1 class="program-hero__title" data-ph-title aria-label="{{ $title }}">{{ $title }}</h1>
+            <h1 class="program-hero__title" data-ph-title>{{ $title }}</h1>
 
             @if(trim((string) $subtitle) !== '')
-                <div class="program-hero__subtitle-row" data-ph-subtitle-wrap>
-                    <span class="program-hero__accent-line" data-ph-line aria-hidden="true"></span>
-                    <p class="program-hero__subtitle" data-ph-subtitle>{{ $subtitle }}</p>
-                </div>
+                <p class="program-hero__subtitle" data-ph-subtitle>{{ $subtitle }}</p>
             @endif
 
-            @if(trim((string) $description) !== '')
-                <p class="program-hero__desc" data-ph-desc>{!! nl2br(e($description)) !!}</p>
+            @if($cleanDescription !== '')
+                <p class="program-hero__desc" data-ph-desc>{{ $cleanDescription }}</p>
             @endif
         </div>
 
         <div class="program-hero__visual" data-ph-visual>
             <div class="program-hero__stage">
-                {{-- Glow hangat berlapis di belakang logo --}}
-                <div class="program-hero__aura" aria-hidden="true"></div>
-
-                {{-- Cincin orbit berperspektif 3D yang berputar pelan di belakang logo --}}
-                <div class="program-hero__orbit-plane program-hero__orbit-plane--1" aria-hidden="true">
-                    <div class="program-hero__ring program-hero__ring--outer">
-                        <span class="program-hero__ring-node"></span>
-                    </div>
-                </div>
-                <div class="program-hero__orbit-plane program-hero__orbit-plane--2" aria-hidden="true">
-                    <div class="program-hero__ring program-hero__ring--inner"></div>
-                </div>
-                <div class="program-hero__ring-halo" aria-hidden="true"></div>
-
-                {{-- Wrapper idle floating --}}
+                {{-- Floating idle pelan --}}
                 <div class="program-hero__float">
-                    {{-- Medali 3D besar dengan sudut perspektif ruang (menghadap serong ke arah teks) --}}
+                    {{-- Logo 3D bersih tanpa cincin/garis: kedalaman dari bayangan berlapis, shine kursor, & light sweep --}}
                     <div class="program-hero__tilt" data-ph-tilt>
                         <div class="program-hero__cast-shadow" aria-hidden="true"></div>
-                        <div class="program-hero__extrude-back" aria-hidden="true"></div>
-                        <div class="program-hero__rim-plate" aria-hidden="true"></div>
                         <div class="program-hero__disc" aria-hidden="true"></div>
 
                         @if(trim((string) $logo) !== '')
-                            {{-- Bayangan kedalaman internal agar PNG datar tampak timbul secara 3D --}}
                             <div class="program-hero__logo-shadow" aria-hidden="true">
                                 <img src="{{ $logo }}" alt="" loading="eager" decoding="async" />
                             </div>
@@ -117,9 +88,10 @@
                             </div>
                         @endif
 
-                        {{-- Kilau kaca (specular shine) mengikuti kursor --}}
-                        <div class="program-hero__shine-mask" aria-hidden="true">
+                        {{-- Kilau halus mengikuti kursor + light sweep tipis periodik di permukaan logo --}}
+                        <div class="program-hero__surface-fx" aria-hidden="true">
                             <div class="program-hero__shine" data-ph-shine></div>
+                            <div class="program-hero__light-sweep"></div>
                         </div>
                     </div>
                 </div>
@@ -127,16 +99,11 @@
         </div>
     </div>
 
-    {{-- Indikator scroll: ikon mouse + panah bergerak naik-turun halus --}}
+    {{-- Panah gulir halus tanpa titik dan tanpa garis --}}
     <a href="{{ $scrollTarget }}" class="program-hero__scroll" data-ph-scroll aria-label="Gulir ke konten program">
-        <span class="program-hero__mouse" aria-hidden="true">
-            <span class="program-hero__mouse-wheel"></span>
-        </span>
-        <span class="program-hero__scroll-chevron" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
-                 stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-        </span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
     </a>
 </section>
