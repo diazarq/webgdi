@@ -21,7 +21,7 @@
     }
 
     .budaya-section--alt {
-        background: #f6fbf8;
+        background: #ffffff;
     }
 
     .budaya-section__head {
@@ -84,7 +84,7 @@
         --dok-center-h: 470px;
         --dok-gap: 16px;
         position: relative;
-        background: #ebe7e0;
+        background: white;
         padding: 76px 0 84px;
         overflow: hidden;
         user-select: none;
@@ -100,7 +100,9 @@
     }
 
     .dok-editorial__display {
-        margin: 0;
+        display: inline-block;
+        position: relative;
+        margin: 0 0 0.38em;
         font-size: clamp(36px, 7.5vw, 122px);
         line-height: 0.94;
         font-weight: 400;
@@ -108,20 +110,33 @@
         letter-spacing: -0.025em;
     }
 
+      @font-face {
+        font-family: 'Handflair';
+        src: url('{{ asset("website/assets/fonts/Handflair.ttf") }}?v={{ time() }}') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
     .dok-editorial__word-serif {
-        font-family: 'Playfair Display', Georgia, serif;
-        font-weight: 400;
+        position: relative;
+        z-index: 1;
+        font-weight: 800;
         color: #3f3d3a;
     }
 
     .dok-editorial__word-script {
-        font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+        display: inline-block;
+        position: relative;
+        z-index: 2;
+        top: 0.42em;
+        margin-left: -56px;
+        font-family: 'Handflair', 'Playfair Display', Georgia, serif;
         font-style: italic;
-        font-weight: 300;
+        font-weight: 500;
         font-size: 1.14em;
-        color: #a8a39c;
-        margin-left: 0.14em;
+        color: #fd7f4b;
         letter-spacing: -0.01em;
+        margin-bottom: 80px;
     }
 
     /* Sub-header Bar (Centered: Section Title) */
@@ -958,15 +973,8 @@
     <!-- Giant Two-Tone Editorial Display Heading -->
     <div class="dok-editorial__display-wrap">
         <h2 class="dok-editorial__display">
-            <span class="dok-editorial__word-serif">Dokumentasi</span><span class="dok-editorial__word-script">{{ $heroTitle }}</span>
+            <span class="dok-editorial__word-serif">Program</span><span class="dok-editorial__word-script">{{ $heroTitle }}</span>
         </h2>
-    </div>
-
-    <!-- Sub-header Controls -->
-    <div class="dok-subbar">
-        <div class="dok-subbar__left">
-            <h3 class="dok-subbar__title">{{ $pilar['section_title'] }}</h3>
-        </div>
     </div>
 
     <!-- Mode 1: Full-Bleed Center-Spotlight Carousel -->
