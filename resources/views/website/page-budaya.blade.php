@@ -702,53 +702,223 @@
         }
     }
 
-    /* ================= Statistik ================= */
-    .budaya-stat {
+    /* ================= Statistik (Modern Architectural Impact Cards) ================= */
+    .stat-showcase {
+        position: relative;
+        padding: 88px 0 92px;
+        background: linear-gradient(180deg, #ffffff 0%, #f4f9f6 52%, #ffffff 100%);
+        overflow: hidden;
+    }
+
+    .stat-showcase__container {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 0 24px;
+    }
+
+    .stat-showcase__header {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 28px;
+        margin-bottom: 44px;
+    }
+
+    .stat-showcase__header-left {
+        max-width: 560px;
+    }
+
+    .stat-showcase__eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: 'Manrope', sans-serif;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: #0d7a4e;
+        margin-bottom: 10px;
+    }
+
+    .stat-showcase__eyebrow-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #fd7f4b;
+        display: inline-block;
+    }
+
+    .stat-showcase__title {
+        margin: 0;
+        font-family: 'Manrope', sans-serif;
+        font-size: clamp(28px, 3.2vw, 38px);
+        font-weight: 800;
+        line-height: 1.18;
+        letter-spacing: -0.025em;
+        color: #0e2c1f;
+    }
+
+    .stat-showcase__subtitle {
+        margin: 0;
+        max-width: 400px;
+        font-family: 'Manrope', sans-serif;
+        font-size: 14.5px;
+        line-height: 1.68;
+        color: #5a6b63;
+    }
+
+    .stat-showcase__grid {
         display: grid;
         grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 18px;
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 0 15px;
+        gap: 22px;
     }
 
-    .budaya-stat__card {
+    .stat-card {
+        position: relative;
         background: #ffffff;
-        border: 1px solid #e6efe9;
-        border-radius: 16px;
-        box-shadow: 0 10px 28px rgba(20, 58, 44, 0.08);
-        padding: 26px 18px;
-        text-align: center;
+        border: 1px solid rgba(14, 60, 41, 0.09);
+        border-radius: 22px;
+        padding: 30px 26px 28px;
+        box-shadow:
+            0 14px 36px -16px rgba(10, 48, 32, 0.09),
+            0 2px 6px rgba(10, 48, 32, 0.03);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        transition:
+            transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+            box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 0.35s ease;
     }
 
-    .budaya-stat__icon {
-        display: block;
-        font-size: 32px;
-        line-height: 1;
-        margin-bottom: 12px;
+    .stat-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(13, 122, 78, 0.28);
+        box-shadow:
+            0 24px 48px -18px rgba(10, 58, 38, 0.16),
+            0 4px 12px rgba(10, 58, 38, 0.05);
     }
 
-    .budaya-stat__icon img {
-        max-height: 42px;
-        width: auto;
+    .stat-card__top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 26px;
     }
 
-    .budaya-stat__value {
-        display: block;
-        color: #143a2c;
-        font-size: 28px;
+    .stat-card__icon-wrap {
+        width: 52px;
+        height: 52px;
+        border-radius: 15px;
+        background: linear-gradient(135deg, rgba(13, 122, 78, 0.12) 0%, rgba(13, 122, 78, 0.04) 100%);
+        border: 1px solid rgba(13, 122, 78, 0.15);
+        color: #0d7a4e;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+            background 0.32s ease,
+            color 0.32s ease,
+            transform 0.32s cubic-bezier(0.22, 1, 0.36, 1),
+            border-color 0.32s ease;
+    }
+
+    .stat-card:hover .stat-card__icon-wrap {
+        background: linear-gradient(135deg, #0a5c3a 0%, #0d7a4e 100%);
+        border-color: #0a5c3a;
+        color: #ffffff;
+        transform: scale(1.06);
+    }
+
+    .stat-card__icon-wrap svg {
+        width: 25px;
+        height: 25px;
+        stroke: currentColor;
+    }
+
+    .stat-card__icon-wrap img {
+        width: 26px;
+        height: 26px;
+        object-fit: contain;
+    }
+
+    .stat-card__index {
+        font-family: 'Manrope', sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        color: #c2d1c9;
+        font-variant-numeric: tabular-nums;
+    }
+
+    .stat-card__value {
+        display: flex;
+        align-items: baseline;
+        gap: 2px;
+        font-family: 'Manrope', sans-serif;
+        font-size: clamp(34px, 3.4vw, 44px);
         font-weight: 800;
-        line-height: 1.2;
+        line-height: 1.08;
+        letter-spacing: -0.03em;
+        color: #0b2b1e;
+        font-variant-numeric: tabular-nums;
     }
 
-    .budaya-stat__label {
+    .stat-card__suffix {
+        color: #fd7f4b;
+        font-weight: 800;
+    }
+
+    .stat-card__infinity-svg {
+        width: 48px;
+        height: 26px;
+        stroke: #0b2b1e;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .stat-card__infinity-svg path {
+        stroke-dasharray: 180;
+        stroke-dashoffset: 180;
+        transition: stroke-dashoffset 1.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .stat-card.is-counted .stat-card__infinity-svg path {
+        stroke-dashoffset: 0;
+    }
+
+    .stat-card__divider {
+        position: relative;
+        height: 1px;
+        background: rgba(14, 60, 41, 0.08);
+        margin: 18px 0 13px;
+        overflow: hidden;
+    }
+
+    .stat-card__divider::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, #0d7a4e, #fd7f4b);
+        transform: scaleX(0.24);
+        transform-origin: left center;
+        transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .stat-card:hover .stat-card__divider::after {
+        transform: scaleX(1);
+    }
+
+    .stat-card__label {
         display: block;
-        color: #5b6b66;
+        font-family: 'Manrope', sans-serif;
         font-size: 12.5px;
         font-weight: 700;
         letter-spacing: 0.08em;
-        margin-top: 6px;
         text-transform: uppercase;
+        color: #4f6259;
+        line-height: 1.45;
     }
 
     /* ================= Manfaat ================= */
@@ -843,8 +1013,24 @@
     }
 
     @media (max-width: 991px) {
-        .budaya-stat {
+        .stat-showcase {
+            padding: 68px 0 72px;
+        }
+
+        .stat-showcase__header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+
+        .stat-showcase__subtitle {
+            max-width: 540px;
+        }
+
+        .stat-showcase__grid {
             grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
         }
 
         .budaya-manfaat {
@@ -853,88 +1039,17 @@
     }
 
     @media (max-width: 575px) {
-        .budaya-stat {
+        .stat-showcase__container {
+            padding: 0 18px;
+        }
+
+        .stat-showcase__grid {
             grid-template-columns: 1fr;
-        }
-    }
-
-    /* ================= Responsive ================= */
-    @media (max-width: 991px) {
-        .budaya-galeri {
-            grid-template-columns: 1fr;
-        .budaya-hero {
-            padding: 60px 0 90px;
+            gap: 14px;
         }
 
-        .budaya-hero__inner {
-            padding: 0 20px;
-        }
-
-        .budaya-hero__blob--1 {
-            width: 340px;
-            height: 340px;
-            top: -120px;
-            right: -120px;
-        }
-
-        .budaya-hero__blob--2 {
-            width: 300px;
-            height: 300px;
-            bottom: -140px;
-            left: -120px;
-        }
-
-        /* Di HP: blok brand (logo + judul) tampil paling atas & tetap di tengah */
-        .budaya-hero__brand {
-            order: -1;
-            text-align: center;
-            width: auto;
-            margin-left: 0;
-        }
-
-        .budaya-hero__badge {
-            font-size: 11px;
-            padding: 8px 16px;
-        }
-
-        .budaya-hero__brand-top {
-            gap: 18px;
-        }
-
-        .budaya-hero__brand-text {
-            align-items: center;
-        }
-
-        .budaya-hero__brand-name {
-            font-size: 40px;
-        }
-
-        .budaya-hero__brand-sub {
-            font-size: 16px;
-        }
-
-        .budaya-hero__logo {
-            width: 110px;
-            height: 110px;
-        }
-
-        .budaya-hero__brand-desc {
-            margin-left: auto;
-            margin-right: auto;
-            font-size: 15.5px;
-        }
-
-        .budaya-hero__cta {
-            justify-content: center;
-        }
-
-        .budaya-btn {
-            padding: 13px 26px;
-            font-size: 14px;
-        }
-
-        .budaya-hero__scroll {
-            display: none;
+        .stat-card {
+            padding: 24px 22px;
         }
     }
 </style>
@@ -1053,33 +1168,125 @@
 
 <!-- ====== Statistik Program ====== -->
 @if($statistik->count())
-<section class="budaya-section" id="statistik">
-    <div class="budaya-section__head">
-        <span class="budaya-section__tagline">Statistik</span>
-        <h2 class="budaya-section__title">Statistik Program {{ $pilar['title'] }}</h2>
-    </div>
+@php
+    $statSvgMap = [
+        'hand-heart' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="M11 14h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 16"/><path d="m7 20 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9"/><path d="m2 15 6 6"/><path d="M19.5 8.5c.7-.7 1.5-1.6 1.5-2.7A2.73 2.73 0 0 0 16 4a2.78 2.78 0 0 0-5 1.8c0 1.2.8 2 1.5 2.8L16 12Z"/></svg>',
+        'mosque'     => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3c-2.8 2.2-5 4.6-5 7.5h10C17 7.6 14.8 5.2 12 3Z"/><path d="M12 2v1"/><path d="M5 10.5h14v9.5H5z"/><path d="M10 20v-4a2 2 0 0 1 4 0v4"/><path d="M3 20h18"/><path d="M3 13.5v6.5"/><path d="M21 13.5v6.5"/><path d="M3 11.5v.01"/><path d="M21 11.5v.01"/></svg>',
+        'gift'       => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></svg>',
+        'sprout'     => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></svg>',
+        'heart'      => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>',
+        'book'       => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+        'coins'      => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></svg>',
+        'users'      => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+        'sparkles'   => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>',
+        'infinity'   => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.85" stroke-linecap="round" stroke-linejoin="round"><path d="M12 12c-2-2.67-4-4-6-4a4 4 0 1 0 0 8c2 0 4-1.33 6-4Zm0 0c2 2.67 4 4 6 4a4 4 0 0 0 0-8c-2 0-4 1.33-6 4Z"/></svg>',
+    ];
 
-    <div class="budaya-stat">
-        @foreach($statistik as $stat)
-            @php
-                $iconVal     = trim($stat->icon ?? '');
-                $isImageIcon = $iconVal !== '' && strpos($iconVal, '/') !== false;
-                $isHtmlIcon  = strpos($iconVal, '<') !== false;
-            @endphp
-            <div class="budaya-stat__card">
-                <span class="budaya-stat__icon" aria-hidden="true">
-                    @if($isImageIcon)
-                        <img src="{{ asset($iconVal) }}" alt="{{ $stat->label_judul }}"/>
-                    @elseif($isHtmlIcon)
-                        {!! $iconVal !!}
-                    @else
-                        {{ $iconVal }}
-                    @endif
+    $emojiToKey = [
+        '🤲' => 'hand-heart',
+        '🙏' => 'hand-heart',
+        '🕌' => 'mosque',
+        '🕋' => 'mosque',
+        '🏫' => 'mosque',
+        '🎁' => 'gift',
+        '🌱' => 'sprout',
+        '❤️' => 'heart',
+        '❤'  => 'heart',
+        '💚' => 'heart',
+        '📚' => 'book',
+        '💰' => 'coins',
+        '🤝' => 'users',
+        '✨' => 'sparkles',
+        '⭐' => 'sparkles',
+        '∞'  => 'infinity',
+    ];
+@endphp
+<section class="stat-showcase" id="statistik">
+    <div class="stat-showcase__container">
+        <div class="stat-showcase__header">
+            <div class="stat-showcase__header-left">
+                <span class="stat-showcase__eyebrow">
+                    <span class="stat-showcase__eyebrow-dot" aria-hidden="true"></span>
+                    Dampak &amp; Capaian
                 </span>
-                <span class="budaya-stat__value">{{ $stat->angka_nilai }}</span>
-                <span class="budaya-stat__label">{{ $stat->label_judul }}</span>
+                <h2 class="stat-showcase__title">Statistik Program {{ $pilar['title'] }}</h2>
             </div>
-        @endforeach
+            <p class="stat-showcase__subtitle">
+                Jejak kebermanfaatan yang dikelola secara amanah dan berkelanjutan bersama para wakif serta donatur.
+            </p>
+        </div>
+
+        <div class="stat-showcase__grid">
+            @foreach($statistik as $idx => $stat)
+                @php
+                    $iconVal     = trim($stat->icon ?? '');
+                    $isImageIcon = $iconVal !== '' && strpos($iconVal, '/') !== false;
+                    $isHtmlIcon  = strpos($iconVal, '<') !== false;
+
+                    $resolvedKey = $emojiToKey[$iconVal] ?? null;
+                    if (!$resolvedKey) {
+                        $lblLower = strtolower($stat->label_judul ?? '');
+                        if (strpos($lblLower, 'wakif') !== false || strpos($lblLower, 'donatur') !== false) {
+                            $resolvedKey = 'hand-heart';
+                        } elseif (strpos($lblLower, 'program') !== false || strpos($lblLower, 'masjid') !== false) {
+                            $resolvedKey = 'mosque';
+                        } elseif (strpos($lblLower, 'salur') !== false || strpos($lblLower, 'paket') !== false || strpos($lblLower, 'sembako') !== false) {
+                            $resolvedKey = 'gift';
+                        } elseif (strpos($lblLower, 'pahala') !== false || strpos($lblLower, 'lanjut') !== false) {
+                            $resolvedKey = 'sprout';
+                        } elseif (strpos($lblLower, 'yatim') !== false || strpos($lblLower, 'penerima') !== false) {
+                            $resolvedKey = 'users';
+                        } elseif (strpos($lblLower, 'beasiswa') !== false || strpos($lblLower, 'pendidikan') !== false) {
+                            $resolvedKey = 'book';
+                        } else {
+                            $fallbackOrder = ['hand-heart', 'mosque', 'gift', 'sprout'];
+                            $resolvedKey = $fallbackOrder[$idx % count($fallbackOrder)];
+                        }
+                    }
+
+                    $rawValue = trim((string) $stat->angka_nilai);
+                    $hasNumber = preg_match('/^([^\d]*?)([\d.,]+)(.*)$/u', $rawValue, $numParts) === 1;
+                    $prefix = $hasNumber ? $numParts[1] : '';
+                    $digitsOnly = $hasNumber ? preg_replace('/[^\d]/', '', $numParts[2]) : '';
+                    $useDotSep = $hasNumber && strpos($numParts[2], '.') !== false;
+                    $suffix = $hasNumber ? $numParts[3] : '';
+                    $targetInt = $digitsOnly !== '' ? (int) $digitsOnly : 0;
+                    $isInfinity = !$hasNumber && ($rawValue === '∞' || stripos($rawValue, 'tak terhingga') !== false);
+                @endphp
+                <div class="stat-card" data-stat-card>
+                    <div class="stat-card__top">
+                        <span class="stat-card__icon-wrap" aria-hidden="true">
+                            @if($isImageIcon)
+                                <img src="{{ asset($iconVal) }}" alt="{{ $stat->label_judul }}"/>
+                            @elseif($isHtmlIcon)
+                                {!! $iconVal !!}
+                            @else
+                                {!! $statSvgMap[$resolvedKey] !!}
+                            @endif
+                        </span>
+                        <span class="stat-card__index">{{ str_pad($idx + 1, 2, '0', STR_PAD_LEFT) }}</span>
+                    </div>
+
+                    <div>
+                        <div class="stat-card__value" aria-label="{{ $rawValue }}">
+                            @if($hasNumber && $targetInt > 0)
+                                @if($prefix !== '')<span>{{ $prefix }}</span>@endif<span
+                                    data-stat-counter="{{ $targetInt }}"
+                                    data-stat-sep="{{ $useDotSep ? 'dot' : 'none' }}">1</span>@if($suffix !== '')<span class="stat-card__suffix">{{ $suffix }}</span>@endif
+                            @elseif($isInfinity)
+                                <svg class="stat-card__infinity-svg" viewBox="0 0 48 24" fill="none" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                    <path d="M24 12c-4.2-5.5-8.2-8-12.5-8a8 8 0 1 0 0 16c4.3 0 8.3-2.5 12.5-8Zm0 0c4.2 5.5 8.2 8 12.5 8a8 8 0 0 0 0-16c-4.3 0-8.3 2.5-12.5 8Z"/>
+                                </svg>
+                            @else
+                                <span>{{ $rawValue }}</span>
+                            @endif
+                        </div>
+                        <div class="stat-card__divider" aria-hidden="true"></div>
+                        <span class="stat-card__label">{{ $stat->label_judul }}</span>
+                    </div>
+                </div>
+            @endforeach
+        </div>
     </div>
 </section>
 @endif
@@ -1386,6 +1593,91 @@
 
     goTo(activeIndex, true);
     scheduleAuto();
+})();
+
+/* ====== Animasi Angka Statistik (Berjalan dari 1 sampai target saat di-scroll) ====== */
+(function () {
+    var statSection = document.getElementById('statistik');
+    if (!statSection) return;
+
+    var cards = statSection.querySelectorAll('[data-stat-card]');
+    var counters = statSection.querySelectorAll('[data-stat-counter]');
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var hasAnimated = false;
+
+    function formatNumber(num, sepMode) {
+        var n = Math.round(num);
+        if (sepMode === 'dot') {
+            return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
+        return String(n);
+    }
+
+    function runCounters() {
+        if (hasAnimated) return;
+        hasAnimated = true;
+
+        cards.forEach(function (card, idx) {
+            setTimeout(function () {
+                card.classList.add('is-counted');
+            }, idx * 110);
+        });
+
+        if (!prefersReduced && window.gsap) {
+            gsap.fromTo(cards,
+                { opacity: 0, y: 24 },
+                { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out', clearProps: 'transform' }
+            );
+        }
+
+        counters.forEach(function (el) {
+            var target = parseInt(el.getAttribute('data-stat-counter'), 10) || 0;
+            var sepMode = el.getAttribute('data-stat-sep') || 'none';
+
+            if (prefersReduced || target <= 1) {
+                el.textContent = formatNumber(target, sepMode);
+                return;
+            }
+
+            var startVal = 1;
+            var durationMs = target >= 500 ? 1850 : (target >= 50 ? 1500 : 1100);
+            var startTime = null;
+
+            el.textContent = formatNumber(startVal, sepMode);
+
+            function step(timestamp) {
+                if (!startTime) startTime = timestamp;
+                var progress = Math.min((timestamp - startTime) / durationMs, 1);
+                /* Easing easeOutExpo agar cepat di awal dan mulus melambat menjelang angka akhir */
+                var eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+                var current = startVal + (target - startVal) * eased;
+
+                el.textContent = formatNumber(current, sepMode);
+
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    el.textContent = formatNumber(target, sepMode);
+                }
+            }
+
+            window.requestAnimationFrame(step);
+        });
+    }
+
+    if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                    runCounters();
+                    io.disconnect();
+                }
+            });
+        }, { threshold: 0.25 });
+        io.observe(statSection);
+    } else {
+        runCounters();
+    }
 })();
 </script>
 @endpush

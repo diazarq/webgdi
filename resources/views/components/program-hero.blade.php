@@ -43,7 +43,7 @@
          data-program-hero
          style="--accent: {{ $cleanAccent }}; --accent-rgb: {{ $accentRgb }};">
 
-    {{-- Latar belakang: foto terlihat jelas + slow Ken Burns + parallax mouse halus + overlay hijau terang --}}
+   
     <div class="program-hero__bg-stage" aria-hidden="true">
         <div class="program-hero__bg-parallax" data-ph-bg-parallax>
             <div class="program-hero__bg-photo"
@@ -53,7 +53,6 @@
         <div class="program-hero__overlay-drift"></div>
     </div>
 
-    {{-- Konten utama: sejajar kiri dengan logo navbar (padding 40px) --}}
     <div class="program-hero__inner">
         <div class="program-hero__content">
             <h1 class="program-hero__title" data-ph-title>{{ $title }}</h1>
@@ -71,7 +70,6 @@
             <div class="program-hero__stage">
                 {{-- Floating idle pelan --}}
                 <div class="program-hero__float">
-                    {{-- Logo 3D bersih tanpa cincin/garis: kedalaman dari bayangan berlapis, shine kursor, & light sweep --}}
                     <div class="program-hero__tilt" data-ph-tilt>
                         <div class="program-hero__cast-shadow" aria-hidden="true"></div>
                         <div class="program-hero__disc" aria-hidden="true"></div>
