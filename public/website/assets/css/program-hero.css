@@ -23,10 +23,10 @@
     position: relative;
     z-index: 1;
     overflow: hidden;
-    min-height: clamp(520px, 74vh, 690px);
+    min-height: clamp(640px, 88vh, 880px);
     display: flex;
     align-items: center;
-    padding: 84px 0 96px;
+    padding: 96px 0 112px;
     background-color: var(--gdi-deep);
     color: #ffffff;
     isolation: isolate;
@@ -45,7 +45,7 @@
 
 .program-hero__bg-parallax {
     position: absolute;
-    inset: -5%;
+    inset: -1.5%;
     will-change: transform;
     transform: translate3d(0, 0, 0);
 }
@@ -54,20 +54,20 @@
     width: 100%;
     height: 100%;
     background-size: cover;
-    background-position: center 30%;
+    background-position: center center;
     background-repeat: no-repeat;
     opacity: 1;
-    transform: scale(1.04);
+    transform: scale(1);
     will-change: transform;
     animation: phKenBurns 26s ease-in-out infinite alternate;
 }
 
 @keyframes phKenBurns {
     0% {
-        transform: scale(1.04) translate3d(0, 0, 0);
+        transform: scale(1) translate3d(0, 0, 0);
     }
     100% {
-        transform: scale(1.11) translate3d(-1%, -0.8%, 0);
+        transform: scale(1.03) translate3d(-0.5%, -0.4%, 0);
     }
 }
 

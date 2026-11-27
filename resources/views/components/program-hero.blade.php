@@ -31,7 +31,7 @@
 
 @once
     @push('style')
-        <link rel="stylesheet" href="{{ asset('website/assets/css/program-hero.css') }}?v=1.2.1" />
+        <link rel="stylesheet" href="{{ asset('website/assets/css/program-hero.css') }}?v=1.2.3" />
     @endpush
     @push('script')
         <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>

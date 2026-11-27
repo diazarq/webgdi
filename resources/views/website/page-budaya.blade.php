@@ -15,13 +15,28 @@
         background: linear-gradient(135deg, #04231a 0%, #06301f 50%, #0a4a2e 100%);
     }
 
-    /* ================= Section umum ================= */
+    /* ================= Section umum & Hero Stacked Card ================= */
+    .program-hero {
+        position: relative;
+        z-index: 1;
+        transform-origin: center top;
+        will-change: transform, opacity;
+    }
+
     .budaya-section {
+        position: relative;
+        z-index: 10;
         padding: 80px 0;
+        background: #ffffff;
     }
 
     .budaya-section--alt {
-        background: #ffffff;
+        background: #f6fbf8;
+    }
+
+    .site-footer {
+        position: relative;
+        z-index: 10;
     }
 
     .budaya-section__head {
@@ -84,8 +99,11 @@
         --dok-center-h: 470px;
         --dok-gap: 16px;
         position: relative;
+        z-index: 10;
         background: white;
         padding: 76px 0 84px;
+        border-radius: 28px 28px 0 0;
+        box-shadow: 0 -24px 60px rgba(4, 35, 26, 0.25);
         overflow: hidden;
         user-select: none;
     }
@@ -1130,6 +1148,65 @@
 
 @push('script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://unpkg.com/lenis@1.1.18/dist/lenis.min.js"></script>
+<script>
+(function () {
+    /* ===== Stacked Card Scroll Animation + Smooth Inertia ("Mahal") ===== */
+    var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var heroEl = document.querySelector('[data-program-hero]');
+    var galeriEl = document.getElementById('galeri');
+
+    if (!prefersReduced && window.gsap && window.ScrollTrigger) {
+        gsap.registerPlugin(ScrollTrigger);
+
+        if (window.Lenis) {
+            document.documentElement.style.scrollBehavior = 'auto';
+            var lenis = new Lenis({
+                duration: 1.45,
+                easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+                smoothWheel: true,
+                wheelMultiplier: 0.85
+            });
+            lenis.on('scroll', ScrollTrigger.update);
+            gsap.ticker.add(function (time) {
+                lenis.raf(time * 1000);
+            });
+            gsap.ticker.lagSmoothing(0);
+        }
+
+        if (heroEl && galeriEl) {
+            ScrollTrigger.create({
+                trigger: heroEl,
+                start: 'top top',
+                end: function () {
+                    return '+=' + galeriEl.offsetHeight;
+                },
+                pin: true,
+                pinSpacing: false,
+                invalidateOnRefresh: true
+            });
+
+            gsap.to(heroEl, {
+                scale: 0.93,
+                opacity: 0.45,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: galeriEl,
+                    start: 'top bottom',
+                    end: 'top top',
+                    scrub: 1.4,
+                    invalidateOnRefresh: true
+                }
+            });
+
+            window.addEventListener('load', function () {
+                ScrollTrigger.refresh();
+            });
+        }
+    }
+})();
+</script>
 <script>
 (function () {
     var section = document.getElementById('galeri');
@@ -1198,8 +1275,8 @@
             + '<span class="dok-item__caption">' + esc(it.caption) + '</span>'
             + '</div>'
             + '<div class="dok-item__hover-detail" aria-hidden="true">'
-            + '<span class="dok-item__open-btn" data-dok-open-detail="1" title="Buka Detail"><iconify-icon icon="' + icon + '"></iconify-icon></span>'
-            + '<span class="dok-item__open-label">Buka Detail</span>'
+            + '<span class="dok-item__open-btn" data-dok-open-detail="1" title="Lihat Detail"><iconify-icon icon="' + icon + '"></iconify-icon></span>'
+            + '<span class="dok-item__open-label">Lihat Detail</span>'
             + '</div>'
             + '</div></div>';
     }
